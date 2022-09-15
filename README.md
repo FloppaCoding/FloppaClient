@@ -4,41 +4,41 @@ Open the Gui with /floppaclient (or /fcl or /fc).
 
 ## Module List
 ### DUNGEON
-* SecretChime
-* SecretAura
-* AutoWeirdos
-* ExtraStats
-* MelodyMessage
-* TerminalAura
-* DungeonKillAura
-* CancelChestOpen
+* Secret Chimes
+* Secret Aura
+* Auto Weirdos
+* Extra Stats
+* Melody Message
+* Terminal Aura
+* Dungeon Kill Aura
+* Cancel Chest Open
 
 ### RENDER
-* ClickGui
-* EditHud
-* DungeonESP
-* DungeonWarpTime,
-* DungeonMap
-* MapRooms
-* CoordinateDisplay
-* ItemAnimations
+* Click Gui
+* Edit Hud
+* Dungeon ESP
+* Dungeon Warp Timer
+* Dungeon Map
+* Coordinate HUD
+* Item Animations
 * Camera
 
 ### PLAYER
-* JerryRocket
-* FreeCam
+* Jerry Rocket
+* Free Cam
 * Clip
-* NoRotate
+  * /vertclip /hclip /dClip commands 
+* No Rotate
 * Velocity
 
 ### MISC
 * QOL
-* AutoSprint
-* AutoRagnarock
-* GhostBlocks
-* RemoveFrontView
-* TerminatorClicker
-* AutoClicker
-* AutoWeaponSwap
-* CancelInteract
+* Auto Sprint
+* Auto Ragnarock
+* Ghost Blocks
+* Remove Front View
+* Terminator Clicker
+* Auto Clicker
+* Auto WeaponSwap
+* Cancel Interact
 
