@@ -1,0 +1,14 @@
+[
+  {
+    "modid": "fc",
+    "name": "Floppa Client",
+    "description": "MILF (Man i love Floppa).",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "Aton"
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "minVersion": "0.6",
+  "compatibilityLevel": "JAVA_8",
+  "package": "floppaclient.mixins",
+  "refmap": "mixins.floppaclient.refmap.json",
+  "mixins": [
+    "BlockMixin",
+    "CarpetMixin",
+    "MixinWorld",
+    "entity.MixinEntity",
+    "entity.MixinEntityLivingBase",
+    "entity.MixinPlayer",
+    "packet.C02Accessor"
+  ],
+  "client": [
+    "MinecraftAccessor",
+    "MixinGuiMainMenu",
+    "MixinMinecraft",
+    "MixinModList",
+    "MixinNetworkManager",
+    "MixinPlayerHandler",
+    "MixinSoundManager",
+    "entity.MixinAbstractClientPlayer",
+    "entity.MixinPlayerSP",
+    "entity.MixinPlayerSP2",
+    "Gui.GuiMixin",
+    "Gui.GuiScreenMixin",
+    "Gui.MixinGuiContainer",
+    "render.EntityRendererMixin",
+    "render.ItemRendererMixin"
+  ]
+}
