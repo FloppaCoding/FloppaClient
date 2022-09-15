@@ -22,7 +22,7 @@ object Velocity : Module(
     category = Category.PLAYER,
     description = "Modifies knockback in Skyblock"
 ){
-    private val swapTime = NumberSetting("Swp time", 500.0,0.0,1000.0,50.0, description = "Determines how long after swapping off of the Bonzo staff you will still be able to take knockback form it.")
+    private val swapTime = NumberSetting("Swap time", 500.0,0.0,1000.0,50.0, description = "Determines how long after swapping off of the Bonzo staff you will still be able to take knockback form it.")
     init {
         this.addSettings(
             swapTime
