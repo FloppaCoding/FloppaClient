@@ -68,7 +68,7 @@ object Clip : Module(
     /**
      * Teleport to the specified coordinates.
      */
-    private fun teleport(x: Double, y: Double, z: Double) {
+    fun teleport(x: Double, y: Double, z: Double) {
         // check whether inputs are NaN to prevent kick
         if(x.isNaN() || y.isNaN() || z.isNaN()) {
             Utils.modMessage("§cArgument error")

@@ -7,6 +7,7 @@ import floppaclient.mixins.MinecraftAccessor
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.utils.ScoreboardUtils.sidebarLines
+import gg.essential.universal.UChat
 import net.minecraft.block.BlockDoor
 import net.minecraft.block.BlockLadder
 import net.minecraft.block.BlockLiquid
@@ -18,7 +19,6 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.init.Blocks
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.ContainerChest
-import net.minecraft.util.ChatComponentText
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.util.StringUtils
@@ -62,7 +62,7 @@ object Utils {
             sidebarLines.forEach {
                 val line = ScoreboardUtils.cleanSB(it)
                 if (line.contains("The Catacombs (")) {
-                    return line.substringAfter("(").substringBefore(")").last().digitToInt()
+                    return line.substringAfter("(").substringBefore(")").last().digitToIntOrNull()
                 }
             }
             return null
@@ -92,11 +92,13 @@ object Utils {
         else -> ClickGui.customPrefix.text }} $message")
 
     fun chatMessage(message: String) {
-        mc.thePlayer.addChatMessage(ChatComponentText(message))
+        UChat.chat(message)
+//        mc.thePlayer.addChatMessage(ChatComponentText(message))
     }
 
     fun sendChat(message: String) {
-        mc.thePlayer.sendChatMessage(message)
+        UChat.say(message)
+//        mc.thePlayer.sendChatMessage(message)
     }
 
     /**

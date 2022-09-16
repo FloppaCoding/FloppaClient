@@ -166,7 +166,7 @@ object DungeonKillAura : Module(
      * Returns null if no target found.
      */
     private fun getTarget(): Pair<Entity,String>? {
-        if (inBoss) {
+        if (inBoss && spiritBearAura.enabled) {
             val bears = mc.theWorld.loadedEntityList
                 .filterIsInstance<EntityOtherPlayerMP>()
                 .filter { it.name.contains("Spirit Bear") }

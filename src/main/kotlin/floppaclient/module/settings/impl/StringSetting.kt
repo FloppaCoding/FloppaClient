@@ -5,7 +5,7 @@ import floppaclient.module.settings.Setting
 class StringSetting(
     name: String,
     var default: String = "",
-    var length: Int = 20,
+    var length: Int = 30,
     hidden: Boolean = false,
     description: String? = null,
 ) : Setting(name, hidden, description) {
