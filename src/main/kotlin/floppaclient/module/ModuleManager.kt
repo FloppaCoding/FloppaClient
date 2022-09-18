@@ -37,6 +37,7 @@ object ModuleManager {
         JerryRocket,
         FreeCam,
         Clip,
+        HClip,
         NoRotate,
         Velocity,
 

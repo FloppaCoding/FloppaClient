@@ -58,6 +58,10 @@ object Clip : Module(
         clip(-sinDeg(yaw)*cosDeg(pitch)*dist, -sinDeg(pitch)*dist, cosDeg(yaw)*cosDeg(pitch)*dist)
     }
 
+    fun hClip(dist: Double, yaw: Float = yaw(), yOffs: Double = 0.0) {
+        clip(-sinDeg(yaw)*dist, yOffs, cosDeg(yaw)*dist)
+    }
+
     /**
      * Teleport relative to the current position.
      */
