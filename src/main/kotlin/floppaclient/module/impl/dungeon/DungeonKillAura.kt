@@ -21,6 +21,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
 import net.minecraft.entity.boss.EntityWither
 import net.minecraft.entity.item.EntityArmorStand
+import net.minecraft.entity.monster.EntityEnderman
 import net.minecraft.entity.monster.EntityGiantZombie
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.fml.common.eventhandler.EventPriority
@@ -209,9 +210,10 @@ object DungeonKillAura : Module(
 
                     possibleEntities.find {
                         when (it) {
-                            is EntityPlayer -> !it.isInvisible() && it.getUniqueID()
+                            is EntityPlayer -> it.getUniqueID()
                                 .version() == 2 && it != mc.thePlayer
                             is EntityWither -> false
+                            is EntityEnderman -> !it.isInvisible
                             else -> true
                         }
                     }
@@ -220,7 +222,7 @@ object DungeonKillAura : Module(
                 } ?: return@forEach
 
                 /** Visibility Check */
-                if (mc.thePlayer.canEntityBeSeen(possibleTarget) && !possibleTarget.isInvisible) {
+                if (mc.thePlayer.canEntityBeSeen(possibleTarget)) {
                     return Pair(possibleTarget, entity.customNameTag)
                 }
 
