@@ -40,7 +40,7 @@ class VertClipCommand : CommandBase()  {
                 break
             }
         }
-        if (args[0] == "ground"){
+        else if (args[0] == "ground"){
             val pos = BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ).down()
             val x = pos.x
             val z = pos.z
