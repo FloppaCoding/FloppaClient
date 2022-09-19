@@ -35,6 +35,7 @@ object ModuleManager {
 
         //PLAYER
         JerryRocket,
+        HotbarSwapper,
         FreeCam,
         Clip,
         HClip,
