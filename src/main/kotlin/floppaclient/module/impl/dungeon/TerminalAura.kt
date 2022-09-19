@@ -24,7 +24,7 @@ object TerminalAura : Module(
 ){
 
     private val reach = NumberSetting("Reach",5.0,3.0,10.0,0.1, description = "Maximum distance to the terminal for activation. Hypixel has a range check of 5.")
-    private val cooldown = NumberSetting("Cooldown",200.0,20.0,1000.0,20.0, description = "Minimum delay in between clicks. $4 This has the be higher than your ping, or terminals will be opened twice, which will reset them.")
+    private val cooldown = NumberSetting("Cooldown",200.0,20.0,1000.0,20.0, description = "Minimum delay in between clicks. §4 This has to be higher than your ping, or terminals will be opened twice, which will reset them.")
     private val onGround = BooleanSetting("On Ground", false, description = "If enabled will only click when on ground.")
     private val inLava = BooleanSetting("In Lava",false, description = "If enabled will also try to open terminals when in lava.")
 
