@@ -105,8 +105,9 @@ object Utils {
      * Runs the specified command. Per default sends it to the server  but has client side option.
      */
     fun command(text: String, clientSide: Boolean = false) {
-        if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
-        else mc.thePlayer?.sendChatMessage("/$text")
+        //first try executing the command client side, if it failed sent to the server
+        val i = ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
+        if (!clientSide && i < 1)  mc.thePlayer?.sendChatMessage("/$text")
     }
 
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>): String? {
@@ -173,9 +174,10 @@ object Utils {
      * Returns null if no matches were found.
      * @param name The name or item ID to find.
      * @param ignoreCase Applies for the item name check.
+     * @param inInv Will also search in the inventory and not only in the hotbar
      */
-    fun findItem(name: String, ignoreCase: Boolean = false): Int? {
-        for (i in 0..8) {
+    fun findItem(name: String, ignoreCase: Boolean = false, inInv: Boolean = false): Int? {
+        for (i in 0..if (inInv) 35 else 8) {
             if (mc.thePlayer.inventory.getStackInSlot(i)
                     ?.run { displayName.contains(name, ignoreCase) || itemID == name } == true
             ) {

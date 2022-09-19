@@ -3,14 +3,20 @@ package floppaclient.utils.fakeactions
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.mixins.packet.C02Accessor
 import floppaclient.utils.Utils
+import net.minecraft.client.gui.inventory.GuiContainer
+import net.minecraft.client.gui.inventory.GuiInventory
 import net.minecraft.entity.Entity
+import net.minecraft.inventory.Slot
 import net.minecraft.network.Packet
 import net.minecraft.network.play.client.C02PacketUseEntity
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement
 import net.minecraft.network.play.client.C09PacketHeldItemChange
+import net.minecraft.network.play.client.C16PacketClientStatus
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.Vec3
+import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  * Collection of functions for performing fake player interactions.
@@ -78,31 +84,71 @@ object FakeActionUtils {
     /**
      * Swaps to and uses the specified item slot.
      */
-    fun useItem(itemSlot: Int, swapBack: Boolean = true) {
-        val previous = mc.thePlayer.inventory.currentItem
+    fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false): Boolean{
+        if (itemSlot < 9) {
+            val previous = mc.thePlayer.inventory.currentItem
 
-        mc.thePlayer.inventory.currentItem = itemSlot
-        mc.thePlayer.sendQueue.addToSendQueue(C09PacketHeldItemChange(itemSlot))
-        mc.thePlayer.sendQueue.addToSendQueue(
-            C08PacketPlayerBlockPlacement(
-                mc.thePlayer.inventory.getStackInSlot(
-                    itemSlot
+            mc.thePlayer.inventory.currentItem = itemSlot
+            mc.thePlayer.sendQueue.addToSendQueue(C09PacketHeldItemChange(itemSlot))
+            mc.thePlayer.sendQueue.addToSendQueue(
+                C08PacketPlayerBlockPlacement(
+                    mc.thePlayer.inventory.getStackInSlot(
+                        itemSlot
+                    )
                 )
             )
-        )
-        if (swapBack) {
-            mc.thePlayer.inventory.currentItem = previous
-            mc.thePlayer.sendQueue.addToSendQueue(C09PacketHeldItemChange(previous))
+            if (swapBack) {
+                mc.thePlayer.inventory.currentItem = previous
+                mc.thePlayer.sendQueue.addToSendQueue(C09PacketHeldItemChange(previous))
+            }
         }
+        else if (itemSlot < 36 && fromInv) {
+            val inventory = GuiInventory(mc.thePlayer)
+            if (mc.playerController.isRidingHorse) {
+                // return if on horse.
+                return false
+            } else Timer().schedule(5){
+                mc.netHandler
+                    .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
+                mc.displayGuiScreen(inventory)
+
+                // Swap slots
+                if (mc.thePlayer.inventory.itemStack == null) {
+                    val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
+                    val slotId = slot.slotIndex
+                    mc.playerController.windowClick(
+                        (inventory as GuiContainer).inventorySlots.windowId,
+                        slotId,
+                        mc.thePlayer.inventory.currentItem,
+                        2,
+                        mc.thePlayer
+                    )
+                    mc.thePlayer.sendQueue.addToSendQueue(
+                        C08PacketPlayerBlockPlacement(
+                            mc.thePlayer.heldItem
+                        )
+                    )
+                    mc.playerController.windowClick(
+                        (inventory as GuiContainer).inventorySlots.windowId,
+                        slotId,
+                        mc.thePlayer.inventory.currentItem,
+                        2,
+                        mc.thePlayer
+                    )
+                }
+                mc.thePlayer.closeScreen()
+            }
+        }
+        return true
     }
 
     /**
      * Attempts to swap to and the item with the specified name.
      * Returns true if successful.
      */
-    fun useItem(name: String, swapBack: Boolean = true): Boolean {
-        val itemSlot = Utils.findItem(name) ?: return false
-        this.useItem(itemSlot, swapBack)
+    fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, ignoreCase: Boolean = false): Boolean {
+        val itemSlot = Utils.findItem(name, ignoreCase, fromInv) ?: return false
+        this.useItem(itemSlot, swapBack, fromInv)
         return true
     }
 
