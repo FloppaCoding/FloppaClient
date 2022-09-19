@@ -11,6 +11,6 @@ class ActionSetting(
     var action: () -> Unit = {}
 
     fun doAction() {
-        action
+        action()
     }
 }

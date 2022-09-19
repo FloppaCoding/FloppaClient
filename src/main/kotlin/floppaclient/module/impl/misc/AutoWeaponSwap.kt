@@ -76,19 +76,19 @@ object AutoWeaponSwap : Module(
             }
             if (axeOfTheShredded.enabled) {
                 if (System.currentTimeMillis() - lastAxe >= axeCooldown) {
-                    FakeActionUtils.useItem("Axe of the Shredded", fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Axe of the Shredded", delay = 5, fromInv = fromInv.enabled)
                     lastAxe = System.currentTimeMillis()
                 }
             }
             if (soulWhip.enabled) {
                 if (System.currentTimeMillis() - lastWhip >= whipCooldown) {
-                    FakeActionUtils.useItem("Soul Whip", fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Soul Whip", delay = 10, fromInv = fromInv.enabled)
                     lastWhip = System.currentTimeMillis()
                 }
             }
             if (iceSpray.enabled) {
                 if (System.currentTimeMillis() - lastSpray >= sprayCooldown) {
-                    FakeActionUtils.useItem("Ice Spray", fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Ice Spray", delay = 15, fromInv = fromInv.enabled)
                     lastSpray = System.currentTimeMillis()
                 }
             }

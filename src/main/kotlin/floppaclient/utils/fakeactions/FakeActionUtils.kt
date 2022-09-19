@@ -84,7 +84,7 @@ object FakeActionUtils {
     /**
      * Swaps to and uses the specified item slot.
      */
-    fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false): Boolean{
+    fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false, delay: Long = 5): Boolean{
         if (itemSlot < 9) {
             val previous = mc.thePlayer.inventory.currentItem
 
@@ -107,7 +107,7 @@ object FakeActionUtils {
             if (mc.playerController.isRidingHorse) {
                 // return if on horse.
                 return false
-            } else Timer().schedule(5){
+            } else Timer().schedule(delay){
                 mc.netHandler
                     .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
                 mc.displayGuiScreen(inventory)
@@ -146,9 +146,9 @@ object FakeActionUtils {
      * Attempts to swap to and the item with the specified name.
      * Returns true if successful.
      */
-    fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, ignoreCase: Boolean = false): Boolean {
+    fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, delay: Long = 5, ignoreCase: Boolean = false): Boolean {
         val itemSlot = Utils.findItem(name, ignoreCase, fromInv) ?: return false
-        this.useItem(itemSlot, swapBack, fromInv)
+        this.useItem(itemSlot, swapBack, fromInv, delay)
         return true
     }
 

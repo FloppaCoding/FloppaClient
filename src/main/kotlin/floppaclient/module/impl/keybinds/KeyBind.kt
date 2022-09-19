@@ -16,7 +16,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private val modes = arrayListOf("Use Item","Command","Chat message")
 
     val bindName = StringSetting("Name",this.name)
-    private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the keybind.")
+    private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the keybind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
     private val action = StringSetting("Action","",50, description = "Name of the Item to be used / command to be executed or chat message to be sent.")
     private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for items.")
     private val fromInventory = BooleanSetting("From Inv", description = "Allows you to use items from your inventory.")
@@ -55,7 +55,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
             }
             "Use Item" -> {
                 if (condition.text == "" || mc.thePlayer.isHolding(condition.text, true)) {
-                    FakeActionUtils.useItem(action.text,true, fromInventory.enabled, true)
+                    FakeActionUtils.useItem(action.text,true, fromInventory.enabled, ignoreCase = true)
                 }
             }
         }

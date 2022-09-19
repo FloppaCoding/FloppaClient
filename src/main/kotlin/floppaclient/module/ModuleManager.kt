@@ -1,5 +1,6 @@
 package floppaclient.module
 
+import floppaclient.FloppaClient
 import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
@@ -74,6 +75,7 @@ object ModuleManager {
 
     fun removeKeyBind(bind: KeyBind) {
         modules.remove(bind)
+        FloppaClient.clickGUI.setUpPanels()
     }
 
     /**

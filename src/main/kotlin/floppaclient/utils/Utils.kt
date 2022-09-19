@@ -104,11 +104,10 @@ object Utils {
     /**
      * Runs the specified command. Per default sends it to the server  but has client side option.
      */
-    fun command(text: String, clientSide: Boolean = false) {
-        //first try executing the command client side, if it failed sent to the server
-        val i = ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
-        if (!clientSide && i < 1)  mc.thePlayer?.sendChatMessage("/$text")
-    }
+        fun command(text: String, clientSide: Boolean = false) {
+            if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
+            else  mc.thePlayer?.sendChatMessage("/$text")
+        }
 
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
