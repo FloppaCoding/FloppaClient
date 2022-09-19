@@ -2,6 +2,7 @@ package floppaclient.ui.clickgui.elements
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
+import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.impl.*
 import floppaclient.ui.clickgui.AdvancedMenu
@@ -19,7 +20,7 @@ import java.awt.Color
  * @author HeroCode, Aton
  */
 class ModuleButton(imod: Module, pl: Panel) {
-    var mod: Module
+    val mod: Module
     var menuelements: ArrayList<Element>
     var parent: Panel
     var x = 0.0
@@ -44,6 +45,7 @@ class ModuleButton(imod: Module, pl: Panel) {
                 is SelectorSetting  -> menuelements.add(ElementSelector (this, setting))
                 is StringSetting    -> menuelements.add(ElementTextField(this, setting))
                 is ColorSetting     -> menuelements.add(ElementColor    (this, setting))
+                is ActionSetting    -> menuelements.add(ElementAction   (this, setting))
             }
         }
         menuelements.add(ElementKeyBind(this, imod))
@@ -72,7 +74,12 @@ class ModuleButton(imod: Module, pl: Panel) {
         }
 
         /** Rendering the name in the middle */
-        FontUtil.drawTotalCenteredStringWithShadow(mod.name, x + width / 2, y + 1 + height / 2, textcolor)
+        val displayName = if (mod is KeyBind){
+            mod.bindName.text
+        } else {
+            mod.name
+        }
+        FontUtil.drawTotalCenteredStringWithShadow(displayName, x + width / 2, y + 1 + height / 2, textcolor)
     }
 
     /**

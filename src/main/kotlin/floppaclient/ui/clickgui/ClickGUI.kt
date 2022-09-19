@@ -46,9 +46,14 @@ class ClickGUI : GuiScreen() {
 
     init {
         FontUtil.setupFontUtils()
-        panels = ArrayList()
 
+        setUpPanels()
+
+    }
+
+    fun setUpPanels() {
         /** Create a panel for each module category */
+        panels = ArrayList()
         for (category in Category.values()) {
             panels.add(object : Panel(category, this) {
                 override fun setup() {
@@ -59,7 +64,6 @@ class ClickGUI : GuiScreen() {
                 }
             })
         }
-
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {

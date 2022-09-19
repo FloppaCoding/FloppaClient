@@ -13,6 +13,7 @@ import java.lang.reflect.Type
 class SettingDeserializer: JsonDeserializer<Setting> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Setting {
         if (json?.isJsonObject == true) {
+            if (json.asJsonObject.entrySet().isEmpty()) return  Setting("Undefined")
 
             /**
              * The JsonObject for a Setting should only have one property. If more properties will be needed, this

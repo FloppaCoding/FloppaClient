@@ -90,6 +90,9 @@ open class Element {
             ElementType.KEY_BIND -> {
                 height = 11.0
             }
+            ElementType.ACTION -> {
+                height = 11.0
+            }
             else -> {}
         }
     }

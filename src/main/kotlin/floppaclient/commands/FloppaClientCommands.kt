@@ -1,6 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.RoomData
@@ -39,11 +40,11 @@ class FloppaClientCommands : CommandBase() {
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
         if (args.isEmpty()) {
-            display = FloppaClient.clickGUI
+            display = clickGUI
             return
         }
         when (args[0].lowercase()) {
-            "gui" -> display = FloppaClient.clickGUI
+            "gui" -> display = clickGUI
             "scan" -> DungeonScan.scanDungeon()
             "roomdata" -> DungeonScan.getRoomCentre(mc.thePlayer.posX.toInt(), mc.thePlayer.posZ.toInt()).let {
                 DungeonScan.getRoomData(it.first, it.second) ?: DungeonScan.getCore(it.first, it.second)
@@ -57,6 +58,7 @@ class FloppaClientCommands : CommandBase() {
             "reload" -> {
                 modMessage("Reloading config files.")
                 FloppaClient.moduleConfig.loadConfig()
+                clickGUI.setUpPanels()
             }
             "resetgui" -> {
                 modMessage("Resetting positions in the click gui.")

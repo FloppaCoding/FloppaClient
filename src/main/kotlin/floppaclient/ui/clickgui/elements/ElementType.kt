@@ -6,5 +6,5 @@ package floppaclient.ui.clickgui.elements
  * @author Aton
  */
 enum class ElementType {
-    CHECK_BOX, KEY_BIND, SELECTOR, COLOR, SLIDER, TEXT_FIELD
+    CHECK_BOX, KEY_BIND, SELECTOR, COLOR, SLIDER, TEXT_FIELD, ACTION
 }

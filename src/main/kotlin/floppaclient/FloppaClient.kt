@@ -71,6 +71,7 @@ class FloppaClient {
 
         launch {
             moduleConfig.loadConfig()
+            clickGUI.setUpPanels()
 
             //This is required for the Warp cooldown to track in the background whithout the need to enable it first.
             if(!DungeonWarpTimer.enabled && DungeonWarpTimer.trackInBackground.enabled) {

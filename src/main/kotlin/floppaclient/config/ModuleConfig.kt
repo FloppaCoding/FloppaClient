@@ -56,10 +56,15 @@ class ModuleConfig(path: File) {
             }
             configModules.forEach { configModule ->
                 ModuleManager.getModuleByName(configModule.name).run updateModule@{
-                    if (this == null) return@updateModule
-                    if (this.enabled != configModule.enabled) this.toggle()
-                    this.keyCode = configModule.keyCode
-                    for (setting in this.settings) {
+                    // If the module was not found check whether it can be a keybind
+                    val module = this ?: if (configModule.settings.find { (it is BooleanSetting) && it.name == "THIS_IS_A_KEY_BIND" } != null) {
+                        ModuleManager.addNewKeybind()
+                    }else {
+                        return@updateModule
+                    }
+                    if (module.enabled != configModule.enabled) module.toggle()
+                    module.keyCode = configModule.keyCode
+                    for (setting in module.settings) {
                         for (configSetting in configModule.settings) {
                             // When the config parsing failed it can result in this being null. The compiler does not know this.
                             // So just ignore the warning here.

@@ -1,8 +1,10 @@
 package floppaclient.module
 
+import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
 import floppaclient.module.impl.dungeon.*
+import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
@@ -52,7 +54,27 @@ object ModuleManager {
         AutoClicker,
         AutoWeaponSwap,
         CancelInteract,
+
+        //KEYBIND
+        AddKeybind,
     )
+
+    /**
+     * Creates a new keybind module and adds it to the list.
+     */
+    fun addNewKeybind(): KeyBind {
+        val number = (modules
+            .filter{module -> module.name.startsWith("New Keybind")}
+            .map {module -> module.name.filter { c -> c.isDigit() }.toIntOrNull()}
+            .maxByOrNull { it ?: 0} ?: 0) + 1
+        val keyBind = KeyBind("New Keybind $number")
+        modules.add(keyBind)
+        return keyBind
+    }
+
+    fun removeKeyBind(bind: KeyBind) {
+        modules.remove(bind)
+    }
 
     /**
      * Handles the key binds for the modules.
