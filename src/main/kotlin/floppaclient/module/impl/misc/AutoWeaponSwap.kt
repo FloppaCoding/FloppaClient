@@ -34,6 +34,7 @@ object AutoWeaponSwap : Module(
     private val terminator = BooleanSetting("Terminator Swap", false, description = "Include Terminator in the weapon swap cycle.")
     private val iceSpray = BooleanSetting("Ice Spray Swap", false, description = "Include Ice Spray in the weapon swap cycle.")
     private val termSleep = NumberSetting("Sleep ms",50.0,10.0,100.0,5.0, description = "Delay between Terminator clicks. This will determine the CPS on the Terminator and lets it exceed your left click CPS.")
+    private val fromInv = BooleanSetting("From Inv", false, description = "Lets you use Soul Whip, AOTS and Ice Spray from inventory.")
 
     private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Withered")
     private val leftClickBlacklist = setOf("Aspect of the Void", "Jerry", "Bonzo")
@@ -58,7 +59,8 @@ object AutoWeaponSwap : Module(
             soulWhip,
             terminator,
             iceSpray,
-            termSleep
+            termSleep,
+            fromInv
         )
     }
 
@@ -74,19 +76,19 @@ object AutoWeaponSwap : Module(
             }
             if (axeOfTheShredded.enabled) {
                 if (System.currentTimeMillis() - lastAxe >= axeCooldown) {
-                    FakeActionUtils.useItem("Axe of the Shredded")
+                    FakeActionUtils.useItem("Axe of the Shredded", fromInv = fromInv.enabled)
                     lastAxe = System.currentTimeMillis()
                 }
             }
             if (soulWhip.enabled) {
                 if (System.currentTimeMillis() - lastWhip >= whipCooldown) {
-                    FakeActionUtils.useItem("Soul Whip")
+                    FakeActionUtils.useItem("Soul Whip", fromInv = fromInv.enabled)
                     lastWhip = System.currentTimeMillis()
                 }
             }
             if (iceSpray.enabled) {
                 if (System.currentTimeMillis() - lastSpray >= sprayCooldown) {
-                    FakeActionUtils.useItem("Ice Spray")
+                    FakeActionUtils.useItem("Ice Spray", fromInv = fromInv.enabled)
                     lastSpray = System.currentTimeMillis()
                 }
             }
