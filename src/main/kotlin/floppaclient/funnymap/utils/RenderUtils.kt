@@ -124,7 +124,7 @@ object RenderUtils {
             ) {
                 GlStateManager.pushMatrix()
                 GlStateManager.scale(0.8, 0.8, 1.0)
-                GlStateManager.rotate(mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
+                if (DungeonMap.spinnyMap.enabled) GlStateManager.rotate(mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
                 mc.fontRendererObj.drawString(
                     player.name,
                     -mc.fontRendererObj.getStringWidth(player.name) shr 1,
