@@ -15,7 +15,7 @@ open class HudElement(
     private val ySett: NumberSetting,
     var width: Int = 10,
     var height: Int = 10,
-    val scale: NumberSetting = NumberSetting("scale",1.0,0.1,4.0, 0.05, hidden = true),
+    val scale: NumberSetting = NumberSetting("scale",1.0,0.1,4.0, 0.02, hidden = true),
 ) {
 
     private val zoomIncrement = 0.05

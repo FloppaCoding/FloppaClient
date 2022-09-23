@@ -13,8 +13,10 @@ import floppaclient.ui.hud.HudElement
 import floppaclient.utils.Utils.equalsOneOf
 import gg.essential.elementa.utils.withAlpha
 import net.minecraft.client.gui.Gui
+import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
+import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 object MapRender: HudElement(
@@ -55,15 +57,41 @@ object MapRender: HudElement(
             DungeonMap.mapBorder.value
         )
 
+        if (mc.currentScreen !is EditHudGUI) {
+            if (DungeonMap.showRunInformation.enabled) {
+                renderRunInformation()
+            }
+        }
+
+        GlStateManager.pushMatrix()
+        if (DungeonMap.spinnyMap.enabled) {
+            val scale = mc.displayHeight /  ScaledResolution(mc).scaledHeight.toDouble()
+            GL11.glScissor(
+                (x*scale).toInt(),
+                (mc.displayHeight - y*scale - 128*scale*this.scale.value).toInt() ,
+                (128*scale*this.scale.value).toInt(),
+                (128*scale*this.scale.value).toInt()
+            )
+            GL11.glEnable(GL11.GL_SCISSOR_TEST)
+            GlStateManager.translate(64.0, 64.0, 0.0)
+            GlStateManager.rotate(- mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
+            GlStateManager.translate(
+                - ((mc.thePlayer.posX - Dungeon.startX + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.first - 2),
+                - ((mc.thePlayer.posZ - Dungeon.startZ + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.second - 2),
+                0.0
+            )
+        }
+
         renderRooms()
 
         if (mc.currentScreen !is EditHudGUI) {
             renderText()
             renderPlayerHeads()
-            if (DungeonMap.showRunInformation.enabled) {
-                renderRunInformation()
-            }
         }
+
+        if (DungeonMap.spinnyMap.enabled) GL11.glDisable(GL11.GL_SCISSOR_TEST)
+        GlStateManager.popMatrix()
+
 
     }
 

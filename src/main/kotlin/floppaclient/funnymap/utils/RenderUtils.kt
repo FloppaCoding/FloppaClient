@@ -124,6 +124,7 @@ object RenderUtils {
             ) {
                 GlStateManager.pushMatrix()
                 GlStateManager.scale(0.8, 0.8, 1.0)
+                GlStateManager.rotate(mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
                 mc.fontRendererObj.drawString(
                     player.name,
                     -mc.fontRendererObj.getStringWidth(player.name) shr 1,
@@ -132,7 +133,11 @@ object RenderUtils {
                 )
                 GlStateManager.popMatrix()
             }
-            GlStateManager.rotate(player.yaw + 180f, 0f, 0f, 1f)
+            if (player.player == mc.thePlayer) {
+                GlStateManager.rotate(mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
+            } else {
+                GlStateManager.rotate(player.yaw + 180f, 0f, 0f, 1f)
+            }
             GlStateManager.scale(DungeonMap.playerHeadScale.value, DungeonMap.playerHeadScale.value, 1.0)
             renderRectBorder(-6.0, -6.0, 12.0, 12.0, 1.0, Color(0, 0, 0, 255))
             GlStateManager.color(1f, 1f, 1f, 1f)
