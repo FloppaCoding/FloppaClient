@@ -22,7 +22,7 @@ object DungeonMap : Module(
     val hideInBoss = BooleanSetting("Hide in Boss", true, description = "Hides the map in boss.")
     val showRunInformation = BooleanSetting("Show Run Info", true, description = "Shows run information under map.")
     val playerNameMode = SelectorSetting("Player Names", "Holding Leap", arrayListOf("Off", "Holding Leap", "Always"), description = "Show player name under player head.")
-    val autoScan = BooleanSetting("Auto Scan", true, description = "Automatically scans when entering dungeon. Manual scan can be done with \"/fmap scan\". Required for Auto Clip!")
+    val autoScan = BooleanSetting("Auto Scan", true, description = "Automatically scans when entering dungeon. Manual scan can be done with \"/fmap scan\".")
     val scanChatInfo = BooleanSetting("Scan Chat Info", true, description = "Show dungeon overview information after scanning.")
     val mimicInfo = BooleanSetting("Mimic Info", true, description = "Show message when the mimic is found.")
     val mapScale = NumberSetting("Map Scale",1.25,0.1,4.0,0.02, description = "Scale of entire map.")
