@@ -4,9 +4,12 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.item.ItemStack
 import net.minecraft.util.MathHelper
 import kotlin.math.exp
+import kotlin.math.pow
 
 /**
  * Module to change the appearance of held items.
@@ -90,6 +93,40 @@ object ItemAnimations : Module(
         val f1 = 0.2f * MathHelper.sin(MathHelper.sqrt_float(swingProgress) * Math.PI.toFloat() * 2.0f) * scale
         val f2 = -0.2f * MathHelper.sin(swingProgress * Math.PI.toFloat()) * scale
         GlStateManager.translate(f, f1, f2)
+        return true
+    }
+
+    /**
+     * Directly referenced by the ItemRendereMixin. If enabled will scale the potion drink animation.
+     * Returns whether custom animation was performed.
+     */
+    fun scaledDrinking(clientPlayer: AbstractClientPlayer, partialTicks: Float, itemToRender: ItemStack): Boolean {
+        if (!this.enabled) return false
+        val f: Float = clientPlayer.itemInUseCount.toFloat() - partialTicks + 1.0f
+        val f1: Float = f / itemToRender.maxItemUseDuration.toFloat()
+        var f2 = MathHelper.abs(MathHelper.cos(f / 4.0f * Math.PI.toFloat()) * 0.1f)
+
+        if (f1 >= 0.8f) {
+            f2 = 0.0f
+        }
+
+        // Transform to correct rotation center
+        val newX = (0.56f * (1 + x.value)).toFloat()
+        val newY = (-0.52f * (1 - y.value)).toFloat()
+        val newZ = (-0.71999997f * (1 + z.value)).toFloat()
+        GlStateManager.translate(-0.56f, 0.52f, 0.71999997f)
+        GlStateManager.translate(newX, newY, newZ)
+
+        GlStateManager.translate(0.0f, f2, 0.0f)
+        val f3 = 1.0f - f1.toDouble().pow(27.0).toFloat()
+        GlStateManager.translate(f3 * 0.6f, f3 * -0.5f, f3 * 0.0f)
+        GlStateManager.rotate(f3 * 90.0f, 0.0f, 1.0f, 0.0f)
+        GlStateManager.rotate(f3 * 10.0f, 1.0f, 0.0f, 0.0f)
+        GlStateManager.rotate(f3 * 30.0f, 0.0f, 0.0f, 1.0f)
+
+        // Transform back
+        GlStateManager.translate(0.56f, -0.52f, -0.71999997f)
+        GlStateManager.translate(-newX, -newY, -newZ)
         return true
     }
 }
