@@ -95,9 +95,12 @@ class FloppaClient {
                 inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
                     ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
 
-                inDungeons = inSkyblock && ScoreboardUtils.sidebarLines.any {
-                    ScoreboardUtils.cleanSB(it).run {
-                        (contains("The Catacombs") && !contains("Queue")) || contains("Dungeon Cleared:")
+                // If alr known that in dungeons dont update the value. It does get reset to false on world change.
+                if (!inDungeons) {
+                    inDungeons = inSkyblock && ScoreboardUtils.sidebarLines.any {
+                        ScoreboardUtils.cleanSB(it).run {
+                            (contains("The Catacombs") && !contains("Queue")) || contains("Dungeon Cleared:")
+                        }
                     }
                 }
             }
