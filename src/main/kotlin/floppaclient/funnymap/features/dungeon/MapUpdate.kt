@@ -46,7 +46,7 @@ object MapUpdate {
         var iconNum = 0
         for (i in listOf(5, 9, 13, 17, 1)) {
             val tabText = StringUtils.stripControlCodes(tabEntries[i].second).trim()
-            val name = tabText.split(" ")[0]
+            val name = tabText.split(" ").getOrNull(1) ?: ""
             if (name == "") continue
             // if the player is not in the list add it
             var player = Dungeon.dungeonTeammates.find { it.name == name }

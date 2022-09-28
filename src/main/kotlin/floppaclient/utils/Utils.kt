@@ -112,13 +112,13 @@ object Utils {
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
             val tabText = StringUtils.stripControlCodes(tabEntries[i].second).trim()
-            val name = tabText.split(" ")[0]
+            val name = tabText.split(" ").getOrNull(1) ?: ""
 
             // Here the stuff to get the class
             // first check whether it is the correct player
             if (name != mc.thePlayer.name) continue
             // this will still contain some formatting. iirc it should look like (Mage but maybe (MageVL)
-            val classWithFormatting = tabText.split(" ")[1]
+            val classWithFormatting = tabText.split(" ").getOrNull(2) ?: return null
             if (classWithFormatting.contains("(DEAD)")) return null
             return classWithFormatting.drop(1)
         }
