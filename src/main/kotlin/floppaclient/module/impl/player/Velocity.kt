@@ -44,7 +44,7 @@ object Velocity : Module(
     @SubscribeEvent
     fun onTick(event: ClientTickEvent){
         if (event.phase != TickEvent.Phase.START || !inSkyblock) return
-        if(mc.thePlayer.heldItem?.itemID.equalsOneOf( "BONZO_STAFF", "STARRED_BONZO_STAFF",))
+        if(mc.thePlayer?.heldItem?.itemID.equalsOneOf( "BONZO_STAFF", "STARRED_BONZO_STAFF",))
             bonzoTime = System.currentTimeMillis() + swapTime.value.toInt()
     }
 
