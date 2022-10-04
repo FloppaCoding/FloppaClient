@@ -91,8 +91,19 @@ object Utils {
     fun modMessage(message: String) = chatMessage("${when(ClickGui.prefixStyle.index) { 0 -> CHAT_PREFIX; 1 -> SHORT_PREFIX 
         else -> ClickGui.customPrefix.text }} $message")
 
+    /**
+     * Print a message in chat client side.
+     */
     fun chatMessage(message: String) {
         UChat.chat(message)
+//        mc.thePlayer.addChatMessage(ChatComponentText(message))
+    }
+
+    /**
+     * Print a message in chat client side.
+     */
+    fun chatMessage(obj: Any) {
+        UChat.chat(obj)
 //        mc.thePlayer.addChatMessage(ChatComponentText(message))
     }
 
