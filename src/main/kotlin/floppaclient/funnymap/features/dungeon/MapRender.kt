@@ -38,7 +38,7 @@ object MapRender: HudElement(
         super.renderHud()
 
         if (!inDungeons) return
-        if (DungeonMap.hideInBoss.enabled && Dungeon.inBoss || !Dungeon.hasScanned) return
+        if (DungeonMap.hideInBoss.enabled && Dungeon.inBoss) return
 
         RenderUtils.renderRect(
             0.0,

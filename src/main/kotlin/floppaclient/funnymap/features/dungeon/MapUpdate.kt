@@ -6,8 +6,6 @@ import floppaclient.funnymap.utils.MapUtils
 import floppaclient.funnymap.utils.MapUtils.mapX
 import floppaclient.funnymap.utils.MapUtils.mapZ
 import floppaclient.funnymap.utils.MapUtils.yaw
-import floppaclient.utils.Utils
-import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.init.Blocks
@@ -16,16 +14,8 @@ import net.minecraft.util.StringUtils
 
 object MapUpdate {
     fun calibrate() {
-        MapUtils.startCorner = when {
-            Utils.currentFloor == 1 -> Pair(22, 11)
-            Utils.currentFloor.equalsOneOf(2, 3) -> Pair(11, 11)
-            Utils.currentFloor == 4 && Dungeon.rooms.size > 25 -> Pair(5, 16)
-            Dungeon.rooms.size == 30 -> Pair(16, 5)
-            Dungeon.rooms.size == 25 -> Pair(11, 11)
-            else -> Pair(5, 5)
-        }
-
-        MapUtils.roomSize = if (Utils.currentFloor in 1..3 || Dungeon.rooms.size == 24) 18 else 16
+        MapUtils.roomSize = MapUtils.getRoomSizeFromMap() ?: return
+        MapUtils.startCorner = MapUtils.getStartCornerFromMap() ?: return
 
         MapUtils.coordMultiplier = (MapUtils.roomSize + 4.0) / Dungeon.roomSize
 

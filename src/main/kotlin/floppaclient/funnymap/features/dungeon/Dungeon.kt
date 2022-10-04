@@ -3,8 +3,8 @@ package floppaclient.funnymap.features.dungeon
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.events.ReceiveChatPacketEvent
 import floppaclient.funnymap.core.*
+import floppaclient.funnymap.utils.MapUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.TabListUtils
 import floppaclient.utils.Utils.currentFloor
@@ -29,8 +29,9 @@ object Dungeon {
     private var isScanning = false
     var hasScanned = false
 
-    // 6 x 6 room grid, 11 x 11 with connections
+    var hasRunStarted = false
     var inBoss = false
+    // 6 x 6 room grid, 11 x 11 with connections
     val dungeonList = Array<Tile>(121) { Door(0, 0) }
     val uniqueRooms = mutableListOf<Room>()
     val rooms = mutableListOf<Room>()
@@ -98,32 +99,22 @@ object Dungeon {
                 5,6 -> inBoss = mc.thePlayer.posX > -39 && mc.thePlayer.posZ > -7
                 7 -> inBoss = mc.thePlayer.posX > -7 && mc.thePlayer.posZ > -7
             }
+            if (hasRunStarted && !MapUtils.calibrated) MapUpdate.calibrate()
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     fun onChat(event: ClientChatReceivedEvent) {
         if (!inDungeons || event.type.toInt() == 2) return
         val text = StringUtils.stripControlCodes(event.message.unformattedText)
-        when {
-            entryMessages.any { it == text } -> inBoss = true
-        }
-    }
-
-    /**
-     * Preloads the player skins.
-     */
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun onChatPacket(event: ReceiveChatPacketEvent) {
-        if (event.packet.type.toInt() == 2 || !inDungeons) return
-        val text = StringUtils.stripControlCodes(event.packet.chatComponent.unformattedText)
         when {
             text.equalsOneOf(
                 "Dungeon starts in 4 seconds.", "Dungeon starts in 4 seconds. Get ready!"
             ) -> MapUpdate.preloadHeads()
 
             text == "[NPC] Mort: Here, I found this map when I first entered the dungeon." -> {
-
+                MapUpdate.calibrate()
+                hasRunStarted = true
             }
             entryMessages.any { it == text } -> inBoss = true
         }
@@ -132,8 +123,10 @@ object Dungeon {
     @SubscribeEvent
     fun onWorldLoad(event: WorldEvent.Unload) {
         reset()
-        hasScanned = false
+        MapUtils.calibrated = false
+        hasRunStarted = false
         inBoss = false
+        hasScanned = false
     }
 
     private fun shouldScan() =
