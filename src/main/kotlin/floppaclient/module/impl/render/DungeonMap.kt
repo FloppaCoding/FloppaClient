@@ -26,9 +26,11 @@ object DungeonMap : Module(
     val scanChatInfo = BooleanSetting("Scan Chat Info", true, description = "Show dungeon overview information after scanning.")
     val mimicInfo = BooleanSetting("Mimic Info", true, description = "Show message when the mimic is found.")
     val mapScale = NumberSetting("Map Scale",1.25,0.1,4.0,0.02, description = "Scale of entire map.")
+    val roomScale = NumberSetting("Dungeon Scale", 1.0,0.5,1.5, 0.01, description = "Scales the size of the displayed dungeon inside of the map HUD element.")
     val textScale = NumberSetting("Text Scale",0.75,0.0,2.0,0.02, description = "Scale of room names and secret counts relative to map size.")
     val playerHeadScale = NumberSetting("Head Scale",1.0,0.0,2.0,0.02, description = "Scale of player heads relative to map size.")
     val spinnyMap = BooleanSetting("Spinny Map", false, description = "Centers the map on you and rotates it.")
+    val centerOnPlayer = BooleanSetting("Center on Player", false, description = "Centers the map on your own Player Head.")
     val mapBackground = ColorSetting("Background", Color(0, 0, 0, 100),true, description = "Background Color for the map.")
     val mapBorder = ColorSetting("Border", Color(0, 0, 0, 255),true, description = "Border Color for the map.")
     val mapBorderWidth = NumberSetting("Border Width",3.0,0.0,10.0,0.1, description = "Map border width.")
@@ -45,9 +47,11 @@ object DungeonMap : Module(
             scanChatInfo,
             mimicInfo,
             mapScale,
+            roomScale,
             textScale,
             playerHeadScale,
             spinnyMap,
+            centerOnPlayer,
             mapBackground,
             mapBorder,
             mapBorderWidth,

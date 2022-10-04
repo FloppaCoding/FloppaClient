@@ -64,22 +64,30 @@ object MapRender: HudElement(
         }
 
         GlStateManager.pushMatrix()
-        if (DungeonMap.spinnyMap.enabled) {
-            val scale = mc.displayHeight /  ScaledResolution(mc).scaledHeight.toDouble()
-            GL11.glScissor(
-                (x*scale).toInt(),
-                (mc.displayHeight - y*scale - 128*scale*this.scale.value).toInt() ,
-                (128*scale*this.scale.value).toInt(),
-                (128*scale*this.scale.value).toInt()
-            )
-            GL11.glEnable(GL11.GL_SCISSOR_TEST)
+        val scale = mc.displayHeight /  ScaledResolution(mc).scaledHeight.toDouble()
+        GL11.glScissor(
+            (x*scale).toInt(),
+            (mc.displayHeight - y*scale - 128*scale*this.scale.value).toInt() ,
+            (128*scale*this.scale.value).toInt(),
+            (128*scale*this.scale.value).toInt()
+        )
+        GL11.glEnable(GL11.GL_SCISSOR_TEST)
+
+        if (DungeonMap.spinnyMap.enabled || DungeonMap.centerOnPlayer.enabled) {
             GlStateManager.translate(64.0, 64.0, 0.0)
-            GlStateManager.rotate(- mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
+            if (DungeonMap.spinnyMap.enabled) GlStateManager.rotate(-mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
+        }
+
+        GlStateManager.scale(DungeonMap.roomScale.value, DungeonMap.roomScale.value, 1.0)
+
+        if (DungeonMap.centerOnPlayer.enabled) {
             GlStateManager.translate(
-                - ((mc.thePlayer.posX - Dungeon.startX + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.first - 2),
-                - ((mc.thePlayer.posZ - Dungeon.startZ + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.second - 2),
+                -((mc.thePlayer.posX - Dungeon.startX + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.first - 2),
+                -((mc.thePlayer.posZ - Dungeon.startZ + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.second - 2),
                 0.0
             )
+        }else if (DungeonMap.spinnyMap.enabled){
+            GlStateManager.translate(-64.0, -64.0, 0.0)
         }
 
         renderRooms()
@@ -89,9 +97,8 @@ object MapRender: HudElement(
             renderPlayerHeads()
         }
 
-        if (DungeonMap.spinnyMap.enabled) GL11.glDisable(GL11.GL_SCISSOR_TEST)
+        GL11.glDisable(GL11.GL_SCISSOR_TEST)
         GlStateManager.popMatrix()
-
 
     }
 
