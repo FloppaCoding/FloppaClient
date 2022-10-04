@@ -5,6 +5,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ReceivePacketEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.network.play.client.C0DPacketCloseWindow
 import net.minecraft.network.play.server.S2DPacketOpenWindow
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -22,7 +23,7 @@ object CancelChestOpen : Module(
     @SubscribeEvent
     fun onOpenWindow(event: ReceivePacketEvent){
         if (!inDungeons || event.packet !is S2DPacketOpenWindow) return
-        if (event.packet.windowTitle.unformattedText.equals("Chest") ) {
+        if (event.packet.windowTitle.unformattedText.equalsOneOf("Chest", "Large Chest") ) {
             event.isCanceled = true
             mc.netHandler.networkManager.sendPacket( C0DPacketCloseWindow(event.packet.windowId))
         }
