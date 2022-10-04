@@ -27,12 +27,14 @@ object NoRotate : Module(
      * rotate you.
      */
     private val pitch = BooleanSetting("0 Pitch", false, description = "Also prevents rotation of packets with 0 pitch, those are in general used for teleport which should rotate you..")
+    private val keepMotion = BooleanSetting("Keep Motion", false, description = "Teleporting will not reset your horizontal motion. Use with caution!")
 
     private var doneLoadingTerrain = false
 
     init {
         this.addSettings(
-            pitch
+            pitch,
+            keepMotion
         )
     }
 
@@ -64,7 +66,9 @@ object NoRotate : Module(
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.X)) {
                 d0 += entityplayer.posX
             } else {
-                entityplayer.motionX = 0.0
+                if (!keepMotion.enabled) {
+                    entityplayer.motionX = 0.0
+                }
             }
 
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.Y)) {
@@ -76,7 +80,9 @@ object NoRotate : Module(
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.Z)) {
                 d2 += entityplayer.posZ
             } else {
-                entityplayer.motionZ = 0.0
+                if (!keepMotion.enabled) {
+                    entityplayer.motionZ = 0.0
+                }
             }
 
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.X_ROT)) {
