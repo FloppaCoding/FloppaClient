@@ -19,12 +19,19 @@ class HClipCommand : CommandBase()  {
     }
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
-        val y = try {
-            args[0].toDouble()
+        val values = try {
+            args.map { it.toDouble() }
         } catch (e: java.lang.NumberFormatException) {
             Utils.modMessage("§cArguments error.")
             return
         }
-        Clip.dClip(y)
+        when(values.size) {
+            1 -> {
+                Clip.hClip(values[0])
+            }
+            2 -> {
+                Clip.hClip(values[0], yOffs = values[1])
+            }
+        }
     }
 }
