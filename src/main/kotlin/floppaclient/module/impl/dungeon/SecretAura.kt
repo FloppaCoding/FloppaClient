@@ -3,13 +3,13 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
-import floppaclient.funnymap.core.Room
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.Utils
 import floppaclient.utils.Utils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.block.Block
@@ -42,6 +42,7 @@ object SecretAura : Module(
     private val slot = NumberSetting("Slot", 5.0, 0.0, 7.0, 1.0, description = "The default slot that will be used to click the secret when the Item setting is left empty or not found in the hotbar.")
     private val itemName = StringSetting("Item", description = "Item to use to click the secrets. This will take priority over the slot, but if the item is not found the item in the specified slot will be used.")
     private val trappedChest = BooleanSetting("Trapped Chests", true, description = "Determines whether trapped chests should be clicked.")
+    private val redstoneKey = BooleanSetting("Redstone Key", false, description = "Automatically grabs the Redstone key and places it on the Redstone block.")
 
     /**
     * stores found secrets as Position mapped to a pair of the secret type save as the Block it is, and the amount
@@ -58,7 +59,8 @@ object SecretAura : Module(
             sleep,
             slot,
             itemName,
-            trappedChest
+            trappedChest,
+            redstoneKey
         )
     }
 
@@ -106,13 +108,11 @@ object SecretAura : Module(
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun onTick(event: PositionUpdateEvent.Post)  {
         if (mc.thePlayer == null || !inDungeons) return
-        val x = ((mc.thePlayer.posX - Dungeon.startX + 15).toInt() shr 5)
-        val z = ((mc.thePlayer.posZ - Dungeon.startZ + 15).toInt() shr 5)
-        val room = Dungeon.dungeonList.getOrNull(x * 2 + z * 22)
-        if ((room as? Room)?.data?.name == "Water Board") return
-        if ((room as? Room)?.data?.name == "Three Weirdos" && !AutoWeirdos.enabled) return
-        if (( (room as? Room)?.data?.name == "Blaze"
-            || (room as? Room)?.data?.name == "Blaze 2")
+        val room = Dungeon.room
+        if (room?.data?.name == "Water Board") return
+        if (room?.data?.name == "Three Weirdos" && !AutoWeirdos.enabled) return
+        if (( room?.data?.name == "Blaze"
+                    || room?.data?.name == "Blaze 2")
             && !(mc.thePlayer.posY.toInt() == 67 || mc.thePlayer.posY < 25 || mc.thePlayer.posY > 110) ) return
         // These checks might be better performed in the method responsible for clicking the secret
 
@@ -141,11 +141,13 @@ object SecretAura : Module(
         if (!secrets.containsKey(blockPos)){
             if (block == Blocks.chest || block == Blocks.lever ||
                 (block == Blocks.trapped_chest && trappedChest.enabled)
+                || (block == Blocks.redstone_block && redstoneKey.enabled && Utils.findItem("Redstone Key", inInv = true) != null)
             ){
                 secrets[blockPos] = Pair(block,mutableListOf(0, System.currentTimeMillis()-10000))
             }else if (block == Blocks.skull) {
                 val tileEntity: TileEntitySkull = mc.theWorld.getTileEntity(blockPos) as TileEntitySkull
-                if (tileEntity.playerProfile?.id?.toString() == "26bb1a8d-7c66-31c6-82d5-a9c04c94fb02") {
+                val id = tileEntity.playerProfile?.id?.toString()
+                if (id == "26bb1a8d-7c66-31c6-82d5-a9c04c94fb02" || (id == "edb0155f-379c-395a-9c7d-1b6005987ac8" && redstoneKey.enabled)) {
                     secrets[blockPos] = Pair(block,mutableListOf(0, System.currentTimeMillis()-10000))
                 }
             }
@@ -195,12 +197,24 @@ object SecretAura : Module(
     }
     // Profile id for essence skulls: 26bb1a8d-7c66-31c6-82d5-a9c04c94fb02
 
+    /*
+    Redstone key Skull:
+    com.mojang.authlib.GameProfile@538f3d27[id=edb0155f-379c-395a-9c7d-1b6005987ac8,name=<null>,properties={textures=[com.mojang.authlib.properties.Property@1d7b3ef0]},legacy=false]
+    Profile id:     edb0155f-379c-395a-9c7d-1b6005987ac8
+     */
+
+
     /**
      * Right clicks the specified block with the aura item.
      */
     private fun interactWith(blockPos: BlockPos) {
-        FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), itemName.text)
-        if (SecretChime.enabled) SecretChime.playSecretSound()
+        val block = mc.theWorld.getBlockState(blockPos).block
+        val clicked = if (block == Blocks.redstone_block) {
+            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), "Redstone Key", fromInv = true, abortIfNotFound = true)
+        }else {
+            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), itemName.text)
+        }
+        if (SecretChime.enabled && clicked) SecretChime.playSecretSound()
     }
 
     /**

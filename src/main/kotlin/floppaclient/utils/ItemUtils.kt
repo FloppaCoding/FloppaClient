@@ -21,13 +21,7 @@ object ItemUtils {
 
     val ItemStack.itemID: String
         get() {
-            if (this.hasTagCompound() && this.tagCompound.hasKey("ExtraAttributes")) {
-                val attributes = this.getSubCompound("ExtraAttributes", false)
-                if (attributes.hasKey("id", 8)) {
-                    return attributes.getString("id")
-                }
-            }
-            return ""
+            return this.getSubCompound("ExtraAttributes", false)?.getString("id") ?: ""
         }
 
     val ItemStack.lore: List<String>

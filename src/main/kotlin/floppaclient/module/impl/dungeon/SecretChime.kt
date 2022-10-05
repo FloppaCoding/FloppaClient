@@ -25,7 +25,7 @@ object SecretChime : Module(
     "Secret Chime",
     category = Category.DUNGEON,
     description = "Plays a sound whenever you click a secret. Also plays this sound for aura clicks. \n" +
-            "§4Do not use the bat deaht sound or your game will freeze!"
+            "§4Do not use the bat death sound or your game will freeze!"
 ){
 
     private val sound: SelectorSetting

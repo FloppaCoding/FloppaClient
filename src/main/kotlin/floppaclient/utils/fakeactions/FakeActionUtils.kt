@@ -44,20 +44,47 @@ object FakeActionUtils {
      * Interacts with the block at the gives blockpos with the specified item or slot.
      * Attempts to use the specified item, if not found or specified the specified slot, if not specified the current held item.
      * Performs a check whether that block is in the specified range first.
-     * Returns true when the block is clicked, and false when it is out of range and the click is aborted.
+     * @param fromInv will also look in the inventory for the item that should be clicked with.
+     * @param abortIfNotFound Will abort the click attempt if the specified item can not be found in the inventory. Will return false.
+     * @return true when the block is clicked, and false when it is out of range and the click is aborted.
      */
-    fun clickBlockWithItem(blockPos: BlockPos, slot: Int? = null, name: String = "", range: Int = 10): Boolean {
+    fun clickBlockWithItem(blockPos: BlockPos, slot: Int? = null, name: String = "", range: Int = 10, fromInv: Boolean = false, abortIfNotFound: Boolean = false): Boolean {
         val previous = mc.thePlayer.inventory.currentItem
         val itemSlot = when (name) {
             "" -> slot
             else -> {
-                Utils.findItem(name)
+                Utils.findItem(name, inInv = fromInv) ?: if (abortIfNotFound) return false else slot
             }
         } ?: previous
 
-        mc.thePlayer.inventory.currentItem = itemSlot
-        val inRange = clickBlock(blockPos, range)
-        mc.thePlayer.inventory.currentItem = previous
+        var inRange = false
+        if (itemSlot < 9) {
+            mc.thePlayer.inventory.currentItem = itemSlot
+            inRange = clickBlock(blockPos, range)
+            mc.thePlayer.inventory.currentItem = previous
+        }
+        else if (itemSlot < 36 && fromInv){
+            val inventory = GuiInventory(mc.thePlayer)
+            if (mc.playerController.isRidingHorse) {
+                // return if on horse.
+                return false
+            } else{
+                mc.netHandler
+                    .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
+                mc.displayGuiScreen(inventory)
+
+                // Swap slots
+                if (mc.thePlayer.inventory.itemStack == null) {
+                    val swapSlot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
+                    val slotId = swapSlot.slotIndex
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
+                    inRange = clickBlock(blockPos, range)
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
+                }
+                mc.thePlayer.closeScreen()
+            }
+        }
+
         return inRange
     }
 

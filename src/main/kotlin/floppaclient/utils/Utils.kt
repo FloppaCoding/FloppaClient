@@ -112,13 +112,13 @@ object Utils {
 //        mc.thePlayer.sendChatMessage(message)
     }
 
-    /**
-     * Runs the specified command. Per default sends it to the server  but has client side option.
-     */
-        fun command(text: String, clientSide: Boolean = false) {
-            if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
-            else  mc.thePlayer?.sendChatMessage("/$text")
-        }
+/**
+ * Runs the specified command. Per default sends it to the server  but has client side option.
+ */
+    fun command(text: String, clientSide: Boolean = false) {
+        if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
+        else  mc.thePlayer?.sendChatMessage("/$text")
+    }
 
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
