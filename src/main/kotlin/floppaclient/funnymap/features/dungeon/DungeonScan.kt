@@ -79,7 +79,10 @@ object DungeonScan {
                         // Quite inefficient as we are scanning the core twice
                         // Ideally we would save the core from getting room data
                         core = getCore(x, z)
-                        if (Dungeon.uniqueRooms.none { match -> match.data.name == data.name }) {
+                        val candidate = Dungeon.uniqueRooms.find { match -> match.data.name == data.name }
+                        // If room not in list, or a cell further towards south east is in the list replace it with this one
+                        if (candidate == null || candidate.x > x || candidate.z > z) {
+                            Dungeon.uniqueRooms.remove(candidate)
                             Dungeon.uniqueRooms.add(this)
                             Dungeon.secretCount += data.secrets
                             Dungeon.cryptCount += data.crypts

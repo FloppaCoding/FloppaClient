@@ -39,7 +39,7 @@ object MapRender: HudElement(
 
         if (!inDungeons) return
         if (DungeonMap.hideInBoss.enabled && Dungeon.inBoss) return
-
+        // Background
         RenderUtils.renderRect(
             0.0,
             0.0,
@@ -47,7 +47,7 @@ object MapRender: HudElement(
             if (DungeonMap.showRunInformation.enabled) 138.0 else 128.0,
             DungeonMap.mapBackground.value
         )
-
+        // Border
         RenderUtils.renderRectBorder(
             0.0,
             0.0,
@@ -56,13 +56,13 @@ object MapRender: HudElement(
             DungeonMap.mapBorderWidth.value,
             DungeonMap.mapBorder.value
         )
-
+        // Run Information
         if (mc.currentScreen !is EditHudGUI) {
             if (DungeonMap.showRunInformation.enabled) {
                 renderRunInformation()
             }
         }
-
+        // Scissor
         GlStateManager.pushMatrix()
         val scale = mc.displayHeight /  ScaledResolution(mc).scaledHeight.toDouble()
         GL11.glScissor(
@@ -72,14 +72,14 @@ object MapRender: HudElement(
             (128*scale*this.scale.value).toInt()
         )
         GL11.glEnable(GL11.GL_SCISSOR_TEST)
-
+        // Spinny map
         if (DungeonMap.spinnyMap.enabled || DungeonMap.centerOnPlayer.enabled) {
             GlStateManager.translate(64.0, 64.0, 0.0)
             if (DungeonMap.spinnyMap.enabled) GlStateManager.rotate(-mc.thePlayer.rotationYawHead + 180f, 0f, 0f, 1f)
         }
-
+        // Room scale
         GlStateManager.scale(DungeonMap.roomScale.value, DungeonMap.roomScale.value, 1.0)
-
+        // Centering
         if (DungeonMap.centerOnPlayer.enabled) {
             GlStateManager.translate(
                 -((mc.thePlayer.posX - Dungeon.startX + 15) * MapUtils.coordMultiplier + MapUtils.startCorner.first - 2),
