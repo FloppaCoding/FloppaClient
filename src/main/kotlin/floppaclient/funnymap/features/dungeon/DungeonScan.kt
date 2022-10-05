@@ -81,15 +81,17 @@ object DungeonScan {
                         core = getCore(x, z)
                         val candidate = Dungeon.uniqueRooms.find { match -> match.data.name == data.name }
                         // If room not in list, or a cell further towards south east is in the list replace it with this one
-                        if (candidate == null || candidate.x > x || candidate.z > z) {
+                        if (candidate == null || candidate.x > x || (candidate.z > z && candidate.x == x)) {
                             Dungeon.uniqueRooms.remove(candidate)
                             Dungeon.uniqueRooms.add(this)
-                            Dungeon.secretCount += data.secrets
-                            Dungeon.cryptCount += data.crypts
-                            when (data.type) {
-                                RoomType.TRAP -> Dungeon.trapType = data.name.split(" ")[0]
-                                RoomType.PUZZLE -> Dungeon.puzzles.add(data.name)
-                                else -> {}
+                            if (candidate == null) {
+                                Dungeon.secretCount += data.secrets
+                                Dungeon.cryptCount += data.crypts
+                                when (data.type) {
+                                    RoomType.TRAP -> Dungeon.trapType = data.name.split(" ")[0]
+                                    RoomType.PUZZLE -> Dungeon.puzzles.add(data.name)
+                                    else -> {}
+                                }
                             }
                         }
                     }
