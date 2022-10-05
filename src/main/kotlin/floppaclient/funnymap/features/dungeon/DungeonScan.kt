@@ -41,7 +41,7 @@ object DungeonScan {
 
                 if (!mc.theWorld.getChunkFromChunkCoords(xPos shr 4, zPos shr 4).isLoaded) {
                     allLoaded = false
-                    continue@scan
+                    continue
                 }
                 if (isColumnAir(xPos, zPos)) continue
 

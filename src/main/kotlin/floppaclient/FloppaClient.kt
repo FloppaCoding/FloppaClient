@@ -118,6 +118,7 @@ class FloppaClient {
     @SubscribeEvent
     fun onWorldChange(event: WorldEvent.Load) {
         inDungeons = false
+        tickCount = 18
     }
 
     companion object {
