@@ -10,6 +10,7 @@ import floppaclient.module.ModuleManager
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils
+import floppaclient.utils.fakeactions.FakeInventoryActionManager
 import gg.essential.api.EssentialAPI
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -60,7 +61,8 @@ class FloppaClient {
         listOf(
             this,
             Dungeon,
-            ModuleManager
+            ModuleManager,
+            FakeInventoryActionManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)
 
         clickGUI = ClickGUI()

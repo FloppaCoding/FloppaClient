@@ -1,6 +1,6 @@
 package floppaclient.module.impl.misc
 
-import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
@@ -66,8 +66,8 @@ object AutoWeaponSwap : Module(
 
     @SubscribeEvent
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
-        if (FloppaClient.mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickBlacklist) == true) return
-        if (FloppaClient.mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickItems) == true) {
+        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickBlacklist) == true) return
+        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickItems) == true) {
             if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
                 if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
                     FakeActionUtils.useItem("Terminator")
@@ -76,19 +76,19 @@ object AutoWeaponSwap : Module(
             }
             if (axeOfTheShredded.enabled) {
                 if (System.currentTimeMillis() - lastAxe >= axeCooldown) {
-                    FakeActionUtils.useItem("Axe of the Shredded", delay = 5, fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Axe of the Shredded", fromInv = fromInv.enabled)
                     lastAxe = System.currentTimeMillis()
                 }
             }
             if (soulWhip.enabled) {
                 if (System.currentTimeMillis() - lastWhip >= whipCooldown) {
-                    FakeActionUtils.useItem("Soul Whip", delay = 10, fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Soul Whip", fromInv = fromInv.enabled)
                     lastWhip = System.currentTimeMillis()
                 }
             }
             if (iceSpray.enabled) {
                 if (System.currentTimeMillis() - lastSpray >= sprayCooldown) {
-                    FakeActionUtils.useItem("Ice Spray", delay = 15, fromInv = fromInv.enabled)
+                    FakeActionUtils.useItem("Ice Spray", fromInv = fromInv.enabled)
                     lastSpray = System.currentTimeMillis()
                 }
             }

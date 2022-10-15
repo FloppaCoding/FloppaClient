@@ -11,12 +11,9 @@ import net.minecraft.network.Packet
 import net.minecraft.network.play.client.C02PacketUseEntity
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement
 import net.minecraft.network.play.client.C09PacketHeldItemChange
-import net.minecraft.network.play.client.C16PacketClientStatus
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.Vec3
-import java.util.*
-import kotlin.concurrent.schedule
 
 /**
  * Collection of functions for performing fake player interactions.
@@ -48,7 +45,7 @@ object FakeActionUtils {
      * @param abortIfNotFound Will abort the click attempt if the specified item can not be found in the inventory. Will return false.
      * @return true when the block is clicked, and false when it is out of range and the click is aborted.
      */
-    fun clickBlockWithItem(blockPos: BlockPos, slot: Int? = null, name: String = "", range: Int = 10, fromInv: Boolean = false, abortIfNotFound: Boolean = false): Boolean {
+    fun clickBlockWithItem(blockPos: BlockPos, slot: Int? = null, name: String = "", range: Double = 10.0, fromInv: Boolean = false, abortIfNotFound: Boolean = false): Boolean {
         val previous = mc.thePlayer.inventory.currentItem
         val itemSlot = when (name) {
             "" -> slot
@@ -57,35 +54,38 @@ object FakeActionUtils {
             }
         } ?: previous
 
-        var inRange = false
+        // Range check.
+        if (mc.thePlayer.getDistance(
+                blockPos.x.toDouble(),
+                blockPos.y.toDouble() - mc.thePlayer.eyeHeight,
+                blockPos.z.toDouble()
+            ) >= range
+        ) return false
+
         if (itemSlot < 9) {
             mc.thePlayer.inventory.currentItem = itemSlot
-            inRange = clickBlock(blockPos, range)
+            clickBlock(blockPos, range)
             mc.thePlayer.inventory.currentItem = previous
         }
         else if (itemSlot < 36 && fromInv){
             val inventory = GuiInventory(mc.thePlayer)
-            if (mc.playerController.isRidingHorse) {
-                // return if on horse.
-                return false
-            } else{
-                mc.netHandler
-                    .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
-                mc.displayGuiScreen(inventory)
+            // return if on horse.
+            if (mc.playerController.isRidingHorse) return false
 
-                // Swap slots
+            // Swap slots
+            val clickBlockFromInv: (GuiInventory) -> Unit = {
                 if (mc.thePlayer.inventory.itemStack == null) {
                     val swapSlot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
                     val slotId = swapSlot.slotIndex
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
-                    inRange = clickBlock(blockPos, range)
+                    clickBlock(blockPos, range)
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
                 }
-                mc.thePlayer.closeScreen()
-            }
-        }
 
-        return inRange
+            }
+            FakeInventoryActionManager.addAction(clickBlockFromInv)
+        }
+        return true
     }
 
     /**
@@ -93,7 +93,7 @@ object FakeActionUtils {
      * performs a check whether that block is in the specified range first.
      * Returns true when the block is clicked, and false when it is out of range and the click is aborted.
      */
-    fun clickBlock(blockPos: BlockPos, range: Int = 10): Boolean {
+    fun clickBlock(blockPos: BlockPos, range: Double = 10.0): Boolean {
         if (mc.thePlayer.getDistance(
                 blockPos.x.toDouble(),
                 blockPos.y.toDouble() - mc.thePlayer.eyeHeight,
@@ -111,7 +111,7 @@ object FakeActionUtils {
     /**
      * Swaps to and uses the specified item slot.
      */
-    fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false, delay: Long = 5): Boolean{
+    fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false): Boolean{
         if (itemSlot < 9) {
             val previous = mc.thePlayer.inventory.currentItem
 
@@ -130,41 +130,20 @@ object FakeActionUtils {
             }
         }
         else if (itemSlot < 36 && fromInv) {
-            val inventory = GuiInventory(mc.thePlayer)
-            if (mc.playerController.isRidingHorse) {
-                // return if on horse.
-                return false
-            } else Timer().schedule(delay){
-                mc.netHandler
-                    .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
-                mc.displayGuiScreen(inventory)
+            // return if on horse.
+            if (mc.playerController.isRidingHorse) return false
 
-                // Swap slots
+            // Swap slots
+            val useItemFromInv: (GuiInventory) -> Unit = { inventory ->
                 if (mc.thePlayer.inventory.itemStack == null) {
                     val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
                     val slotId = slot.slotIndex
-                    mc.playerController.windowClick(
-                        (inventory as GuiContainer).inventorySlots.windowId,
-                        slotId,
-                        mc.thePlayer.inventory.currentItem,
-                        2,
-                        mc.thePlayer
-                    )
-                    mc.thePlayer.sendQueue.addToSendQueue(
-                        C08PacketPlayerBlockPlacement(
-                            mc.thePlayer.heldItem
-                        )
-                    )
-                    mc.playerController.windowClick(
-                        (inventory as GuiContainer).inventorySlots.windowId,
-                        slotId,
-                        mc.thePlayer.inventory.currentItem,
-                        2,
-                        mc.thePlayer
-                    )
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
+                    mc.thePlayer.sendQueue.addToSendQueue(C08PacketPlayerBlockPlacement(mc.thePlayer.heldItem))
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
                 }
-                mc.thePlayer.closeScreen()
             }
+            FakeInventoryActionManager.addAction(useItemFromInv)
         }
         return true
     }
@@ -173,9 +152,9 @@ object FakeActionUtils {
      * Attempts to swap to and the item with the specified name.
      * Returns true if successful.
      */
-    fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, delay: Long = 5, ignoreCase: Boolean = false): Boolean {
+    fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, ignoreCase: Boolean = false): Boolean {
         val itemSlot = Utils.findItem(name, ignoreCase, fromInv) ?: return false
-        this.useItem(itemSlot, swapBack, fromInv, delay)
+        this.useItem(itemSlot, swapBack, fromInv)
         return true
     }
 

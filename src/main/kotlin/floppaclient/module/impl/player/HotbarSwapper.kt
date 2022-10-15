@@ -5,10 +5,10 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting
 import floppaclient.module.settings.impl.BooleanSetting
+import floppaclient.utils.fakeactions.FakeInventoryActionManager
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.gui.inventory.GuiInventory
 import net.minecraft.inventory.Slot
-import net.minecraft.network.play.client.C16PacketClientStatus
 
 object HotbarSwapper : Module(
     "Hotbar Swapper",
@@ -41,27 +41,22 @@ object HotbarSwapper : Module(
 
     override fun keyBind() {
         if (this.enabled) {
-            // Open Inv
-            val inventory = GuiInventory(mc.thePlayer)
-            if (mc.playerController.isRidingHorse) {
-                // return if on horse.
-                return
-            } else {
-                mc.netHandler
-                    .addToSendQueue(C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT))
-                mc.displayGuiScreen(inventory)
-            }
+
             // Swap slots
-            if (mc.thePlayer.inventory.itemStack == null) {
-                for (i in 0 until slots.size) {
-                    if ((slots[i] as BooleanSetting).enabled) {
-                        val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[27 + i] as Slot
-                        val slotId = slot.slotIndex
-                        mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, i, 2, mc.thePlayer)
+            val swapHotbar: (GuiInventory) -> Unit = { inventory ->
+                if (mc.thePlayer.inventory.itemStack == null) {
+                    for (i in 0 until slots.size) {
+                        if ((slots[i] as BooleanSetting).enabled) {
+                            val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[27 + i] as Slot
+                            val slotId = slot.slotIndex
+                            mc.playerController.windowClick(
+                                (inventory as GuiContainer).inventorySlots.windowId, slotId, i, 2, mc.thePlayer
+                            )
+                        }
                     }
                 }
             }
-            mc.thePlayer.closeScreen()
+            FakeInventoryActionManager.addAction(swapHotbar)
         }
     }
 }
