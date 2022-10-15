@@ -70,17 +70,20 @@ class ClickGUI : GuiScreen() {
 
         // Scale the gui and the mouse coordinates
         // the handling of the mouse coordinates is not nice, since it has to be done in multiple places
-        scale = 2.0 / mc.gameSettings.guiScale
+        val scaledresolution = ScaledResolution(mc)
         val prevScale = mc.gameSettings.guiScale
+        scale = 2.0 / scaledresolution.scaleFactor
         mc.gameSettings.guiScale = 2
         GL11.glScaled(scale, scale, scale)
 //        val scaledMouseX = (mouseX / scale).toInt()
 //        val scaledMouseY = (mouseY / scale).toInt()
-        val scaledresolution = ScaledResolution(mc)
+
         val i1: Int = scaledresolution.scaledWidth
         val j1: Int = scaledresolution.scaledHeight
-        val scaledMouseX: Int = Mouse.getX() * i1 / FloppaClient.mc.displayWidth
-        val scaledMouseY: Int = j1 - Mouse.getY() * j1 / FloppaClient.mc.displayHeight - 1
+        val k1: Int = Mouse.getX() * i1 / mc.displayWidth
+        val l1: Int = j1 - Mouse.getY() * j1 / mc.displayHeight - 1
+        val scaledMouseX = (k1 / scale).toInt()
+        val scaledMouseY = (l1 / scale).toInt()
 
         /** Draw the Logo and the title */
         logo.let {
