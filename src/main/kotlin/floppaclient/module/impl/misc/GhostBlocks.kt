@@ -52,8 +52,8 @@ object GhostBlocks : Module(
         if (this.keyCode < 0 && !Mouse.isButtonDown(this.keyCode + 100)) return
         if (!mc.inGameHasFocus) return
 
-        val lookingAt = mc.thePlayer.rayTrace(gbRange.value, 1f)
-        toAir(lookingAt.blockPos)
+        val lookingAt = mc.thePlayer?.rayTrace(gbRange.value, 1f)
+        toAir(lookingAt?.blockPos)
     }
 
     private fun toAir(blockPos: BlockPos?): Boolean {
