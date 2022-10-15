@@ -76,20 +76,21 @@ object Dungeon {
         if (hasScanned) {
             room = getCurrentRoom()
         }
-        // moved updated players here, to make them show before the run starts
-        getDungeonTabList()?.let {
-            MapUpdate.updatePlayers(it)
-            RunInformation.updateRunInformation(it)
-        }
-        if (hasScanned) {
-            launch {
-                if (!mimicFound && currentFloor.equalsOneOf(6, 7)) {
-                    MimicDetector.findMimic()
-                }
-                MapUpdate.updateRooms()
-                MapUpdate.updateDoors()
+
+        // removed the full scanned check
+        launch {
+            if (!mimicFound && currentFloor.equalsOneOf(6, 7)) {
+                MimicDetector.findMimic()
+            }
+            MapUpdate.updateRooms()
+            MapUpdate.updateDoors()
+
+            getDungeonTabList()?.let {
+                MapUpdate.updatePlayers(it)
+                RunInformation.updateRunInformation(it)
             }
         }
+
         // added check to determine whether in boss based on coordinates. This is relevant when blood is being skipped.
         // this also makes the chat message based detection obsolete
         if (FloppaClient.tickCount % 20 == 0) {
