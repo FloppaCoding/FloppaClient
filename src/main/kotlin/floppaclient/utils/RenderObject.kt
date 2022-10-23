@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.Entity
+import net.minecraft.util.BlockPos
 import java.awt.Color
 
 object RenderObject {
@@ -41,6 +42,10 @@ object RenderObject {
         GL11.glEnable(GL11.GL_DEPTH_TEST)
         GL11.glDepthMask(true)
         GL11.glDisable(GL11.GL_BLEND)
+    }
+
+    fun drawBoxAtBlock (blockPos: BlockPos, color: Color, thickness: Float = 3f) {
+        drawBoxAtBlock(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), color, thickness)
     }
 
     fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, thickness: Float = 3f) {
