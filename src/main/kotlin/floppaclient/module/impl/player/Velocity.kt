@@ -109,9 +109,9 @@ object Velocity : Module(
                     mc.thePlayer.motionY = event.packet.motionY * jerryBoostVert.value / 8000.0
                 } else {
                     mc.thePlayer.setVelocity(
-                        mc.thePlayer.motionX,
+                        event.packet.motionX / 8000.0,
                         event.packet.motionY * jerryBoostVert.value / 8000.0,
-                        mc.thePlayer.motionZ
+                        event.packet.motionZ / 8000.0
                     )
                 }
             }
