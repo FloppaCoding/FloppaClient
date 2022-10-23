@@ -138,7 +138,7 @@ object AutoTerms : Module(
 
     @SubscribeEvent
     fun onSlotDraw(event: GuiContainerEvent.DrawSlotEvent) {
-        if (!showClicks.enabled || event.gui !is GuiChest || currentTerminal != TerminalType.NONE || !Utils.inF7Boss()) return
+        if (!showClicks.enabled || event.gui !is GuiChest || currentTerminal == TerminalType.NONE || !Utils.inF7Boss()) return
         if (clickQueue.contains(event.slot)) {
             val i: Int = event.slot.xDisplayPosition
             val j: Int = event.slot.yDisplayPosition
