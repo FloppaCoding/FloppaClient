@@ -37,8 +37,8 @@ object ModuleManager {
         Camera,
 
         //PLAYER
-        JerryRocket,
         HotbarSwapper,
+        ArmorSwapper,
         FreeCam,
         Clip,
         HClip,

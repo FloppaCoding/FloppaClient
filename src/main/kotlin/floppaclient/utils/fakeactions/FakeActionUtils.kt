@@ -7,6 +7,8 @@ import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.gui.inventory.GuiInventory
 import net.minecraft.entity.Entity
 import net.minecraft.inventory.Slot
+import net.minecraft.item.ItemArmor
+import net.minecraft.item.ItemSkull
 import net.minecraft.network.Packet
 import net.minecraft.network.play.client.C02PacketUseEntity
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement
@@ -175,5 +177,73 @@ object FakeActionUtils {
         }
         if (swapBack) mc.thePlayer.inventory.currentItem = previous
         return true
+    }
+
+    /**
+     * Swaps out the first item found that matches the given name with the corresponding worn armor piece.
+     *
+     * Armor swaps must only be performed when the inventory is open. It is checked whether the inventory is alr open, if not
+     * the method will return null or open the inventory if specified through openInv.
+     * @param blockedSlots 4 bits containing which armor pieces should not be swapped. The right most bit is the helmet.
+     * If it is 1 the helmet will not be swapped.
+     * @return The armor slot that swapped or null if nothing was done. 0 is Helmet, 1 is Chest plate, 2 is Leggings, 3 is Boots.
+     */
+    fun swapArmorItem(itemName: String, blockedSlots:Int = 0b0000, ignoreCase: Boolean = true): Int?{
+
+        if (mc.playerController.isRidingHorse) {
+            // return if on horse.
+            return null
+        }
+
+        val inventory = GuiInventory(mc.thePlayer)
+
+        // Perform the swap and all required checks.
+        val swappedIndex = run swapSlots@{
+            if (mc.thePlayer.inventory.itemStack != null) return@swapSlots null
+            if (blockedSlots == 0b1111) return@swapSlots null
+            if (itemName == "") return@swapSlots null
+            val itemSlot = Utils.findItem(itemName, ignoreCase, true) ?: return@swapSlots null
+            if (itemSlot > 35) return@swapSlots null
+
+            // The indices for the inventory slots of the GuiInventory do not match the indices of InventoryPlayer.
+            // If the item is in the hotbar the index has to be adapted.
+            val fromHotbar = itemSlot < 9
+
+            val inventorySlot = itemSlot + if (fromHotbar) 36 else 0
+
+            val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[inventorySlot] as Slot
+            val slotId = slot.slotIndex
+            val item = slot.stack?.item ?: return@swapSlots null
+
+            // Crafting slots seem to be 0...4, armor 5..8, and the main inventory 9..44 starting top left when
+            // it come to slot indices
+            val armorIndex = if (item is ItemArmor){
+                item.armorType
+            } else if (item is ItemSkull) {
+                0
+            } else {
+                return@swapSlots null
+            }
+
+            // Here is kept track of alr swapped pieces
+            val swapNum = 0b1 shl armorIndex
+            if (blockedSlots and swapNum > 0) return@swapSlots null
+
+            val doArmorSwap: (GuiInventory) -> Unit = {
+                if(fromHotbar) {
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, 5 + armorIndex, itemSlot, 2, mc.thePlayer)
+                }else {
+                    // swap the item through the hot bar. That way we don't have to deal with mouse release and other stuff possibly breaking it.
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, 0, 2, mc.thePlayer)
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, 5 + armorIndex, 0, 2, mc.thePlayer)
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, 0, 2, mc.thePlayer)
+                }
+            }
+            FakeInventoryActionManager.addAction(doArmorSwap)
+            return@swapSlots armorIndex
+        }
+
+        // close the inventory again
+        return swappedIndex
     }
 }
