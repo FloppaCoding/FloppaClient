@@ -28,6 +28,7 @@ object ModuleManager {
         AutoTerms,
         AutoDevices,
         DungeonKillAura,
+        IceSprayAura,
         CancelChestOpen,
 
         //RENDER
