@@ -1,6 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.module.impl.player.Clip
+import floppaclient.utils.GeometryUtils
 import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -32,6 +33,6 @@ class Clip3DCommand : CommandBase()  {
             Utils.modMessage("§cArguments error.")
             return
         }
-        Clip.dClip(y, Clip.yaw(), Clip.pitch())
+        Clip.dClip(y, GeometryUtils.yaw(), GeometryUtils.pitch())
     }
 }

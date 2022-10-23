@@ -1,12 +1,10 @@
 package floppaclient.utils
 
+import floppaclient.FloppaClient.Companion.mc
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.entity.Entity
 import net.minecraft.util.Vec3
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 object GeometryUtils {
 
@@ -58,5 +56,60 @@ object GeometryUtils {
             // the lines are skew
             abs(pointA0.subtract(pointA1).dotProduct(normal))
         }
+    }
+
+    /**
+     * Scales the vector by the given factor and returns the result.
+     */
+    fun Vec3.scale(factor: Double): Vec3{
+        return Vec3(this.xCoord * factor, this.yCoord * factor, this.zCoord * factor)
+    }
+
+    /**
+     * Scales the horizontal part (x and z) of the vector by the given factor and returns the result.
+     */
+    fun Vec3.scaleHorizontal(factor: Double): Vec3{
+        return Vec3(this.xCoord * factor, this.yCoord, this.zCoord * factor)
+    }
+
+    /**
+     * Scales the vertical part (y) of the vector by the given factor and returns the result.
+     */
+    fun Vec3.scaleVertical(factor: Double): Vec3{
+        return Vec3(this.xCoord, this.yCoord * factor, this.zCoord)
+    }
+
+    /**
+     * Rotates the vector to the given Yaw and returns the result.
+     */
+    fun Vec3.rotateYawTo(yaw: Float): Vec3 {
+        val c = cosDeg(yaw)
+        val s = sinDeg(yaw)
+        val rr = sqrt(this.xCoord * this.xCoord + this.zCoord * this.zCoord)
+        return Vec3(-rr * s, this.yCoord, rr * c)
+    }
+
+    fun sinDeg(alpha: Float): Double {
+        return sin(alpha*Math.PI/180)
+    }
+
+    fun cosDeg(alpha: Float): Double {
+        return cos(alpha*Math.PI/180)
+    }
+
+    fun sinDeg(alpha: Double): Double {
+        return sin(alpha*Math.PI/180)
+    }
+
+    fun cosDeg(alpha: Double): Double {
+        return cos(alpha*Math.PI/180)
+    }
+
+    fun yaw(): Float {
+        return mc.thePlayer.rotationYaw % 360F
+    }
+
+    fun pitch(): Float {
+        return mc.thePlayer.rotationPitch
     }
 }

@@ -4,6 +4,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.player.Clip.hClip
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.GeometryUtils
 
 object HClip : Module(
     "H Clip",
@@ -22,7 +23,7 @@ object HClip : Module(
 
     override fun keyBind() {
         if (this.enabled) {
-            hClip(hDist.value, Clip.yaw(), yOffs.value)
+            hClip(hDist.value, GeometryUtils.yaw(), yOffs.value)
         }
     }
 }

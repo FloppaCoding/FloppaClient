@@ -5,9 +5,11 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.GeometryUtils.cosDeg
+import floppaclient.utils.GeometryUtils.pitch
+import floppaclient.utils.GeometryUtils.sinDeg
+import floppaclient.utils.GeometryUtils.yaw
 import floppaclient.utils.Utils
-import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * Clip module for changing the player position client side.
@@ -36,22 +38,6 @@ object Clip : Module(
                 dClip(clipDistance.value)
             }
         }
-    }
-
-    private fun sinDeg(alpha: Float): Double {
-        return sin(alpha*Math.PI/180)
-    }
-
-    private fun cosDeg(alpha: Float): Double {
-        return cos(alpha*Math.PI/180)
-    }
-
-    fun yaw(): Float {
-        return FloppaClient.mc.thePlayer.rotationYaw % 360F
-    }
-
-    fun pitch(): Float {
-        return FloppaClient.mc.thePlayer.rotationPitch
     }
 
     fun dClip(dist: Double, yaw: Float = yaw(), pitch: Float = 0.0f) {
