@@ -23,6 +23,8 @@ object ModuleManager {
         TrapGearSwap,
         MelodyMessage,
         TerminalAura,
+        AutoTerms,
+        AutoDevices,
         DungeonKillAura,
         CancelChestOpen,
 

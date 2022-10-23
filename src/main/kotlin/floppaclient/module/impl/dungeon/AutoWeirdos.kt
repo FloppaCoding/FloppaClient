@@ -115,7 +115,7 @@ object AutoWeirdos : Module(
 
                 // only click once on weirdos
                 if (clickedBozos.contains(entity.entityId) || mc.thePlayer.getDistance(entity.posX, entity.posY, entity.posZ) > 5) return@forEach
-                FakeActionUtils.clickEntity(entity.entityId)
+                FakeActionUtils.interactWithEntity(entity.entityId)
                 clickedBozos.add(entity.entityId)
             }
 

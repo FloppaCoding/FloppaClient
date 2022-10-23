@@ -6,6 +6,7 @@
   "mixins": [
     "BlockMixin",
     "CarpetMixin",
+    "ChunkMixin",
     "MixinWorld",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",

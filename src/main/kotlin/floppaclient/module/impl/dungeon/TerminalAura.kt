@@ -55,7 +55,7 @@ object TerminalAura : Module(
             .minByOrNull { entity -> mc.thePlayer.getDistance(entity.posX, entity.posY - mc.thePlayer.eyeHeight, entity.posZ) }
             ?: return
 
-        FakeActionUtils.clickEntity(term)
+        FakeActionUtils.interactWithEntity(term)
         lastClicked = System.currentTimeMillis()
     }
 }

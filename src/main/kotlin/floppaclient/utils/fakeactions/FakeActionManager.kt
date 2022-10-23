@@ -29,7 +29,7 @@ object FakeActionManager {
     fun stageRightClickSlot(
         yaw: Float,
         pitch: Float,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         forceSneak: Boolean = false
     ): FakeAction {
         val newAction = FakeAction(
@@ -50,7 +50,7 @@ object FakeActionManager {
     fun stageRightClickSlot(
         yaw: Double,
         pitch: Double,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         forceSneak: Boolean = false
     ): FakeAction {
         return this.stageRightClickSlot(yaw.toFloat(), pitch.toFloat(), itemSlot, forceSneak)
@@ -62,7 +62,7 @@ object FakeActionManager {
     fun stageLeftClickSlot(
         yaw: Float,
         pitch: Float,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         swingItem: Boolean = true
     ): FakeAction {
         val newAction = FakeAction(
@@ -83,7 +83,7 @@ object FakeActionManager {
     fun stageLeftClickSlot(
         yaw: Double,
         pitch: Double,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         swingItem: Boolean = true
     ): FakeAction {
         return this.stageLeftClickSlot(yaw.toFloat(), pitch.toFloat(), itemSlot, swingItem)
@@ -95,7 +95,7 @@ object FakeActionManager {
     fun queueRightClickSlot(
         yaw: Float,
         pitch: Float,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         forceSneak: Boolean = false
     ): FakeAction {
         val newAction = FakeAction(
@@ -116,7 +116,7 @@ object FakeActionManager {
     fun queueLeftClickSlot(
         yaw: Float,
         pitch: Float,
-        itemSlot: Int,
+        itemSlot: Int = mc.thePlayer.inventory.currentItem,
         swingItem: Boolean = true
     ): FakeAction {
         val newAction = FakeAction(

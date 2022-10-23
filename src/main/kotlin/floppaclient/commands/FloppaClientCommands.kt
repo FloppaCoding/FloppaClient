@@ -65,7 +65,7 @@ class FloppaClientCommands : CommandBase() {
                 ClickGui.resetPositions()
             }
             "clickentity" -> {
-                FakeActionUtils.clickEntity(args[1].toInt())
+                FakeActionUtils.interactWithEntity(args[1].toInt())
             }
             "armorstands" -> {
                 mc.theWorld.loadedEntityList

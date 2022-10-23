@@ -15,6 +15,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement
 import net.minecraft.network.play.client.C09PacketHeldItemChange
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.MovingObjectPosition
 import net.minecraft.util.Vec3
 
 /**
@@ -25,7 +26,7 @@ object FakeActionUtils {
     /**
      * Interacts with the entity with the given id by sending the interaction package.
      */
-    fun clickEntity(entityId: Int) {
+    fun interactWithEntity(entityId: Int) {
         val packet = C02PacketUseEntity()
         (packet as C02Accessor).setEntityId(entityId)
         (packet as C02Accessor).setAction(C02PacketUseEntity.Action.INTERACT)
@@ -35,8 +36,28 @@ object FakeActionUtils {
     /**
      * Interacts with the given entity by sending the interaction package.
      */
-    fun clickEntity(entity: Entity) {
-        this.clickEntity(entity.entityId)
+    fun interactWithEntity(entity: Entity) {
+        this.interactWithEntity(entity.entityId)
+    }
+
+    /**
+     * Do not use for armorstands.
+     */
+    fun legitClickEntity(entity: Entity) {
+        val vec3 = mc.thePlayer.getPositionEyes(1f)
+        val vec32 = entity.positionVector
+
+        val f1 = entity.collisionBorderSize
+        val axisalignedbb = entity.entityBoundingBox.expand(f1.toDouble(), f1.toDouble(), f1.toDouble())
+        val movingObject = axisalignedbb.calculateIntercept(vec3, vec32) ?: MovingObjectPosition(vec32, EnumFacing.EAST)
+
+        val vec3new = Vec3(
+            movingObject.hitVec.xCoord - entity.posX,
+            movingObject.hitVec.yCoord - entity.posY,
+            movingObject.hitVec.zCoord - entity.posZ
+        )
+        mc.netHandler.networkManager.sendPacket(C02PacketUseEntity(entity, vec3new))
+        interactWithEntity(entity)
     }
 
     /**

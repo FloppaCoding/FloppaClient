@@ -10,6 +10,7 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils
+import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.block.Block
@@ -42,13 +43,13 @@ object SecretAura : Module(
     private val slot = NumberSetting("Slot", 5.0, 0.0, 7.0, 1.0, description = "The default slot that will be used to click the secret when the Item setting is left empty or not found in the hotbar.")
     private val itemName = StringSetting("Item", description = "Item to use to click the secrets. This will take priority over the slot, but if the item is not found the item in the specified slot will be used.")
     private val trappedChest = BooleanSetting("Trapped Chests", true, description = "Determines whether trapped chests should be clicked.")
-    private val redstoneKey = BooleanSetting("Redstone Key", false, description = "Automatically grabs the Redstone key and places it on the Redstone block.")
+    private val redstoneKey = BooleanSetting("Redstone Key", true, description = "Automatically grabs the Redstone key and places it on the Redstone block.")
 
     /**
-    * stores found secrets as Position mapped to a pair of the secret type save as the Block it is, and the amount
-    * of clicks it has received as well as the last tick when it was clicked.
-    * confirmation of gotten secrets will be saved as a high amount of clicks.
-    */
+     * stores found secrets as Position mapped to a pair of the secret type save as the Block it is, and the amount
+     * of clicks it has received as well as the last tick when it was clicked.
+     * confirmation of gotten secrets will be saved as a high amount of clicks.
+     */
     private var secrets = mutableMapOf<BlockPos, Pair<Block, MutableList<Long>>>()
 
     init {
@@ -158,25 +159,21 @@ object SecretAura : Module(
 
         if(Dungeon.inBoss) {
             // custom aura when in boss, this is very redundant and can definetly be dont more elegant, but this way gives me more control over it.
-            if ( block != Blocks.air
-                &&(secrets[blockPos]?.second?.get(0) ?: 1000) < maxClicks.value
-                && (System.currentTimeMillis() - (secrets[blockPos]?.second?.get(1) ?: Long.MAX_VALUE) )>= sleep.value.toLong()
-                // check for lights, the Z position for levers at lights is z = 142
-                && mc.theWorld.getBlockState(blockPos.south()).block != Blocks.lit_redstone_lamp
-            ) {
-                // Distance check It seems like hypixel checks the distance not to the center of the Block, but to the corner / it's blockPos
-                if (mc.thePlayer.getDistance(blockPos.x.toDouble(), blockPos.y.toDouble() - mc.thePlayer.eyeHeight, blockPos.z.toDouble()) < reach.value ) {
-                    interactWith(blockPos)
-                    // This is a bit awkward because i have to avoid null pointers even tho they are not possible here
-                    secrets[blockPos] = secrets[blockPos]?.let { Pair(it.first, mutableListOf( it.second[0] + 1, System.currentTimeMillis())) } ?: Pair(Blocks.air,mutableListOf(1000,0))
+
+            // Check for lights device.
+            val southBlock = mc.theWorld.getBlockState(blockPos.south()).block
+            if (block == Blocks.lever && southBlock.equalsOneOf(Blocks.lit_redstone_lamp, Blocks.redstone_lamp)) {
+                if (AutoDevices.enabled && AutoDevices.lights.enabled) {
+                    if (southBlock != Blocks.lit_redstone_lamp && shouldClickBlock(block, blockPos, AutoDevices.lightFixTime.value)) {
+                        tryInteract(blockPos)
+                    }
                 }
+            }else if ( shouldClickBlock(block, blockPos, sleep.value) ) {
+                tryInteract(blockPos)
             }
 
         } else{
-            if ( block != Blocks.air
-                &&(secrets[blockPos]?.second?.get(0) ?: 1000) < maxClicks.value
-                && (System.currentTimeMillis() - (secrets[blockPos]?.second?.get(1) ?: Long.MAX_VALUE) )>= sleep.value.toLong()
-            ) {
+            if ( shouldClickBlock(block, blockPos, sleep.value) ) {
                 val blockReach = when (secrets[blockPos]?.first) {
                     Blocks.skull -> essenceReach.value
                     else -> reach.value
@@ -186,12 +183,7 @@ object SecretAura : Module(
                     Blocks.skull -> 0.0
                     else -> mc.thePlayer.eyeHeight.toDouble()
                 }
-                // Distance check It seems like hypixel checks the distance not to the center of the Block, but to the corner / it's blockPos
-                if (mc.thePlayer.getDistance(blockPos.x.toDouble(), blockPos.y.toDouble() - yOffs, blockPos.z.toDouble()) < blockReach ) {
-                    interactWith(blockPos)
-                    // This is a bit awkward because i have to avoid null pointers even tho they are not possible here
-                    secrets[blockPos] = secrets[blockPos]?.let { Pair(it.first, mutableListOf( it.second[0] + 1, System.currentTimeMillis())) } ?: Pair(Blocks.air,mutableListOf(1000,0))
-                }
+                tryInteract(blockPos, blockReach, yOffs)
             }
         }
     }
@@ -203,18 +195,37 @@ object SecretAura : Module(
     Profile id:     edb0155f-379c-395a-9c7d-1b6005987ac8
      */
 
+    private fun shouldClickBlock(block: Block, blockPos: BlockPos, sleepTime: Double): Boolean{
+        return block != Blocks.air
+                &&(secrets[blockPos]?.second?.get(0) ?: 1000) < maxClicks.value
+                && (System.currentTimeMillis() - (secrets[blockPos]?.second?.get(1) ?: Long.MAX_VALUE) )>= sleepTime
+    }
+
+    /**
+     * performs a range check and clicks the block. Updates the secrets list.
+     */
+    private fun tryInteract(blockPos: BlockPos, blockReach: Double = reach.value, yOffs: Double = mc.thePlayer.eyeHeight.toDouble()) {
+        // Distance check It seems like hypixel checks the distance not to the center of the Block, but to the corner / it's blockPos
+        if (mc.thePlayer.getDistance(blockPos.x.toDouble(), blockPos.y.toDouble() - yOffs, blockPos.z.toDouble()) < blockReach ) {
+            interactWith(blockPos, 10.0)
+            // This is a bit awkward because i have to avoid null pointers even tho they are not possible here
+            secrets[blockPos] = secrets[blockPos]?.let { Pair(it.first, mutableListOf( it.second[0] + 1, System.currentTimeMillis())) } ?: Pair(Blocks.air,mutableListOf(1000,0))
+        }
+    }
 
     /**
      * Right clicks the specified block with the aura item.
      */
-    private fun interactWith(blockPos: BlockPos) {
+    fun interactWith(blockPos: BlockPos, reach: Double? = null): Boolean {
+        val newReach = reach ?: this.reach.value
         val block = mc.theWorld.getBlockState(blockPos).block
         val clicked = if (block == Blocks.redstone_block) {
             FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), "Redstone Key", fromInv = true, abortIfNotFound = true)
         }else {
-            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), itemName.text)
+            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), itemName.text, newReach)
         }
         if (SecretChime.enabled && clicked) SecretChime.playSecretSound()
+        return clicked
     }
 
     /**

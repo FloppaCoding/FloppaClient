@@ -220,6 +220,19 @@ object Utils {
     }
 
     /**
+     * Check whether the player is holding one of the given items.
+     * Checks both the name and item ID.
+     * @param names The names or item IDs.
+     * @param ignoreCase Applies for the item name check.
+     */
+    fun EntityPlayerSP?.isHoldingOneOf(vararg names: String, ignoreCase: Boolean = false): Boolean {
+        names.forEach {
+            if (this.isHolding(it, ignoreCase)) return true
+        }
+        return false
+    }
+
+    /**
      * Taken from Skytils:
      * Taken from SkyblockAddons under MIT License
      * https://github.com/BiscuitDevelopment/SkyblockAddons/blob/master/LICENSE

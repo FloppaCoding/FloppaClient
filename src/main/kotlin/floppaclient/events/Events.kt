@@ -1,6 +1,7 @@
 package floppaclient.events
 
 import floppaclient.funnymap.core.Room
+import net.minecraft.block.state.IBlockState
 import net.minecraft.client.audio.ISound
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.model.ModelBase
@@ -13,6 +14,7 @@ import net.minecraft.network.play.server.S02PacketChat
 import net.minecraft.network.play.server.S08PacketPlayerPosLook
 import net.minecraft.network.play.server.S12PacketEntityVelocity
 import net.minecraft.network.play.server.S27PacketExplosion
+import net.minecraft.util.BlockPos
 import net.minecraftforge.fml.common.eventhandler.Cancelable
 import net.minecraftforge.fml.common.eventhandler.Event
 
@@ -98,3 +100,5 @@ class PacketSentEvent(val packet: Packet<*>) : Event()
  * Fired in Dungeon.kt whenever the room is changed.
  */
 class RoomChangeEvent(val newRoom: Room?, val oldRoom: Room?) : Event()
+
+class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val newState: IBlockState) : Event()
