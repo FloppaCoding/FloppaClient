@@ -1,5 +1,6 @@
 package floppaclient.events
 
+import floppaclient.funnymap.core.Room
 import net.minecraft.client.audio.ISound
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.model.ModelBase
@@ -92,3 +93,8 @@ class RenderLivingEntityEvent(
 
 @Cancelable
 class PacketSentEvent(val packet: Packet<*>) : Event()
+
+/**
+ * Fired in Dungeon.kt whenever the room is changed.
+ */
+class RoomChangeEvent(val newRoom: Room?, val oldRoom: Room?) : Event()

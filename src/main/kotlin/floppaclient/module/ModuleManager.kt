@@ -20,6 +20,7 @@ object ModuleManager {
         SecretAura,
         AutoWeirdos,
         ExtraStats,
+        TrapGearSwap,
         MelodyMessage,
         TerminalAura,
         DungeonKillAura,

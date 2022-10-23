@@ -4,7 +4,7 @@ import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
 import floppaclient.funnymap.core.RoomType
-import floppaclient.funnymap.features.dungeon.Dungeon.room
+import floppaclient.funnymap.features.dungeon.Dungeon.currentRoom
 import floppaclient.funnymap.features.dungeon.Dungeon.inBoss
 import floppaclient.module.Category
 import floppaclient.module.Module
@@ -187,7 +187,7 @@ object DungeonKillAura : Module(
             .filter {
                 ( starMobAura.enabled && it is EntityArmorStand && it.customNameTag.contains("✯"))
                 || ( miniBossAura.enabled && it is EntityOtherPlayerMP && it.name.containsOneOf(miniBosses) )
-                || ( bloodAura.enabled && room?.data?.type == RoomType.BLOOD &&
+                || ( bloodAura.enabled && currentRoom?.data?.type == RoomType.BLOOD &&
                         ((it is EntityArmorStand && it.customNameTag.containsOneOf(bloodMobs.keys) )
                                 || it is EntityGiantZombie ) )
 

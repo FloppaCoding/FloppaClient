@@ -50,7 +50,7 @@ object AutoWeirdos : Module(
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onChat(event: ClientChatReceivedEvent) {
         if (event.type.toInt() == 2 || !inDungeons) return
-        val room = Dungeon.room ?: return
+        val room = Dungeon.currentRoom ?: return
         if (room.data.name != "Three Weirdos") return
         val unformatted = stripControlCodes(event.message.unformattedText)
         if (unformatted.contains("[NPC]")) {
@@ -79,7 +79,7 @@ object AutoWeirdos : Module(
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) = runBlocking {
         if (event.phase != TickEvent.Phase.START || !inDungeons) return@runBlocking
-        val room = Dungeon.room ?: return@runBlocking
+        val room = Dungeon.currentRoom ?: return@runBlocking
         if (room.data.name != "Three Weirdos") return@runBlocking
 
         // get armorstands

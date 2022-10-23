@@ -3,6 +3,7 @@ package floppaclient.funnymap.features.dungeon
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.events.RoomChangeEvent
 import floppaclient.funnymap.core.*
 import floppaclient.funnymap.utils.MapUtils
 import floppaclient.module.impl.render.DungeonMap
@@ -14,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.StringUtils
 import net.minecraftforge.client.event.ClientChatReceivedEvent
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -50,7 +52,7 @@ object Dungeon {
     /**
      * Contains the current room. Updated every tick.
      */
-    var room: Room? = null
+    var currentRoom: Room? = null
 
     private val entryMessages = listOf(
         "[BOSS] Bonzo: Gratz for making it this far, but I’m basically unbeatable.",
@@ -73,8 +75,10 @@ object Dungeon {
                 isScanning = false
             }
         }
-        if (hasScanned) {
-            room = getCurrentRoom()
+        val newRoom = getCurrentRoom()
+        if (newRoom != currentRoom) {
+            MinecraftForge.EVENT_BUS.post(RoomChangeEvent(newRoom, currentRoom))
+            currentRoom = newRoom
         }
 
         // removed the full scanned check
@@ -146,6 +150,7 @@ object Dungeon {
      * Returns the room the player is currently in.
      * Includes boss room.
      */
+    @JvmName("getCurrentRoomFunction")
     private fun getCurrentRoom(): Room? {
         val room = if (inBoss) {
             val floor = currentFloor
@@ -169,7 +174,7 @@ object Dungeon {
 
 
     fun reset() {
-        room = null
+        currentRoom = null
 
         dungeonTeammates.clear()
 

@@ -108,7 +108,7 @@ object SecretAura : Module(
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun onTick(event: PositionUpdateEvent.Post)  {
         if (mc.thePlayer == null || !inDungeons) return
-        val room = Dungeon.room
+        val room = Dungeon.currentRoom
         if (room?.data?.name == "Water Board") return
         if (room?.data?.name == "Three Weirdos" && !AutoWeirdos.enabled) return
         if (( room?.data?.name == "Blaze"
