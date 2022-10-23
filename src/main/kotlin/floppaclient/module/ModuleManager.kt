@@ -21,6 +21,7 @@ object ModuleManager {
         AutoWeirdos,
         ExtraStats,
         TrapGearSwap,
+        AutoLeap,
         MelodyMessage,
         TerminalAura,
         AutoTerms,

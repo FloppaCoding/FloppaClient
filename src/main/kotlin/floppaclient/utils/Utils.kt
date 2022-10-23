@@ -3,6 +3,8 @@ package floppaclient.utils
 import floppaclient.FloppaClient.Companion.CHAT_PREFIX
 import floppaclient.FloppaClient.Companion.SHORT_PREFIX
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.funnymap.core.DungeonPlayer
+import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.mixins.MinecraftAccessor
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ItemUtils.itemID
@@ -120,18 +122,31 @@ object Utils {
         else  mc.thePlayer?.sendChatMessage("/$text")
     }
 
-    fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>): String? {
+    fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>, playerName: String = mc.thePlayer.name): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
             val tabText = StringUtils.stripControlCodes(tabEntries[i].second).trim()
             val name = tabText.split(" ").getOrNull(1) ?: ""
 
             // Here the stuff to get the class
             // first check whether it is the correct player
-            if (name != mc.thePlayer.name) continue
+            if (name != playerName) continue
             // this will still contain some formatting. iirc it should look like (Mage but maybe (MageVL)
             val classWithFormatting = tabText.split(" ").getOrNull(2) ?: return null
             if (classWithFormatting.contains("(DEAD)")) return null
             return classWithFormatting.drop(1)
+        }
+        return null
+    }
+
+    /**
+     * Returns the first dungeon Teammate with the chose class. Or null if not found / dead
+     */
+    fun dungeonTeammateWithClass(targetClass: String, allowSelf: Boolean = false): DungeonPlayer? {
+        Dungeon.getDungeonTabList()?.let{ tabList ->
+            Dungeon.dungeonTeammates.forEach {
+                if (!allowSelf && it.name == mc.thePlayer.name) return@forEach
+                if (getDungeonClass(tabList, it.name) == targetClass) return it
+            }
         }
         return null
     }
