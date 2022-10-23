@@ -31,7 +31,7 @@ object AutoTerms : Module(
     private val sleep = NumberSetting("Sleep", 200.0, 0.0, 1000.0, 10.0, description = "Delay between clicks.")
     private val safeMeoldy = BooleanSetting("Safe Meoldy", true, description = "Stops the melody terminal from freezing on row change. But removes the possibility to insta complete when the column stays the same.")
     private val pingless = BooleanSetting("Pingless", false, description = "Preclicks terminals.")
-    private val fixTime = NumberSetting("Fix Time", 500.0, 0.0, 2000.0, 10.0, description = "")
+    private val fixTime = NumberSetting("Fix Time", 500.0, 50.0, 2000.0, 10.0, description = "")
     private val middleClick = BooleanSetting("Middle Click", false, description = "Uses middle click in terminals.")
     val showClicks = BooleanSetting("Show Clicks", true, description = "Highlights the slots that will be clicked.")
     private val termInfo = BooleanSetting("Terminal Info", false, description = "Shows extra information about the current terminal. Meant for debugging.")
