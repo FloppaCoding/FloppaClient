@@ -1,8 +1,9 @@
 package floppaclient.module.impl.misc
 
-import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.impl.player.BarPhase
 import floppaclient.module.settings.impl.BooleanSetting
 import net.minecraft.potion.Potion
 
@@ -18,7 +19,7 @@ object QOL : Module(
     private val noBlind = BooleanSetting("No Blindness", true, description = "Prevents the blindness effect from influencing your vision.")
     private val noBurn = BooleanSetting("No Fire Overlay", true, description = "Hides the burning overlay in first person.")
     private val noPushOut = BooleanSetting("No Push Out Block", true, description = "Prevents you from being pushed out of blocks.")
-    private val noHeadInBlock = BooleanSetting("Cancel in Block", true, description = "Removes the in Block Overlay and prevents teh perspective from resetting when in a block.")
+    private val noHeadInBlock = BooleanSetting("Cancel in Block", true, description = "Removes the in Block Overlay and prevents the perspective from resetting when in a block.")
     private val noCarpet = BooleanSetting("No Carpet", true, description = "Removes carpet hitboxes.")
 
     init {
@@ -30,18 +31,21 @@ object QOL : Module(
             noCarpet
         )
     }
+    // Also look in BarPhase
+    const val minCoord = 0.446f
+    const val maxCoord = 0.5455f
 
     /**
      * Called by the EntityRendererMixin when it redirects the blindness check.
      */
     fun blindnessHook(): Boolean =
-        if (this.enabled && noBlind.enabled) false else FloppaClient.mc.thePlayer.isPotionActive(Potion.blindness)
+        if (this.enabled && noBlind.enabled) false else mc.thePlayer.isPotionActive(Potion.blindness)
 
     /**
      * Referenced by the ItemRenderer Mixin to determine whether the fire overlay should be rendered.
      */
     fun shouldDisplayBurnOverlayHook(): Boolean =
-        if (this.enabled && noBurn.enabled) false else FloppaClient.mc.thePlayer.isBurning
+        if (this.enabled && noBurn.enabled) false else mc.thePlayer.isBurning
 
     /**
      * Referenced by the EntityPlayerSPMixin to determine whether the player should be pushed out of a block
@@ -63,5 +67,12 @@ object QOL : Module(
      */
     fun ignoreCarpet(): Boolean {
         return this.enabled && noCarpet.enabled
+    }
+
+    /**
+     * Referenced by the PaneMixin to determine whether the collision box should be shrunk.
+     */
+    fun modifyPane(): Boolean{
+        return BarPhase.enabled
     }
 }

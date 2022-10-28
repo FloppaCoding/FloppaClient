@@ -7,6 +7,7 @@
     "BlockMixin",
     "CarpetMixin",
     "ChunkMixin",
+    "MixinBlocks",
     "MixinWorld",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
