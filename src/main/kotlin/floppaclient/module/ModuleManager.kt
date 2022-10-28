@@ -37,6 +37,7 @@ object ModuleManager {
         DungeonESP,
         DungeonWarpTimer,
         DungeonMap,
+        ExtraBlocks,
         MapRooms,
         CoordinateDisplay,
         ItemAnimations,

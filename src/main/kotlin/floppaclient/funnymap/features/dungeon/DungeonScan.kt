@@ -23,10 +23,10 @@ object DungeonScan {
             object : TypeToken<Set<RoomData>>() {}.type
         )
     } catch (e: JsonSyntaxException) {
-        println("Error parsing FunnyMap room data.")
+        println("Error parsing FloppaMap room data.")
         setOf()
     } catch (e: JsonIOException) {
-        println("Error reading FunnyMap room data.")
+        println("Error reading FloppaMap room data.")
         setOf()
     }
 
@@ -53,9 +53,8 @@ object DungeonScan {
                 }
             }
         }
-
         if (allLoaded) {
-            Dungeon.hasScanned = true
+            Dungeon.fullyScanned = true
 
             if (DungeonMap.scanChatInfo.enabled) {
                 modMessage(

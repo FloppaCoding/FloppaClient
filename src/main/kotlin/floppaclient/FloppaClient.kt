@@ -1,9 +1,7 @@
 package floppaclient
 
-import floppaclient.commands.Clip3DCommand
-import floppaclient.commands.FloppaClientCommands
-import floppaclient.commands.HClipCommand
-import floppaclient.commands.VertClipCommand
+import floppaclient.commands.*
+import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.module.ModuleManager
@@ -12,6 +10,7 @@ import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils
 import floppaclient.utils.fakeactions.FakeInventoryActionManager
 import gg.essential.api.EssentialAPI
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.minecraft.client.Minecraft
@@ -28,6 +27,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent
 import java.io.File
+import kotlin.coroutines.EmptyCoroutineContext
 
 @Mod(
     modid = FloppaClient.MOD_ID,
@@ -54,6 +54,7 @@ class FloppaClient {
             VertClipCommand(),
             Clip3DCommand(),
             HClipCommand(),
+            EditModeCommand(),
         ).forEach {
             ClientCommandHandler.instance.registerCommand((it))
         }
@@ -72,6 +73,7 @@ class FloppaClient {
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
 
         launch {
+            extras.loadConfig()
             moduleConfig.loadConfig()
             clickGUI.setUpPanels()
 
@@ -135,6 +137,9 @@ class FloppaClient {
 
         var display: GuiScreen? = null
 
+        val scope = CoroutineScope(EmptyCoroutineContext)
+
+        var extras = ExtrasConfig(File(mc.mcDataDir, "config/floppaclient/extras"))
         val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/floppaclient"))
 
         lateinit var clickGUI: ClickGUI

@@ -99,6 +99,6 @@ class PacketSentEvent(val packet: Packet<*>) : Event()
 /**
  * Fired in Dungeon.kt whenever the room is changed.
  */
-class RoomChangeEvent(val newRoom: Room?, val oldRoom: Room?) : Event()
+class RoomChangeEvent(val newRoomPair: Pair<Room, Int>?, val oldRoomPair: Pair<Room, Int>?) : Event()
 
 class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val newState: IBlockState) : Event()

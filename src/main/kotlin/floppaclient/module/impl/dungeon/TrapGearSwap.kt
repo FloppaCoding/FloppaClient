@@ -33,14 +33,14 @@ object TrapGearSwap : Module(
     @SubscribeEvent
     fun onRoomChange(event: RoomChangeEvent){
         // When entering trap
-        val itemName = if (event.newRoom?.data?.name == "New Trap") {
+        val itemName = if (event.newRoomPair?.first?.data?.name == "New Trap") {
             previousName = mc.thePlayer?.getEquipmentInSlot(if (springBoots.enabled) 1 else 4)?.displayName ?: return
             if (springBoots.enabled){
                 "SPRING_BOOTS"
             }else {
                 "Rabbit Hat"
             }
-        }else if (event.oldRoom?.data?.name == "New Trap") {
+        }else if (event.oldRoomPair?.first?.data?.name == "New Trap") {
             previousName ?: return
         }else return
 

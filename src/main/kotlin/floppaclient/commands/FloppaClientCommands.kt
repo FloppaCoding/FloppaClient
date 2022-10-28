@@ -3,6 +3,7 @@ package floppaclient.commands
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
+import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.RoomData
 import floppaclient.funnymap.features.dungeon.DungeonScan
@@ -57,6 +58,7 @@ class FloppaClientCommands : CommandBase() {
             }
             "reload" -> {
                 modMessage("Reloading config files.")
+                extras.loadConfig()
                 FloppaClient.moduleConfig.loadConfig()
                 clickGUI.setUpPanels()
             }
