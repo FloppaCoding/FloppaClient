@@ -54,6 +54,7 @@ object ModuleManager {
 
         //MISC
         QOL,
+        InvActions,
         AutoSprint,
         AutoRagnarock,
         AutoHarp,

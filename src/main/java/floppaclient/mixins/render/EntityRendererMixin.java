@@ -1,7 +1,9 @@
 package floppaclient.mixins.render;
 
+import floppaclient.module.impl.misc.InvActions;
 import floppaclient.module.impl.misc.QOL;
 import floppaclient.module.impl.render.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
@@ -38,5 +40,10 @@ public class EntityRendererMixin{
     @Redirect(method = {"setupFog"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;isPotionActive(Lnet/minecraft/potion/Potion;)Z"))
     public boolean shouldBeBlind(EntityLivingBase instance, Potion potionIn) {
         return QOL.INSTANCE.blindnessHook();
+    }
+
+    @Redirect(method = {"updateCameraAndRender"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;inGameHasFocus:Z"))
+    public boolean shouldMoveMouse(Minecraft instance) {
+        return InvActions.INSTANCE.shouldRotateHook();
     }
 }

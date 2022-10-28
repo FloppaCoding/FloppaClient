@@ -4,12 +4,14 @@ import floppaclient.events.ClickEvent;
 import floppaclient.events.PreKeyInputEvent;
 import floppaclient.events.PreMouseInputEvent;
 import floppaclient.module.impl.misc.CancelInteract;
+import floppaclient.module.impl.misc.InvActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -55,4 +57,11 @@ public class MixinMinecraft {
         }
     }
 
+    @Inject(method = {"setIngameNotInFocus"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MouseHelper;ungrabMouseCursor()V", shift = At.Shift.BEFORE), cancellable = true)
+    public void skipUngrab(CallbackInfo ci){
+        if (InvActions.INSTANCE.shouldSkipUngrabMouse()) {
+            Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
+            ci.cancel();
+        }
+    }
 }
