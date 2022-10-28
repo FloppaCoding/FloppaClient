@@ -48,6 +48,7 @@ object ModuleManager {
         FreeCam,
         Clip,
         HClip,
+        BarPhase,
         NoRotate,
         Velocity,
 
