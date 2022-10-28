@@ -18,7 +18,7 @@ object BarPhase : Module(
     category = Category.PLAYER,
     description = "Lets you phase through iron bars and glass panes by walking against them."
 ){
-    private val phaseDelay = NumberSetting("Phase Delay", 2.0, 0.0, 5.0, 1.0, description = "Determines how long you have to walk against iron bars for it to trigger the phase through. 0 works fine, but higher delays give you more control.")
+    private val phaseDelay = NumberSetting("Phase Delay", 0.0, 0.0, 5.0, 1.0, description = "Determines how long you have to walk against iron bars for it to trigger the phase through. 0 works fine, but higher delays give you more control.")
     private val onlyInBomb = BooleanSetting("Only in Bomb", false, description = "Will only enable this module in the bomb puzzle room.")
 
     init {

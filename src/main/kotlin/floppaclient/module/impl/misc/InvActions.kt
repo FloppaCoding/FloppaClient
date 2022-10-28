@@ -41,9 +41,9 @@ object InvActions : Module(
     private val grabCursor = BooleanSetting("Grab Cursor", true, description = "If enabled the cursor does not get un grabbed. This allows you to rotate further even when the edge of the screen is reached. A custom cursor wil be rendered instead.")
     private val hotbarSelection = BooleanSetting("Hotbar Select", true, description = "If enabled the Hotkeys will select your current hotbar slot but can no longer be used to move items in the inventory.")
     private val rightClick = BooleanSetting("Right Click", true, description = "If enabled right clicks anywhere in the gui will attempt using the right click ability of the currently held item. This is disabled for swords because blocmign in inventory might flag.")
-    private val invWalk = BooleanSetting("Inv Walk", false, description= "Lets you walk while in inventory.")
+    private val invWalk = BooleanSetting("Inv Walk", true, description= "Lets you walk while in inventory.")
     private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled this module will only enabled in terminals.")
-    private val hideTerminal = BooleanSetting("Hide Terminals", false, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
+    private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
 
     private val cursor = ResourceLocation("floppaclient", "gui/cursor.png")
