@@ -55,6 +55,7 @@ object ModuleManager {
         QOL,
         AutoSprint,
         AutoRagnarock,
+        AutoHarp,
         GhostBlocks,
         RemoveFrontView,
         TerminatorClicker,
