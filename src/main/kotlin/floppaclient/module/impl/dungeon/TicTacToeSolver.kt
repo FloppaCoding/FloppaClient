@@ -145,12 +145,17 @@ object TicTacToeSolver : Module(
                             }
                         }
                     }
-                    AlphaBetaAdvanced.run(this)
-                    val move = algorithmBestMove
-                    if (move != -1) {
-                        val column = move % Board.BOARD_WIDTH
-                        val row = move / Board.BOARD_WIDTH
-                        bestMove = topLeft!!.down(row).offset(roomFacing!!.rotateY(), column)
+                    try {
+                        AlphaBetaAdvanced.run(this)
+
+                        val move = algorithmBestMove
+                        if (move != -1) {
+                            val column = move % Board.BOARD_WIDTH
+                            val row = move / Board.BOARD_WIDTH
+                            bestMove = topLeft!!.down(row).offset(roomFacing!!.rotateY(), column)
+                        }
+                    }catch (e: Exception){
+                        bestMove = null
                     }
                 } else {
                     bestMove = null
@@ -198,7 +203,7 @@ object TicTacToeSolver : Module(
      * Modified version of LazoCoder's Tic-Tac-Toe Java Implementation, GPLv3 License
      * @link https://github.com/LazoCoder/Tic-Tac-Toe
      */
-    class Board internal constructor() {
+    class Board {
         enum class State {
             Blank, X, O
         }
@@ -477,7 +482,7 @@ object TicTacToeSolver : Module(
      * Modified version of LazoCoder's Tic-Tac-Toe Java Implementation, GPLv3 License
      * @link https://github.com/LazoCoder/Tic-Tac-Toe
      */
-    internal object AlphaBetaAdvanced {
+    object AlphaBetaAdvanced {
         private var maxPly = 0.0
 
         /**

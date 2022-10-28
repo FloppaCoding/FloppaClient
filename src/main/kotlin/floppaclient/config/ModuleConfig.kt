@@ -90,7 +90,7 @@ class ModuleConfig(path: File) {
         } catch (e: JsonIOException) {
             println("Error reading Floppa Client config.")
         } catch (e: Exception) {
-            println("Config Error.")
+            println("Floppa Client Config Error.")
             println(e.message)
             e.printStackTrace()
         }
