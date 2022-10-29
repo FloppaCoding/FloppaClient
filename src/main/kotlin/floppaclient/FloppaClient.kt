@@ -4,6 +4,8 @@ import floppaclient.commands.*
 import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
 import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.funnymap.features.extras.EditMode
+import floppaclient.funnymap.features.extras.Extras
 import floppaclient.module.ModuleManager
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.ClickGUI
@@ -55,6 +57,7 @@ class FloppaClient {
             Clip3DCommand(),
             HClipCommand(),
             EditModeCommand(),
+            WhereCommand(),
         ).forEach {
             ClientCommandHandler.instance.registerCommand((it))
         }
@@ -62,6 +65,8 @@ class FloppaClient {
         listOf(
             this,
             Dungeon,
+            Extras,
+            EditMode,
             ModuleManager,
             FakeInventoryActionManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)
