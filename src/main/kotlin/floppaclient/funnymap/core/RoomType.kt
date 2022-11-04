@@ -9,5 +9,6 @@ enum class RoomType {
     PUZZLE,
     RARE,
     TRAP,
-    BOSS
+    BOSS,
+    REGION
 }

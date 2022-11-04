@@ -22,8 +22,12 @@ class ExtrasConfig(path: File) {
     private val configFile = File(path, "extrasConfig.json")
     private val backupFile = File(path, "extrasBackup.json")
 
+    private val configFileOther = File(path, "extrasConfigOther.json")
+
     // Map of room name to extras data
     var extraRooms: MutableMap<String, ExtrasData> = mutableMapOf()
+
+    var extraRegions: MutableMap<String, ExtrasData> = mutableMapOf()
 
     init {
         try {
@@ -37,6 +41,7 @@ class ExtrasConfig(path: File) {
             // create file if it doesn't exist
             backupFile.createNewFile()
             configFile.createNewFile()
+            configFileOther.createNewFile()
         } catch (e: Exception) {
             println("Error initializing Floppa Map Extras")
         }
@@ -49,6 +54,16 @@ class ExtrasConfig(path: File) {
                     return
                 }
                 extraRooms = gson.fromJson(
+                    this,
+                    object : TypeToken<MutableMap<String, ExtrasData>>() {}.type
+                )
+            }
+
+            with(configFileOther.bufferedReader().use { it.readText() }) {
+                if (this == "") {
+                    return
+                }
+                extraRegions = gson.fromJson(
                     this,
                     object : TypeToken<MutableMap<String, ExtrasData>>() {}.type
                 )
@@ -67,6 +82,9 @@ class ExtrasConfig(path: File) {
         try {
             configFile.bufferedWriter().use {
                 it.write(gson.toJson(extraRooms))
+            }
+            configFileOther.bufferedWriter().use {
+                it.write(gson.toJson(extraRegions))
             }
         } catch (e: IOException) {
             println("Error saving Floppa Map Extras config.")

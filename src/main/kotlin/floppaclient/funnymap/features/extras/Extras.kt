@@ -1,7 +1,9 @@
 package floppaclient.funnymap.features.extras
 
 import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.currentRegionPair
 import floppaclient.funnymap.features.dungeon.Dungeon.currentRoomPair
+import floppaclient.funnymap.features.extras.RoomUtils.getRoomExtrasData
 import floppaclient.module.impl.render.ExtraBlocks
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.block.Block
@@ -22,14 +24,14 @@ object Extras {
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
-        if (event.phase != TickEvent.Phase.START || !FloppaClient.inDungeons || !ExtraBlocks.enabled ) return
+        if (event.phase != TickEvent.Phase.START || !ExtraBlocks.enabled ) return
         // Alternate run of the extras data. No more looping through all rooms. This also works for the boss room when
         // the dungeon is not scanned.
-        currentRoomPair?.run {
+        (currentRoomPair ?: currentRegionPair)?.run {
             val room = this.first
             val rotation = this.second
 
-            FloppaClient.extras.extraRooms[room.data.name]?.run {
+            getRoomExtrasData(room)?.run {
                 this.preBlocks.forEach { (blockID, posList) ->
                     val blockstate = getStateFromIDWithRotation(blockID, rotation)
 

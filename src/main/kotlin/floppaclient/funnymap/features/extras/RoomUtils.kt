@@ -43,13 +43,41 @@ object RoomUtils {
         return getRotatedPos(blockPos, roomPair.second).add(roomPair.first.x,0,roomPair.first.z)
     }
 
-    fun getRoomExtrasData(room: Room): ExtrasData {
-        return FloppaClient.extras.extraRooms.getOrPut(room.data.name) {
-            ExtrasData(room.core)
-        }
+    /**
+     * Gets the extras data for the specified room (this can also be a region).
+     *
+     * If none exits it will create a blank entry.
+     * @see getRoomExtrasData
+     */
+    fun getOrPutRoomExtrasData(room: Room): ExtrasData {
+        return if (room.data.type == RoomType.REGION)
+            FloppaClient.extras.extraRegions.getOrPut(room.data.name) {
+                ExtrasData(room.core)
+            }
+        else
+            FloppaClient.extras.extraRooms.getOrPut(room.data.name) {
+                ExtrasData(room.core)
+            }
+    }
+
+    /**
+     * Gets the extras data for the specified room (this can also be a region).
+     *
+     * If none exits it will return null.
+     * @see getOrPutRoomExtrasData
+     */
+    fun getRoomExtrasData(room: Room): ExtrasData? {
+        return if (room.data.type == RoomType.REGION)
+            FloppaClient.extras.extraRegions[room.data.name]
+        else
+            FloppaClient.extras.extraRooms[room.data.name]
     }
 
     fun instanceBossRoom(floor: Int): Room {
         return Room(0,0, RoomData("Boss $floor", RoomType.BOSS, 0, 1, listOf(0), 0,0))
+    }
+
+    fun instanceRegionRoom(region: String): Room {
+        return Room(0,0, RoomData(region, RoomType.REGION, 0, 1, listOf(0), 0,0))
     }
 }

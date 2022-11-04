@@ -1,10 +1,11 @@
 package floppaclient.funnymap.features.extras
 
+import floppaclient.FloppaClient.Companion.currentRegionPair
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
 import floppaclient.funnymap.features.dungeon.Dungeon.currentRoomPair
+import floppaclient.funnymap.features.extras.RoomUtils.getOrPutRoomExtrasData
 import floppaclient.funnymap.features.extras.RoomUtils.getRelativePos
-import floppaclient.funnymap.features.extras.RoomUtils.getRoomExtrasData
 import floppaclient.utils.Utils
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
@@ -22,10 +23,10 @@ object EditMode {
     @SubscribeEvent
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
         if (!enabled || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
-        val roomPair = currentRoomPair ?: return
+        val roomPair = currentRoomPair ?: currentRegionPair ?: return
         val relativeCoords = getRelativePos(mc.objectMouseOver.blockPos, roomPair)
 
-        getRoomExtrasData(roomPair.first).run {
+        getOrPutRoomExtrasData(roomPair.first).run {
             var removedBlock = false
             // this for each will remove all entries at those coordinates, there should only be one
             this.preBlocks.forEach { (blockID, _) ->
@@ -57,11 +58,11 @@ object EditMode {
     fun onRightClick(event: ClickEvent.RightClickEvent) {
         if (!enabled || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
         val blockPos = mc.objectMouseOver.blockPos.add(mc.objectMouseOver.sideHit.directionVec)
-        val roomPair = currentRoomPair ?: return
+        val roomPair = currentRoomPair ?: currentRegionPair ?: return
         val relativeCoords =
             getRelativePos(blockPos, roomPair)
 
-        getRoomExtrasData(roomPair.first).run {
+        getOrPutRoomExtrasData(roomPair.first).run {
             if (this.preBlocks[0]?.remove(relativeCoords) != true) {
                 var blockstate = adjustBlockState(blockPos, currentBlockID)
                 mc.theWorld.setBlockState(blockPos, blockstate)

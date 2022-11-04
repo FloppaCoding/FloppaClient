@@ -3,14 +3,17 @@ package floppaclient
 import floppaclient.commands.*
 import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
+import floppaclient.funnymap.core.Room
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.funnymap.features.extras.EditMode
 import floppaclient.funnymap.features.extras.Extras
+import floppaclient.funnymap.features.extras.RoomUtils
 import floppaclient.module.ModuleManager
 import floppaclient.module.impl.dungeon.AutoTerms
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils
+import floppaclient.utils.Utils
 import floppaclient.utils.fakeactions.FakeInventoryActionManager
 import gg.essential.api.EssentialAPI
 import kotlinx.coroutines.CoroutineScope
@@ -118,6 +121,10 @@ class FloppaClient {
             }
             tickCount = 0
         }
+        val newRegion = Utils.getArea()
+        if (currentRegionPair?.first?.data?.name != newRegion){
+            currentRegionPair = newRegion?.let { Pair( RoomUtils.instanceRegionRoom(it) , 0) }
+        }
     }
 
     @SubscribeEvent
@@ -130,6 +137,7 @@ class FloppaClient {
     @SubscribeEvent
     fun onWorldChange(event: WorldEvent.Load) {
         inDungeons = false
+        currentRegionPair = null
         tickCount = 18
     }
 
@@ -152,6 +160,7 @@ class FloppaClient {
 
         lateinit var clickGUI: ClickGUI
 
+        var currentRegionPair: Pair<Room, Int>? = null
         var inSkyblock = false
         var inDungeons = false
             get() = inSkyblock && field

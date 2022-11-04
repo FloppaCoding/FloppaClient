@@ -27,7 +27,7 @@ class WhereCommand : CommandBase() {
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         try {
             if (!FloppaClient.inDungeons) modMessage("§cNot in Dungeon!")
-            val room = Dungeon.currentRoomPair ?: return modMessage("§cRoom not recognized!")
+            val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized!")
             val pos = Vec3(floor(mc.thePlayer.posX), floor(mc.thePlayer.posY), floor(mc.thePlayer.posZ))
             val key = DataHandler.getKey(
                 pos,
