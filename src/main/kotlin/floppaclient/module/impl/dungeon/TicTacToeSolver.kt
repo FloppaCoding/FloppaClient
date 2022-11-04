@@ -60,9 +60,9 @@ object TicTacToeSolver : Module(
     fun onTick(event: TickEvent.ClientTickEvent) {
         if (!inDungeons) return
         if (event.phase != TickEvent.Phase.START || mc.thePlayer == null || mc.theWorld == null) return
-        val room = Dungeon.currentRoom ?: return
-        if (room.data.name != "Tic Tac Toe") {
-             bestMove = null
+        val room = Dungeon.currentRoomPair ?: return
+        if (room.first.data.name != "Tic Tac Toe") {
+            bestMove = null
             return
         }
 
@@ -80,72 +80,72 @@ object TicTacToeSolver : Module(
             if (mc.theWorld.getBlockState(blockBehind).block != Blocks.iron_block) return@filter false
             return@filter true
         }
-        if (topLeft == null || roomFacing == null || board == null) {
-            for (frame in frames) {
-                if (frame !is EntityItemFrame) continue
-                val realPos = frame.position.down()
-                val blockBehind = realPos.offset(frame.facingDirection.opposite, 1)
-                val row = when (realPos.y) {
-                    72 -> 0
-                    71 -> 1
-                    70 -> 2
-                    else -> continue
+        try {
+            if (topLeft == null || roomFacing == null || board == null) {
+                for (frame in frames) {
+                    if (frame !is EntityItemFrame) continue
+                    val realPos = frame.position.down()
+                    val blockBehind = realPos.offset(frame.facingDirection.opposite, 1)
+                    val row = when (realPos.y) {
+                        72 -> 0
+                        71 -> 1
+                        70 -> 2
+                        else -> continue
+                    }
+                    val column = when {
+                        mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateYCCW())).block != Blocks.iron_block -> 2
+                        mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateY())).block != Blocks.iron_block -> 0
+                        else -> 1
+                    }
+                    val mapData = Items.filled_map.getMapData(frame.displayedItem, mc.theWorld) ?: continue
+                    val colorInt: Int = (mapData.colors[8256] and 255.toByte()).toInt()
+                    val owner = if (colorInt == 114) Board.State.X else Board.State.O
+                    if (board == null) {
+                        topLeft = realPos.up(row).offset(frame.facingDirection.rotateY(), column)
+                        roomFacing = frame.facingDirection.opposite
+                        board = Board()
+                    }
+                    with(board!!) {
+                        place(column, row, owner)
+                        mappedPositions[row * Board.BOARD_WIDTH + column] = frame
+                    }
                 }
-                val column = when {
-                    mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateYCCW())).block != Blocks.iron_block -> 2
-                    mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateY())).block != Blocks.iron_block -> 0
-                    else -> 1
+                if (board != null) {
+                    board!!.turn = if (frames.size % 2 == 0) Board.State.X else Board.State.O
                 }
-                val mapData = Items.filled_map.getMapData(frame.displayedItem, mc.theWorld) ?: continue
-                val colorInt: Int = (mapData.colors[8256] and 255.toByte()).toInt()
-                val owner = if (colorInt == 114) Board.State.X else Board.State.O
-                if (board == null) {
-                    topLeft = realPos.up(row).offset(frame.facingDirection.rotateY(), column)
-                    roomFacing = frame.facingDirection.opposite
-                    board = Board()
-                }
+            } else if (!board!!.isGameOver) {
                 with(board!!) {
-                    place(column, row, owner)
-                    mappedPositions[row * Board.BOARD_WIDTH + column] = frame
-                }
-            }
-            if (board != null) {
-                board!!.turn = if (frames.size % 2 == 0) Board.State.X else Board.State.O
-            }
-        } else if (!board!!.isGameOver) {
-            with(board!!) {
-                turn = if (frames.size % 2 == 0) Board.State.X else Board.State.O
-                if (turn == Board.State.O) {
-                    for (frame in frames) {
-                        if (frame !is EntityItemFrame) continue
-                        if (!mappedPositions.containsValue(frame)) {
-                            val mapData =
-                                Items.filled_map.getMapData(frame.displayedItem, mc.theWorld) ?: continue
-                            val colorInt: Int = (mapData.colors[8256] and 255.toByte()).toInt()
-                            val owner = if (colorInt == 114) Board.State.X else Board.State.O
-                            val realPos = frame.position.down()
-                            val blockBehind = realPos.offset(frame.facingDirection.opposite, 1)
-                            with(board!!) {
-                                val row = when (realPos.y) {
-                                    72 -> 0
-                                    71 -> 1
-                                    70 -> 2
-                                    else -> -1
-                                }
-                                val column =
-                                    if (mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateYCCW())).block != Blocks.iron_block) {
-                                        2
-                                    } else {
-                                        if (mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateY())).block != Blocks.iron_block) {
-                                            0
-                                        } else 1
+                    turn = if (frames.size % 2 == 0) Board.State.X else Board.State.O
+                    if (turn == Board.State.O) {
+                        for (frame in frames) {
+                            if (frame !is EntityItemFrame) continue
+                            if (!mappedPositions.containsValue(frame)) {
+                                val mapData =
+                                    Items.filled_map.getMapData(frame.displayedItem, mc.theWorld) ?: continue
+                                val colorInt: Int = (mapData.colors[8256] and 255.toByte()).toInt()
+                                val owner = if (colorInt == 114) Board.State.X else Board.State.O
+                                val realPos = frame.position.down()
+                                val blockBehind = realPos.offset(frame.facingDirection.opposite, 1)
+                                with(board!!) {
+                                    val row = when (realPos.y) {
+                                        72 -> 0
+                                        71 -> 1
+                                        70 -> 2
+                                        else -> -1
                                     }
-                                place(column, row, owner)
-                                mappedPositions[row * Board.BOARD_WIDTH + column] = frame
+                                    val column =
+                                        if (mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateYCCW())).block != Blocks.iron_block) {
+                                            2
+                                        } else {
+                                            if (mc.theWorld.getBlockState(blockBehind.offset(frame.facingDirection.rotateY())).block != Blocks.iron_block) {
+                                                0
+                                            } else 1
+                                        }
+                                    place(column, row, owner)
+                                    mappedPositions[row * Board.BOARD_WIDTH + column] = frame
+                                }
                             }
                         }
-                    }
-                    try {
                         AlphaBetaAdvanced.run(this)
 
                         val move = algorithmBestMove
@@ -154,14 +154,14 @@ object TicTacToeSolver : Module(
                             val row = move / Board.BOARD_WIDTH
                             bestMove = topLeft!!.down(row).offset(roomFacing!!.rotateY(), column)
                         }
-                    }catch (e: Exception){
+                    } else {
                         bestMove = null
                     }
-                } else {
-                    bestMove = null
                 }
+            } else {
+                bestMove = null
             }
-        } else {
+        } catch (e: Exception) {
             bestMove = null
         }
     }
