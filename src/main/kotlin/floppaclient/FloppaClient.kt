@@ -58,6 +58,7 @@ class FloppaClient {
             HClipCommand(),
             EditModeCommand(),
             WhereCommand(),
+            WardrobeCommand,
         ).forEach {
             ClientCommandHandler.instance.registerCommand((it))
         }
