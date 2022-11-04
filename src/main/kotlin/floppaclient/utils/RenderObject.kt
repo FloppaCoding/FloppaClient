@@ -44,21 +44,20 @@ object RenderObject {
         GL11.glDisable(GL11.GL_BLEND)
     }
 
-    fun drawBoxAtBlock (blockPos: BlockPos, color: Color, thickness: Float = 3f) {
-        drawBoxAtBlock(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), color, thickness)
+    fun drawBoxAtBlock (blockPos: BlockPos, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
+        drawBoxAtBlock(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), color, thickness, relocate)
     }
 
-    fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, thickness: Float = 3f) {
+    fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
 
         GL11.glBlendFunc(770, 771)
-        GL11.glEnable(GL11.GL_BLEND)
+        GlStateManager.enableBlend()
         GL11.glLineWidth(thickness)
-        GL11.glDisable(GL11.GL_TEXTURE_2D)
-        GL11.glDisable(GL11.GL_DEPTH_TEST)
-        GL11.glDepthMask(false)
+        GlStateManager.disableDepth()
+        GlStateManager.disableTexture2D()
         GlStateManager.pushMatrix()
 
-        GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
+        if (relocate) GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
         worldRenderer.begin(3, DefaultVertexFormats.POSITION_TEX)
         GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f,
             color.blue.toFloat() / 255f, 1f)

@@ -35,6 +35,7 @@ object ModuleManager {
         ClickGui,
         EditHud,
         DungeonESP,
+        ChestEsp,
         DungeonWarpTimer,
         DungeonMap,
         ExtraBlocks,

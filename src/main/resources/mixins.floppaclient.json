@@ -28,6 +28,7 @@
     "Gui.GuiMixin",
     "Gui.GuiScreenMixin",
     "Gui.MixinGuiContainer",
+    "render.ChestRendererMixin",
     "render.EntityRendererMixin",
     "render.ItemRendererMixin"
   ]
