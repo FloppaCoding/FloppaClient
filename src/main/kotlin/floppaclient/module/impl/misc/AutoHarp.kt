@@ -9,9 +9,8 @@ import net.minecraft.init.Blocks
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.item.ItemBlock
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
 /**
  * Module to automatically do the Melody's Harp minigame.
@@ -39,8 +38,8 @@ object AutoHarp : Module(
     }
 
     @SubscribeEvent
-    fun onTick(event: ClientTickEvent) {
-        if (!inHarp || event.phase != TickEvent.Phase.END || mc.thePlayer == null) return
+    fun onTick(event: GuiScreenEvent.BackgroundDrawnEvent) {
+        if (!inHarp || mc.thePlayer == null) return
         val container = mc.thePlayer.openContainer ?: return
         if (container !is ContainerChest) return
         val inventoryName = container.inventorySlots?.get(0)?.inventory?.name
