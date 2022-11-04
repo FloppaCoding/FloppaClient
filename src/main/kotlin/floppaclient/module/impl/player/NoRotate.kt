@@ -7,10 +7,13 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.client.settings.KeyBinding
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.init.Blocks
 import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
 import net.minecraft.network.play.server.S07PacketRespawn
 import net.minecraft.network.play.server.S08PacketPlayerPosLook
+import net.minecraft.util.BlockPos
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
@@ -27,14 +30,26 @@ object NoRotate : Module(
      * rotate you.
      */
     private val pitch = BooleanSetting("0 Pitch", false, description = "Also prevents rotation of packets with 0 pitch, those are in general used for teleport which should rotate you..")
-    private val keepMotion = BooleanSetting("Keep Motion", false, description = "Teleporting will not reset your horizontal motion. Use with caution!")
+    private val keepMotion = BooleanSetting("Keep Motion", false, description = "Teleporting will not reset your horizontal motion.")
+    private val stopOnHopper = BooleanSetting("Stop on Hopper", false, description = "Teleporting onto a hopper will stop your movement. Press your walk keys again to move again.")
 
     private var doneLoadingTerrain = false
+
+    private val moveBinds: List<KeyBinding>
+        get() {
+            return listOf(
+                mc.gameSettings.keyBindForward,
+                mc.gameSettings.keyBindLeft,
+                mc.gameSettings.keyBindRight,
+                mc.gameSettings.keyBindBack
+            )
+        }
 
     init {
         this.addSettings(
             pitch,
-            keepMotion
+            keepMotion,
+            stopOnHopper
         )
     }
 
@@ -93,6 +108,19 @@ object NoRotate : Module(
                 f += entityplayer.rotationYaw
             }
 
+            // Stop on Hopper Part
+
+            if (stopOnHopper.enabled){
+                val pos = BlockPos(d0, d1, d2).down()
+                if (mc.theWorld.getBlockState(pos).block === Blocks.hopper) {
+                    mc.thePlayer.setVelocity(0.0, 0.0, 0.0)
+                    moveBinds.forEach {
+                        KeyBinding.setKeyBindState(it.keyCode, false)
+                    }
+                }
+            }
+
+            // Norotate Part
             entityplayer.setPosition(d0, d1, d2)
             val fakeYaw = f % 360.0f
             val fakePitch = f1 % 360.0f
