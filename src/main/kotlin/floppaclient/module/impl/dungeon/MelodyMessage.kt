@@ -3,13 +3,14 @@ package floppaclient.module.impl.dungeon
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.impl.dungeon.AutoTerms.currentTerminal
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils.isFloor
 import floppaclient.utils.Utils.sendChat
 import net.minecraft.client.gui.inventory.GuiChest
-import net.minecraft.inventory.ContainerChest
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -39,18 +40,14 @@ object MelodyMessage : Module(
         )
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     fun onGuiOpen(event: GuiOpenEvent) {
         if (event.gui !is GuiChest ||  !isFloor(7) || !Dungeon.inBoss) return
-        val container = (event.gui as GuiChest).inventorySlots
-        if (container is ContainerChest) {
-            val chestName = container.lowerChestInventory.displayName.unformattedText
-            if (chestName == "Click the button on time!") {
-                if (melodyTicks <= 0) {
-                    sendChat("/pc ${message.text}")
-                }
-                melodyTicks = cooldown.value.toInt()
+        if (currentTerminal == AutoTerms.TerminalType.TIMING) {
+            if (melodyTicks <= 0) {
+                sendChat("/pc ${message.text}")
             }
+            melodyTicks = cooldown.value.toInt()
         }
     }
 

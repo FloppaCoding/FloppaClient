@@ -65,6 +65,11 @@ object AutoTerms : Module(
     For stained glass panes see EnumDyeColor for the metadata value corresponding to the color.
      */
 
+    /**
+     * Dont unregister this, sot that currentTerminal var can be used elsewhere.
+     */
+    override fun onDisable() {}
+
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START || mc.currentScreen is GuiChest) return
@@ -108,7 +113,7 @@ object AutoTerms : Module(
 
     @SubscribeEvent
     fun onGuiDraw(event: GuiScreenEvent.BackgroundDrawnEvent) {
-        if (currentTerminal == TerminalType.NONE || event.gui !is GuiChest) return
+        if ( !this.enabled || currentTerminal == TerminalType.NONE || event.gui !is GuiChest) return
         val container = (event.gui as GuiChest).inventorySlots
         if (container is ContainerChest) {
             if (clickQueue.isEmpty() || totalClicks - clickQueue.size > container.windowId - startWindowID + 2) {
@@ -138,7 +143,7 @@ object AutoTerms : Module(
 
     @SubscribeEvent
     fun onSlotDraw(event: GuiContainerEvent.DrawSlotEvent) {
-        if (!showClicks.enabled || event.gui !is GuiChest || currentTerminal == TerminalType.NONE || !Utils.inF7Boss()) return
+        if (!this.enabled || !showClicks.enabled || event.gui !is GuiChest || currentTerminal == TerminalType.NONE || !Utils.inF7Boss()) return
         if (clickQueue.contains(event.slot)) {
             val i: Int = event.slot.xDisplayPosition
             val j: Int = event.slot.yDisplayPosition

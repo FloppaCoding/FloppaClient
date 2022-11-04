@@ -7,6 +7,7 @@ import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.funnymap.features.extras.EditMode
 import floppaclient.funnymap.features.extras.Extras
 import floppaclient.module.ModuleManager
+import floppaclient.module.impl.dungeon.AutoTerms
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils
@@ -68,6 +69,7 @@ class FloppaClient {
             Dungeon,
             Extras,
             EditMode,
+            AutoTerms,
             ModuleManager,
             FakeInventoryActionManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)

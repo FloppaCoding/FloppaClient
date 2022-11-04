@@ -45,6 +45,7 @@ object InvActions : Module(
     private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled this module will only enabled in terminals.")
     private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
+    private val stopInMelody = BooleanSetting("Stop in Melody", false, description = "Will prevent you from walking while in the melody terminal.")
 
     private val cursor = ResourceLocation("floppaclient", "gui/cursor.png")
 
@@ -68,7 +69,8 @@ object InvActions : Module(
             toggleRot,
             onlyInTerminal,
             hideTerminal,
-            blockClicks
+            blockClicks,
+            stopInMelody
         )
     }
 
@@ -130,6 +132,7 @@ object InvActions : Module(
     @SubscribeEvent
     fun onRender(event: DrawContainerEvent) {
         if (!this.enabled || (mc.currentScreen !is GuiContainer) || (onlyInTerminal.enabled && !isInTerminal())) return
+        if (stopInMelody.enabled && AutoTerms.currentTerminal == AutoTerms.TerminalType.TIMING) return
         if (invWalk.enabled) {
             for (bind in moveKeys) {
                 KeyBinding.setKeyBindState(bind.keyCode, GameSettings.isKeyDown(bind))
