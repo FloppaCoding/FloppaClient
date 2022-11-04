@@ -6,10 +6,12 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.GeometryUtils.scale
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.Vec3
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -39,8 +41,8 @@ object BarPhase : Module(
     fun onTick(event: TickEvent.ClientTickEvent){
         if (event.phase != TickEvent.Phase.END || mc.thePlayer == null) return
         if (onlyInBomb.enabled) {
-            val room = Dungeon.currentRoom ?: return
-            if (room.data.name != "Bomb Defuse") return
+            val room = Dungeon.currentRoomPair ?: return
+            if (room.first.data.name != "Bomb Defuse") return
         }
         val pos = BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ)
         if (mc.thePlayer.isCollidedHorizontally
@@ -54,8 +56,15 @@ object BarPhase : Module(
                 phaseTicks = 0
                 return
             }
-            val flag = mc.theWorld.getBlockState(pos.offset(dir)).block === Blocks.air
-                    && mc.theWorld.getBlockState(pos.offset(dir).up()).block === Blocks.air
+            val loc = Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ)
+            // perpendicular to the direction the player will be clipped in
+            val offsVec = Vec3(0.0, 1.0,0.0).crossProduct(Vec3(dir.directionVec)).scale(0.3)
+
+
+            val flag = mc.theWorld.getBlockState(BlockPos(loc.add(offsVec)).offset(dir)).block === Blocks.air
+                    && mc.theWorld.getBlockState(BlockPos(loc.subtract(offsVec)).offset(dir)).block === Blocks.air
+                    && mc.theWorld.getBlockState(BlockPos(loc.add(offsVec)).offset(dir).up()).block === Blocks.air
+                    && mc.theWorld.getBlockState(BlockPos(loc.subtract(offsVec)).offset(dir).up()).block === Blocks.air
             if (flag && phaseTicks >= phaseDelay.value){
                 Clip.hClip(0.7,dir.horizontalIndex * 90f)
                 phaseTicks = 0
