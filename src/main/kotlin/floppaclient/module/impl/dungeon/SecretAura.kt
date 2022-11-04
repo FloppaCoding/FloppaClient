@@ -165,7 +165,7 @@ object SecretAura : Module(
             if (block == Blocks.lever && southBlock.equalsOneOf(Blocks.lit_redstone_lamp, Blocks.redstone_lamp)) {
                 if (AutoDevices.enabled && AutoDevices.lights.enabled) {
                     if (southBlock != Blocks.lit_redstone_lamp && shouldClickBlock(block, blockPos, AutoDevices.lightFixTime.value)) {
-                        tryInteract(blockPos)
+                        tryInteract(blockPos, itemSlot = AutoDevices.slot.value.toInt(), itemName2 = AutoDevices.itemName.text)
                     }
                 }
             }else if ( shouldClickBlock(block, blockPos, sleep.value) ) {
@@ -204,10 +204,10 @@ object SecretAura : Module(
     /**
      * performs a range check and clicks the block. Updates the secrets list.
      */
-    private fun tryInteract(blockPos: BlockPos, blockReach: Double = reach.value, yOffs: Double = mc.thePlayer.eyeHeight.toDouble()) {
+    private fun tryInteract(blockPos: BlockPos, blockReach: Double = reach.value, yOffs: Double = mc.thePlayer.eyeHeight.toDouble(), itemSlot: Int = slot.value.toInt(), itemName2: String = itemName.text) {
         // Distance check It seems like hypixel checks the distance not to the center of the Block, but to the corner / it's blockPos
         if (mc.thePlayer.getDistance(blockPos.x.toDouble(), blockPos.y.toDouble() - yOffs, blockPos.z.toDouble()) < blockReach ) {
-            interactWith(blockPos, 10.0)
+            interactWith(blockPos, 10.0, itemSlot, itemName2)
             // This is a bit awkward because i have to avoid null pointers even tho they are not possible here
             secrets[blockPos] = secrets[blockPos]?.let { Pair(it.first, mutableListOf( it.second[0] + 1, System.currentTimeMillis())) } ?: Pair(Blocks.air,mutableListOf(1000,0))
         }
@@ -216,13 +216,13 @@ object SecretAura : Module(
     /**
      * Right clicks the specified block with the aura item.
      */
-    fun interactWith(blockPos: BlockPos, reach: Double? = null): Boolean {
+    fun interactWith(blockPos: BlockPos, reach: Double? = null, itemSlot: Int = slot.value.toInt(), itemName2: String = itemName.text): Boolean {
         val newReach = reach ?: this.reach.value
         val block = mc.theWorld.getBlockState(blockPos).block
         val clicked = if (block == Blocks.redstone_block) {
-            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), "Redstone Key", fromInv = true, abortIfNotFound = true)
+            FakeActionUtils.clickBlockWithItem(blockPos, itemSlot, "Redstone Key", fromInv = true, abortIfNotFound = true)
         }else {
-            FakeActionUtils.clickBlockWithItem(blockPos, slot.value.toInt(), itemName.text, newReach)
+            FakeActionUtils.clickBlockWithItem(blockPos, itemSlot, itemName2, newReach)
         }
         if (SecretChime.enabled && clicked) SecretChime.playSecretSound()
         return clicked

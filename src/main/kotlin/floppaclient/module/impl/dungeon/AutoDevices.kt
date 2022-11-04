@@ -8,6 +8,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.Utils.inF7Boss
 import floppaclient.utils.Utils.isHoldingOneOf
@@ -34,6 +35,8 @@ object AutoDevices : Module(
     private val alignment = BooleanSetting("Alignment", true, description = "Toggle the Alignment solver.")
     private val aiming = BooleanSetting("Aiming", true, description = "Toggle the Aiming solver.")
     val lightFixTime = NumberSetting("Fix Time", 400.0, 0.0, 1000.0, 1.0, description = "Delay until it retries to do the device in case it failed. §cMust be greater than your ping.")
+    val slot = NumberSetting("Lights Slot", 5.0, 0.0, 7.0, 1.0, description = "The default slot that will be used to click the lights lever when the Item setting is left empty or not found in the hotbar.")
+    val itemName = StringSetting("Lights Item", description = "Item to use to click the lights lever. This will take priority over the slot, but if the item is not found the item in the specified slot will be used.")
     private val alignmentReach = NumberSetting("Align Reach", 4.0, 2.0, 6.0, 0.1, description = "Once within this reach the Arrow Alignment device will automatically be solved.")
     private val clicksPerTick = NumberSetting("Clicks Per Tick", 1.0, 1.0, 10.0, 1.0, description = "Determines how fast the arrow align frames will be clicked.")
     private val ssReach = NumberSetting("SS Reach", 6.0, 2.0, 6.0, 0.1, description = "Block reach for the Auto Simon Says solver.")
@@ -46,6 +49,8 @@ object AutoDevices : Module(
             alignment,
             aiming,
             lightFixTime,
+            slot,
+            itemName,
             alignmentReach,
             clicksPerTick,
             ssReach,
