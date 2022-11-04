@@ -154,6 +154,7 @@ class FloppaClient {
 
         var inSkyblock = false
         var inDungeons = false
+            get() = inSkyblock && field
         var tickCount = 0
     }
 }
