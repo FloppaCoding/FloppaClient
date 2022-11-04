@@ -15,9 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 abstract class ChunkMixin {
     @Shadow public abstract IBlockState getBlockState(BlockPos pos);
 
-    @Inject(method = "setBlockState", at = @At("HEAD"))
+    @Inject(method = "setBlockState", at = @At("HEAD"), cancellable = true)
     public void onBlockSet(BlockPos pos, IBlockState state, CallbackInfoReturnable<IBlockState> cir) {
         IBlockState old = this.getBlockState(pos);
-        if (state != old) MinecraftForge.EVENT_BUS.post(new BlockStateChangeEvent(pos, old, state));
+        if (state != old) {
+            if (MinecraftForge.EVENT_BUS.post(new BlockStateChangeEvent(pos, old, state)))
+                cir.setReturnValue(null);
+        }
     }
 }

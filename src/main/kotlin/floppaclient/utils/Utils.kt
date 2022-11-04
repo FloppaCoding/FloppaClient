@@ -25,6 +25,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.util.StringUtils
 import net.minecraftforge.client.ClientCommandHandler
+import java.util.*
 import kotlin.math.round
 
 
@@ -54,6 +55,19 @@ object Utils {
             if (this.contains(it, ignoreCase)) return true
         }
         return false
+    }
+
+    fun <K, V> MutableMap<K, V>.removeIf(filter: (Map.Entry<K, V>) -> Boolean) : Boolean {
+        Objects.requireNonNull(filter)
+        var removed = false
+        val each: MutableIterator<Map.Entry<K, V>> = this.iterator()
+        while (each.hasNext()) {
+            if (filter(each.next())) {
+                each.remove()
+                removed = true
+            }
+        }
+        return removed
     }
 
     /**

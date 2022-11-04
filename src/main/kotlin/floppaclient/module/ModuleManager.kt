@@ -61,6 +61,7 @@ object ModuleManager {
         AutoRagnarock,
         AutoHarp,
         GhostBlocks,
+        StonkDelay,
         RemoveFrontView,
         TerminatorClicker,
         AutoClicker,

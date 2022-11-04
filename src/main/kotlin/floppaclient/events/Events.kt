@@ -15,6 +15,7 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook
 import net.minecraft.network.play.server.S12PacketEntityVelocity
 import net.minecraft.network.play.server.S27PacketExplosion
 import net.minecraft.util.BlockPos
+import net.minecraft.util.EnumFacing
 import net.minecraftforge.fml.common.eventhandler.Cancelable
 import net.minecraftforge.fml.common.eventhandler.Event
 
@@ -101,4 +102,7 @@ class PacketSentEvent(val packet: Packet<*>) : Event()
  */
 class RoomChangeEvent(val newRoomPair: Pair<Room, Int>?, val oldRoomPair: Pair<Room, Int>?) : Event()
 
+@Cancelable
 class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val newState: IBlockState) : Event()
+
+class BlockDestroyEvent(val pos: BlockPos, val side: EnumFacing, val state: IBlockState) : Event()

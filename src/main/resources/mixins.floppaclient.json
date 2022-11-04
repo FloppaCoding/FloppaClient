@@ -22,6 +22,7 @@
     "MixinNetworkManager",
     "MixinPlayerHandler",
     "MixinSoundManager",
+    "PlayerControllerMixin",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinPlayerSP",
     "entity.MixinPlayerSP2",
