@@ -26,6 +26,12 @@ import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+/**
+ * A module aimed to automatically click the correct items in the Salvage gui.
+ * It offers a lot of customization for which items are to be salvaged.
+ *
+ * @author Aton
+ */
 object Salvage : Module(
     "Auto Salvage",
     category = Category.MISC,

@@ -9,11 +9,32 @@ import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
+import floppaclient.module.settings.Setting
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-
+/**
+ * This object handles all the modules. After making a module it just has to be added to the "modules" list and
+ * everything else will be taken care of automatically. This entails:
+ *
+ * It will be added to the click gui in the order it is put in here. But keep in mind that the category is set within
+ * the module. The comments here are only for readability.
+ *
+ * All settings that are registered within the module will be saved to and loaded the module config.
+ * For this to properly work remember to register the settings to the module.
+ *
+ * The module will be registered and unregistered to the forge eventbus when it is enabled / disabled.
+ *
+ * The module will be informed of its keybind press.
+ *
+ *
+ * @author Aton
+ * @see Module
+ * @see Setting
+ */
 object ModuleManager {
-
+    /**
+     * All modules have to be added to this list to function!
+     */
     val modules: ArrayList<Module> = arrayListOf(
         //DUNGEON
         SecretChime,
@@ -61,6 +82,7 @@ object ModuleManager {
         AutoRagnarock,
         AutoHarp,
         Salvage,
+        Enchanting,
         SellGarbo,
         GhostBlocks,
         StonkDelay,

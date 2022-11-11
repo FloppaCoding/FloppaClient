@@ -25,6 +25,12 @@ import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+/**
+ * This module is aimed at automatically selling all the items which are generally deemed useless when you enter any trades
+ * menu. It provides a lot of customization as to which items should be sold.
+ *
+ * @author Aton
+ */
 object SellGarbo : Module(
     "Auto Sell",
     category = Category.MISC,
