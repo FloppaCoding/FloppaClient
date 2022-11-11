@@ -320,6 +320,40 @@ object Utils {
         }
     }
 
+    /**
+     * Shift left clicks the specified slot.
+     */
+    fun shiftClickWindow(windowId: Int, index : Int) {
+        windowClick(windowId, index, 0, 1)
+    }
+
+    /**
+     * Middle clicks the specified slot.
+     */
+    fun middleClickWindow(windowId: Int, index : Int) {
+        windowClick(windowId, index, 2, 3)
+    }
+
+    /**
+     * Left clicks the specified slot.
+     */
+    fun leftClickWindow(windowId: Int, index : Int) {
+        windowClick(windowId, index, 0, 0)
+    }
+
+    /**
+     * Performs a click on the specified slot.
+     */
+    fun windowClick(windowId: Int, index: Int, button: Int, mode: Int) {
+        mc.playerController.windowClick(
+            windowId,
+            index,
+            button,
+            mode,
+            mc.thePlayer
+        )
+    }
+
     fun rightClick() {
         (mc as MinecraftAccessor).rightClickMouse()
     }

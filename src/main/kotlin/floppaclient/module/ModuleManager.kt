@@ -60,6 +60,8 @@ object ModuleManager {
         AutoSprint,
         AutoRagnarock,
         AutoHarp,
+        Salvage,
+        SellGarbo,
         GhostBlocks,
         StonkDelay,
         RemoveFrontView,

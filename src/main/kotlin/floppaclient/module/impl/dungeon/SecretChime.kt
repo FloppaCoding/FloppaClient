@@ -39,6 +39,8 @@ object SecretChime : Module(
 
     private var drops = listOf(
         "Health Potion VIII Splash Potion", //"§5Health Potion VIII Splash Potion"
+        "Healing Potion 8 Slash Potion",
+        "Healing Potion VIII Splash Potion",
         "Decoy", //"§aDecoy"
         "Inflatable Jerry", //  "§fInflatable Jerry"
         "Spirit Leap", // "§9Spirit Leap"
