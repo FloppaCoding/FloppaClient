@@ -189,14 +189,14 @@ object Utils {
      */
     fun getArea(): String? {
         if (!FloppaClient.inSkyblock) return null
-        val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
-        val list = nethandlerplayclient.playerInfoMap
+        val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer?.sendQueue ?: return null
+        val list = nethandlerplayclient.playerInfoMap ?: return null
         var area: String? = null
         var extraInfo: String? = null
         for (entry in list) {
             //  "Area: Hub"
             val areaText = entry?.displayName?.unformattedText ?: continue
-            if (areaText.startsWith("Area:")) {
+            if (areaText.startsWith("Area: ")) {
                 area = areaText.substringAfter("Area: ")
                 if (!area.contains("Private Island")) break
             }
