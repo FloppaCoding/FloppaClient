@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 object NoRotate : Module(
     "No Rotate",
     category = Category.PLAYER,
-    description = "Prevents rotation on recieved teleport packets."
+    description = "Prevents rotation on received teleport packets."
 ){
     /**
      * Option to toggle no rotate on packets with 0 pitch. Those are used for special teleports which in general should
@@ -32,6 +32,7 @@ object NoRotate : Module(
     private val pitch = BooleanSetting("0 Pitch", false, description = "Also prevents rotation of packets with 0 pitch, those are in general used for teleport which should rotate you..")
     private val keepMotion = BooleanSetting("Keep Motion", false, description = "Teleporting will not reset your horizontal motion.")
     private val stopOnHopper = BooleanSetting("Stop on Hopper", false, description = "Teleporting onto a hopper will stop your movement. Press your walk keys again to move again.")
+    private val clipInHopper = BooleanSetting("Clip into Hopper", false, description = "Will directly place you inside of a hopper when you teleport onto it.")
 
     private var doneLoadingTerrain = false
 
@@ -49,7 +50,8 @@ object NoRotate : Module(
         this.addSettings(
             pitch,
             keepMotion,
-            stopOnHopper
+            stopOnHopper,
+            clipInHopper
         )
     }
 
@@ -110,12 +112,18 @@ object NoRotate : Module(
 
             // Stop on Hopper Part
 
-            if (stopOnHopper.enabled){
+            var hopperClip = false
+            if (stopOnHopper.enabled || clipInHopper.enabled){
                 val pos = BlockPos(d0, d1, d2).down()
                 if (mc.theWorld.getBlockState(pos).block === Blocks.hopper) {
-                    mc.thePlayer.setVelocity(0.0, 0.0, 0.0)
-                    moveBinds.forEach {
-                        KeyBinding.setKeyBindState(it.keyCode, false)
+                    if (stopOnHopper.enabled) {
+                        mc.thePlayer.setVelocity(0.0, 0.0, 0.0)
+                        moveBinds.forEach {
+                            KeyBinding.setKeyBindState(it.keyCode, false)
+                        }
+                    }
+                    if (clipInHopper.enabled){
+                        hopperClip = true
                     }
                 }
             }
@@ -135,6 +143,10 @@ object NoRotate : Module(
                     false
                 )
             )
+
+            if (hopperClip){
+                entityplayer.setPosition(d0, d1-0.3, d2)
+            }
 
             if (!this.doneLoadingTerrain) {
                 mc.thePlayer.prevPosX = mc.thePlayer.posX
