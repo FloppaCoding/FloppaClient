@@ -7,6 +7,7 @@ import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.RoomData
 import floppaclient.funnymap.features.dungeon.DungeonScan
+import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.Utils.chatMessage
 import floppaclient.utils.Utils.modMessage
@@ -55,6 +56,9 @@ class FloppaClientCommands : CommandBase() {
                     if (this is RoomData) "Copied room data to clipboard."
                     else "Existing room data not found. Copied room core to clipboard."
                 )
+            }
+            "stop" -> {
+                AutoWater.stop()
             }
             "reload" -> {
                 modMessage("Reloading config files.")

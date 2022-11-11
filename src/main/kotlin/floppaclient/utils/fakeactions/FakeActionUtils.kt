@@ -2,6 +2,7 @@ package floppaclient.utils.fakeactions
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.mixins.packet.C02Accessor
+import floppaclient.utils.GeometryUtils
 import floppaclient.utils.Utils
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.gui.inventory.GuiInventory
@@ -17,11 +18,88 @@ import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.util.Vec3
+import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  * Collection of functions for performing fake player interactions.
  */
 object FakeActionUtils {
+
+    /**
+     * Stages an etherwarp fake action to the specified block pos.
+     * Returns false as well as sends a chat message if etherwarp not possible.
+     * Checks the center of all 6 sides of the block for visibility.
+     * @param targetPos the Target
+     * @param message if true sends a chat message on fail.
+     */
+    fun etherwarpTo(targetPos: BlockPos, message: Boolean = false): Boolean {
+        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            return false
+        }
+
+
+        val distance = mc.thePlayer.getDistanceSq(targetPos)
+        val dist = 61.0
+
+        if (distance > (dist + 2) * (dist + 2)) {
+            if (message) Utils.modMessage("Target is to far away")
+            return false
+        }
+
+        /** Account for shifted eye height. The default eye height is 1.62, shifted is -0.08 less */
+        val sneakOffs = if (mc.thePlayer.isSneaking) {
+            0.0
+        } else {
+            -0.08
+        }
+
+        // check whether the block can be seen or is to far away
+        val targets = listOf(
+            Vec3(targetPos).add(Vec3(0.5, 1.0, 0.5)),
+            Vec3(targetPos).add(Vec3(0.0, 0.5, 0.5)),
+            Vec3(targetPos).add(Vec3(0.5, 0.5, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 0.5, 0.5)),
+            Vec3(targetPos).add(Vec3(0.5, 0.5, 1.0)),
+            Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
+        )
+
+        var target: Vec3? = null
+        for (targetVec in targets) {
+            val eyeVec = mc.thePlayer.getPositionEyes(1f).addVector(0.0, sneakOffs, 0.0)
+
+            val dirVec = targetVec.subtract(eyeVec).normalize()
+
+            val vec32 = eyeVec.addVector(dirVec.xCoord * dist, dirVec.yCoord * dist, dirVec.zCoord * dist)
+            val obj = mc.theWorld.rayTraceBlocks(eyeVec, vec32, true, false, true) ?: run {
+                if (message) Utils.modMessage("Target can not be found.")
+                return false
+            }
+            if (obj.blockPos == targetPos) {
+                target = targetVec
+                break
+            }
+        }
+
+        if (target == null) {
+            if (message) Utils.modMessage("Target can not be seen!")
+            return false
+        }
+
+        if (FakeActionManager.doAction) {
+            if (message) Utils.modMessage("Conflicting fake action already staged.")
+            return false
+        }
+
+        val direction = GeometryUtils.getDirection(
+            mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.eyeHeight - 0.08, mc.thePlayer.posZ,
+            target.xCoord, target.yCoord, target.zCoord
+        )
+
+        FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        return true
+    }
 
     /**
      * Interacts with the entity with the given id by sending the interaction package.

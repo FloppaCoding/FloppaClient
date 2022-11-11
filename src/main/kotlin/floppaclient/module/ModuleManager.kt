@@ -40,6 +40,7 @@ object ModuleManager {
         SecretChime,
         SecretAura,
         AutoWeirdos,
+        AutoWater,
         TicTacToeSolver,
         ExtraStats,
         TrapGearSwap,
