@@ -7,6 +7,7 @@ import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.RoomData
 import floppaclient.funnymap.features.dungeon.DungeonScan
+import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.Utils.chatMessage
@@ -59,6 +60,7 @@ class FloppaClientCommands : CommandBase() {
             }
             "stop" -> {
                 AutoWater.stop()
+                AutoBlaze.stop()
             }
             "reload" -> {
                 modMessage("Reloading config files.")

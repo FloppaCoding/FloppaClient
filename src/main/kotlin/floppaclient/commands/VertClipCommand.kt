@@ -1,7 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.module.impl.player.Clip
+import floppaclient.utils.ClipTools
 import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -33,7 +33,7 @@ class VertClipCommand : CommandBase()  {
                 for (y2 in y-2 downTo 1) {
                     val newPos2 = BlockPos(x, y2, z)
                     if(mc.theWorld.getBlockState(newPos2).block.material.isSolid) {
-                        Clip.teleport(x+0.5,y - 1.0, z + 0.5)
+                        ClipTools.teleport(x+0.5,y - 1.0, z + 0.5)
                         return
                     }
                 }
@@ -53,7 +53,7 @@ class VertClipCommand : CommandBase()  {
                     val newPos2 = BlockPos(x, y2, z)
                     if(mc.theWorld.getBlockState(newPos2).block.material.isSolid) {
                         mc.thePlayer.motionY = 0.0
-                        Clip.teleport(x+0.5,y2 + 1.05, z + 0.5)
+                        ClipTools.teleport(x+0.5,y2 + 1.05, z + 0.5)
                         return
                     }
                 }
@@ -69,7 +69,7 @@ class VertClipCommand : CommandBase()  {
 
                 if(mc.theWorld.getBlockState(newPos).block.material.isSolid) {
                     mc.thePlayer.motionY = 0.0
-                    Clip.teleport(mc.thePlayer.posX,y + 1.05, mc.thePlayer.posZ)
+                    ClipTools.teleport(mc.thePlayer.posX,y + 1.05, mc.thePlayer.posZ)
                     return
                 }
             }
@@ -81,7 +81,7 @@ class VertClipCommand : CommandBase()  {
                 Utils.modMessage("§cArguments error.")
                 return
             }
-            Clip.clip(0.0, y, 0.0)
+            ClipTools.clip(0.0, y, 0.0)
         }
     }
 }

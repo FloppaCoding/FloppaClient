@@ -17,7 +17,7 @@ object DataHandler {
     /**
      * Gets the relative player position in a room
      */
-    private fun getRelativeCoords(vec: Vec3, roomX: Int, roomZ: Int, rotation: Int): Vec3 {
+    fun getRelativeCoords(vec: Vec3, roomX: Int, roomZ: Int, rotation: Int): Vec3 {
         return getRotatedCoords(vec.subtract(roomX.toDouble(), 0.0, roomZ.toDouble()), -rotation)
     }
 
@@ -25,12 +25,16 @@ object DataHandler {
      * Returns the real rotations of the given vec in a room with given rotation.
      * To get the relative rotation inside a room use 360 - rotation.
      */
-    private fun getRotatedCoords(vec: Vec3, rotation: Int): Vec3 {
+    fun getRotatedCoords(vec: Vec3, rotation: Int): Vec3 {
         return when {
             rotation.equalsOneOf(90, -270) -> Vec3(-vec.zCoord, vec.yCoord, vec.xCoord)
             rotation.equalsOneOf(180, -180) -> Vec3(-vec.xCoord, vec.yCoord, -vec.zCoord)
             rotation.equalsOneOf(270, -90) -> Vec3(vec.zCoord, vec.yCoord, -vec.xCoord)
             else -> vec
         }
+    }
+
+    fun Vec3.toMutableIntList(): MutableList<Int>{
+        return mutableListOf(this.xCoord.toInt(), this.yCoord.toInt(), this.zCoord.toInt())
     }
 }

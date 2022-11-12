@@ -1,6 +1,6 @@
 package floppaclient.commands
 
-import floppaclient.module.impl.player.Clip
+import floppaclient.utils.ClipTools
 import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -27,10 +27,10 @@ class HClipCommand : CommandBase()  {
         }
         when(values.size) {
             1 -> {
-                Clip.hClip(values[0])
+                ClipTools.hClip(values[0])
             }
             2 -> {
-                Clip.hClip(values[0], yOffs = values[1])
+                ClipTools.hClip(values[0], yOffs = values[1])
             }
         }
     }

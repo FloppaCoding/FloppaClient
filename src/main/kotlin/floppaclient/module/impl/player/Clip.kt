@@ -1,15 +1,12 @@
 package floppaclient.module.impl.player
 
-import floppaclient.FloppaClient
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.utils.GeometryUtils.cosDeg
+import floppaclient.utils.ClipTools.dClip
 import floppaclient.utils.GeometryUtils.pitch
-import floppaclient.utils.GeometryUtils.sinDeg
 import floppaclient.utils.GeometryUtils.yaw
-import floppaclient.utils.Utils
 
 /**
  * Clip module for changing the player position client side.
@@ -37,33 +34,6 @@ object Clip : Module(
             }else {
                 dClip(clipDistance.value)
             }
-        }
-    }
-
-    fun dClip(dist: Double, yaw: Float = yaw(), pitch: Float = 0.0f) {
-        clip(-sinDeg(yaw)*cosDeg(pitch)*dist, -sinDeg(pitch)*dist, cosDeg(yaw)*cosDeg(pitch)*dist)
-    }
-
-    fun hClip(dist: Double, yaw: Float = yaw(), yOffs: Double = 0.0) {
-        clip(-sinDeg(yaw)*dist, yOffs, cosDeg(yaw)*dist)
-    }
-
-    /**
-     * Teleport relative to the current position.
-     */
-    fun clip(x: Double, y: Double, z: Double) {
-        teleport(FloppaClient.mc.thePlayer.posX + x, FloppaClient.mc.thePlayer.posY + y, FloppaClient.mc.thePlayer.posZ + z)
-    }
-
-    /**
-     * Teleport to the specified coordinates.
-     */
-    fun teleport(x: Double, y: Double, z: Double) {
-        // check whether inputs are NaN to prevent kick
-        if(x.isNaN() || y.isNaN() || z.isNaN()) {
-            Utils.modMessage("§cArgument error")
-        }else {
-            FloppaClient.mc.thePlayer.setPosition(x, y, z)
         }
     }
 }

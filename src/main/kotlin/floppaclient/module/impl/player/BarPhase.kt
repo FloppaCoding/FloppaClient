@@ -6,6 +6,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.ClipTools
 import floppaclient.utils.GeometryUtils.scale
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.init.Blocks
@@ -66,7 +67,7 @@ object BarPhase : Module(
                     && mc.theWorld.getBlockState(BlockPos(loc.add(offsVec)).offset(dir).up()).block === Blocks.air
                     && mc.theWorld.getBlockState(BlockPos(loc.subtract(offsVec)).offset(dir).up()).block === Blocks.air
             if (flag && phaseTicks >= phaseDelay.value){
-                Clip.hClip(0.7,dir.horizontalIndex * 90f)
+                ClipTools.hClip(0.7,dir.horizontalIndex * 90f)
                 phaseTicks = 0
             }else phaseTicks++
         }else phaseTicks = 0

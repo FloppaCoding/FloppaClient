@@ -41,6 +41,7 @@ object ModuleManager {
         SecretAura,
         AutoWeirdos,
         AutoWater,
+        AutoBlaze,
         TicTacToeSolver,
         ExtraStats,
         TrapGearSwap,
