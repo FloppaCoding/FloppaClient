@@ -41,11 +41,15 @@ import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
 
+/**
+ * This module is made to automatically complete the Blaze puzzle in dungeons.
+ *
+ * @author Aton
+ */
 object AutoBlaze : Module(
     "Auto Blaze",
     category = Category.DUNGEON,
-    description = "Automatically completes the blaze puzzle. Activated by etherwarping to the diamond block that it " +
-            "places."
+    description = "Automatically completes the blaze puzzle. Activated by left clicking withe either AOTV or terminator after walking far enough into the room."
 ){
 
     private val fastSleep = NumberSetting("Sleep at 100 ats", 310.0, 200.0, 1000.0, 10.0)

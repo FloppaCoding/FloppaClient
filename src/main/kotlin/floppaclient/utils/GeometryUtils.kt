@@ -6,6 +6,11 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.Vec3
 import kotlin.math.*
 
+/**
+ * Collection of methods useful for positioning in the world.
+ *
+ * @author Aton
+ */
 object GeometryUtils {
 
     /**

@@ -13,6 +13,8 @@ import kotlin.math.sign
 
 /**
  * Collection of methods used for clipping
+ *
+ * @author Aton
  */
 object ClipTools {
 
