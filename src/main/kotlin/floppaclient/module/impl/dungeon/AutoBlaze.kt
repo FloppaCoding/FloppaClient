@@ -124,7 +124,6 @@ object AutoBlaze : Module(
         val room = Dungeon.currentRoomPair ?: return
         if (room.first.data.name != "Blaze" && room.first.data.name != "Blaze 2") return
         val relPos = DataHandler.getRelativeCoords(mc.thePlayer.positionVector, room.first.x, room.first.z, -rotation)
-        modMessage("${relPos.xCoord}, ${relPos.yCoord}, ${relPos.zCoord}")
         if (relPos.distanceTo(etherStart) > detRange) return
         val offs = if (topDown == true) 0 else HEIGHT_OFFS
         var target = BlockPos(DataHandler.getRotatedCoords(etherTarget[0], -rotation))

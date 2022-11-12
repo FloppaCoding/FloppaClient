@@ -67,11 +67,11 @@ object SellGarbo : Module(
     private var confirmed = false
 
     private var garbo = listOf(
-        "Health Potion VIII Splash Potion", //"§5Health Potion VIII Splash Potion"
-        "Training Weights", // "§aTraining Weights"
-        "Defuse Kit", // "§aDefuse Kit"
+        "Health Potion VIII Splash Potion",
+        "Training Weights",
+        "Defuse Kit",
         "Revive Stone",
-        "Healing Potion 8 Slash Potion",
+        "Healing Potion 8 Splash Potion",
         "Healing Potion VIII Splash Potion",
         "Beating Heart",
         "Premium Flesh",
