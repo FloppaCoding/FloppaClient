@@ -6,6 +6,7 @@ import floppaclient.events.TeleportEventPre
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
+import floppaclient.utils.Utils.isHolding
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.settings.KeyBinding
 import net.minecraft.entity.player.EntityPlayer
@@ -33,6 +34,7 @@ object NoRotate : Module(
     private val keepMotion = BooleanSetting("Keep Motion", false, description = "Teleporting will not reset your horizontal motion.")
     private val stopOnHopper = BooleanSetting("Stop on Hopper", false, description = "Teleporting onto a hopper will stop your movement. Press your walk keys again to move again.")
     private val clipInHopper = BooleanSetting("Clip into Hopper", false, description = "Will directly place you inside of a hopper when you teleport onto it.")
+    private val stopMotionWithPearl = BooleanSetting("Stop with Pearl", true, description = "Stops keep motion when holding a Pearl.")
 
     private var doneLoadingTerrain = false
 
@@ -51,7 +53,8 @@ object NoRotate : Module(
             pitch,
             keepMotion,
             stopOnHopper,
-            clipInHopper
+            clipInHopper,
+            stopMotionWithPearl
         )
     }
 
@@ -71,6 +74,8 @@ object NoRotate : Module(
 
             event.isCanceled = true
 
+            val stopMotion = !keepMotion.enabled || (stopMotionWithPearl.enabled && mc.thePlayer.isHolding("Ender Pearl"))
+
 
             val packetIn = event.packet
             val entityplayer: EntityPlayer = mc.thePlayer
@@ -83,7 +88,7 @@ object NoRotate : Module(
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.X)) {
                 d0 += entityplayer.posX
             } else {
-                if (!keepMotion.enabled) {
+                if (stopMotion) {
                     entityplayer.motionX = 0.0
                 }
             }
@@ -97,7 +102,7 @@ object NoRotate : Module(
             if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.Z)) {
                 d2 += entityplayer.posZ
             } else {
-                if (!keepMotion.enabled) {
+                if (stopMotion) {
                     entityplayer.motionZ = 0.0
                 }
             }
