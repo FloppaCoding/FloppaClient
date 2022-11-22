@@ -1,5 +1,6 @@
 package floppaclient.shaders
 
+import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.shaders.uniforms.Uniform
 import net.minecraft.util.ResourceLocation
@@ -96,7 +97,7 @@ open class Shader(vertexFile: String, fragmentFile: String) {
     private fun loadShader(file: String, type: Int): Int {
         val builder = java.lang.StringBuilder()
         try {
-            val reader = mc.resourceManager.getResource(ResourceLocation("floppaclient", "shaders/$file"))
+            val reader = mc.resourceManager.getResource(ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "shaders/$file"))
                 .inputStream.bufferedReader()
             var line: String? = reader.readLine()
             while (line != null) {

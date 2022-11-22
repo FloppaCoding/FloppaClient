@@ -32,7 +32,7 @@ import java.io.IOException
 class ClickGUI : GuiScreen() {
     var scale = 2.0
 
-    private val logo = ResourceLocation("floppaclient", "gui/Icon.png")
+    private val logo = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/Icon.png")
 
     /**
      * Used to add a delay for closing the gui, so that it does not instantly get closed

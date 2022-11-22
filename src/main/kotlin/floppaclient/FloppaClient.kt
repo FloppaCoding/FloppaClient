@@ -148,6 +148,7 @@ class FloppaClient {
         const val MOD_VERSION = "1.0.0"
         const val CHAT_PREFIX = "§0§l[§4§lFloppa Client§0§l]§r"
         const val SHORT_PREFIX = "§0§l[§4§lFC§0§l]§r"
+        const val RESOURCE_DOMAIN = "floppaclient"
 
         @JvmField
         val mc: Minecraft = Minecraft.getMinecraft()

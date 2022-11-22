@@ -1,5 +1,6 @@
 package floppaclient.module.impl.misc
 
+import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ContainerKeyTypedEvent
 import floppaclient.events.ContainerMouseClickedEvent
@@ -47,7 +48,7 @@ object InvActions : Module(
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
     private val stopInMelody = BooleanSetting("Stop in Melody", false, description = "Will prevent you from walking while in the melody terminal.")
 
-    private val cursor = ResourceLocation("floppaclient", "gui/cursor.png")
+    private val cursor = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/cursor.png")
 
     private val moveKeys = listOf(
         mc.gameSettings.keyBindSneak,

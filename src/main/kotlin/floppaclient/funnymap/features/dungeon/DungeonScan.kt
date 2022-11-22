@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import floppaclient.FloppaClient
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
@@ -18,7 +19,7 @@ object DungeonScan {
 
     val roomList: Set<RoomData> = try {
         Gson().fromJson(
-            mc.resourceManager.getResource(ResourceLocation("floppaclient", "funnymap/rooms.json"))
+            mc.resourceManager.getResource(ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "funnymap/rooms.json"))
                 .inputStream.bufferedReader(),
             object : TypeToken<Set<RoomData>>() {}.type
         )

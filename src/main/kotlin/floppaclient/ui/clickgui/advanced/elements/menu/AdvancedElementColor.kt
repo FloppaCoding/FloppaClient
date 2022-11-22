@@ -1,5 +1,6 @@
 package floppaclient.ui.clickgui.advanced.elements.menu
 
+import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.ColorSetting
@@ -29,7 +30,7 @@ class AdvancedElementColor(
 ) : AdvancedElement(parent, module, setting, AdvancedElementType.COLOR) {
     private var dragging: Int? = null
 
-    private val hueScale = ResourceLocation("floppaclient", "gui/HueScale.png")
+    private val hueScale = ResourceLocation(RESOURCE_DOMAIN, "gui/HueScale.png")
 
     /**
      * Renders the element

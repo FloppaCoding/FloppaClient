@@ -1,5 +1,6 @@
 package floppaclient.funnymap.features.dungeon
 
+import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.*
@@ -28,12 +29,12 @@ object MapRender: HudElement(
     DungeonMap.mapScale
 ){
 
-    private val neuGreen     = ResourceLocation("floppaclient", "funnymap/neu/green_check.png")
-    private val neuWhite     = ResourceLocation("floppaclient", "funnymap/neu/white_check.png")
-    private val neuCross     = ResourceLocation("floppaclient", "funnymap/neu/cross.png")
-    private val defaultGreen = ResourceLocation("floppaclient", "funnymap/default/green_check.png")
-    private val defaultWhite = ResourceLocation("floppaclient", "funnymap/default/white_check.png")
-    private val defaultCross = ResourceLocation("floppaclient", "funnymap/default/cross.png")
+    private val neuGreen     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/green_check.png")
+    private val neuWhite     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/white_check.png")
+    private val neuCross     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/cross.png")
+    private val defaultGreen = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/green_check.png")
+    private val defaultWhite = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/white_check.png")
+    private val defaultCross = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/cross.png")
 
     override fun renderHud() {
         super.renderHud()
