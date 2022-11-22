@@ -98,12 +98,13 @@ class FloppaClient {
     @SubscribeEvent
     fun onTick(event: ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START) return
-        tickCount++
+        tickRamp++
+        totalTicks++
         if (display != null) {
             mc.displayGuiScreen(display)
             display = null
         }
-        if (tickCount % 20 == 0) {
+        if (tickRamp % 20 == 0) {
             if (mc.thePlayer != null) {
                 val onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
 
@@ -119,7 +120,7 @@ class FloppaClient {
                     }
                 }
             }
-            tickCount = 0
+            tickRamp = 0
         }
         val newRegion = Utils.getArea()
         if (currentRegionPair?.first?.data?.name != newRegion){
@@ -138,7 +139,7 @@ class FloppaClient {
     fun onWorldChange(event: WorldEvent.Load) {
         inDungeons = false
         currentRegionPair = null
-        tickCount = 18
+        tickRamp = 18
     }
 
     companion object {
@@ -164,6 +165,10 @@ class FloppaClient {
         var inSkyblock = false
         var inDungeons = false
             get() = inSkyblock && field
-        var tickCount = 0
+        /**
+         * Keeps track of elapsed ticks, gets reset at 20
+         */
+        var tickRamp = 0
+        var totalTicks: Long = 0
     }
 }

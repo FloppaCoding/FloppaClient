@@ -15,6 +15,7 @@ import net.minecraft.block.BlockDoor
 import net.minecraft.block.BlockLadder
 import net.minecraft.block.BlockLiquid
 import net.minecraft.block.BlockSign
+import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.network.NetHandlerPlayClient
 import net.minecraft.client.network.NetworkPlayerInfo
@@ -25,6 +26,7 @@ import net.minecraft.inventory.ContainerChest
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.util.StringUtils
+import net.minecraft.util.Timer
 import net.minecraftforge.client.ClientCommandHandler
 import java.util.*
 import kotlin.math.round
@@ -32,6 +34,9 @@ import kotlin.math.round
 
 object Utils {
 
+    /**
+     * Referenced in the sound manager hook.
+     */
     var shouldBypassVolume: Boolean = false
 
     fun Any?.equalsOneOf(vararg other: Any): Boolean {
@@ -353,6 +358,9 @@ object Utils {
             mc.thePlayer
         )
     }
+
+    val Minecraft.timer: Timer
+        get() = (this as MinecraftAccessor).timer
 
     fun rightClick() {
         (mc as MinecraftAccessor).rightClickMouse()

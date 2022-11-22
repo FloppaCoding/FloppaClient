@@ -111,7 +111,7 @@ object Dungeon {
 
         // added check to determine whether in boss based on coordinates. This is relevant when blood is being skipped.
         // this also makes the chat message based detection obsolete
-        if (FloppaClient.tickCount % 20 == 0) {
+        if (FloppaClient.tickRamp % 20 == 0) {
             when ( currentFloor ) {
                 1 -> inBoss = mc.thePlayer.posX > -71 && mc.thePlayer.posZ > -39
                 2,3,4 -> inBoss = mc.thePlayer.posX > -39 && mc.thePlayer.posZ > -39

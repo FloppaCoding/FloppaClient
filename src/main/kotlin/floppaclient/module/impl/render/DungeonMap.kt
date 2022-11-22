@@ -33,6 +33,7 @@ object DungeonMap : Module(
     val centerOnPlayer = BooleanSetting("Center on Player", false, description = "Centers the map on your own Player Head.")
     val mapBackground = ColorSetting("Background", Color(0, 0, 0, 100),true, description = "Background Color for the map.")
     val mapBorder = ColorSetting("Border", Color(0, 0, 0, 255),true, description = "Border Color for the map.")
+    val chromaBorder = BooleanSetting("Chroma Border", false, description = "Will add a chroma effect to your map border. The chroma can be configured in the ClickGui Module.")
     val mapBorderWidth = NumberSetting("Border Width",3.0,0.0,10.0,0.1, description = "Map border width.")
 
     val xHud = NumberSetting("x", default = 10.0, hidden = true)
@@ -54,6 +55,7 @@ object DungeonMap : Module(
             centerOnPlayer,
             mapBackground,
             mapBorder,
+            chromaBorder,
             mapBorderWidth,
             xHud,
             yHud

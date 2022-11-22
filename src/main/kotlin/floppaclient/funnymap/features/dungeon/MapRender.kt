@@ -8,6 +8,7 @@ import floppaclient.funnymap.utils.MapUtils.roomSize
 import floppaclient.funnymap.utils.RenderUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.module.impl.render.MapRooms
+import floppaclient.shaders.impl.Chroma2D
 import floppaclient.ui.hud.EditHudGUI
 import floppaclient.ui.hud.HudElement
 import floppaclient.utils.Utils.equalsOneOf
@@ -48,6 +49,7 @@ object MapRender: HudElement(
             DungeonMap.mapBackground.value
         )
         // Border
+        if (DungeonMap.chromaBorder.enabled) Chroma2D.useShader()
         RenderUtils.renderRectBorder(
             0.0,
             0.0,
@@ -56,6 +58,7 @@ object MapRender: HudElement(
             DungeonMap.mapBorderWidth.value,
             DungeonMap.mapBorder.value
         )
+        if (DungeonMap.chromaBorder.enabled) Chroma2D.stopShader()
         // Run Information
         if (mc.currentScreen !is EditHudGUI) {
             if (DungeonMap.showRunInformation.enabled) {
