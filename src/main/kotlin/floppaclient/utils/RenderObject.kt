@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.Entity
 import net.minecraft.util.BlockPos
+import net.minecraft.util.Vec3
 import java.awt.Color
 
 object RenderObject {
@@ -16,14 +17,17 @@ object RenderObject {
     private val worldRenderer: WorldRenderer = tessellator.worldRenderer
     private val renderManager = mc.renderManager
 
-    fun drawLine (x: Double, y: Double, z: Double, x2: Double, y2: Double, z2:Double, color: Color, thickness: Float = 3f) {
+    fun drawLine(start: Vec3, finish: Vec3, color: Color, thickness: Float = 3f, phase: Boolean = true) {
+        drawLine(start.xCoord, start.yCoord, start.zCoord, finish.xCoord, finish.yCoord, finish.zCoord, color, thickness, phase)
+    }
+
+    fun drawLine (x: Double, y: Double, z: Double, x2: Double, y2: Double, z2:Double, color: Color, thickness: Float = 3f, phase: Boolean = true) {
 
         GL11.glBlendFunc(770, 771)
-        GL11.glEnable(GL11.GL_BLEND)
+        GlStateManager.enableBlend()
         GL11.glLineWidth(thickness)
-        GL11.glDisable(GL11.GL_TEXTURE_2D)
-        GL11.glDisable(GL11.GL_DEPTH_TEST)
-        GL11.glDepthMask(false)
+        if (phase) GlStateManager.disableDepth()
+        GlStateManager.disableTexture2D()
         GlStateManager.pushMatrix()
 
         GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
@@ -36,12 +40,10 @@ object RenderObject {
 
         tessellator.draw()
 
-
         GlStateManager.popMatrix()
-        GL11.glEnable(GL11.GL_TEXTURE_2D)
-        GL11.glEnable(GL11.GL_DEPTH_TEST)
-        GL11.glDepthMask(true)
-        GL11.glDisable(GL11.GL_BLEND)
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableDepth()
+        GlStateManager.disableBlend()
     }
 
     fun drawBoxAtBlock (blockPos: BlockPos, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
@@ -86,10 +88,9 @@ object RenderObject {
         tessellator.draw()
 
         GlStateManager.popMatrix()
-        GL11.glEnable(GL11.GL_TEXTURE_2D)
-        GL11.glEnable(GL11.GL_DEPTH_TEST)
-        GL11.glDepthMask(true)
-        GL11.glDisable(GL11.GL_BLEND)
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableDepth()
+        GlStateManager.disableBlend()
     }
 
     fun drawBoxByEntity (entity: Entity, color: Color, width: Double, height: Double, partialTicks: Float,

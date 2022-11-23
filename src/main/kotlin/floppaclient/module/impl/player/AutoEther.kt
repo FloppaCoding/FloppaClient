@@ -24,6 +24,8 @@ import net.minecraft.util.Vec3i
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  * This modules enables you to automatically etherwarp along predefined paths in Skyblock.
@@ -39,8 +41,7 @@ object AutoEther : Module(
 
     private val chatInfo = BooleanSetting("Chat Info", true, description = "Show a message in chat when etherwarping.")
     private val registerSecret = BooleanSetting("Register Secret", false, description = "Attempts to auto etherwarp when you pick up a secret. §eRequires Secret Chimes to be enabled.")
-    private val registerClip = BooleanSetting("Register Clip", false, description = "Attempts to auto etherwarp after performing auto clip.")
-    private val delayAfterClip = NumberSetting("Clip Delay", 50.0, 0.0, 500.0, 10.0, description = "Delay in ms when auto etherwarp is attempted after auto clipping")
+    private val delayAfterSecret = NumberSetting("Secret Delay", 70.0, 0.0, 500.0, 10.0, description = "Delay in ms when auto etherwarp is attempted after getting a secret.")
     private val detectionRange = NumberSetting("Det. Range", 2.0, 1.0, 10.0, description = "Max distance from a start point to register the Auto Etherwarp.")
     private val chainEther = BooleanSetting("Chain Warps", true, description = "Automatically perform the next Etherwarp, when it starts at the same block where the last one ended.")
     private val checkCooldown = BooleanSetting("Cooldown", true, description = "Puts a cooldown on activations.")
@@ -71,8 +72,7 @@ object AutoEther : Module(
         this.addSettings(
             chatInfo,
             registerSecret,
-            registerClip,
-            delayAfterClip,
+            delayAfterSecret,
             detectionRange,
             chainEther,
             checkCooldown,
@@ -103,17 +103,7 @@ object AutoEther : Module(
     fun onSecret(event: DungeonSecretEvent) {
         if (!registerSecret.enabled) return
         if (!inSkyblock || EditMode.enabled || cooldownTicks > 0) return
-        tryEther = true
-    }
-
-    /**
-     * For activation on clip.
-     */
-    @SubscribeEvent
-    fun onClip(event: ClipFinishEvent) {
-        if (!registerClip.enabled) return
-        if (!inSkyblock || EditMode.enabled || cooldownTicks > 0) return
-        tryEther = true
+        Timer().schedule(delayAfterSecret.value.toLong()) { tryEther = true }
     }
 
     /**
