@@ -21,6 +21,12 @@ object ChestEsp : Module(
     private val color = ColorSetting("Box Color", Color(255,0,0), description = "Color of the box when box mode is selected.")
     private val thickness = NumberSetting("Thickness", 1.0, 0.0,5.0, 0.1, description = "Line width of the box when box mode is selected.")
 
+    /**
+     * Referenced by the ChestRendererMixin to determine whether the chest is drawn in the world or something in a hud.
+     * Set by
+     */
+    var isDrawingWorld = false
+
     init {
         this.addSettings(
             mode,

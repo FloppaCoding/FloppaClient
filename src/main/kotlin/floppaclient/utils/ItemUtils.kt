@@ -42,16 +42,14 @@ object ItemUtils {
 
     private val ItemStack.lore: List<String>
         get() {
-            if (this.hasTagCompound() && this.tagCompound.hasKey("display", 10)) {
-                val display = this.tagCompound.getCompoundTag("display")
-                if (display.hasKey("Lore", 9)) {
-                    val nbt = display.getTagList("Lore", 8)
-                    val lore = ArrayList<String>()
-                    (0..nbt.tagCount()).forEach {
-                        lore.add(nbt.getStringTagAt(it))
-                    }
-                    return lore
+            val display = this.getSubCompound("display", false) ?: return emptyList()
+            if (display.hasKey("Lore", 9)) {
+                val nbt = display.getTagList("Lore", 8)
+                val lore = ArrayList<String>()
+                (0..nbt.tagCount()).forEach {
+                    lore.add(nbt.getStringTagAt(it))
                 }
+                return lore
             }
             return emptyList()
         }
