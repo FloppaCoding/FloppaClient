@@ -54,6 +54,7 @@ object ModuleManager {
         DungeonKillAura,
         IceSprayAura,
         CancelChestOpen,
+        LavaBounce,
 
         //RENDER
         ClickGui,
