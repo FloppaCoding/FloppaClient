@@ -2,6 +2,7 @@ package floppaclient.utils.fakeactions
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.mixins.packet.C02Accessor
+import floppaclient.module.impl.player.AutoEther
 import floppaclient.utils.GeometryUtils
 import floppaclient.utils.Utils
 import net.minecraft.client.gui.inventory.GuiContainer
@@ -23,8 +24,11 @@ import kotlin.concurrent.schedule
 
 /**
  * Collection of functions for performing fake player interactions.
+ *
+ * @author Aton
  */
 object FakeActionUtils {
+
 
     /**
      * Stages an etherwarp fake action to the specified block pos.
@@ -32,8 +36,9 @@ object FakeActionUtils {
      * Checks the center of all 6 sides of the block for visibility.
      * @param targetPos the Target
      * @param message if true sends a chat message on fail.
+     * @param fakeTp will set the position client side to the etherwarp position after sending the click packet.
      */
-    fun etherwarpTo(targetPos: BlockPos, message: Boolean = false): Boolean {
+    fun etherwarpTo(targetPos: BlockPos, message: Boolean = false, fakeTp: Boolean = false): Boolean {
         val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
             if (message) Utils.modMessage("No AOTV found in your hotbar!")
             return false
@@ -97,7 +102,159 @@ object FakeActionUtils {
             target.xCoord, target.yCoord, target.zCoord
         )
 
-        FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true).apply {
+            if (fakeTp){
+                val newX = targetPos.x + 0.5
+                val newY = targetPos.y + 1.05
+                val newZ = targetPos.z + 0.5
+                this.extraActionFun = {
+                    mc.thePlayer.setPosition(newX, newY, newZ)
+                    Timer().schedule(10) {
+                        AutoEther.fakeTPResponse(newX, newY, newZ, direction[1].toFloat() % 360f, direction[2].toFloat() % 360f)
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+
+    /**
+     * Stages an etherwarp fake action to the specified block pos for the given start vec which is assumed to be the
+     * players coordinates (at feet level).
+     * Returns false as well as sends a chat message if etherwarp not possible.
+     * Checks the center of all 6 sides of the block for visibility.
+     * @param start the start position.
+     * @param targetPos the Target
+     * @param message if true sends a chat message on fail.
+     * @param fakeTp will set the position client side to the etherwarp position after sending the click packet.
+     */
+    fun tryEtherwarp(
+        start: Vec3,
+        targetPos: BlockPos,
+        message: Boolean = false,
+        queueMode: Boolean = false,
+        fakeTp: Boolean = false
+    ): Boolean {
+        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            return false
+        }
+        val eyeVec = start.addVector(0.0, mc.thePlayer.eyeHeight - 0.08, 0.0)
+
+
+//        val distance = mc.thePlayer.getDistanceSq(targetPos)
+        val distance = eyeVec.distanceTo(Vec3(targetPos))
+        val dist = 61.0
+
+        if (distance > (dist + 2)) {
+            if (message) Utils.modMessage("Target is to far away")
+            return false
+        }
+
+
+        // check whether the block can be seen or is to far away
+        val targets = listOf(
+            Vec3(targetPos).add(Vec3(0.5, 1.0, 0.5)),
+            Vec3(targetPos).add(Vec3(0.0, 0.5, 0.5)),
+            Vec3(targetPos).add(Vec3(0.5, 0.5, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 0.5, 0.5)),
+            Vec3(targetPos).add(Vec3(0.5, 0.5, 1.0)),
+            Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
+        )
+
+        var target: Vec3? = null
+        for (targetVec in targets) {
+
+            val dirVec = targetVec.subtract(eyeVec).normalize()
+
+            val vec32 = eyeVec.addVector(dirVec.xCoord * dist, dirVec.yCoord * dist, dirVec.zCoord * dist)
+            val obj = mc.theWorld.rayTraceBlocks(eyeVec, vec32, true, false, true) ?: run {
+                if (message) Utils.modMessage("Target can not be found.")
+                return false
+            }
+            if (obj.blockPos == targetPos) {
+                target = targetVec
+                break
+            }
+        }
+
+        if (target == null) {
+            if (message) Utils.modMessage("Target can not be seen!")
+            return false
+        }
+
+        val direction = GeometryUtils.getDirection(
+            start.xCoord, start.yCoord + mc.thePlayer.eyeHeight - 0.08, start.zCoord,
+            target.xCoord, target.yCoord, target.zCoord
+        )
+
+        val fakeAction = if (queueMode)
+            FakeActionManager.queueRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        else {
+            if (FakeActionManager.doAction) {
+                if (message) Utils.modMessage("Conflicting fake action already staged.")
+                return false
+            }
+            FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        }
+        fakeAction.apply {
+            if (fakeTp){
+                val newX = targetPos.x + 0.5
+                val newY = targetPos.y + 1.05
+                val newZ = targetPos.z + 0.5
+                this.extraActionFun = {
+                    mc.thePlayer.setPosition(newX, newY, newZ)
+                    Timer().schedule(10) {
+                        AutoEther.fakeTPResponse(newX, newY, newZ, direction[1].toFloat() % 360f, direction[2].toFloat() % 360f)
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    /**
+     * Stages an etherwarp fake action to the specified block pos for the given start vec which is assumed to be the
+     * players coordinates (at feet level).
+     * The top center of the block will be targeted.
+     * It will not check whether the target can be seen.
+     * @return false when no aotv found in hotbar
+     */
+    fun forceEtherwarp(
+        start: Vec3,
+        targetPos: BlockPos,
+        message: Boolean = false,
+        queueMode: Boolean = false,
+        fakeTp: Boolean = false
+    ): Boolean {
+        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            return false
+        }
+        val target = Vec3(targetPos).add(Vec3(0.5, 1.0, 0.5))
+
+        val direction = GeometryUtils.getDirection(
+            start.xCoord, start.yCoord + mc.thePlayer.eyeHeight - 0.08, start.zCoord,
+            target.xCoord, target.yCoord, target.zCoord
+        )
+        val fakeAction = if (queueMode)
+            FakeActionManager.queueRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        else
+            FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
+        fakeAction.apply {
+            if (fakeTp){
+                val newX = targetPos.x + 0.5
+                val newY = targetPos.y + 1.05
+                val newZ = targetPos.z + 0.5
+                this.extraActionFun = {
+                    mc.thePlayer.setPosition(newX, newY, newZ)
+                    Timer().schedule(10) {
+                        AutoEther.fakeTPResponse(newX, newY, newZ, direction[1].toFloat() % 360f, direction[2].toFloat() % 360f)
+                    }
+                }
+            }
+        }
         return true
     }
 

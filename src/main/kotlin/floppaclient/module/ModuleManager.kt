@@ -57,6 +57,7 @@ object ModuleManager {
         //RENDER
         ClickGui,
         EditHud,
+        DrawRoutes,
         DungeonESP,
         ChestEsp,
         DungeonWarpTimer,
@@ -70,6 +71,8 @@ object ModuleManager {
         //PLAYER
         HotbarSwapper,
         ArmorSwapper,
+        AutoClip,
+        AutoEther,
         FreeCam,
         Clip,
         HClip,
@@ -79,6 +82,7 @@ object ModuleManager {
 
         //MISC
         QOL,
+        ClipSettings,
         InvActions,
         AutoSprint,
         AutoRagnarock,

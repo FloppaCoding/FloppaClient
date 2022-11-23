@@ -73,6 +73,36 @@ object RoomUtils {
             FloppaClient.extras.extraRooms[room.data.name]
     }
 
+    /**
+     * Gets the autop action data for the specified room (this can also be a region).
+     *
+     * If none exits it will create a blank entry.
+     * @see getRoomAutoActionData
+     */
+    fun getOrPutRoomAutoActionData(room: Room): AutoActionData {
+        return if (room.data.type == RoomType.REGION)
+            FloppaClient.autoactions.autoActionRegions.getOrPut(room.data.name) {
+                AutoActionData(room.core)
+            }
+        else
+            FloppaClient.autoactions.autoActionRooms.getOrPut(room.data.name) {
+                AutoActionData(room.core)
+            }
+    }
+
+    /**
+     * Gets the autop action data for the specified room (this can also be a region).
+     *
+     * If none exits it will return null.
+     * @see getOrPutRoomAutoActionData
+     */
+    fun getRoomAutoActionData(room: Room): AutoActionData? {
+        return if (room.data.type == RoomType.REGION)
+            FloppaClient.autoactions.autoActionRegions[room.data.name]
+        else
+            FloppaClient.autoactions.autoActionRooms[room.data.name]
+    }
+
     fun instanceBossRoom(floor: Int): Room {
         return Room(0,0, RoomData("Boss $floor", RoomType.BOSS, 0, 1, listOf(0), 0,0))
     }

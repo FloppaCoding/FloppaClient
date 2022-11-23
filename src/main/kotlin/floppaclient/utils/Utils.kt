@@ -23,9 +23,7 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.init.Blocks
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.ContainerChest
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.MovingObjectPosition
-import net.minecraft.util.StringUtils
+import net.minecraft.util.*
 import net.minecraft.util.Timer
 import net.minecraftforge.client.ClientCommandHandler
 import java.util.*
@@ -44,6 +42,12 @@ object Utils {
             this == it
         }
     }
+
+    /**
+     * Returns the actual block pos of the player. The value obtained by .position is shifted by 0.5 before flooring.
+     */
+    val EntityPlayerSP.flooredPosition: BlockPos
+        get() = BlockPos(this.posX, this.posY, this.posZ)
 
     /**
      * Test whether the String contains one of the stings in the list.

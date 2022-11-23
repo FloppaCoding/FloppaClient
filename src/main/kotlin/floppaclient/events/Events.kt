@@ -106,3 +106,14 @@ class RoomChangeEvent(val newRoomPair: Pair<Room, Int>?, val oldRoomPair: Pair<R
 class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val newState: IBlockState) : Event()
 
 class BlockDestroyEvent(val pos: BlockPos, val side: EnumFacing, val state: IBlockState) : Event()
+
+/**
+ * Fired when a secret is picked up in dungeons.
+ * Currently gets fired whenever SecretChime plays its sound.
+ */
+class DungeonSecretEvent() : Event()
+
+/**
+ * Fired when a clip chain is finished.
+ */
+class ClipFinishEvent() : Event()

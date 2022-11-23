@@ -1,6 +1,7 @@
 package floppaclient
 
 import floppaclient.commands.*
+import floppaclient.config.AutoActionConfig
 import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
 import floppaclient.funnymap.core.Room
@@ -57,6 +58,10 @@ class FloppaClient {
 
         listOf(
             FloppaClientCommands(),
+            AddCommand(),
+            RemoveCommand(),
+            AddEtherCommand(),
+            RemoveEtherCommand(),
             VertClipCommand(),
             Clip3DCommand(),
             HClipCommand(),
@@ -84,6 +89,7 @@ class FloppaClient {
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
 
         launch {
+            autoactions.loadConfig()
             extras.loadConfig()
             moduleConfig.loadConfig()
             clickGUI.setUpPanels()
@@ -157,6 +163,7 @@ class FloppaClient {
 
         val scope = CoroutineScope(EmptyCoroutineContext)
 
+        var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/floppaclient/autoaction"))
         var extras = ExtrasConfig(File(mc.mcDataDir, "config/floppaclient/extras"))
         val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/floppaclient"))
 

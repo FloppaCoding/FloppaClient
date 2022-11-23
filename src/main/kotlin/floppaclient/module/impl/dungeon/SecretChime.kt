@@ -2,6 +2,7 @@ package floppaclient.module.impl.dungeon
 
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.events.DungeonSecretEvent
 import floppaclient.events.EntityRemovedEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
@@ -13,6 +14,7 @@ import net.minecraft.entity.item.EntityItem
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntitySkull
 import net.minecraftforge.client.event.sound.PlaySoundSourceEvent
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -159,6 +161,7 @@ mob.guardian.land.hit - 2
     }
 
     fun playSecretSound(sound: String = getSound()) {
+        MinecraftForge.EVENT_BUS.post(DungeonSecretEvent())
         if (System.currentTimeMillis() - lastPlayed > 10) {
             Utils.playLoudSound(sound, volume.value.toFloat(), pitch.value.toFloat())
             lastPlayed = System.currentTimeMillis()

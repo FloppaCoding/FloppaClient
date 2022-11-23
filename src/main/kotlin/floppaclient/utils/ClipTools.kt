@@ -1,6 +1,7 @@
 package floppaclient.utils
 
 import floppaclient.FloppaClient
+import floppaclient.module.impl.misc.ClipSettings
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.GeometryUtils.yaw
 import floppaclient.utils.Utils.modMessage
@@ -20,20 +21,11 @@ object ClipTools {
 
     private fun getDelay(index: Int): Long {
         return longArrayOf(
-            0,
-            10,
-            60,
-            120,
-            190,
-            270,
-            360,
-            470,
-            580,
-            700,
+            0, ClipSettings.clipDelay1.value.toLong(), ClipSettings.clipDelay2.value.toLong(), ClipSettings.clipDelay3.value.toLong(),
+            ClipSettings.clipDelay4.value.toLong(), ClipSettings.clipDelay5.value.toLong(), ClipSettings.clipDelay6.value.toLong(),
+            ClipSettings.clipDelay7.value.toLong(), ClipSettings.clipDelay8.value.toLong(), ClipSettings.clipDelay9.value.toLong()
         )[index]
     }
-
-    private const val baseClipDistance = 9.5
 
     fun dClip(dist: Double, yaw: Float = yaw(), pitch: Float = 0.0f) {
         clip(-GeometryUtils.sinDeg(yaw) * GeometryUtils.cosDeg(pitch) *dist, -GeometryUtils.sinDeg(pitch) *dist, GeometryUtils.cosDeg(
@@ -69,12 +61,12 @@ object ClipTools {
     }
 
     private fun farclip(distTotal: Double, yaw: Float = yaw(), pitch: Float = GeometryUtils.pitch(), startii: Int = 0, delayOffs: Long = 0): Int { //directional clip towards where you are facing in 3D
-        val dist = baseClipDistance * sign(distTotal)
+        val dist = ClipSettings.baseClipDistance.value * sign(distTotal)
         val n = floor(abs(distTotal / dist)).toInt()
 //        val timer = Timer()
         if(startii + n > 10) {
             modMessage("§cError: specified distance exceeds max set distance of "
-                    + baseClipDistance *10 + " Blocks")
+                    + ClipSettings.baseClipDistance.value*10 + " Blocks")
             return startii + n
         }
         if(n > 0 && startii == 0) {

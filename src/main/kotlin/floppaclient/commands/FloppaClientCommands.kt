@@ -1,6 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.autoactions
 import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.extras
@@ -10,6 +11,7 @@ import floppaclient.funnymap.features.dungeon.DungeonScan
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
+import floppaclient.utils.DataHandler
 import floppaclient.utils.Utils.chatMessage
 import floppaclient.utils.Utils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
@@ -64,9 +66,49 @@ class FloppaClientCommands : CommandBase() {
             }
             "reload" -> {
                 modMessage("Reloading config files.")
+                autoactions.loadConfig()
                 extras.loadConfig()
                 FloppaClient.moduleConfig.loadConfig()
                 clickGUI.setUpPanels()
+            }
+            "clear" -> {
+                if (args.size < 2) return modMessage("Specify what to clear. Options: \"clips\", \"etherwarps\", \"blocks\", \"all\".")
+                when(args[1].lowercase()) {
+                    "clips" -> DataHandler.clearClipsInRoom()
+                    "etherwarps", "ether" -> DataHandler.clearEtherInRoom()
+                    "blocks", "extras" -> DataHandler.clearBlocksInRoom()
+                    "all" -> {
+                        DataHandler.clearClipsInRoom()
+                        DataHandler.clearEtherInRoom()
+                        DataHandler.clearBlocksInRoom()
+                    }
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\", \"all\".")
+                }
+            }
+            "undo" -> {
+                if (args.size < 2) return modMessage("Specify what to undo. Options: \"clips\", \"etherwarps\", \"blocks\".")
+                when(args[1].lowercase()) {
+                    "clips" -> DataHandler.undoClearClips()
+                    "etherwarps", "ether" -> DataHandler.undoClearEther()
+                    "blocks", "extras" -> DataHandler.undoClearBlocks()
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\".")
+                }
+            }
+            "rotate" -> {
+                if (args.size < 2) return modMessage("Specify what to rotate. Options: \"clips\", \"etherwarps\", \"blocks\", \"actions\".")
+                val rotation: Int = if (args.size >= 3) {
+                    args[2].toInt()
+                }else 90
+                when(args[1].lowercase()) {
+                    "clips" -> DataHandler.rotateClips(rotation)
+                    "etherwarps", "ether" -> DataHandler.rotateEther(rotation)
+                    "blocks", "extras" -> DataHandler.rotateBlocks(rotation)
+                    "actions" -> {
+                        DataHandler.rotateClips(rotation)
+                        DataHandler.rotateEther(rotation)
+                    }
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\".")
+                }
             }
             "resetgui" -> {
                 modMessage("Resetting positions in the click gui.")
