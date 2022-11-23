@@ -47,6 +47,7 @@ object ModuleManager {
         TrapGearSwap,
         AutoLeap,
         MelodyMessage,
+        InstaCrystal,
         TerminalAura,
         AutoTerms,
         AutoDevices,
