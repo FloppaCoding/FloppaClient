@@ -93,7 +93,7 @@ object AutoLeap : Module(
             else "None"
             if (mode == "None") return
             val name: String = when(mode) {
-                "Healer", "Archer", "Berserker", "Tank", "Mage" -> {
+                "Healer", "Archer", "Berserk", "Tank", "Mage" -> {
                     Utils.dungeonTeammateWithClass(mode)?.name
                 }
                 "Furtherst" -> {
