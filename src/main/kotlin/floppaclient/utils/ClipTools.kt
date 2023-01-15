@@ -1,6 +1,6 @@
 package floppaclient.utils
 
-import floppaclient.FloppaClient
+import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.impl.misc.ClipSettings
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.GeometryUtils.yaw
@@ -41,7 +41,7 @@ object ClipTools {
      * Teleport relative to the current position.
      */
     fun clip(x: Double, y: Double, z: Double) {
-        teleport(FloppaClient.mc.thePlayer.posX + x, FloppaClient.mc.thePlayer.posY + y, FloppaClient.mc.thePlayer.posZ + z)
+        teleport(mc.thePlayer.posX + x, mc.thePlayer.posY + y, mc.thePlayer.posZ + z)
     }
 
     /**
@@ -52,7 +52,7 @@ object ClipTools {
         if(x.isNaN() || y.isNaN() || z.isNaN()) {
             modMessage("§cArgument error")
         }else {
-            FloppaClient.mc.thePlayer.setPosition(x, y, z)
+            mc.thePlayer.setPosition(x, y, z)
         }
     }
 

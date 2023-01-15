@@ -22,7 +22,7 @@ object RenderObject {
     }
 
     fun drawLine (x: Double, y: Double, z: Double, x2: Double, y2: Double, z2:Double, color: Color, thickness: Float = 3f, phase: Boolean = true) {
-
+        GlStateManager.disableLighting()
         GL11.glBlendFunc(770, 771)
         GlStateManager.enableBlend()
         GL11.glLineWidth(thickness)
@@ -31,7 +31,7 @@ object RenderObject {
         GlStateManager.pushMatrix()
 
         GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
-        worldRenderer.begin(3, DefaultVertexFormats.POSITION_TEX)
+        worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
         GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f,
             color.blue.toFloat() / 255f, 1f)
 
@@ -51,7 +51,7 @@ object RenderObject {
     }
 
     fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
-
+        GlStateManager.disableLighting()
         GL11.glBlendFunc(770, 771)
         GlStateManager.enableBlend()
         GL11.glLineWidth(thickness)
@@ -60,7 +60,7 @@ object RenderObject {
         GlStateManager.pushMatrix()
 
         if (relocate) GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
-        worldRenderer.begin(3, DefaultVertexFormats.POSITION_TEX)
+        worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
         GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f,
             color.blue.toFloat() / 255f, 1f)
 
@@ -109,18 +109,16 @@ object RenderObject {
         val z = entity.posZ + ((entity.posZ-entity.lastTickPosZ)*partialTicks) + zOffs
 
         val radius = width/2
-
-
-
-        GL11.glBlendFunc(770, 771)
+        GlStateManager.disableLighting()
         GlStateManager.enableBlend()
+        GL11.glBlendFunc(770, 771)
         GL11.glLineWidth(lineWidth)
         if(phase) GlStateManager.disableDepth()
         GlStateManager.disableTexture2D()
         GlStateManager.pushMatrix()
 
         GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
-        worldRenderer.begin(3, DefaultVertexFormats.POSITION_TEX)
+        worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
         GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f,
             color.blue.toFloat() / 255f, 1f)
 

@@ -38,7 +38,7 @@ object AutoHarp : Module(
     }
 
     @SubscribeEvent
-    fun onTick(event: GuiScreenEvent.BackgroundDrawnEvent) {
+    fun onRender(event: GuiScreenEvent.BackgroundDrawnEvent) {
         if (!inHarp || mc.thePlayer == null) return
         val container = mc.thePlayer.openContainer ?: return
         if (container !is ContainerChest) return
