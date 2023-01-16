@@ -21,10 +21,8 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private val action = StringSetting("Action","",50, description = "Name of the Item to be used / command to be executed or chat message to be sent.")
     private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for items.")
     private val fromInventory = BooleanSetting("From Inv", description = "Allows you to use items from your inventory.")
-    private val removeButton = ActionSetting("Remove Key Bind", description = "Removes the Key Bind.").apply {
-        action = {
-            ModuleManager.removeKeyBind(this@KeyBind)
-        }
+    private val removeButton = ActionSetting("Remove Key Bind", description = "Removes the Key Bind."){
+        ModuleManager.removeKeyBind(this@KeyBind)
     }
     // Used by the config loader to determine whether a setting is a keybind
     private val flag = BooleanSetting("THIS_IS_A_KEY_BIND", visibility = Visibility.HIDDEN)

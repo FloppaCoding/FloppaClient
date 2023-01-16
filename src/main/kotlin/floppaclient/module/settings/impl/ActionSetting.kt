@@ -7,9 +7,8 @@ class ActionSetting(
     name: String,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description) {
-
     var action: () -> Unit = {}
+) : Setting(name, visibility, description) {
 
     fun doAction() {
         action()
