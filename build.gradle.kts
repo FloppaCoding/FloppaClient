@@ -12,7 +12,7 @@ plugins {
     java
 }
 
-version = "DO_NOT_SEND"
+version = "1.0.1"
 group = "floppaclient"
 
 repositories {
