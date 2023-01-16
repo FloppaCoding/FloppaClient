@@ -58,7 +58,7 @@ class AdvancedMenu(val module: Module) {
 
     init {
         for (setting in module.settings) {
-            if (setting.hidden) continue
+            if (!setting.visibility.visibleInAdvanced) continue
             when (setting) {
                 is BooleanSetting   -> elements.add(AdvancedElementCheckBox (this, module, setting))
                 is NumberSetting    -> elements.add(AdvancedElementSlider   (this, module, setting))

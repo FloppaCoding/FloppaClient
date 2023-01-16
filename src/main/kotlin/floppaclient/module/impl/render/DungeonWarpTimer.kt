@@ -3,6 +3,7 @@ package floppaclient.module.impl.render
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
@@ -38,9 +39,9 @@ object DungeonWarpTimer : Module(
      */
     private val onlyOwnCD = BooleanSetting("Only Own CD", false, description = "Only track your own cooldown.")
 
-    private val xHud = NumberSetting("x", default = 0.0, hidden = true)
-    private val yHud = NumberSetting("y", default = 128.0, hidden = true)
-    private val scaleHud = NumberSetting("scale",1.0,0.1,4.0, 0.01, hidden = true)
+    private val xHud = NumberSetting("x", default = 0.0, visibility = Visibility.HIDDEN)
+    private val yHud = NumberSetting("y", default = 128.0, visibility = Visibility.HIDDEN)
+    private val scaleHud = NumberSetting("scale",1.0,0.1,4.0, 0.01, visibility = Visibility.HIDDEN)
 
     private var warps: MutableMap<String, Int> = mutableMapOf()
 

@@ -1,15 +1,16 @@
 package floppaclient.module.settings.impl
 
 import floppaclient.module.settings.Setting
+import floppaclient.module.settings.Visibility
 import net.minecraft.util.MathHelper
 
 class SelectorSetting(
     name: String,
     var default: String,
     var options: ArrayList<String>,
-    hidden: Boolean = false,
+    visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, hidden, description){
+) : Setting(name, visibility, description){
 
     var index: Int = optionIndex(default)
      set(value) {

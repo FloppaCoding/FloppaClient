@@ -1,6 +1,7 @@
 package floppaclient.ui.hud
 
 import floppaclient.funnymap.utils.RenderUtils
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.NumberSetting
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraftforge.client.event.RenderGameOverlayEvent
@@ -15,7 +16,7 @@ open class HudElement(
     private val ySett: NumberSetting,
     var width: Int = 10,
     var height: Int = 10,
-    val scale: NumberSetting = NumberSetting("scale",1.0,0.1,4.0, 0.02, hidden = true),
+    val scale: NumberSetting = NumberSetting("scale",1.0,0.1,4.0, 0.02, visibility = Visibility.HIDDEN),
 ) {
 
     private val zoomIncrement = 0.05

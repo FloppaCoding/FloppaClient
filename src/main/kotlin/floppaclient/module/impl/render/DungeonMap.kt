@@ -3,6 +3,7 @@ package floppaclient.module.impl.render
 import floppaclient.funnymap.features.dungeon.MapRender
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -36,8 +37,8 @@ object DungeonMap : Module(
     val chromaBorder = BooleanSetting("Chroma Border", false, description = "Will add a chroma effect to your map border. The chroma can be configured in the ClickGui Module.")
     val mapBorderWidth = NumberSetting("Border Width",3.0,0.0,10.0,0.1, description = "Map border width.")
 
-    val xHud = NumberSetting("x", default = 10.0, hidden = true)
-    val yHud = NumberSetting("y", default = 10.0, hidden = true)
+    val xHud = NumberSetting("x", default = 10.0, visibility = Visibility.HIDDEN)
+    val yHud = NumberSetting("y", default = 10.0, visibility = Visibility.HIDDEN)
 
     init {
         this.addSettings(

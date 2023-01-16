@@ -4,6 +4,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.ModuleManager
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.ActionSetting
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.SelectorSetting
@@ -26,7 +27,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
         }
     }
     // Used by the config loader to determine whether a setting is a keybind
-    private val flag = BooleanSetting("THIS_IS_A_KEY_BIND", hidden = true)
+    private val flag = BooleanSetting("THIS_IS_A_KEY_BIND", visibility = Visibility.HIDDEN)
 
     init {
         this.addSettings(

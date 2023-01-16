@@ -1,6 +1,7 @@
 package floppaclient.module.settings.impl
 
 import floppaclient.module.settings.Setting
+import floppaclient.module.settings.Visibility
 import net.minecraft.util.MathHelper
 import kotlin.math.round
 
@@ -10,9 +11,9 @@ class NumberSetting(
     var min: Double = -10000.0,
     var max: Double = 10000.0,
     var increment: Double = 1.0,
-    hidden: Boolean = false,
+    visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, hidden, description) {
+) : Setting(name, visibility, description) {
 
     var processInput: (Double) -> Double = { input: Double -> input}
 

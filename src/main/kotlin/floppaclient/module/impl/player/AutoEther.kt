@@ -9,6 +9,7 @@ import floppaclient.funnymap.features.extras.EditMode
 import floppaclient.funnymap.features.extras.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.DataHandler
@@ -46,7 +47,7 @@ object AutoEther : Module(
     private val chainEther = BooleanSetting("Chain Warps", true, description = "Automatically perform the next Etherwarp, when it starts at the same block where the last one ended.")
     private val checkCooldown = BooleanSetting("Cooldown", true, description = "Puts a cooldown on activations.")
     private val pingless = BooleanSetting("Pingless", false, description = "Pre moves client side before the teleport packet is received. Only for chains.")
-    private val packetLimit = NumberSetting("Max Packets", 10.0, 1.0, 15.0, 1.0, hidden = true, description = "Sets the limit for overflow packets.")
+    private val packetLimit = NumberSetting("Max Packets", 10.0, 1.0, 15.0, 1.0, visibility = Visibility.HIDDEN, description = "Sets the limit for overflow packets.")
     private val visibilityCheck = BooleanSetting("Visibility Check", true, description = "Will perform a visibility check for pingless routes.")
     private val debugMessages = BooleanSetting("Debug Messages", false, description = "Shows debug messages for fake responses.")
     private val blockClick = BooleanSetting("Cancel click", false, description = "Cancels left clicks with ATOV")

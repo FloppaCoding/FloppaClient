@@ -37,7 +37,7 @@ class ModuleButton(imod: Module, pl: Panel) {
         /** Register the corresponding gui element for all non-hidden settings in the module */
         for (setting in imod.settings) {
             /** Don't show hidden settings */
-            if (setting.hidden) continue
+            if (!setting.visibility.visibleInClickGui) continue
 
             when (setting) {
                 is BooleanSetting   -> menuelements.add(ElementCheckBox (this, setting))

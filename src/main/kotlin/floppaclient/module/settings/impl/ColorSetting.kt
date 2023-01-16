@@ -2,6 +2,7 @@ package floppaclient.module.settings.impl
 
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.Setting
+import floppaclient.module.settings.Visibility
 import net.minecraft.util.MathHelper
 import java.awt.Color
 
@@ -9,9 +10,9 @@ class ColorSetting(
     name: String,
     val default: Color,
     var allowAlpha: Boolean = true,
-    hidden: Boolean = false,
+    visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, hidden, description){
+) : Setting(name, visibility, description){
 
     var value: Color = default
     var hsbvals: FloatArray = Color.RGBtoHSB(default.red, default.green, default.blue, null)

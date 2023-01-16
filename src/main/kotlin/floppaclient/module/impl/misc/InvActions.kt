@@ -8,6 +8,7 @@ import floppaclient.funnymap.utils.RenderUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms
+import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.ui.clickgui.util.FontUtil
 import floppaclient.utils.Utils
@@ -52,7 +53,7 @@ object InvActions : Module(
     private val invWalk = BooleanSetting("Inv Walk", true, description= "Lets you walk while in inventory.")
     private val kbmove = BooleanSetting("Kb Move", false, description= "Lets you walk while in inventory if enough knockback was recently taken.")
     private val kbWithBonzo = BooleanSetting("Kb holding Bonzo", true, description = "If enabled you can take knockback when holding the Bonzo Staff")
-    private val autoKb = BooleanSetting("Auto Kb", true, hidden = true)
+    private val autoKb = BooleanSetting("Auto Kb", true, visibility = Visibility.HIDDEN)
     private val onlyMoveOnKey = BooleanSetting("Only on Input", false, description = "Only starts shooting the Bonzo staff when a movement key is being held. Especially with high ping this will result in quite a bit of delay.")
     private val toggleAutoKb = BooleanSetting("f5 Toggle kb", true, description= "If enabled the perspective keybind will toggle whether the bonzo staff is being shot at the floor.")
     private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled this module will only enabled in terminals.")
