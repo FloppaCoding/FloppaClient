@@ -4,7 +4,6 @@ import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.module.Category
 import floppaclient.module.Module
-import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.*
 import java.awt.Color
 
@@ -41,14 +40,14 @@ object ClickGui: Module(
     private const val pwidth = 120.0
     private const val pheight = 15.0
 
-    val panelWidth: NumberSetting  = NumberSetting("Panel width", default = pwidth, visibility = Visibility.HIDDEN)
-    val panelHeight: NumberSetting = NumberSetting("Panel height", default = pheight, visibility = Visibility.HIDDEN)
+    val panelWidth: NumberSetting  = NumberSetting("Panel width", default = pwidth, hidden = true)
+    val panelHeight: NumberSetting = NumberSetting("Panel height", default = pheight, hidden = true)
 
     const val advancedRelWidth = 0.5
     const val advancedRelHeight = 0.5
 
-    val advancedRelX = NumberSetting("Advanced_RelX",(1 - advancedRelWidth)/2.0,0.0, (1- advancedRelWidth), 0.0001, visibility = Visibility.HIDDEN)
-    val advancedRelY = NumberSetting("Advanced_RelY",(1 - advancedRelHeight)/2.0,0.0, (1- advancedRelHeight), 0.0001, visibility = Visibility.HIDDEN)
+    val advancedRelX = NumberSetting("Advanced_RelX",(1 - advancedRelWidth)/2.0,0.0, (1- advancedRelWidth), 0.0001, hidden = true)
+    val advancedRelY = NumberSetting("Advanced_RelY",(1 - advancedRelHeight)/2.0,0.0, (1- advancedRelHeight), 0.0001, hidden = true)
 
     init {
         val options = java.util.ArrayList<String>()
@@ -103,9 +102,9 @@ object ClickGui: Module(
         val py = 10.0
         val pxplus = panelWidth.value + 10
         for(category in Category.values()) {
-            panelX.getOrPut(category) { NumberSetting(category.name + ",x", default = px, visibility = Visibility.HIDDEN) }.value = px
-            panelY.getOrPut(category) { NumberSetting(category.name + ",y", default = py, visibility = Visibility.HIDDEN) }.value = py
-            panelExtended.getOrPut(category) { BooleanSetting(category.name + ",extended", enabled = true, visibility = Visibility.HIDDEN) }.enabled = true
+            panelX.getOrPut(category) { NumberSetting(category.name + ",x", default = px, hidden = true) }.value = px
+            panelY.getOrPut(category) { NumberSetting(category.name + ",y", default = py, hidden = true) }.value = py
+            panelExtended.getOrPut(category) { BooleanSetting(category.name + ",extended", enabled = true, hidden = true) }.enabled = true
             px += pxplus
         }
 
