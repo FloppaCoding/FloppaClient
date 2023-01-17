@@ -10,14 +10,13 @@ import floppaclient.funnymap.features.extras.EditMode
 import floppaclient.funnymap.features.extras.Extras
 import floppaclient.funnymap.features.extras.RoomUtils
 import floppaclient.module.ModuleManager
-import floppaclient.module.impl.dungeon.AutoTerms
-import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils
 import floppaclient.utils.Utils
 import floppaclient.utils.fakeactions.FakeInventoryActionManager
 import gg.essential.api.EssentialAPI
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.minecraft.client.Minecraft
@@ -45,12 +44,17 @@ import kotlin.coroutines.EmptyCoroutineContext
 class FloppaClient {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        // this seems to be redundant
-        val directory = File(event.modConfigurationDirectory, "floppaclient")
-        if (!directory.exists()) {
-            directory.mkdirs()
+        runBlocking {
+            launch(Dispatchers.IO) {
+                autoactions.loadConfig()
+            }
+            launch(Dispatchers.IO) {
+                extras.loadConfig()
+            }
+            launch(Dispatchers.IO) {
+                moduleConfig.loadConfig()
+            }
         }
-
     }
 
     @Mod.EventHandler
@@ -77,28 +81,18 @@ class FloppaClient {
             Dungeon,
             Extras,
             EditMode,
-            AutoTerms,
             ModuleManager,
             FakeInventoryActionManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)
+
+        ModuleManager.initializeModules()
 
         clickGUI = ClickGUI()
     }
 
     @Mod.EventHandler
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
-
-        launch {
-            autoactions.loadConfig()
-            extras.loadConfig()
-            moduleConfig.loadConfig()
-            clickGUI.setUpPanels()
-
-            //This is required for the Warp cooldown to track in the background whithout the need to enable it first.
-            if(!DungeonWarpTimer.enabled && DungeonWarpTimer.trackInBackground.enabled) {
-                MinecraftForge.EVENT_BUS.register(DungeonWarpTimer)
-            }
-        }
+        clickGUI.setUpPanels()
     }
 
     @SubscribeEvent

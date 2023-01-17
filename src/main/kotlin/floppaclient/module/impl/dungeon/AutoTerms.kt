@@ -2,6 +2,7 @@ package floppaclient.module.impl.dungeon
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.GuiContainerEvent
+import floppaclient.module.AlwaysActive
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
@@ -23,6 +24,17 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 import java.awt.Color
 import kotlin.math.abs
 
+/**
+ * Module for Terminal features such as automatically completing the terminals.
+ *
+ * <br>
+ * Has [AlwaysActive] annotation to keep terminal information up to date for use in other modules even when this module
+ * is disabled.
+ * </br>
+ *
+ * @author Aton
+ */
+@AlwaysActive
 object AutoTerms : Module(
     "Auto Terms",
     category = Category.DUNGEON,
@@ -64,11 +76,6 @@ object AutoTerms : Module(
     By default the metadata value of items is saved in the itemDamage field of ItemStack.
     For stained glass panes see EnumDyeColor for the metadata value corresponding to the color.
      */
-
-    /**
-     * Dont unregister this, sot that currentTerminal var can be used elsewhere.
-     */
-    override fun onDisable() {}
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {

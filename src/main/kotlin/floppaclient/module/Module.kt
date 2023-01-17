@@ -7,8 +7,17 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import net.minecraftforge.common.MinecraftForge
 import java.util.ArrayList
+import kotlin.reflect.full.hasAnnotation
 
-open class Module(
+/**
+ * Super class for all modules in the mod.
+ *
+ * Annotate with [AlwaysActive] to have a Module always registered to the Event Bus regardless of the Module being [enabled].
+ *
+ * @author Aton
+ * @see ModuleManager
+ */
+abstract class Module(
     name: String,
     keyCode: Int = 0,
     category: Category = Category.MISC,
@@ -16,7 +25,6 @@ open class Module(
     settings: ArrayList<Setting> = ArrayList(),
     description: String = ""
 ){
-
     @Expose
     @SerializedName("name")
     val name: String
@@ -55,11 +63,25 @@ open class Module(
         this.description = description
     }
 
+    fun initializeModule() {
+        if (this::class.hasAnnotation<AlwaysActive>()) {
+            MinecraftForge.EVENT_BUS.register(this)
+        }
+        onInitialize()
+    }
+
+    /**
+     * This method will be run on the FMLInitializationEvent on game startup.
+     */
+    open fun onInitialize() {}
     open fun onEnable() {
         MinecraftForge.EVENT_BUS.register(this)
     }
     open fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(this)
+        //Only allow unregistering the class if it is not set to be always active.
+        if (!this::class.hasAnnotation<AlwaysActive>()) {
+            MinecraftForge.EVENT_BUS.unregister(this)
+        }
     }
 
     /**

@@ -56,6 +56,16 @@ object DungeonWarpTimer : Module(
         )
     }
 
+    /**
+     * Register this class to the event bus if [trackInBackground] is enabled.
+     */
+    override fun onInitialize() {
+        if(!this.enabled && trackInBackground.enabled) {
+            MinecraftForge.EVENT_BUS.register(DungeonWarpTimer)
+        }
+        super.onInitialize()
+    }
+
     override fun onEnable() {
         MinecraftForge.EVENT_BUS.register(DungeonWarpTimerHUD)
         super.onEnable()

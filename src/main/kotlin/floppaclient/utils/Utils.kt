@@ -3,6 +3,7 @@ package floppaclient.utils
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.CHAT_PREFIX
 import floppaclient.FloppaClient.Companion.SHORT_PREFIX
+import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.DungeonPlayer
 import floppaclient.funnymap.features.dungeon.Dungeon
@@ -95,6 +96,7 @@ object Utils {
         }
 
     fun inF7Boss(): Boolean {
+        if (!inDungeons) return false
         if(currentFloor == 7) { // check whether floor is 7
             if(mc.thePlayer.posZ > 0 ) { //check whether in boss room
                 return true

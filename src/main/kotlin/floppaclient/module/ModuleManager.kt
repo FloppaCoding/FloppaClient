@@ -1,10 +1,10 @@
 package floppaclient.module
 
 import floppaclient.FloppaClient
-import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
 import floppaclient.module.impl.dungeon.*
+import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
@@ -103,6 +103,16 @@ object ModuleManager {
         //KEYBIND
         AddKeybind,
     )
+
+    /**
+     * Initialize the Modules.
+     * This is run on game startup during the FMLInitializationEvent.
+     */
+    fun initializeModules() {
+        modules.forEach {
+            it.initializeModule()
+        }
+    }
 
     /**
      * Creates a new keybind module and adds it to the list.
