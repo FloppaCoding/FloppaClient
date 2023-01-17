@@ -280,7 +280,7 @@ object AutoTerms : Module(
                     if (safeMeoldy.enabled && System.currentTimeMillis() - lastClickTime < 500) return
                     val panes = container.inventorySlots.filter { it.inventory != mc.thePlayer.inventory }
                     val column =
-                        panes.indexOfFirst { it.stack?.item == Item.getItemFromBlock(Blocks.stained_glass_pane) && it.stack.itemDamage == 10 }
+                        panes.indexOfFirst { it.stack?.item == Item.getItemFromBlock(Blocks.stained_glass_pane) && it.stack.itemDamage == 2 }
                     val greenPane =
                         panes.indexOfFirst { it.stack?.item == Item.getItemFromBlock(Blocks.stained_glass_pane) && it.stack.itemDamage == 5 }
                     if (column == -1 || greenPane == -1) return
