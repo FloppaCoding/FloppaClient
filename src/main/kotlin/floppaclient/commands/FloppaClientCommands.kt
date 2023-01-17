@@ -20,6 +20,7 @@ import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.util.BlockPos
+import net.minecraft.util.ResourceLocation
 
 
 class FloppaClientCommands : CommandBase() {
@@ -149,6 +150,16 @@ class FloppaClientCommands : CommandBase() {
                 if (args.size < 3)
                     return modMessage("Not enough arguments.")
                 modMessage(DungeonScan.getCore(args[1].toInt(), args[2].toInt()).toString())
+            }
+            "shader" -> {
+                if (args.size < 2) return modMessage("Specify shader name.")
+                val name = args[1]
+                try {
+                    mc.entityRenderer.loadShader(ResourceLocation("shaders/post/$name.json"))
+                }catch (_: Exception) {
+                    modMessage("Error loading shader.")
+                }
+
             }
             else -> {
                 modMessage("Command not recognized!")
