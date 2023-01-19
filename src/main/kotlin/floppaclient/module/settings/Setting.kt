@@ -4,7 +4,8 @@ package floppaclient.module.settings
  * The super class that all Module Settings for the gui and config should inherit from.
  *
  * <br>
- * This class is not abstract because it is instanced as a default if reading the config fails
+ * This class is not abstract because it is instanced as a default if reading the config files.
+ * It is also used as a place holder for Keybind elements in the gui to avoid using null.
  * </br>
  *
  * @author Aton

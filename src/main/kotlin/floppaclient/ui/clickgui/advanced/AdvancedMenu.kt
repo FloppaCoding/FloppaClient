@@ -23,7 +23,7 @@ import java.awt.Color
  */
 
 class AdvancedMenu(val module: Module) {
-    private val elements: MutableList<AdvancedElement> = mutableListOf()
+    private val elements: MutableList<AdvancedElement<*>> = mutableListOf()
 
     // Position parameters, for simplicity all the logic is handled in the getters and setters, so that the values dont have to be updated once every render
     private val s
@@ -65,8 +65,18 @@ class AdvancedMenu(val module: Module) {
                 is SelectorSetting  -> elements.add(AdvancedElementSelector (this, module, setting))
                 is StringSetting    -> elements.add(AdvancedElementTextField(this, module, setting))
                 is ColorSetting     -> elements.add(AdvancedElementColor    (this, module, setting))
+                is ActionSetting    -> elements.add(AdvancedElementAction   (this, module, setting))
             }
         }
+        elements.add(AdvancedElementKeyBind(this, module))
+    }
+
+    /**
+     * Returns true if any of the elements is listening for key inputs.
+     * In that case the esc key should not exit the menu.
+     */
+    fun isListening() : Boolean{
+        return elements.any { it.listening }
     }
 
     /**

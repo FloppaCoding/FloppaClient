@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
  */
 class AdvancedElementColor(
     parent: AdvancedMenu, module: Module, setting: ColorSetting,
-) : AdvancedElement(parent, module, setting, AdvancedElementType.COLOR) {
+) : AdvancedElement<ColorSetting>(parent, module, setting, AdvancedElementType.COLOR) {
     private var dragging: Int? = null
 
     private val hueScale = ResourceLocation(RESOURCE_DOMAIN, "gui/HueScale.png")
@@ -40,7 +40,7 @@ class AdvancedElementColor(
         val color = Color(temp.red, temp.green, temp.blue, 150).rgb
         val color2 = Color(temp.red, temp.green, temp.blue,  230).rgb
 
-        val colorValue = (setting as ColorSetting).value.rgb
+        val colorValue = setting.value.rgb
 
         //<editor-fold desc="Render the box and text">
         FontUtil.drawString(setting.name, 1, 2, -0x1)
@@ -128,7 +128,7 @@ class AdvancedElementColor(
             if (!comboextended) return false
             var ay = y + 15
             val increment = 15
-            for (currentColor in (setting as ColorSetting).colors()) {
+            for (currentColor in setting.colors()) {
                 if (mouseX >= parent.x + x && mouseX <= parent.x + x + settingWidth && mouseY >= parent.y + ay && mouseY <= parent.y + ay + increment) {
                     dragging = currentColor.ordinal
                     return true
@@ -167,7 +167,7 @@ class AdvancedElementColor(
 
         var ay = y + 15
         val increment = 15
-        for (currentColor in (setting as ColorSetting).colors()) {
+        for (currentColor in setting.colors()) {
 
             if (scaledMouseX >= parent.x + x && scaledMouseX <= parent.x + x + settingWidth && scaledMouseY >= parent.y + ay && scaledMouseY <= parent.y + ay + increment) {
                 if (keyCode == Keyboard.KEY_RIGHT){

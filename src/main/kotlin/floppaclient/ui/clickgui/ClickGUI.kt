@@ -189,7 +189,12 @@ class ClickGUI : GuiScreen() {
         val scaledMouseY = getScaledMouseY()
 
         // handle the advanced gui first
-        if (advancedMenu?.mouseClicked(scaledMouseX, scaledMouseY, mouseButton) == true) return
+        if (advancedMenu?.mouseClicked(scaledMouseX, scaledMouseY, mouseButton) == true){
+            // Update the elements of the corresponding module button
+            val module = advancedMenu?.module ?: return
+            panels.find { it.category == module.category }?.moduleButtons?.find { it.module == module }?.updateElements()
+            return
+        }
 
         /** Checking all panels for click action.
           * Reversed order is used to guarantee that the panel rendered on top will be handled first. */
@@ -256,7 +261,7 @@ class ClickGUI : GuiScreen() {
         // First handle the advanced gui
         /** If in an advanced menu only hande that */
         if (advancedMenu != null) {
-            if (keyCode == Keyboard.KEY_ESCAPE) {
+            if (keyCode == Keyboard.KEY_ESCAPE && !advancedMenu!!.isListening()) {
                 advancedMenu = null
             }
             advancedMenu?.keyTyped(typedChar,keyCode)
@@ -296,6 +301,7 @@ class ClickGUI : GuiScreen() {
 
     override fun initGui() {
         openedTime = System.currentTimeMillis()
+        setUpPanels()
         /** Start blur */
         if (OpenGlHelper.shadersSupported && mc.renderViewEntity is EntityPlayer && ClickGui.blur.enabled) {
             mc.entityRenderer.stopUseShader()

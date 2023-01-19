@@ -20,7 +20,7 @@ import java.util.*
  */
 class AdvancedElementSelector(
     parent: AdvancedMenu, module: Module, setting: SelectorSetting,
-) : AdvancedElement(parent, module, setting, AdvancedElementType.SELECTOR) {
+) : AdvancedElement<SelectorSetting>(parent, module, setting, AdvancedElementType.SELECTOR) {
 
 
     /**
@@ -29,7 +29,7 @@ class AdvancedElementSelector(
     override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float) : Int {
         val temp = ColorUtil.clickGUIColor
         val color = Color(temp.red, temp.green, temp.blue, 150).rgb
-        val displayValue = (setting as SelectorSetting).selected
+        val displayValue = setting.selected
 
         /** Render the box and text */
 
@@ -88,14 +88,14 @@ class AdvancedElementSelector(
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
         if (mouseButton == 0) {
             if (isButtonHovered(mouseX, mouseY)) {
-                (setting as SelectorSetting).index += 1
+                setting.index += 1
                 return true
             }
 
             if (!comboextended) return false
             var ay = y + 15
             val increment = FontUtil.fontHeight + 2
-            for (option in (setting as SelectorSetting).options) {
+            for (option in setting.options) {
                 if (mouseX >= parent.x + x && mouseX <= parent.x + x + settingWidth && mouseY >= parent.y + ay && mouseY <= parent.y + ay + increment) {
                     if (ClickGui.sound.enabled) mc.thePlayer.playSound("tile.piston.in", 20.0f, 20.0f)
                     setting.selected = option.lowercase(Locale.getDefault())

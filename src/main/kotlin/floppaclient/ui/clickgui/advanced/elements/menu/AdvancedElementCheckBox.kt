@@ -18,7 +18,7 @@ import java.awt.Color
  */
 class AdvancedElementCheckBox(
     parent: AdvancedMenu, module: Module, setting: BooleanSetting,
-) : AdvancedElement(parent, module, setting, AdvancedElementType.CHECK_BOX) {
+) : AdvancedElement<BooleanSetting>(parent, module, setting, AdvancedElementType.CHECK_BOX) {
 
 
     /**
@@ -35,7 +35,7 @@ class AdvancedElementCheckBox(
         )
         Gui.drawRect(
             (settingWidth - 13), 2, settingWidth - 1, 13,
-            if ((setting as BooleanSetting).enabled) color else -0x1000000
+            if (setting.enabled) color else -0x1000000
         )
         if (isCheckHovered(mouseX, mouseY)) Gui.drawRect(
             settingWidth - 13,  2, settingWidth -1,
@@ -49,7 +49,7 @@ class AdvancedElementCheckBox(
      */
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
         if (mouseButton == 0 && isCheckHovered(mouseX, mouseY)) {
-            (setting as BooleanSetting).toggle()
+            setting.toggle()
             return true
         }
         return super.mouseClicked(mouseX, mouseY, mouseButton)

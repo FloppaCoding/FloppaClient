@@ -14,34 +14,46 @@ import java.awt.Color
  *
  * @author Aton
  */
-open class AdvancedElement(
+open class AdvancedElement<S: Setting>(
     val parent: AdvancedMenu,
     val module: Module,
-    val setting: Setting,
+    val setting: S,
     val type: AdvancedElementType,
 ) {
     var x = 0
     var y = 0
+    /** Width of the entire element consisting of the setting and description. */
     var width = 150
-    var settingWidth = 116
-    var settingHeight = 15
+    /** Height of the entire element consisting of the setting and description. Essentially the height of the higher one of the two */
     var height = 15
+    /** Width of the Setting without the description text. */
+    var settingWidth = 116
+    /** Height of the Setting without the description text. */
+    var settingHeight = 15
 
     var comboextended = false
+
+    var listening = false
 
     fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         GlStateManager.pushMatrix()
         GlStateManager.translate(x.toFloat(), y.toFloat(), 0f)
 
         //Rendering the box behind the element.
+        val temp = ColorUtil.clickGUIColor
+        val color = if (listening) {
+            Color(temp.red, temp.green, temp.blue, 200).rgb
+        }else {
+            Color(ColorUtil.elementColor, true).darker().rgb
+        }
         Gui.drawRect(0, 0, width, height, Color(ColorUtil.bgColor, true).brighter().rgb)
-        Gui.drawRect(0, 0, settingWidth, settingHeight, Color(ColorUtil.elementColor, true).darker().rgb)
+        Gui.drawRect(0, 0, settingWidth, settingHeight, color)
 
         // Render the element.
         val l1 = renderElement(mouseX, mouseY, partialTicks)
 
         // Render the descriton right of the Setting
-        val l2 = rednerDescription()
+        val l2 = renderDescription()
         this.settingHeight = l1
         this.height = l1.coerceAtLeast(l2)
 
@@ -61,7 +73,7 @@ open class AdvancedElement(
      */
     open fun keyTyped(typedChar: Char, keyCode: Int): Boolean { return false }
 
-    fun rednerDescription() : Int{
+    fun renderDescription() : Int{
         var descriptionHeight = 0
         setting.description?.let {
             FontUtil.drawSplitString(

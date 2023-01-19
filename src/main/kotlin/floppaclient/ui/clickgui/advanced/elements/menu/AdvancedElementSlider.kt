@@ -23,14 +23,14 @@ import kotlin.math.roundToInt
  */
 class AdvancedElementSlider(
     parent: AdvancedMenu, module: Module, setting: NumberSetting,
-) : AdvancedElement(parent, module, setting, AdvancedElementType.SLIDER) {
+) : AdvancedElement<NumberSetting>(parent, module, setting, AdvancedElementType.SLIDER) {
     private var dragging: Boolean = false
 
     /**
 	 * Renders the element
 	 */
     override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float) : Int{
-        val displayval = "" + ((setting as NumberSetting).value * 100.0).roundToInt() / 100.0
+        val displayval = "" + (setting.value * 100.0).roundToInt() / 100.0
         val hoveredORdragged = isSliderHovered(mouseX, mouseY) || dragging
         val temp = ColorUtil.clickGUIColor
         val color = Color(temp.red, temp.green, temp.blue, if (hoveredORdragged) 250 else 200).rgb
@@ -96,11 +96,11 @@ class AdvancedElementSlider(
 
         if (isSliderHovered(scaledMouseX, scaledMouseY)){
             if (keyCode == Keyboard.KEY_RIGHT){
-                (setting as NumberSetting).value += (setting as NumberSetting).increment
+                setting.value += setting.increment
                 return true
             }
             if (keyCode == Keyboard.KEY_LEFT){
-                (setting as NumberSetting).value -= (setting as NumberSetting).increment
+                setting.value -= setting.increment
                 return true
             }
         }

@@ -18,8 +18,7 @@ import java.awt.Color
  */
 class AdvancedElementTextField(
     parent: AdvancedMenu, module: Module, setting: StringSetting,
-) : AdvancedElement(parent, module, setting, AdvancedElementType.TEXT_FIELD) {
-    private var listening: Boolean = false
+) : AdvancedElement<StringSetting>(parent, module, setting, AdvancedElementType.TEXT_FIELD) {
 /*
     private val keyWhitelist = intArrayOf(
         Keyboard.KEY_W,
@@ -318,7 +317,7 @@ class AdvancedElementTextField(
      * Rendering the element
      */
     override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float) : Int{
-        val displayValue = (setting as StringSetting).text
+        val displayValue = setting.text
         val temp = ColorUtil.clickGUIColor
         if (listening) {
             val color = Color(temp.red, temp.green, temp.blue, 200).rgb
@@ -361,9 +360,9 @@ class AdvancedElementTextField(
             if (keyCode == Keyboard.KEY_ESCAPE || keyCode == Keyboard.KEY_NUMPADENTER || keyCode == Keyboard.KEY_RETURN) {
                 listening = false
             } else if (keyCode == Keyboard.KEY_BACK) {
-                (setting as StringSetting).text = setting.text.dropLast(1)
+                setting.text = setting.text.dropLast(1)
             }else if (!keyBlackList.contains(keyCode)) {
-                (setting as StringSetting).text = setting.text + typedChar.toString()
+                setting.text = setting.text + typedChar.toString()
             }
             return true
         }
