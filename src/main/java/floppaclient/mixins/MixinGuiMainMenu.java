@@ -1,6 +1,8 @@
 package floppaclient.mixins;
 
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Mixin(value = {GuiMainMenu.class}, priority = 1001)
-public abstract class MixinGuiMainMenu {
+public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
     @Shadow
     private String splashText;
 
@@ -23,7 +25,7 @@ public abstract class MixinGuiMainMenu {
         if (day == 6) {
             this.splashText = "Floppa Friday!";
         }else {
-            this.splashText = ":lickies:";
+            this.splashText = "MILF (Man I love Floppa)";
         }
     }
 }
