@@ -106,12 +106,45 @@ class ClickGUI : GuiScreen() {
             GL11.glPopMatrix()
         }
 
-        /** Calls all panels to render themselves and their module buttons and elements.
+        /* Calls all panels to render themselves and their module buttons and elements.
 		  * Important to keep in mind: the panel rendered last will be on top.
           * For intuitive behaviour the panels have to be checked in reversed order for clicks.
           * This ensures that interactions will happen with the top panel. */
         for (p in panels) {
             p.drawScreen(scaledMouseX, scaledMouseY, partialTicks)
+        }
+
+        if(ClickGui.showUsageInfo.enabled) {
+            val scaledResolution = ScaledResolution(mc)
+
+            val lines = listOf<String>("GUI Usage:",
+            "Left click Module Buttons to toggle the Module.",
+            "Right click Module Buttons to extend the Settings dropdown.",
+            "Middle click Module Buttons to open the Advanced Gui.",
+            "Disable this Overlay in the Advanced Settings of the Click Gui Module in the Render Category."
+            )
+
+            val temp = ColorUtil.clickGUIColor.darker()
+            val titleColor = Color(temp.red, temp.green, temp.blue, 255).rgb
+
+            GL11.glPushMatrix()
+            GL11.glTranslated(
+                scaledResolution.scaledWidth.toDouble()*0.1,
+                scaledResolution.scaledHeight.toDouble()*0.7,
+                0.0
+            )
+
+            GL11.glScaled(1.5, 1.5, 1.5)
+            val titleWidth = FontUtil.getStringWidth(lines.last())
+            for ((ii, line) in lines.withIndex()) {
+                FontUtil.drawString(
+                    line,
+                    0.0,
+                    FontUtil.fontHeight.toDouble() * ii,
+                    titleColor
+                )
+            }
+            GL11.glPopMatrix()
         }
 
         if (advancedMenu != null) {

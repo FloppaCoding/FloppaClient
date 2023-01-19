@@ -33,6 +33,7 @@ object ClickGui: Module(
     val chromaSize = NumberSetting("Chroma Size", 0.5, 0.0, 1.0, 0.01, description = "Determines how rapidly the chroma pattern changes spatially.")
     val chromaSpeed = NumberSetting("Chroma Speed", 0.5, 0.0, 1.0, 0.01, description = "Determines how fast the chroma changes with time.")
     val chromaAngle = NumberSetting("Chroma Angle", 45.0, 0.0, 360.0,1.0, description = "Determines the direction in which the chroma changes on your screen.")
+    val showUsageInfo = BooleanSetting("Usage Info", true, visibility = Visibility.ADVANCED_ONLY, description = "Show info on how to use the GUI.")
 
     val panelX: MutableMap<Category, NumberSetting> = mutableMapOf()
     val panelY: MutableMap<Category, NumberSetting> = mutableMapOf()
@@ -69,6 +70,7 @@ object ClickGui: Module(
             chromaSize,
             chromaSpeed,
             chromaAngle,
+            showUsageInfo,
             advancedRelX,
             advancedRelY
         ))

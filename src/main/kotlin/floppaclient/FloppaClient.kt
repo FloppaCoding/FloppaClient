@@ -51,9 +51,6 @@ class FloppaClient {
             launch(Dispatchers.IO) {
                 extras.loadConfig()
             }
-            launch(Dispatchers.IO) {
-                moduleConfig.loadConfig()
-            }
         }
     }
 
@@ -92,7 +89,12 @@ class FloppaClient {
 
     @Mod.EventHandler
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
-
+        //Load in the module config post init so that all the minecraft classes are laready present.
+        runBlocking {
+            launch(Dispatchers.IO) {
+                moduleConfig.loadConfig()
+            }
+        }
     }
 
     @SubscribeEvent
