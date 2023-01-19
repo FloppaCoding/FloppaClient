@@ -62,6 +62,7 @@ object ModuleManager {
         DrawRoutes,
         DungeonESP,
         ChestEsp,
+        FullBright,
         DungeonWarpTimer,
         DungeonMap,
         ExtraBlocks,
