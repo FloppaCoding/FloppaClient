@@ -5,7 +5,7 @@ import floppaclient.module.Module
 import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.impl.*
-import floppaclient.ui.clickgui.AdvancedMenu
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.Panel
 import floppaclient.ui.clickgui.elements.menu.*
 import floppaclient.ui.clickgui.util.ColorUtil
@@ -19,40 +19,47 @@ import java.awt.Color
  *
  * @author HeroCode, Aton
  */
-class ModuleButton(imod: Module, pl: Panel) {
-    val mod: Module
-    var menuelements: ArrayList<Element>
-    var parent: Panel
+class ModuleButton(val module: Module, val parent: Panel) {
+    val menuElements: ArrayList<Element> = ArrayList()
     var x = 0.0
     var y = 0.0
     var width = 0.0
-    var height: Double
+    var height: Double = (mc.fontRendererObj.FONT_HEIGHT + 2).toDouble()
     var extended = false
 
     init {
-        mod = imod
-        height = (mc.fontRendererObj.FONT_HEIGHT + 2).toDouble()
-        parent = pl
-        menuelements = ArrayList()
         /** Register the corresponding gui element for all non-hidden settings in the module */
-        for (setting in imod.settings) {
-            /** Don't show hidden settings */
-            if (!setting.visibility.visibleInClickGui) continue
+        updateElements()
+        menuElements.add(ElementKeyBind(this, module))
+    }
 
-            when (setting) {
-                is BooleanSetting   -> menuelements.add(ElementCheckBox (this, setting))
-                is NumberSetting    -> menuelements.add(ElementSlider   (this, setting))
-                is SelectorSetting  -> menuelements.add(ElementSelector (this, setting))
-                is StringSetting    -> menuelements.add(ElementTextField(this, setting))
-                is ColorSetting     -> menuelements.add(ElementColor    (this, setting))
-                is ActionSetting    -> menuelements.add(ElementAction   (this, setting))
+    fun updateElements() {
+        var position = -1 // This looks weird, but it starts at -1 because it gets incremented before being used.
+        for (setting in module.settings) {
+            /** Don't show hidden settings */
+            if (setting.visibility.visibleInClickGui && setting.shouldBeVisible) run addElement@{
+                position++
+                if (menuElements.any { it.setting === setting }) return@addElement
+                val newElement = when (setting) {
+                    is BooleanSetting ->    ElementCheckBox(this, setting)
+                    is NumberSetting ->     ElementSlider(this, setting)
+                    is SelectorSetting ->   ElementSelector(this, setting)
+                    is StringSetting ->     ElementTextField(this, setting)
+                    is ColorSetting ->      ElementColor(this, setting)
+                    is ActionSetting ->     ElementAction(this, setting)
+                    else -> return@addElement
+                }
+                menuElements.add(position, newElement)
+            }else {
+                menuElements.removeIf {
+                    it.setting === setting
+                }
             }
         }
-        menuelements.add(ElementKeyBind(this, imod))
     }
 
     /**
-	 * Renders the Button
+	 * Render the Button
 	 */
     fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         val temp = ColorUtil.clickGUIColor
@@ -61,23 +68,23 @@ class ModuleButton(imod: Module, pl: Panel) {
 
         // Change the text color and put a colored box on the element if it is toggled
         val textcolor = -0x101011
-        if (mod.enabled) {
+        if (module.enabled) {
             Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), color)
         }
 
         /** Change color on hover */
         if (isHovered(mouseX, mouseY)) {
-            if (mod.enabled)
+            if (module.enabled)
                 Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), 0x55111111)
             else
                 Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), color2)
         }
 
         /** Rendering the name in the middle */
-        val displayName = if (mod is KeyBind){
-            mod.bindName.text
+        val displayName = if (module is KeyBind){
+            module.bindName.text
         } else {
-            mod.name
+            module.name
         }
         FontUtil.drawTotalCenteredStringWithShadow(displayName, x + width / 2, y + 1 + height / 2, textcolor)
     }
@@ -90,19 +97,19 @@ class ModuleButton(imod: Module, pl: Panel) {
 
         /** Toggle the mod on left click, expand its settings on right click and show an info screen on middle click */
         if (mouseButton == 0) {
-            mod.toggle()
+            module.toggle()
             if (ClickGui.sound.enabled) mc.thePlayer.playSound("random.click", 0.5f, 0.5f)
         } else if (mouseButton == 1) {
             /** toggle extended
              * Disable listening for all members*/
-            if (menuelements.size > 0) {
+            if (menuElements.size > 0) {
                 extended = !extended
                 if (ClickGui.sound.enabled)
                     if (extended) {
                         mc.thePlayer.playSound("tile.piston.out", 1f, 1f)
                     }else {
                         mc.thePlayer.playSound("tile.piston.in", 1f, 1f)
-                        menuelements.forEach {
+                        menuElements.forEach {
                             if (it.type == ElementType.KEY_BIND) {
                                 (it as ElementKeyBind).listening = false
                             } else if (it. type == ElementType.TEXT_FIELD) {
@@ -112,7 +119,7 @@ class ModuleButton(imod: Module, pl: Panel) {
                     }
             }
         } else if (mouseButton == 2) {
-            parent.clickgui.advancedMenu = AdvancedMenu(mod)
+            parent.clickgui.advancedMenu = AdvancedMenu(module)
         }
         return true
     }

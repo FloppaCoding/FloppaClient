@@ -1,6 +1,7 @@
 package floppaclient.ui.clickgui
 
 import floppaclient.module.Category
+import floppaclient.module.ModuleManager
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.ui.clickgui.elements.ModuleButton
 import floppaclient.ui.clickgui.util.ColorUtil
@@ -15,7 +16,7 @@ import java.awt.Color
  *
  * @author HeroCode, Aton
  */
-open class Panel(
+class Panel(
     var category: Category,
     var clickgui: ClickGUI
 ) {
@@ -23,8 +24,8 @@ open class Panel(
     private var x2 = 0.0
     private var y2 = 0.0
     var dragging = false
-    var visible = true
-    var moduleButtons: ArrayList<ModuleButton> = ArrayList<ModuleButton>()
+    val visible = true // Currently unused, but can be used in future for hiding categories
+    val moduleButtons: ArrayList<ModuleButton> = ArrayList<ModuleButton>()
 
     var width: Double = ClickGui.panelWidth.value
     var height: Double = ClickGui.panelHeight.value
@@ -33,7 +34,7 @@ open class Panel(
     var extended: Boolean = ClickGui.panelExtended[category]!!.enabled
 
     private var scrollOffset: Double = 0.0
-    private val scrollAmmount: Double = 15.0
+    private val scrollAmount: Double = 15.0
 
     init {
         setup()
@@ -42,7 +43,12 @@ open class Panel(
     /**
 	 * Gets overridden in ClickGUI to add module buttons
 	 */
-    open fun setup() {}
+    private fun setup() {
+        for (module in ModuleManager.modules) {
+            if (module.category != this.category) continue
+            moduleButtons.add(ModuleButton(module, this))
+        }
+    }
 
     /**
 	 * Rendering the element
@@ -91,8 +97,8 @@ open class Panel(
 
                 /** Render the settings elements */
                 var offs = moduleButton.height + 1
-                if (moduleButton.extended && moduleButton.menuelements.isNotEmpty()) {
-                    for (menuElement in moduleButton.menuelements) {
+                if (moduleButton.extended && moduleButton.menuElements.isNotEmpty()) {
+                    for (menuElement in moduleButton.menuElements) {
                         menuElement.offset = offs
                         menuElement.update()
                         if (shouldRender(menuElement.y + menuElement.height)) {
@@ -200,7 +206,7 @@ open class Panel(
     fun scroll(amount: Int, mouseX: Int, mouseY: Int): Boolean {
         val length = isHoveredExtended(mouseX, mouseY)
         if (length != null) {
-            val diff = (-amount * scrollAmmount).coerceAtMost(length - 13)
+            val diff = (-amount * scrollAmount).coerceAtMost(length - 13)
 
             scrollOffset = (scrollOffset + diff).coerceAtLeast(0.0)
             return true
@@ -223,8 +229,8 @@ open class Panel(
             var length = - scrollOffset
             for (moduleButton in moduleButtons) {
                 var offs = moduleButton.height + 1
-                if (moduleButton.extended && moduleButton.menuelements.isNotEmpty()) {
-                    for (menuElement in moduleButton.menuelements) {
+                if (moduleButton.extended && moduleButton.menuElements.isNotEmpty()) {
+                    for (menuElement in moduleButton.menuElements) {
                         menuElement.offset = offs
                         menuElement.update()
                         offs += menuElement.height

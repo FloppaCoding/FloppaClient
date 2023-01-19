@@ -92,7 +92,7 @@ class FloppaClient {
 
     @Mod.EventHandler
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
-        clickGUI.setUpPanels()
+
     }
 
     @SubscribeEvent

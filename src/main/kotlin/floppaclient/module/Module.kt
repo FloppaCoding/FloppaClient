@@ -14,10 +14,16 @@ import kotlin.reflect.full.hasAnnotation
  *
  * Annotate with [AlwaysActive] to have a Module always registered to the Event Bus regardless of the Module being [enabled].
  *
+ * <br>
+ * This class must not be abstract!
+ * While this might look like a good thing to do it prevents Gson from reading the config. when the config is being read
+ * Gson creates dummy instances of this class directly to temporarily store the read data.
+ * </br>
+ *
  * @author Aton
  * @see ModuleManager
  */
-abstract class Module(
+open class Module(
     name: String,
     keyCode: Int = 0,
     category: Category = Category.MISC,

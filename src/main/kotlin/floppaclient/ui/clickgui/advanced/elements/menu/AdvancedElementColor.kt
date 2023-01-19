@@ -4,7 +4,7 @@ import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.ColorSetting
-import floppaclient.ui.clickgui.AdvancedMenu
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElementType
 import floppaclient.ui.clickgui.util.ColorUtil

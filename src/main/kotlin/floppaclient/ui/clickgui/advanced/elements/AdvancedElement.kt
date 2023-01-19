@@ -2,7 +2,7 @@ package floppaclient.ui.clickgui.advanced.elements
 
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting
-import floppaclient.ui.clickgui.AdvancedMenu
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
 import net.minecraft.client.gui.Gui

@@ -1,4 +1,4 @@
-package floppaclient.ui.clickgui
+package floppaclient.ui.clickgui.advanced
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module

@@ -3,9 +3,8 @@ package floppaclient.ui.clickgui
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.moduleConfig
 import floppaclient.module.Category
-import floppaclient.module.ModuleManager
 import floppaclient.module.impl.render.ClickGui
-import floppaclient.ui.clickgui.elements.ModuleButton
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.elements.menu.ElementColor
 import floppaclient.ui.clickgui.elements.menu.ElementSlider
 import floppaclient.ui.clickgui.util.ColorUtil
@@ -16,6 +15,7 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.OpenGlHelper
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.MathHelper
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
@@ -30,6 +30,7 @@ import java.io.IOException
  * @author HeroCode, Aton
  */
 class ClickGUI : GuiScreen() {
+
     var scale = 2.0
 
     private val logo = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/Icon.png")
@@ -46,23 +47,14 @@ class ClickGUI : GuiScreen() {
 
     init {
         FontUtil.setupFontUtils()
-
         setUpPanels()
-
     }
 
     fun setUpPanels() {
         /** Create a panel for each module category */
         panels = ArrayList()
         for (category in Category.values()) {
-            panels.add(object : Panel(category, this) {
-                override fun setup() {
-                    for (module in ModuleManager.modules) {
-                        if (module.category != category) continue
-                        moduleButtons.add(ModuleButton(module, this))
-                    }
-                }
-            })
+            panels.add(Panel(category, this))
         }
     }
 
@@ -72,18 +64,12 @@ class ClickGUI : GuiScreen() {
         // the handling of the mouse coordinates is not nice, since it has to be done in multiple places
         val scaledresolution = ScaledResolution(mc)
         val prevScale = mc.gameSettings.guiScale
-        scale = 2.0 / scaledresolution.scaleFactor
+        scale = clickGuiScale / scaledresolution.scaleFactor
         mc.gameSettings.guiScale = 2
         GL11.glScaled(scale, scale, scale)
-//        val scaledMouseX = (mouseX / scale).toInt()
-//        val scaledMouseY = (mouseY / scale).toInt()
 
-        val i1: Int = scaledresolution.scaledWidth
-        val j1: Int = scaledresolution.scaledHeight
-        val k1: Int = Mouse.getX() * i1 / mc.displayWidth
-        val l1: Int = j1 - Mouse.getY() * j1 / mc.displayHeight - 1
-        val scaledMouseX = (k1 / scale).toInt()
-        val scaledMouseY = (l1 / scale).toInt()
+        val scaledMouseX = getScaledMouseX()
+        val scaledMouseY = getScaledMouseY()
 
         /** Draw the Logo and the title */
         logo.let {
@@ -141,12 +127,8 @@ class ClickGUI : GuiScreen() {
     @Throws(IOException::class)
     override fun handleMouseInput() {
         super.handleMouseInput()
-        val mouseX = Mouse.getEventX() * super.width / super.mc.displayWidth
-        val mouseY = super.height - Mouse.getEventY() * super.height / super.mc.displayHeight - 1
-
-        //Scaling mouse coords
-        val scaledMouseX = (mouseX / scale).toInt()
-        val scaledMouseY = (mouseY / scale).toInt()
+        val scaledMouseX = getScaledMouseX()
+        val scaledMouseY = getScaledMouseY()
 
         var i = Mouse.getEventDWheel()
         if (i != 0) {
@@ -171,16 +153,8 @@ class ClickGUI : GuiScreen() {
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
-        //Scaling mouse coords
-//        val scaledMouseX = (mouseX / scale).toInt()
-//        val scaledMouseY = (mouseY / scale).toInt()
-        val scaledresolution = ScaledResolution(mc)
-        val i1: Int = scaledresolution.scaledWidth
-        val j1: Int = scaledresolution.scaledHeight
-        val k1: Int = Mouse.getX() * i1 / FloppaClient.mc.displayWidth
-        val l1: Int = j1 - Mouse.getY() * j1 / FloppaClient.mc.displayHeight - 1
-        val scaledMouseX = (k1 / scale).toInt()
-        val scaledMouseY = (l1 / scale).toInt()
+        val scaledMouseX = getScaledMouseX()
+        val scaledMouseY = getScaledMouseY()
 
         // handle the advanced gui first
         if (advancedMenu?.mouseClicked(scaledMouseX, scaledMouseY, mouseButton) == true) return
@@ -195,9 +169,12 @@ class ClickGUI : GuiScreen() {
             if (panel.extended && panel.visible) {
                 for (moduleButton in panel.moduleButtons) {
                     if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuelements) {
+                        for (menuElement in moduleButton.menuElements) {
                             if (panel.shouldRender(menuElement.y + menuElement.height)) {
-                                if (menuElement.mouseClicked(scaledMouseX, scaledMouseY, mouseButton)) return
+                                if (menuElement.mouseClicked(scaledMouseX, scaledMouseY, mouseButton)) {
+                                    moduleButton.updateElements()
+                                    return
+                                }
                             }
                         }
                     }
@@ -213,16 +190,8 @@ class ClickGUI : GuiScreen() {
     }
 
     override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
-        //Scaling mouse coords
-//        val scaledMouseX = (mouseX / scale).toInt()
-//        val scaledMouseY = (mouseY / scale).toInt()
-        val scaledresolution = ScaledResolution(mc)
-        val i1: Int = scaledresolution.scaledWidth
-        val j1: Int = scaledresolution.scaledHeight
-        val k1: Int = Mouse.getX() * i1 / FloppaClient.mc.displayWidth
-        val l1: Int = j1 - Mouse.getY() * j1 / FloppaClient.mc.displayHeight - 1
-        val scaledMouseX = (k1 / scale).toInt()
-        val scaledMouseY = (l1 / scale).toInt()
+        val scaledMouseX = getScaledMouseX()
+        val scaledMouseY = getScaledMouseY()
 
         // handle mouse release for advanced menu first
         advancedMenu?.mouseReleased(scaledMouseX, scaledMouseY, state)
@@ -237,7 +206,7 @@ class ClickGUI : GuiScreen() {
             if (panel.extended && panel.visible) {
                 for (moduleButton in panel.moduleButtons) {
                     if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuelements) {
+                        for (menuElement in moduleButton.menuElements) {
                             if (panel.shouldRender(menuElement.y + menuElement.height)) {
                                 menuElement.mouseReleased(scaledMouseX, scaledMouseY, state)
                             }
@@ -268,7 +237,7 @@ class ClickGUI : GuiScreen() {
             if (panel.extended && panel.visible && panel.moduleButtons.size > 0) {
                 for (moduleButton in panel.moduleButtons) {
                     if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuelements) {
+                        for (menuElement in moduleButton.menuElements) {
                             if (menuElement.keyTyped(typedChar, keyCode)) return
                         }
                     }
@@ -319,7 +288,7 @@ class ClickGUI : GuiScreen() {
             if (panel.extended && panel.visible) {
                 for (moduleButton in panel.moduleButtons) {
                     if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuelements) {
+                        for (menuElement in moduleButton.menuElements) {
                             if (menuElement is ElementSlider) {
                                 menuElement.dragging = false
                             }
@@ -346,7 +315,16 @@ class ClickGUI : GuiScreen() {
         }
     }
 
+    private fun getScaledMouseX(): Int {
+        return MathHelper.ceiling_double_int(Mouse.getX() / clickGuiScale)
+    }
+    private fun getScaledMouseY(): Int {
+        // maybe -1 or floor required here because of the inversion.
+        return MathHelper.ceiling_double_int( (mc.displayHeight - Mouse.getY()) / clickGuiScale)
+    }
+
     companion object {
+        const val clickGuiScale = 2.0
         var panels: ArrayList<Panel> = arrayListOf()
     }
 }

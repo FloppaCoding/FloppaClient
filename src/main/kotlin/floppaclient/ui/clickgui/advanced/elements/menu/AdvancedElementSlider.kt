@@ -3,7 +3,7 @@ package floppaclient.ui.clickgui.advanced.elements.menu
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.ui.clickgui.AdvancedMenu
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElementType
 import floppaclient.ui.clickgui.util.ColorUtil

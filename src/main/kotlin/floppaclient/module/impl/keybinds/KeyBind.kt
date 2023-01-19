@@ -4,6 +4,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.ModuleManager
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.ActionSetting
 import floppaclient.module.settings.impl.BooleanSetting
@@ -21,7 +22,10 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private val action = StringSetting("Action","",50, description = "Name of the Item to be used / command to be executed or chat message to be sent.")
     private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for items.")
     private val fromInventory = BooleanSetting("From Inv", description = "Allows you to use items from your inventory.")
-    private val removeButton = ActionSetting("Remove Key Bind", description = "Removes the Key Bind."){
+        .withDependency {
+            this.mode.index == 0
+        }
+    private val removeButton = ActionSetting("Remove Key Bind", visibility = Visibility.ADVANCED_ONLY, description = "Removes the Key Bind."){
         ModuleManager.removeKeyBind(this@KeyBind)
     }
     // Used by the config loader to determine whether a setting is a keybind
