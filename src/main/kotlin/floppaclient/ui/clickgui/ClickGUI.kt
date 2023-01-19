@@ -135,7 +135,6 @@ class ClickGUI : GuiScreen() {
             )
 
             GL11.glScaled(1.5, 1.5, 1.5)
-            val titleWidth = FontUtil.getStringWidth(lines.last())
             for ((ii, line) in lines.withIndex()) {
                 FontUtil.drawString(
                     line,

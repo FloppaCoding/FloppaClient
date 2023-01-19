@@ -19,12 +19,16 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
 
     val bindName = StringSetting("Name",this.name)
     private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the keybind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
-    private val action = StringSetting("Action","",50, description = "Name of the Item to be used / command to be executed or chat message to be sent.")
+    private val command = StringSetting("Command","",50, description = "Command to be executed. §eNo / needed!")
+        .withDependency { this.mode.index == 1 }
+    private val message = StringSetting("Message","",50, description = "Chat message to be sent. §eFor server commands a / is needed.")
+        .withDependency { this.mode.index == 2 }
+    private val item = StringSetting("Item","",50, description = "Name of the Item to be used.")
+        .withDependency { this.mode.index == 0 }
     private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for items.")
+        .withDependency { this.mode.index == 0 }
     private val fromInventory = BooleanSetting("From Inv", description = "Allows you to use items from your inventory.")
-        .withDependency {
-            this.mode.index == 0
-        }
+        .withDependency { this.mode.index == 0 }
     private val removeButton = ActionSetting("Remove Key Bind", visibility = Visibility.ADVANCED_ONLY, description = "Removes the Key Bind."){
         ModuleManager.removeKeyBind(this@KeyBind)
     }
@@ -35,7 +39,9 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
         this.addSettings(
             bindName,
             mode,
-            action,
+            command,
+            message,
+            item,
             condition,
             fromInventory,
             removeButton,
@@ -51,14 +57,14 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private fun performAction(){
         when(mode.selected){
             "Command" -> {
-                Utils.command(action.text, true)
+                Utils.command(command.text, true)
             }
             "Chat message" -> {
-                Utils.sendChat(action.text)
+                Utils.sendChat(message.text)
             }
             "Use Item" -> {
                 if (condition.text == "" || mc.thePlayer.isHolding(condition.text, true)) {
-                    FakeActionUtils.useItem(action.text,true, fromInventory.enabled, ignoreCase = true)
+                    FakeActionUtils.useItem(item.text,true, fromInventory.enabled, ignoreCase = true)
                 }
             }
         }
