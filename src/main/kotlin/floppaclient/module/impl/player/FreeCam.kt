@@ -25,12 +25,14 @@ object FreeCam : Module(
 
     private val speed = NumberSetting("Speed", 3.0, 0.1, 5.0, 0.1, description = "Fly speed.")
     private val glide = BooleanSetting("Glide", false, description = "Lets you glide upon release movement keys.")
+    private val reloadChunks = BooleanSetting("Reload Chunks", false, description = "Reloads all chunks on disable.")
 
 
     init {
         this.addSettings(
             speed,
-            glide
+            glide,
+            reloadChunks
         )
     }
 
@@ -45,10 +47,13 @@ object FreeCam : Module(
         if (mc.thePlayer == null || mc.theWorld == null || fakePlayer == null) return
         mc.thePlayer.noClip = false
         resetPlayer()
+        if (reloadChunks.enabled) {
+            mc.renderGlobal.loadRenderers()
+        }
     }
 
     @SubscribeEvent
-    fun onLivingUpdate(event: LivingUpdateEvent?) {
+    fun onLivingUpdate(event: LivingUpdateEvent) {
         mc.thePlayer.noClip = true
         mc.thePlayer.onGround = false
         mc.thePlayer.capabilities.isFlying = false
@@ -70,7 +75,7 @@ object FreeCam : Module(
     }
 
     @SubscribeEvent
-    fun onWorldChange(event: WorldEvent.Load?) {
+    fun onWorldChange(event: WorldEvent.Load) {
         this.toggle()
     }
 

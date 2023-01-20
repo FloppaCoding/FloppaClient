@@ -89,7 +89,7 @@ class FloppaClient {
 
     @Mod.EventHandler
     fun postInit(event: FMLLoadCompleteEvent) = runBlocking {
-        //Load in the module config post init so that all the minecraft classes are laready present.
+        //Load in the module config post init so that all the minecraft classes are already present.
         runBlocking {
             launch(Dispatchers.IO) {
                 moduleConfig.loadConfig()
