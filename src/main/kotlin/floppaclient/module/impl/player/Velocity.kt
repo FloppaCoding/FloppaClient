@@ -76,7 +76,7 @@ object Velocity : Module(
     }
 
     /**
-     * Keep trck of bonzo staff being held, to account for ping, so that bonzo staff packets are not cancelled.
+     * Keep track of bonzo staff being held, to account for ping, so that bonzo staff packets are not cancelled.
      */
     @SubscribeEvent
     fun onTick(event: ClientTickEvent) {
