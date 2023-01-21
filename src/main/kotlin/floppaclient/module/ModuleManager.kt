@@ -68,6 +68,7 @@ object ModuleManager {
         ExtraBlocks,
         MapRooms,
         CoordinateDisplay,
+        DayCounter,
         ItemAnimations,
         Camera,
 
@@ -95,7 +96,7 @@ object ModuleManager {
         SellGarbo,
         GhostBlocks,
         StonkDelay,
-        RemoveFrontView,
+        SecretTriggerbot,
         TerminatorClicker,
         AutoClicker,
         AutoWeaponSwap,
