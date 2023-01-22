@@ -7,7 +7,7 @@
     "BlockMixin",
     "CarpetMixin",
     "ChunkMixin",
-    "MixinBlocks",
+    "BlockPaneMixin",
     "MixinWorld",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
@@ -16,7 +16,7 @@
   ],
   "client": [
     "MinecraftAccessor",
-    "MixinGuiMainMenu",
+    "Gui.MixinGuiMainMenu",
     "MixinMinecraft",
     "MixinModList",
     "MixinNetworkManager",
@@ -29,8 +29,12 @@
     "Gui.GuiMixin",
     "Gui.GuiScreenMixin",
     "Gui.MixinGuiContainer",
+    "render.BlockFluidRendererMixin",
+    "render.BlockModelRendererMixin",
     "render.ChestRendererMixin",
     "render.EntityRendererMixin",
-    "render.ItemRendererMixin"
+    "render.ItemRendererMixin",
+    "render.RenderChunkMixin",
+    "render.VisGraphAccessor"
   ]
 }

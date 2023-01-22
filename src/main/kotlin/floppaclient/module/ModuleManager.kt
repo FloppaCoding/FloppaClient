@@ -63,6 +63,7 @@ object ModuleManager {
         DungeonESP,
         ChestEsp,
         FullBright,
+        XRay,
         DungeonWarpTimer,
         DungeonMap,
         ExtraBlocks,

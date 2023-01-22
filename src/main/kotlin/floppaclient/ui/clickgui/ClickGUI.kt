@@ -343,6 +343,10 @@ class ClickGUI : GuiScreen() {
         moduleConfig.saveConfig()
     }
 
+    override fun doesGuiPauseGame(): Boolean {
+        return false
+    }
+
     fun closeAllSettings() {
         for (panel in panels) {
             if (panel.visible && panel.extended && panel.moduleButtons.size > 0) {

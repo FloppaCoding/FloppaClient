@@ -15,7 +15,7 @@ class NumberSetting(
     description: String? = null,
 ) : Setting(name, visibility, description) {
 
-    var processInput: (Double) -> Double = { input: Double -> input}
+    var processInput: (Double) -> Double = { input: Double -> input }
 
     var value: Double = default
         set(newVal) {

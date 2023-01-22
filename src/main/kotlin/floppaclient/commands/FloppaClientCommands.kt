@@ -21,6 +21,7 @@ import net.minecraft.command.ICommandSender
 import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.util.BlockPos
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.common.ForgeModContainer
 
 
 class FloppaClientCommands : CommandBase() {
@@ -160,6 +161,10 @@ class FloppaClientCommands : CommandBase() {
                     modMessage("Error loading shader.")
                 }
 
+            }
+            "forgerender" -> {
+                ForgeModContainer.forgeLightPipelineEnabled = !ForgeModContainer.forgeLightPipelineEnabled
+                modMessage("${if (ForgeModContainer.forgeLightPipelineEnabled) "enabled" else "disabled"} the forge block rendering pipeline.")
             }
             else -> {
                 modMessage("Command not recognized!")
