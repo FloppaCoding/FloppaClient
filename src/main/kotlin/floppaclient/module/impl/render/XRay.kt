@@ -9,16 +9,15 @@ import floppaclient.utils.Utils.identicalToOneOf
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
-import net.minecraftforge.common.ForgeModContainer
 
 /**
  * A module with the aim of allowing the player to see obstructed blocks.
  *
  * @author Aton
  * @see floppaclient.mixins.BlockMixin
- * @see floppaclient.mixins.render.BlockModelRendererMixin
  * @see floppaclient.mixins.render.BlockFluidRendererMixin
  * @see floppaclient.mixins.render.RenderChunkMixin
+ * @see floppaclient.mixins.render.BlockRendererDispatcherMixin
  */
 object XRay : Module(
     "XRay",
@@ -50,8 +49,6 @@ object XRay : Module(
     private var alphaInt: Int = 180
     var alphaFloat: Float = 0.7f
         private set
-    private var prevAmbientOcclusion = 0
-    private var prevForgeRender = true
 
     init {
         this.addSettings(
@@ -76,27 +73,16 @@ object XRay : Module(
 
     override fun onEnable() {
         super.onEnable()
-        /* For the rendering modifications to take effect the correct rendering functions have to be used.
-        * By default forge overrides the vanilla rendering to make lighting nicer and the vanilla code uses different
-        * rendering when ambientOcclusion (smooth lighting) is enabled.
-        * The nicer lighting is not relevant when using xray, so it is disabled.
-        */
-        prevAmbientOcclusion = mc.gameSettings.ambientOcclusion
-        mc.gameSettings.ambientOcclusion = 0
-        prevForgeRender = ForgeModContainer.forgeLightPipelineEnabled
-        ForgeModContainer.forgeLightPipelineEnabled = false
         mc.renderGlobal.loadRenderers()
     }
 
     override fun onDisable() {
         super.onDisable()
-        mc.gameSettings.ambientOcclusion = prevAmbientOcclusion
-        ForgeModContainer.forgeLightPipelineEnabled = prevForgeRender
         mc.renderGlobal.loadRenderers()
     }
 
     /**
-     * @see floppaclient.mixins.render.BlockModelRendererMixin.onRenderModel
+     * @see floppaclient.replacements.render.BlockRenderer.renderModel
      */
     fun getBlockAlpha(state: IBlockState): Int {
         if (!shouldBlockBeRevealed(state.block)) {
