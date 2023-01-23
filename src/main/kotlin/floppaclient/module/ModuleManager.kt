@@ -99,6 +99,7 @@ object ModuleManager {
         AutoClicker,
         AutoWeaponSwap,
         CancelInteract,
+        FastMine,
         PinglessHardstone,
         ChatCleaner,
         FastMine,
