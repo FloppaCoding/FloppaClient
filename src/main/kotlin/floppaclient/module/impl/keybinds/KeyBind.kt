@@ -17,15 +17,15 @@ import floppaclient.utils.fakeactions.FakeActionUtils
 class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private val modes = arrayListOf("Use Item","Command","Chat message")
 
-    val bindName = StringSetting("Name",this.name)
-    private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the keybind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
-    private val command = StringSetting("Command","",50, description = "Command to be executed. §eNo / needed!")
+    val bindName = StringSetting("Name", this.name, description = "The name of this Key Bind that will be shown on the toggle button in the GUI.")
+    private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the Bey Bind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
+    private val command = StringSetting("Command","",50, description = "Command to be executed when command mode is selected. §eNo / needed!")
         .withDependency { this.mode.index == 1 }
-    private val message = StringSetting("Message","",50, description = "Chat message to be sent. §eFor server commands a / is needed.")
+    private val message = StringSetting("Message","",50, description = "Chat message to be sent when message mode is selected. §eFor server commands a / is needed.")
         .withDependency { this.mode.index == 2 }
-    private val item = StringSetting("Item","",50, description = "Name of the Item to be used.")
+    private val item = StringSetting("Item","",50, description = "Name of the Item to be used  when use item mode is selected.")
         .withDependency { this.mode.index == 0 }
-    private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for items.")
+    private val condition = StringSetting("Condition", description = "Only perform the action when holding the specified item. Only used for use item mode.")
         .withDependency { this.mode.index == 0 }
     private val fromInventory = BooleanSetting("From Inv", description = "Allows you to use items from your inventory.")
         .withDependency { this.mode.index == 0 }

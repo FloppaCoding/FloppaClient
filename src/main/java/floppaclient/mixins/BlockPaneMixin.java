@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(BlockPane.class)
-abstract class MixinBlocks extends BlockMixin{
+abstract class BlockPaneMixin extends BlockMixin{
     @Shadow public abstract boolean canPaneConnectToBlock(Block blockIn);
 
     @Shadow public abstract boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir);

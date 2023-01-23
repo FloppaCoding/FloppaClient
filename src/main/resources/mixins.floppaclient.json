@@ -5,9 +5,9 @@
   "refmap": "mixins.floppaclient.refmap.json",
   "mixins": [
     "BlockMixin",
+    "BlockPaneMixin",
     "CarpetMixin",
     "ChunkMixin",
-    "MixinBlocks",
     "MixinWorld",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
@@ -16,7 +16,6 @@
   ],
   "client": [
     "MinecraftAccessor",
-    "MixinGuiMainMenu",
     "MixinMinecraft",
     "MixinModList",
     "MixinNetworkManager",
@@ -29,8 +28,13 @@
     "Gui.GuiMixin",
     "Gui.GuiScreenMixin",
     "Gui.MixinGuiContainer",
+    "Gui.MixinGuiMainMenu",
+    "render.BlockFluidRendererMixin",
+    "render.BlockRendererDispatcherMixin",
     "render.ChestRendererMixin",
     "render.EntityRendererMixin",
-    "render.ItemRendererMixin"
+    "render.ItemRendererMixin",
+    "render.RenderChunkMixin",
+    "render.VisGraphAccessor"
   ]
 }
