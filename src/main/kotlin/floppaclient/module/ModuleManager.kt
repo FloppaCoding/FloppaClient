@@ -121,10 +121,10 @@ object ModuleManager {
      */
     fun addNewKeybind(): KeyBind {
         val number = (modules
-            .filter{module -> module.name.startsWith("New Keybind")}
+            .filter{module -> module.name.startsWith("New")}
             .map {module -> module.name.filter { c -> c.isDigit() }.toIntOrNull()}
             .maxByOrNull { it ?: 0} ?: 0) + 1
-        val keyBind = KeyBind("New Keybind $number")
+        val keyBind = KeyBind("New $number")
         modules.add(keyBind)
         return keyBind
     }
