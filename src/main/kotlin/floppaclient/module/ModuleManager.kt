@@ -101,6 +101,7 @@ object ModuleManager {
         AutoClicker,
         AutoWeaponSwap,
         CancelInteract,
+        FastMine,
 
         //KEYBIND
         AddKeybind,

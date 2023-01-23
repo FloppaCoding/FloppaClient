@@ -162,6 +162,15 @@ class FloppaClientCommands : CommandBase() {
                 }
 
             }
+            "gametype" -> {
+                modMessage(mc.playerController.currentGameType.name)
+            }
+            "effects" -> {
+                modMessage("§eActive potion effects:")
+                mc.thePlayer.activePotionEffects.forEach { effect ->
+                    modMessage("${effect.effectName}, amplifier: ${effect.amplifier}, duration: ${effect.duration}")
+                }
+            }
             "forgerender" -> {
                 ForgeModContainer.forgeLightPipelineEnabled = !ForgeModContainer.forgeLightPipelineEnabled
                 modMessage("${if (ForgeModContainer.forgeLightPipelineEnabled) "enabled" else "disabled"} the forge block rendering pipeline.")
