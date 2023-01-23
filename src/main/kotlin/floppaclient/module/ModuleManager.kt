@@ -69,7 +69,6 @@ object ModuleManager {
         ExtraBlocks,
         MapRooms,
         CoordinateDisplay,
-        DayCounter,
         ItemAnimations,
         Camera,
 
@@ -79,7 +78,6 @@ object ModuleManager {
         AutoClip,
         AutoEther,
         FreeCam,
-        Clip,
         HClip,
         BarPhase,
         NoRotate,
@@ -97,11 +95,11 @@ object ModuleManager {
         SellGarbo,
         GhostBlocks,
         StonkDelay,
-        SecretTriggerbot,
         TerminatorClicker,
         AutoClicker,
         AutoWeaponSwap,
         CancelInteract,
+        FastMine,
         PinglessHardstone,
         ChatCleaner,
 
