@@ -1,5 +1,6 @@
 package floppaclient.module.impl.render
 
+import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
@@ -7,7 +8,12 @@ import floppaclient.module.settings.impl.NumberSetting
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemSword
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement
 import net.minecraft.util.MathHelper
+import net.minecraftforge.event.entity.player.PlayerInteractEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
 import kotlin.math.exp
 import kotlin.math.pow
 
@@ -35,6 +41,7 @@ object ItemAnimations : Module(
     private val yaw = NumberSetting("Yaw", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val pitch = NumberSetting("Pitch", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val roll = NumberSetting("Roll", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
+    private val blockAnimation = BooleanSetting("No Block Animation", false, description = "Doesn't show blocking animation.")
 
     /**
      * Used in the EntitiyLivingBaseMixin
@@ -49,9 +56,12 @@ object ItemAnimations : Module(
             x, y, z,
             pitch, yaw, roll,
             speed,
-            ignoreHaste
+            ignoreHaste,
+            blockAnimation
         )
     }
+
+    private var isRightClickKeyDown = false
 
     /**
      * Directly referenced hook for the itemTransform Inject in the ItemRenderer Mixin.
@@ -128,5 +138,25 @@ object ItemAnimations : Module(
         GlStateManager.translate(0.56f, -0.52f, -0.71999997f)
         GlStateManager.translate(-newX, -newY, -newZ)
         return true
+    }
+
+    // A lot of the code was from sbc
+    @SubscribeEvent
+    fun onTick(event: TickEvent.ClientTickEvent) {
+        if (event.phase != TickEvent.Phase.START || !blockAnimation.enabled) return
+        isRightClickKeyDown = mc.gameSettings.keyBindUseItem.isKeyDown
+    }
+
+    @SubscribeEvent
+    fun onInteract(event: PlayerInteractEvent) {
+        if (!blockAnimation.enabled) return
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
+            val item = mc.thePlayer.heldItem ?: return
+            if (item.item !is ItemSword) return
+            event.isCanceled = true
+            if (!isRightClickKeyDown) {
+                mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(mc.thePlayer.heldItem))
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ object FreeCam : Module(
 
     private val speed = NumberSetting("Speed", 3.0, 0.1, 5.0, 0.1, description = "Fly speed.")
     private val glide = BooleanSetting("Glide", false, description = "Lets you glide upon release movement keys.")
-    private val reloadChunks = BooleanSetting("Reload Chunks", false, description = "Reloads all chunks on disable.")
+    private val reloadChunks = BooleanSetting("Reload Chunks", true, description = "Reloads all chunks on disable.")
 
 
     init {

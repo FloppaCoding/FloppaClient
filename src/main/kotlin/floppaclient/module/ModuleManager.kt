@@ -101,6 +101,8 @@ object ModuleManager {
         AutoClicker,
         AutoWeaponSwap,
         CancelInteract,
+        PinglessHardstone,
+        ChatCleaner,
 
         //KEYBIND
         AddKeybind,

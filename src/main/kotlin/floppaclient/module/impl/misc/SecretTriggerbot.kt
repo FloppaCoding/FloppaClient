@@ -8,6 +8,7 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.Utils
 import floppaclient.utils.fakeactions.FakeActionUtils
+import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntitySkull
 import net.minecraft.util.MovingObjectPosition
@@ -26,8 +27,7 @@ object SecretTriggerbot : Module(
 ) {
 
 
-    private val cooldown =
-        NumberSetting("Cooldown", 1000.0, 250.0, 2000.0, 10.0, description = "Cooldown for clicking secrets")
+    private val cooldown = NumberSetting("Cooldown", 1000.0, 250.0, 2000.0, 10.0, description = "Cooldown for clicking secrets")
     private val keyHelper = BooleanSetting("Redstone Key", false, description = "Places redstone keys from Inventory")
     private val trappedChests = BooleanSetting("Trapped Chests", true, description = "Also clicks trapped chests.")
 
@@ -45,13 +45,14 @@ object SecretTriggerbot : Module(
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
-        if (mc.thePlayer == null || mc.theWorld == null || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
-        if (System.currentTimeMillis() < nextAction) return
+        if (mc.thePlayer == null || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
+        if (mc.currentScreen is GuiContainer) return
 
         val objectPos = mc.objectMouseOver.blockPos
         val state = mc.theWorld.getBlockState(objectPos).block
 
-        if (state == Blocks.chest || state == Blocks.lever || state == Blocks.trapped_chest && trappedChests.enabled) {
+        if (System.currentTimeMillis() < nextAction) return
+        if (state == Blocks.chest || state == Blocks.lever || (state == Blocks.trapped_chest && trappedChests.enabled)) {
 
             nextAction = System.currentTimeMillis() + cooldown.value.toLong()
             FakeActionUtils.clickBlock(objectPos)
