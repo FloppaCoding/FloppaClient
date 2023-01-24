@@ -41,7 +41,7 @@ object ItemAnimations : Module(
     private val yaw = NumberSetting("Yaw", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val pitch = NumberSetting("Pitch", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val roll = NumberSetting("Roll", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
-    private val blockAnimation = BooleanSetting("No Block Animation", false, description = "Doesn't show blocking animation.")
+    private val blockAnimation = BooleanSetting("No Block Animation", false, description = "Doesn't show blocking animation.") // for later on change this to a selector setting and put more animations here
 
     /**
      * Used in the EntitiyLivingBaseMixin
