@@ -81,6 +81,7 @@ object ModuleManager {
         BarPhase,
         NoRotate,
         Velocity,
+        Blink,
 
         //MISC
         QOL,
