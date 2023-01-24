@@ -1,9 +1,10 @@
 package floppaclient.module.impl.keybinds
 
-import floppaclient.FloppaClient
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.ModuleManager
+import floppaclient.ui.clickgui.ClickGUI
+import floppaclient.ui.clickgui.elements.ModuleButton
 
 object AddKeybind : Module(
     "Add New Key Bind",
@@ -14,9 +15,11 @@ object AddKeybind : Module(
     override fun onEnable() {}
 
     override fun onDisable() {
-        ModuleManager.addNewKeybind()
+        val bind = ModuleManager.addNewKeybind()
         toggle()
-        FloppaClient.clickGUI.setUpPanels()
+        ClickGUI.panels.find { it.category === Category.KEY_BIND }?.let {
+            it.moduleButtons.add(ModuleButton(bind, it))
+        }
     }
 
     override fun keyBind() {}
