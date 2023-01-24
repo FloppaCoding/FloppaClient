@@ -1,5 +1,6 @@
 package floppaclient.module
 
+import floppaclient.FloppaClient
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
 import floppaclient.module.impl.dungeon.*
@@ -9,7 +10,6 @@ import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
 import floppaclient.module.settings.Setting
-import floppaclient.ui.clickgui.ClickGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
@@ -63,7 +63,6 @@ object ModuleManager {
         DungeonESP,
         ChestEsp,
         FullBright,
-        XRay,
         DungeonWarpTimer,
         DungeonMap,
         ExtraBlocks,
@@ -122,17 +121,17 @@ object ModuleManager {
      */
     fun addNewKeybind(): KeyBind {
         val number = (modules
-            .filter{module -> module.name.startsWith("New")}
+            .filter{module -> module.name.startsWith("New Keybind")}
             .map {module -> module.name.filter { c -> c.isDigit() }.toIntOrNull()}
             .maxByOrNull { it ?: 0} ?: 0) + 1
-        val keyBind = KeyBind("New $number")
+        val keyBind = KeyBind("New Keybind $number")
         modules.add(keyBind)
         return keyBind
     }
 
     fun removeKeyBind(bind: KeyBind) {
         modules.remove(bind)
-        ClickGUI.panels.find { it.category === Category.KEY_BIND }?.moduleButtons?.removeIf { it.module === bind }
+        FloppaClient.clickGUI.setUpPanels()
     }
 
     /**
