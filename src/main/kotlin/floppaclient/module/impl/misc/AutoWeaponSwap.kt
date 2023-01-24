@@ -6,25 +6,28 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
- *Module aimed to provide everything needed to automatically swap weapons to attack with all of them.
+ * Module aimed to provide everything needed to automatically swap weapons to use the abilities of other weapons while
+ * attacking with a melee weapon.
  *
  * @author Derek, Aton
  */
 object AutoWeaponSwap : Module(
     "Auto Weapon Swap",
     category = Category.MISC,
-    description = "Automatically switches between Axe of the Shredded, Soul Whip, or Terminator" +
-            "with the user's choice of weapon. They can also be used together in any combination." +
-            "The items will only be used on cooldown."+
-            "Additionally it determines whether or not you can swap on an item based on reforges and" +
-            "checks if they are in a blacklist of items that you would not want to swap with.\n" +
-            "Whitelisted reforges: §a\"Suspicious\", \"Fabled\", \"Heroic\", \"Withered\"§r\n" +
+    description = "This module will automatically use the abilities of the specified items while you are attacking with a melee weapon." +
+            "It can be used for Axe of the Shredded, Soul Whip, Ice Spray and Terminator in any combination. " +
+            "The abilities will only be used on cooldown. " +
+            "Whether the currently held item qualifies as a melee weapon is determined by the reforge and an item blacklist. " +
+            "Items in the blacklist will never trigger a weapon swap by this module, regardless of the reforge. "+
+            "You can effectively extend the whitelist through the use of the \"Custom Filter\" setting. "+
+            "Whitelisted reforges: §a\"Suspicious\", \"Fabled\", \"Heroic\", \"Spicy\", \"Withered\"§r\n" +
             "§fBlacklisted Items: §c\"Aspect of the Void\", \"Jerry\", \"Bonzo\""
 
 ) {
@@ -35,8 +38,18 @@ object AutoWeaponSwap : Module(
     private val iceSpray = BooleanSetting("Ice Spray Swap", false, description = "Include Ice Spray in the weapon swap cycle.")
     private val termSleep = NumberSetting("Sleep ms",50.0,10.0,100.0,5.0, description = "Delay between Terminator clicks. This will determine the CPS on the Terminator and lets it exceed your left click CPS.")
     private val fromInv = BooleanSetting("From Inv", false, description = "Lets you use Soul Whip, AOTS and Ice Spray from inventory.")
+    private val customFilter = StringSetting("Custom Filter", description = "Any item which contains this string in the name will also trigger a weapon swap by this module. Leave empty for this to be ignored. Case sensitive.")
 
-    private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Withered")
+    private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Spicy", "Withered")
+        get() {
+            return if (customFilter.text == "") {
+                field
+            }else {
+                val temp = field.toMutableSet()
+                temp.add(customFilter.text)
+                return temp
+            }
+        }
     private val leftClickBlacklist = setOf("Aspect of the Void", "Jerry", "Bonzo")
     private const val axeCooldown = 450
     private const val whipCooldown = 500
@@ -60,7 +73,8 @@ object AutoWeaponSwap : Module(
             terminator,
             iceSpray,
             termSleep,
-            fromInv
+            fromInv,
+            customFilter
         )
     }
 
