@@ -16,7 +16,7 @@ import floppaclient.module.settings.impl.SelectorSetting
 object FastMine : Module(
     "Fast Mine",
     category = Category.MISC,
-    description = "Breaks blocks sooner when mining them allowing for effectively faster mining. Also has some options to reduce the delay in between block breaking."
+    description = "Breaks blocks sooner when mining them, allowing for effectively faster mining. Also has some options to reduce the delay in between block breaking."
 ){
     private val mode = SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Skyblock", "None"), description = "Choose this according to where you are mining. In regions with custom mining like the Crystal Hollows select 'Skyblock' everywhere else select 'Vanilla'. Select 'None' if you only want to use this module to modify the softcap.")
     private val threshold = NumberSetting("Threshold", 0.7, 0.7, 1.0, 0.01, description = "Effectively reduces the time it takes to break the block by this factor.")
