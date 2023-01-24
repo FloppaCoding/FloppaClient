@@ -16,7 +16,7 @@ import floppaclient.module.settings.impl.SelectorSetting
 object FastMine : Module(
     "Fast Mine",
     category = Category.MISC,
-    description = "Breaks blocks sooner allowing for effectively faster mining."
+    description = "Breaks blocks sooner when mining them allowing for effectively faster mining. Also has some options to reduce the delay in between block breaking."
 ){
     private val mode = SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Skyblock", "None"), description = "Choose this according to where you are mining. In regions with custom mining like the Crystal Hollows select 'Skyblock' everywhere else select 'Vanilla'. Select 'None' if you only want to use this module to modify the softcap.")
     private val threshold = NumberSetting("Threshold", 0.7, 0.7, 1.0, 0.01, description = "Effectively reduces the time it takes to break the block by this factor.")
@@ -26,6 +26,9 @@ object FastMine : Module(
     private val modifyDelay = BooleanSetting("Modify Hit Delay", false, description = "Modifies the hit delay of 5 ticks before the next block can be mined. This should allow for bypassing the softcap.")
     private val newHitDelay = NumberSetting("New Delay", 0.0, 0.0, 5.0, 1.0, description = "New delay in ticks until the next block can be broken. The vanilla value is 5.")
         .withDependency { this.modifyDelay.enabled }
+    private val noReset = BooleanSetting("No Reset", false, description = "Prevents the block breaking progress from resetting when the NBT data of the held item gets updated. This can happen because of the Compact enchant or drill fuel updating.")
+
+
 
     init {
         this.addSettings(
@@ -33,7 +36,8 @@ object FastMine : Module(
             threshold,
             ticks,
             modifyDelay,
-            newHitDelay
+            newHitDelay,
+            noReset
         )
     }
 
@@ -63,5 +67,12 @@ object FastMine : Module(
      */
     fun shouldRemoveHitDelay(hitDelay: Int) : Boolean {
         return this.enabled && modifyDelay.enabled && hitDelay <= (5.0 - this.newHitDelay.value)
+    }
+
+    /**
+     * @see floppaclient.mixins.PlayerControllerMixin.shouldTagsBeEqual
+     */
+    fun shouldPreventReset() : Boolean {
+        return this.enabled && noReset.enabled
     }
 }

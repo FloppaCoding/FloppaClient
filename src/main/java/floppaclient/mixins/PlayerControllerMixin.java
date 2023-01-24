@@ -2,11 +2,13 @@ package floppaclient.mixins;
 
 import floppaclient.events.BlockDestroyEvent;
 import floppaclient.module.impl.misc.FastMine;
+import floppaclient.utils.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -68,5 +70,13 @@ abstract class PlayerControllerMixin {
         if (FastMine.INSTANCE.shouldRemoveHitDelay(this.blockHitDelay)) {
             this.blockHitDelay = 0;
         }
+    }
+
+    @Redirect(method = "isHittingPosition", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areItemStackTagsEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"))
+    private boolean shouldTagsBeEqual(ItemStack stackA, ItemStack stackB) {
+        if (FastMine.INSTANCE.shouldPreventReset()) {
+            return ItemUtils.INSTANCE.getItemID(stackA).equals(ItemUtils.INSTANCE.getItemID(stackB));
+        }
+        return ItemStack.areItemStackTagsEqual(stackA, stackB);
     }
 }
