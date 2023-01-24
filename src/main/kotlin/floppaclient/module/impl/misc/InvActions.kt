@@ -60,6 +60,7 @@ object InvActions : Module(
     private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
     private val stopInMelody = BooleanSetting("Stop in Melody", false, description = "Will prevent you from walking while in the melody terminal.")
+    //private val goofybypass = BooleanSetting("test", false, description = "A")
     private val cursor = ResourceLocation(RESOURCE_DOMAIN, "gui/cursor.png")
 
     private var moveTime = 0L
@@ -102,7 +103,7 @@ object InvActions : Module(
             onlyInTerminal,
             hideTerminal,
             blockClicks,
-            stopInMelody
+            stopInMelody,
         )
     }
 

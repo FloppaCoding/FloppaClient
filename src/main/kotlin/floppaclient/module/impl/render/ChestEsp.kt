@@ -2,6 +2,7 @@ package floppaclient.module.impl.render
 
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.SelectorSetting
@@ -19,7 +20,9 @@ object ChestEsp : Module(
 ){
     private val mode = SelectorSetting("Mode", "Box", arrayListOf("Box", "Phase"), description = "Determines how the chest wil be visualized.")
     private val color = ColorSetting("Box Color", Color(255,0,0), description = "Color of the box when box mode is selected.")
+        .withDependency { this.mode.index == 0 }
     private val thickness = NumberSetting("Thickness", 1.0, 0.0,5.0, 0.1, description = "Line width of the box when box mode is selected.")
+        .withDependency { this.mode.index == 0 }
 
     /**
      * Referenced by the ChestRendererMixin to determine whether the chest is drawn in the world or something in a hud.

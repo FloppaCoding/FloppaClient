@@ -24,7 +24,7 @@ object GhostBlocks : Module(
     description = "Creates ghost blocks where you are looking when the key bind is pressed."
 ){
     private val ghostBlockSkulls = BooleanSetting("Ghost Skulls", true, description = "If enabled skulls will also be turned into ghost blocks.")
-    private val gbRange = NumberSetting("Range", 4.5,4.5,60.0,0.5, description = "Maximum range at which ghost blocks will be created.")
+    private val gbRange = NumberSetting("Range", 7.0,4.5,60.0,0.5, description = "Maximum range at which ghost blocks will be created.")
 
     init {
         this.addSettings(

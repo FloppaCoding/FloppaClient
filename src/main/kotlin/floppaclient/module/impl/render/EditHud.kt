@@ -12,7 +12,7 @@ import floppaclient.ui.hud.EditHudGUI
 object EditHud : Module(
     "Edit Hud",
     category = Category.RENDER,
-    description = "Opens the eidt hud gui."
+    description = "Opens the edit hud gui."
 ){
 
     /**

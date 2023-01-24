@@ -10,6 +10,7 @@ import floppaclient.funnymap.features.extras.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.misc.ClipSettings
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -42,16 +43,25 @@ object DrawRoutes : Module(
     private val renderClip  = BooleanSetting("Clip Routes",true)
     private val renderEther = BooleanSetting("Etherwarp Routes",true)
     private val onlyInBoss  = BooleanSetting("Only in Boss",false)
-    private val acLineWidth         = NumberSetting("Clip Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Auto Clip routes.")
-    private val acStartColor        = ColorSetting("Clip Start", Color(255, 0, 0), true, description = "Color for the start block of Auto Clip routes.")
-    private val acTargetColor       = ColorSetting("Clip Target", Color(0, 255, 0), true, description = "Color for the final and intermediate target blocks of Auto Clip routes.")
-    private val acStepColor         = ColorSetting("Clip Step", Color(0, 255, 255), true, description = "Color for automatically created intermediate steps of Auto Clip routes.")
-    private val acPathColor         = ColorSetting("Clip Path", Color(0, 0, 255), true, description = "Color for the path that the Auto Clip route follows.")
-    private val etherLineWidth      = NumberSetting("Ether Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Etherwarp routes.")
-    private val etherStartColor     = ColorSetting("Ether Start", Color(255, 115, 0), true, description = "Color for the start block of Etherwarp routes.")
-    private val etherTargetColor    = ColorSetting("Ether Target", Color(0, 82, 75), true, description = "Color for the target Block of Etberwarp routes.")
-    private val etherPathColor      = ColorSetting("Ether Path", Color(255, 0, 255), true, description = "Color for the path that the Etherwarp route follows.")
 
+    private val acLineWidth = NumberSetting("Clip Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Auto Clip routes.")
+        .withDependency { this.renderClip.enabled }
+    private val acStartColor = ColorSetting("Clip Start", Color(255, 0, 0), true, description = "Color for the start block of Auto Clip routes.")
+        .withDependency { this.renderClip.enabled }
+    private val acTargetColor = ColorSetting("Clip Target", Color(0, 255, 0), true, description = "Color for the final and intermediate target blocks of Auto Clip routes.")
+        .withDependency { this.renderClip.enabled }
+    private val acStepColor = ColorSetting("Clip Step", Color(0, 255, 255), true, description = "Color for automatically created intermediate steps of Auto Clip routes.")
+        .withDependency { this.renderClip.enabled }
+    private val acPathColor = ColorSetting("Clip Path", Color(0, 0, 255), true, description = "Color for the path that the Auto Clip route follows.")
+        .withDependency { this.renderClip.enabled }
+    private val etherLineWidth = NumberSetting("Ether Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Etherwarp routes.")
+        .withDependency { this.renderEther.enabled }
+    private val etherStartColor = ColorSetting("Ether Start", Color(255, 115, 0), true, description = "Color for the start block of Etherwarp routes.")
+        .withDependency { this.renderEther.enabled }
+    private val etherTargetColor = ColorSetting("Ether Target", Color(0, 82, 75), true, description = "Color for the target Block of Etberwarp routes.")
+        .withDependency { this.renderEther.enabled }
+    private val etherPathColor = ColorSetting("Ether Path", Color(255, 0, 255), true, description = "Color for the path that the Etherwarp route follows.")
+        .withDependency { this.renderEther.enabled }
 
     init {
         this.addSettings(

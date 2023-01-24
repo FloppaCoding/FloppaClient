@@ -49,7 +49,7 @@ import kotlin.math.max
 object AutoBlaze : Module(
     "Auto Blaze",
     category = Category.DUNGEON,
-    description = "Automatically completes the blaze puzzle. Activated by left clicking withe either AOTV or terminator after walking far enough into the room."
+    description = "Automatically completes the blaze puzzle. Activated by left clicking with either AOTV or terminator after walking far enough into the room."
 ){
 
     private val fastSleep = NumberSetting("Sleep at 100 ats", 310.0, 200.0, 1000.0, 10.0)

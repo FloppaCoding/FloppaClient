@@ -4,6 +4,7 @@ import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -41,8 +42,10 @@ object DungeonESP : Module(
     private val colorStar = ColorSetting("Star Mob Color", Color(255, 0, 0), false, description = "ESP color for star mobs.")
     private val colorFel = ColorSetting("Fel Color", Color(0, 255, 255), false, description = "ESP color for star Fel.")
     private val colorFelHead = ColorSetting("Fel Head Color", Color(0, 0, 255), false, description = "ESP color for Fel heads on the floor.")
+        .withDependency { this.showFelHead.enabled }
     private val colorWithermancer = ColorSetting("Withermancer Color", Color(255, 255, 0), false, description = "ESP color for star Withermancer.")
     private val colorBat = ColorSetting("Bat Color", Color(0, 255, 0), false, description = "ESP color for bats.")
+        .withDependency { this.showBat.enabled }
     private val colorKey = ColorSetting("Key Color", Color(0, 0, 0), false, description = "ESP color for wither and blood key.")
 
     init {

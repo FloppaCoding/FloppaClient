@@ -1,5 +1,6 @@
 package floppaclient.module.impl.misc
 
+import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
 import floppaclient.module.Category
@@ -39,13 +40,11 @@ object SecretTriggerbot : Module(
         )
     }
 
-    // Change it to only work in Dungeons
-
     private var nextAction: Long = System.currentTimeMillis()
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
-        if (mc.thePlayer == null || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
+        if (!inDungeons == null || mc.thePlayer == null || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
         if (mc.currentScreen is GuiContainer) return
 
         val objectPos = mc.objectMouseOver.blockPos

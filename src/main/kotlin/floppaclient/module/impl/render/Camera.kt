@@ -31,7 +31,8 @@ object Camera : Module(
     init {
         this.addSettings(
             thirdPDist,
-            clip
+            clip,
+            noFrontView
         )
     }
 
