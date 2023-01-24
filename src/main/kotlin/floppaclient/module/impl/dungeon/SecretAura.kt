@@ -11,7 +11,7 @@ import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils
 import floppaclient.utils.Utils.equalsOneOf
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks

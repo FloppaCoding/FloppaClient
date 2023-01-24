@@ -11,7 +11,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.playLoudSound
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.init.Blocks

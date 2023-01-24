@@ -16,7 +16,7 @@ import floppaclient.utils.DataHandler.toMutableIntList
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.Utils
 import floppaclient.utils.Utils.isHolding
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionUtils
 import kotlinx.coroutines.runBlocking

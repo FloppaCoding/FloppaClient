@@ -6,10 +6,10 @@ import floppaclient.commands.FloppaClientCommands
 import floppaclient.funnymap.core.Room
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.funnymap.features.extras.RoomUtils
-import floppaclient.utils.Utils.chatMessage
+import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.isValidEtherwarpPos
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.timer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3

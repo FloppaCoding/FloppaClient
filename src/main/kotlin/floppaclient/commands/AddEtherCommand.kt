@@ -1,7 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.utils.DataHandler
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 

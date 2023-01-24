@@ -12,7 +12,7 @@ import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils
 import floppaclient.utils.Utils.inF7Boss
 import floppaclient.utils.Utils.isHoldingOneOf
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.rightClick
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.ContainerChest

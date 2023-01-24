@@ -4,7 +4,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.*
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.Utils.equalsOneOf
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException

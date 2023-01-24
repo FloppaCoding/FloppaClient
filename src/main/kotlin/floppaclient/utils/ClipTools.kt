@@ -4,7 +4,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.impl.misc.ClipSettings
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.GeometryUtils.yaw
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.util.Vec3
 import java.util.*
 import kotlin.concurrent.schedule

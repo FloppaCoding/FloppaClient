@@ -107,7 +107,7 @@ class FloppaClient {
         }
         if (tickRamp % 20 == 0) {
             if (mc.thePlayer != null) {
-                val onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
+                onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
 
                 inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
                     ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
@@ -131,6 +131,7 @@ class FloppaClient {
 
     @SubscribeEvent
     fun onDisconnect(event: ClientDisconnectionFromServerEvent) {
+        onHypixel = false
         inSkyblock = false
         inDungeons = false
         moduleConfig.saveConfig()
@@ -165,6 +166,7 @@ class FloppaClient {
         lateinit var clickGUI: ClickGUI
 
         var currentRegionPair: Pair<Room, Int>? = null
+        var onHypixel = false
         var inSkyblock = false
         var inDungeons = false
             get() = inSkyblock && field

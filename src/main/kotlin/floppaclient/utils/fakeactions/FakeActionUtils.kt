@@ -3,6 +3,7 @@ package floppaclient.utils.fakeactions
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.mixins.packet.C02Accessor
 import floppaclient.module.impl.player.AutoEther
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.GeometryUtils
 import floppaclient.utils.Utils
 import net.minecraft.client.gui.inventory.GuiContainer
@@ -40,7 +41,7 @@ object FakeActionUtils {
      */
     fun etherwarpTo(targetPos: BlockPos, message: Boolean = false, fakeTp: Boolean = false): Boolean {
         val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
-            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
 
@@ -49,7 +50,7 @@ object FakeActionUtils {
         val dist = 61.0
 
         if (distance > (dist + 2) * (dist + 2)) {
-            if (message) Utils.modMessage("Target is to far away")
+            if (message) ChatUtils.modMessage("Target is to far away")
             return false
         }
 
@@ -78,7 +79,7 @@ object FakeActionUtils {
 
             val vec32 = eyeVec.addVector(dirVec.xCoord * dist, dirVec.yCoord * dist, dirVec.zCoord * dist)
             val obj = mc.theWorld.rayTraceBlocks(eyeVec, vec32, true, false, true) ?: run {
-                if (message) Utils.modMessage("Target can not be found.")
+                if (message) ChatUtils.modMessage("Target can not be found.")
                 return false
             }
             if (obj.blockPos == targetPos) {
@@ -88,12 +89,12 @@ object FakeActionUtils {
         }
 
         if (target == null) {
-            if (message) Utils.modMessage("Target can not be seen!")
+            if (message) ChatUtils.modMessage("Target can not be seen!")
             return false
         }
 
         if (FakeActionManager.doAction) {
-            if (message) Utils.modMessage("Conflicting fake action already staged.")
+            if (message) ChatUtils.modMessage("Conflicting fake action already staged.")
             return false
         }
 
@@ -137,7 +138,7 @@ object FakeActionUtils {
         fakeTp: Boolean = false
     ): Boolean {
         val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
-            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
         val eyeVec = start.addVector(0.0, mc.thePlayer.eyeHeight - 0.08, 0.0)
@@ -148,7 +149,7 @@ object FakeActionUtils {
         val dist = 61.0
 
         if (distance > (dist + 2)) {
-            if (message) Utils.modMessage("Target is to far away")
+            if (message) ChatUtils.modMessage("Target is to far away")
             return false
         }
 
@@ -170,7 +171,7 @@ object FakeActionUtils {
 
             val vec32 = eyeVec.addVector(dirVec.xCoord * dist, dirVec.yCoord * dist, dirVec.zCoord * dist)
             val obj = mc.theWorld.rayTraceBlocks(eyeVec, vec32, true, false, true) ?: run {
-                if (message) Utils.modMessage("Target can not be found.")
+                if (message) ChatUtils.modMessage("Target can not be found.")
                 return false
             }
             if (obj.blockPos == targetPos) {
@@ -180,7 +181,7 @@ object FakeActionUtils {
         }
 
         if (target == null) {
-            if (message) Utils.modMessage("Target can not be seen!")
+            if (message) ChatUtils.modMessage("Target can not be seen!")
             return false
         }
 
@@ -193,7 +194,7 @@ object FakeActionUtils {
             FakeActionManager.queueRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
         else {
             if (FakeActionManager.doAction) {
-                if (message) Utils.modMessage("Conflicting fake action already staged.")
+                if (message) ChatUtils.modMessage("Conflicting fake action already staged.")
                 return false
             }
             FakeActionManager.stageRightClickSlot(direction[1].toFloat(), direction[2].toFloat(), aotvSlot, true)
@@ -229,7 +230,7 @@ object FakeActionUtils {
         fakeTp: Boolean = false
     ): Boolean {
         val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
-            if (message) Utils.modMessage("No AOTV found in your hotbar!")
+            if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
         val target = Vec3(targetPos).add(Vec3(0.5, 1.0, 0.5))
@@ -263,6 +264,7 @@ object FakeActionUtils {
      */
     fun interactWithEntity(entityId: Int) {
         val packet = C02PacketUseEntity()
+        @Suppress("KotlinConstantConditions")
         (packet as C02Accessor).setEntityId(entityId)
         (packet as C02Accessor).setAction(C02PacketUseEntity.Action.INTERACT)
         mc.netHandler.networkManager.sendPacket(packet as Packet<*>)

@@ -2,11 +2,17 @@ package floppaclient.module.impl.render
 
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.display
+import floppaclient.FloppaClient.Companion.onHypixel
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.*
+import floppaclient.utils.ChatUtils.modMessage
+import floppaclient.utils.ChatUtils.stripControlCodes
+import net.minecraftforge.client.event.ClientChatReceivedEvent
+import net.minecraftforge.fml.common.eventhandler.EventPriority
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
 
 /**
@@ -36,6 +42,7 @@ object ClickGui: Module(
     val chromaSpeed = NumberSetting("Chroma Speed", 0.5, 0.0, 1.0, 0.01, description = "Determines how fast the chroma changes with time.")
     val chromaAngle = NumberSetting("Chroma Angle", 45.0, 0.0, 360.0,1.0, description = "Determines the direction in which the chroma changes on your screen.")
     val showUsageInfo = BooleanSetting("Usage Info", true, visibility = Visibility.ADVANCED_ONLY, description = "Show info on how to use the GUI.")
+    val apiKey = StringSetting("API Key", "", length = 100, visibility = Visibility.HIDDEN)
 
     val panelX: MutableMap<Category, NumberSetting> = mutableMapOf()
     val panelY: MutableMap<Category, NumberSetting> = mutableMapOf()
@@ -73,6 +80,7 @@ object ClickGui: Module(
             chromaSpeed,
             chromaAngle,
             showUsageInfo,
+            apiKey,
             advancedRelX,
             advancedRelY
         ))
@@ -131,5 +139,19 @@ object ClickGui: Module(
         display = FloppaClient.clickGUI
         super.onEnable()
         toggle()
+    }
+
+    /**
+     * Detect the API key.
+     */
+    @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGHEST)
+    fun onChat(event: ClientChatReceivedEvent) {
+        if (!onHypixel || event.type == 2.toByte()) return
+        val text = event.message.unformattedText.stripControlCodes()
+        if (text.startsWith("Your new API key is ") && event.message.siblings.size >= 1) {
+            apiKey.text = event.message.siblings[0].chatStyle.chatClickEvent.value
+            modMessage("§bupdated your Hypixel API key to §2${apiKey.text}")
+            return
+        }
     }
 }

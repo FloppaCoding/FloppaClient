@@ -5,7 +5,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import kotlinx.coroutines.runBlocking
 import net.minecraft.entity.item.EntityArmorStand

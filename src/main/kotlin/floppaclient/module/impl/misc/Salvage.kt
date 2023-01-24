@@ -7,12 +7,12 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ItemUtils.isDungeonMobDrop
 import floppaclient.utils.ItemUtils.isRarityUpgraded
 import floppaclient.utils.ItemUtils.isStarred
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.utils.ItemUtils.rarityBoost
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.leftClickWindow
@@ -96,7 +96,7 @@ object Salvage : Module(
         val itemReady = container.inventorySlots[22].hasStack
         val slotIndex = if (locked) 22 else if (itemReady) 31
         else container.inventorySlots.subList(54,90).firstOrNull { shouldSalvage(it) }?.slotNumber
-            ?: return (if (message.enabled) Utils.modMessage("Finished auto salvage.") else Unit).also { inSalvage = false }
+            ?: return (if (message.enabled) ChatUtils.modMessage("Finished auto salvage.") else Unit).also { inSalvage = false }
         if (slotIndex == 31) {
             leftClickWindow(container.windowId, slotIndex)
         }else {

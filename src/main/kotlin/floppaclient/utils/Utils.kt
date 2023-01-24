@@ -1,17 +1,13 @@
 package floppaclient.utils
 
 import floppaclient.FloppaClient
-import floppaclient.FloppaClient.Companion.CHAT_PREFIX
-import floppaclient.FloppaClient.Companion.SHORT_PREFIX
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.DungeonPlayer
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.mixins.MinecraftAccessor
-import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.utils.ScoreboardUtils.sidebarLines
-import gg.essential.universal.UChat
 import net.minecraft.block.BlockDoor
 import net.minecraft.block.BlockLadder
 import net.minecraft.block.BlockLiquid
@@ -26,12 +22,18 @@ import net.minecraft.inventory.Container
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.util.*
 import net.minecraft.util.Timer
-import net.minecraftforge.client.ClientCommandHandler
 import java.util.*
 import kotlin.math.round
 
-
+/**
+ * ## A general collection of utility functions.
+ *
+ * This is the place for all the utility functions that do not (yet) have their own class files for a category.
+ *
+ * @author Aton
+ */
 object Utils {
+    //TODO clean this up and put the functions in respective classes to better sort them.
 
     /**
      * Referenced in the sound manager hook.
@@ -140,38 +142,6 @@ object Utils {
         return false
     }
 
-    fun modMessage(message: String) = chatMessage("${when(ClickGui.prefixStyle.index) { 0 -> CHAT_PREFIX; 1 -> SHORT_PREFIX 
-        else -> ClickGui.customPrefix.text }} $message")
-
-    /**
-     * Print a message in chat client side.
-     */
-    fun chatMessage(message: String) {
-        UChat.chat(message)
-//        mc.thePlayer.addChatMessage(ChatComponentText(message))
-    }
-
-    /**
-     * Print a message in chat client side.
-     */
-    fun chatMessage(obj: Any) {
-        UChat.chat(obj)
-//        mc.thePlayer.addChatMessage(ChatComponentText(message))
-    }
-
-    fun sendChat(message: String) {
-        UChat.say(message)
-//        mc.thePlayer.sendChatMessage(message)
-    }
-
-/**
- * Runs the specified command. Per default sends it to the server  but has client side option.
- */
-    fun command(text: String, clientSide: Boolean = false) {
-        if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
-        else  mc.thePlayer?.sendChatMessage("/$text")
-    }
-
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>, playerName: String = mc.thePlayer.name): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
             val tabText = StringUtils.stripControlCodes(tabEntries[i].second).trim()
@@ -246,6 +216,7 @@ object Utils {
             area + (extraInfo ?: "")
     }
 
+    // TODO put this in RenderUtils
     fun renderText(
         text: String,
         x: Int,
@@ -354,6 +325,8 @@ object Utils {
             return@all newBlock.block.isPassable(mc.theWorld, newPos)
         }
     }
+
+    //TODO all of the following click functions are probably better off in a fakeactions class
 
     /**
      * Shift left clicks the specified slot.

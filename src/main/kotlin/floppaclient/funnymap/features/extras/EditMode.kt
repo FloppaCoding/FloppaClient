@@ -6,7 +6,7 @@ import floppaclient.events.ClickEvent
 import floppaclient.funnymap.features.dungeon.Dungeon.currentRoomPair
 import floppaclient.funnymap.features.extras.RoomUtils.getOrPutRoomExtrasData
 import floppaclient.funnymap.features.extras.RoomUtils.getRelativePos
-import floppaclient.utils.Utils
+import floppaclient.utils.ChatUtils
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
@@ -50,7 +50,7 @@ object EditMode {
         val state = mc.theWorld.getBlockState(mc.objectMouseOver.blockPos)
         if (state.block == Blocks.air) return
         currentBlockID = Block.getStateId(state)
-        Utils.modMessage("Set block to: ${state.block.localizedName}")
+        ChatUtils.modMessage("Set block to: ${state.block.localizedName}")
         event.isCanceled = true
     }
 

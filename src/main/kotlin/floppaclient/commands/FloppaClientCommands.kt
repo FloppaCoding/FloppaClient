@@ -12,8 +12,8 @@ import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.DataHandler
-import floppaclient.utils.Utils.chatMessage
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.chatMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.command.CommandBase

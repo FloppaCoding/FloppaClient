@@ -7,12 +7,12 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ItemUtils.isDungeonMobDrop
 import floppaclient.utils.ItemUtils.isRarityUpgraded
 import floppaclient.utils.ItemUtils.isStarred
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.utils.ItemUtils.rarityBoost
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.shiftClickWindow
@@ -124,7 +124,7 @@ object SellGarbo : Module(
         }
         if (System.currentTimeMillis() < nextClick) return
         val slotIndex = container.inventorySlots.subList(54,90).firstOrNull { shouldSell(it) }?.slotNumber
-            ?: return (if (message.enabled) Utils.modMessage("Finished auto sell.") else Unit).also { inSellMenu = false }
+            ?: return (if (message.enabled) ChatUtils.modMessage("Finished auto sell.") else Unit).also { inSellMenu = false }
 
         shiftClickWindow(container.windowId, slotIndex)
         nextClick = System.currentTimeMillis() + sleep.value.toLong()

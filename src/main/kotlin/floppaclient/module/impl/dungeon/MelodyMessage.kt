@@ -7,7 +7,7 @@ import floppaclient.module.impl.dungeon.AutoTerms.currentTerminal
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils.isFloor
-import floppaclient.utils.Utils.sendChat
+import floppaclient.utils.ChatUtils.sendChat
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority

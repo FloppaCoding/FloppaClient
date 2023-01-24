@@ -10,7 +10,7 @@ import floppaclient.module.settings.impl.ActionSetting
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.module.settings.impl.StringSetting
-import floppaclient.utils.Utils
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.Utils.isHolding
 import floppaclient.utils.fakeactions.FakeActionUtils
 
@@ -57,10 +57,10 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private fun performAction(){
         when(mode.selected){
             "Command" -> {
-                Utils.command(command.text, true)
+                ChatUtils.command(command.text, true)
             }
             "Chat message" -> {
-                Utils.sendChat(message.text)
+                ChatUtils.sendChat(message.text)
             }
             "Use Item" -> {
                 if (condition.text == "" || mc.thePlayer.isHolding(condition.text, true)) {

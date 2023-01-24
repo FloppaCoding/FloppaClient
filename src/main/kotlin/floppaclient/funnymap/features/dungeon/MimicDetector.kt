@@ -3,7 +3,7 @@ package floppaclient.funnymap.features.dungeon
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.funnymap.core.Room
 import floppaclient.module.impl.render.DungeonMap
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.tileentity.TileEntityChest
 import net.minecraft.util.BlockPos
 

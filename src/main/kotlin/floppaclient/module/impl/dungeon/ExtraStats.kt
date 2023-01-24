@@ -3,7 +3,7 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.module.Category
 import floppaclient.module.Module
-import floppaclient.utils.Utils
+import floppaclient.utils.ChatUtils
 import net.minecraft.util.StringUtils.stripControlCodes
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
@@ -28,7 +28,7 @@ object ExtraStats : Module(
         if ( !inDungeons || event.type.toInt() == 2) return
         when (stripControlCodes(event.message.unformattedText)) {
             "                             > EXTRA STATS <" -> {
-                Utils.command("showextrastats")
+                ChatUtils.command("showextrastats")
                 return
             }
         }

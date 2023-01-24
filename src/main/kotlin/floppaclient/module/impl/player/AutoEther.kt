@@ -16,7 +16,7 @@ import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.DataHandler
 import floppaclient.utils.Utils.flooredPosition
 import floppaclient.utils.Utils.isHolding
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
 import net.minecraft.network.play.server.S08PacketPlayerPosLook
@@ -227,7 +227,7 @@ object AutoEther : Module(
 
                         // to Mutable list to create a copy
                         key = newkey.toMutableList()
-                        var start: Vec3
+                        @Suppress("UNUSED_VARIABLE") var start: Vec3 //For some weird reason the IDE says that this is not used.
 
                         if (this.etherwarps.containsKey(key)) {
                             /** getOrDefault should always be able to get here
