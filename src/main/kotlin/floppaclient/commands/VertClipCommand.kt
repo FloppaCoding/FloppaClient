@@ -1,8 +1,8 @@
 package floppaclient.commands
 
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ClipTools
-import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.BlockPos
@@ -78,7 +78,7 @@ class VertClipCommand : CommandBase()  {
             val y = try {
                 args[0].toDouble()
             } catch (e: java.lang.NumberFormatException) {
-                Utils.modMessage("§cArguments error.")
+                ChatUtils.modMessage("§cArguments error.")
                 return
             }
             ClipTools.clip(0.0, y, 0.0)

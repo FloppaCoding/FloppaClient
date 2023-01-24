@@ -1,7 +1,7 @@
 package floppaclient.commands
 
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.DataHandler
-import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 
@@ -30,7 +30,7 @@ class RemoveCommand : CommandBase() {
         try {
             DataHandler.removeClip(args.map { it.toDouble() })
         } catch (e: Throwable){
-            Utils.modMessage("&cArguments error.")
+            ChatUtils.modMessage("&cArguments error.")
         }
     }
 }

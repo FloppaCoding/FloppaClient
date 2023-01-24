@@ -7,8 +7,8 @@ import floppaclient.funnymap.features.extras.RoomUtils
 import floppaclient.utils.DataHandler
 import floppaclient.utils.DataHandler.toCoords
 import floppaclient.utils.DataHandler.toIntCoords
-import floppaclient.utils.Utils.chatMessage
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.chatMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.Vec3

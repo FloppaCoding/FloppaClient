@@ -7,7 +7,7 @@ import floppaclient.funnymap.core.Tile
 import floppaclient.funnymap.features.dungeon.Dungeon
 import floppaclient.funnymap.features.dungeon.DungeonScan
 import floppaclient.utils.Utils.currentFloor
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import kotlin.math.min

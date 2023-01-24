@@ -1,8 +1,8 @@
 package floppaclient.commands
 
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ClipTools
 import floppaclient.utils.GeometryUtils
-import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 
@@ -30,7 +30,7 @@ class Clip3DCommand : CommandBase()  {
         val y = try {
             args[0].toDouble()
         } catch (e: java.lang.NumberFormatException) {
-            Utils.modMessage("§cArguments error.")
+            ChatUtils.modMessage("§cArguments error.")
             return
         }
         ClipTools.dClip(y, GeometryUtils.yaw(), GeometryUtils.pitch())

@@ -1,7 +1,7 @@
 package floppaclient.commands
 
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ClipTools
-import floppaclient.utils.Utils
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 
@@ -22,7 +22,7 @@ class HClipCommand : CommandBase()  {
         val values = try {
             args.map { it.toDouble() }
         } catch (e: java.lang.NumberFormatException) {
-            Utils.modMessage("§cArguments error.")
+            ChatUtils.modMessage("§cArguments error.")
             return
         }
         when(values.size) {

@@ -3,7 +3,7 @@ package floppaclient.commands
 import floppaclient.FloppaClient
 import floppaclient.funnymap.features.extras.EditMode
 import floppaclient.module.impl.render.ExtraBlocks
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockStainedGlass
 import net.minecraft.command.CommandBase

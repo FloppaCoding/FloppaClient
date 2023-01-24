@@ -1,12 +1,11 @@
 package floppaclient.module
 
-import floppaclient.FloppaClient
-import floppaclient.module.settings.Setting
-import floppaclient.utils.Utils
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import floppaclient.FloppaClient
+import floppaclient.module.settings.Setting
+import floppaclient.utils.ChatUtils
 import net.minecraftforge.common.MinecraftForge
-import java.util.ArrayList
 import kotlin.reflect.full.hasAnnotation
 
 /**
@@ -97,7 +96,7 @@ open class Module(
      */
     open fun keyBind() {
         this.toggle()
-        Utils.modMessage("$name ${if (enabled) "§aenabled" else "§cdisabled"}.")
+        ChatUtils.modMessage("$name ${if (enabled) "§aenabled" else "§cdisabled"}.")
     }
 
     /**

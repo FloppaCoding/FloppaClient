@@ -9,7 +9,7 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.SelectorSetting
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent

@@ -2,8 +2,8 @@ package floppaclient.commands
 
 import floppaclient.FloppaClient.Companion.inSkyblock
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.utils.Utils
-import floppaclient.utils.Utils.modMessage
+import floppaclient.utils.ChatUtils
+import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.inventory.ContainerChest
@@ -39,7 +39,7 @@ object WardrobeCommand : CommandBase() {
         val slot = args[0].toInt()
         if (slot !in 1..9) return modMessage("Invalid slot")
 
-        Utils.sendChat("/wardrobe")
+        ChatUtils.sendChat("/wardrobe")
         if (thread == null || !thread!!.isAlive) {
             thread = Thread({
                 for (i in 0..100) {
