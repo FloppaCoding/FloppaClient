@@ -81,10 +81,6 @@ class FloppaClient {
             ModuleManager,
             FakeInventoryActionManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)
-
-        ModuleManager.initializeModules()
-
-        clickGUI = ClickGUI()
     }
 
     @Mod.EventHandler
@@ -95,6 +91,9 @@ class FloppaClient {
                 moduleConfig.loadConfig()
             }
         }
+        ModuleManager.initializeModules()
+
+        clickGUI = ClickGUI()
     }
 
     @SubscribeEvent

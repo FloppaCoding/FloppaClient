@@ -25,7 +25,7 @@ class Panel(
     private var y2 = 0.0
     var dragging = false
     val visible = true // Currently unused, but can be used in future for hiding categories
-    val moduleButtons: ArrayList<ModuleButton> = ArrayList<ModuleButton>()
+    val moduleButtons: ArrayList<ModuleButton> = ArrayList()
 
     var width: Double = ClickGui.panelWidth.value
     var height: Double = ClickGui.panelHeight.value
@@ -40,9 +40,6 @@ class Panel(
         setup()
     }
 
-    /**
-	 * Gets overridden in ClickGUI to add module buttons
-	 */
     private fun setup() {
         for (module in ModuleManager.modules) {
             if (module.category != this.category) continue

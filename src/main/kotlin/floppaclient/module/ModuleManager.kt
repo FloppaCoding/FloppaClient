@@ -1,6 +1,5 @@
 package floppaclient.module
 
-import floppaclient.FloppaClient
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
 import floppaclient.module.impl.dungeon.*
@@ -10,6 +9,7 @@ import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
 import floppaclient.module.settings.Setting
+import floppaclient.ui.clickgui.ClickGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
@@ -132,7 +132,7 @@ object ModuleManager {
 
     fun removeKeyBind(bind: KeyBind) {
         modules.remove(bind)
-        FloppaClient.clickGUI.setUpPanels()
+        ClickGUI.panels.find { it.category === Category.KEY_BIND }?.moduleButtons?.removeIf { it.module === bind }
     }
 
     /**

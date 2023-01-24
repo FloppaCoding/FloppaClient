@@ -117,7 +117,7 @@ class ClickGUI : GuiScreen() {
         if(ClickGui.showUsageInfo.enabled) {
             val scaledResolution = ScaledResolution(mc)
 
-            val lines = listOf<String>("GUI Usage:",
+            val lines = listOf("GUI Usage:",
             "Left click Module Buttons to toggle the Module.",
             "Right click Module Buttons to extend the Settings dropdown.",
             "Middle click Module Buttons to open the Advanced Gui.",
@@ -301,7 +301,6 @@ class ClickGUI : GuiScreen() {
 
     override fun initGui() {
         openedTime = System.currentTimeMillis()
-        setUpPanels()
         /** Start blur */
         if (OpenGlHelper.shadersSupported && mc.renderViewEntity is EntityPlayer && ClickGui.blur.enabled) {
             mc.entityRenderer.stopUseShader()
