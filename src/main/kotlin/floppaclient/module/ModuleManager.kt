@@ -45,6 +45,7 @@ object ModuleManager {
         TicTacToeSolver,
         ExtraStats,
         TrapGearSwap,
+        AutoMask,
         AutoLeap,
         MelodyMessage,
         InstaCrystal,
