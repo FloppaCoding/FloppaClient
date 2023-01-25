@@ -8,6 +8,7 @@ import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.ItemUtils.reforge
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraftforge.client.event.RenderWorldLastEvent
@@ -39,19 +40,23 @@ object AutoWeaponSwap : Module(
     private val iceSpray = BooleanSetting("Ice Spray Swap", false, description = "Include Ice Spray in the weapon swap cycle.")
     private val termSleep = NumberSetting("Term sleep",50.0,10.0,100.0,5.0, description = "Delay between Terminator clicks. This will determine the CPS on the Terminator and lets it exceed your left click CPS.")
         .withDependency { this.terminator.enabled }
-    private val fromInv = BooleanSetting("From Inv", false, description = "Lets you use Soul Whip, AOTS and Ice Spray from inventory.")
+    private val fromInv = BooleanSetting("From Inv", false, description = "Lets you use the weapons from your inventory.")
     private val customFilter = StringSetting("Custom Filter", description = "Any item which contains this string in the name will also trigger a weapon swap by this module. Leave empty for this to be ignored. Case sensitive.")
 
-    private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Spicy", "Withered")
+    private val reforges = setOf("suspicious", "fabled", "heroic", "spicy", "withered")
+  /*  private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Spicy", "Withered")
         get() {
+
+
             return if (customFilter.text == "") {
                 field
-            }else {
+            } else {
                 val temp = field.toMutableSet()
                 temp.add(customFilter.text)
                 return temp
             }
-        }
+        } */
+
     private val leftClickBlacklist = setOf("Aspect of the Void", "Jerry", "Bonzo")
     private const val axeCooldown = 450
     private const val whipCooldown = 500
@@ -67,7 +72,6 @@ object AutoWeaponSwap : Module(
     private var lastTerm = System.currentTimeMillis()
     private var lastSpray = System.currentTimeMillis()
 
-
     init {
         this.addSettings(
             axeOfTheShredded,
@@ -82,8 +86,10 @@ object AutoWeaponSwap : Module(
 
     @SubscribeEvent
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
-        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickBlacklist) == true) return
-        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickItems) == true) {
+        val heldItem = mc.thePlayer.heldItem
+
+        if (heldItem?.displayName?.containsOneOf(leftClickBlacklist) == true) return
+        if (heldItem?.reforge?.containsOneOf(reforges) == true ) {
             if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
                 if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
                     FakeActionUtils.useItem("Terminator")

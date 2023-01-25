@@ -66,6 +66,13 @@ object ItemUtils {
             return false
         }
 
+
+    val ItemStack?.reforge : String
+        get() {
+            return this?.extraAttributes?.getString("modifier") ?: ""
+        }
+
+
     private fun NBTTagCompound?.hasKey(key: String) : Boolean {
         return this?.hasKey(key) ?: false
     }

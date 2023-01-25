@@ -5,6 +5,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.ItemUtils.hasAbility
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.item.ItemStack
@@ -140,7 +141,6 @@ object ItemAnimations : Module(
         return true
     }
 
-    // A lot of the code was from sbc
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START || !blockAnimation.enabled) return
@@ -152,7 +152,7 @@ object ItemAnimations : Module(
         if (!blockAnimation.enabled) return
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
             val item = mc.thePlayer.heldItem ?: return
-            if (item.item !is ItemSword) return
+            if (item.item !is ItemSword || mc.thePlayer.heldItem.hasAbility) return
             event.isCanceled = true
             if (!isRightClickKeyDown) {
                 mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(mc.thePlayer.heldItem))
