@@ -49,7 +49,7 @@ object Blink : Module(
 
     private var nextPulse = System.currentTimeMillis()
 
-    var noBlink = false
+    var noLag = false
 
     override fun onEnable() {
         if (mc.thePlayer == null) return
@@ -59,14 +59,14 @@ object Blink : Module(
 
     override fun onDisable() {
         if (mc.thePlayer == null) return
-        blink()
+        sendPackets()
         super.onDisable()
     }
 
     @SubscribeEvent(receiveCanceled = true)
     fun onPacket(event: PacketSentEvent) {
         val packet = event.packet
-        if (mc.thePlayer == null || noBlink) return
+        if (mc.thePlayer == null || noLag) return
 
         if (packet is C03PacketPlayer) {
             event.isCanceled = true
@@ -79,22 +79,22 @@ object Blink : Module(
     fun onLivingUpdate(event: LivingUpdateEvent) {
         if (pulse.enabled) {
             if (nextPulse < System.currentTimeMillis()) {
-                blink()
+                sendPackets()
                 nextPulse = System.currentTimeMillis() + pulseDelay.value.toLong()
             }
         }
     }
 
-    fun blink() {
+    fun sendPackets() {
         try {
-            noBlink = true
+            noLag = true
             while (!packets.isEmpty()) {
                 mc.netHandler.addToSendQueue(packets.take())
             }
-            noBlink = false
+            noLag = false
             if (debug.enabled) return modMessage("Send Packets")
         } finally {
-            noBlink = false
+            noLag = false
         }
     }
 

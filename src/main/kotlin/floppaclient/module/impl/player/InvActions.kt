@@ -6,13 +6,14 @@ import floppaclient.events.*
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms
-import floppaclient.module.impl.player.Blink.blink
+import floppaclient.module.impl.player.Blink.sendPackets
+import floppaclient.module.impl.player.Blink.noLag
 import floppaclient.module.impl.player.Blink.packets
 import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.SelectorSetting
-import floppaclient.utils.ChatUtils
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.isInTerminal
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.client.gui.Gui
@@ -26,8 +27,7 @@ import net.minecraft.inventory.ContainerChest
 import net.minecraft.item.EnumAction
 import net.minecraft.network.Packet
 import net.minecraft.network.play.INetHandlerPlayServer
-import net.minecraft.network.play.client.C03PacketPlayer
-import net.minecraft.network.play.client.C0EPacketClickWindow
+import net.minecraft.network.play.client.*
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.entity.living.LivingEvent
 import net.minecraftforge.event.world.WorldEvent
@@ -44,29 +44,36 @@ import java.awt.Color
 object InvActions : Module(
     "Gui Move",
     category = Category.PLAYER,
-    description = "Lets you perform certain actions while in inventory. Automatically shoots the Bonzo staff at the floor " +
-            "to apply knockback to the player. This bypasses watchdog. The knockback from the Bonzo staff will be cancelld."
+    description = "Allows you to do stuff Inside GUIs"
 ) {
-    private val invWalk = BooleanSetting("Gui Move", true, description= "Lets you walk while in inventory.", visibility = Visibility.ADVANCED_ONLY)
-    private val invWalkMode = SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Lag"), description = "Mode for GUI Move")
-        .withDependency { invWalk.enabled }
-    private val rotate = BooleanSetting("Rotate", true, description = "Makes mouse movements in the inventory rotate your view angles. Can be toggled while in gui with Tab, if \"Tab toggle rot\" is enabled.")
-    private val toggleRot = BooleanSetting("Tab toggle rot", true, description = "When enabled tab will toggle Rotate. This will also toggle hide terms if that is enabled.")
-        .withDependency { rotate.enabled || hideTerminal.enabled}
+    private val invWalk = BooleanSetting(
+        "Gui Move",
+        true,
+        description = "Allows you to move whilst in GUIs",
+        visibility = Visibility.ADVANCED_ONLY
+    )
+    private val invWalkMode =
+        SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Lag"), description = "Mode for GUI Move")
+            .withDependency { invWalk.enabled }
+    private val rotate = BooleanSetting("Rotate", true, description = "Allows you to rotate whilst in GUIs")
+    private val toggleRot = BooleanSetting("Toggle Rotation", false, description = "When pressing Tab it will toggle rotation")
+        .withDependency { rotate.enabled}
     private val grabCursor = BooleanSetting("Grab Cursor", true, description = "If enabled the cursor does not get un grabbed. This allows you to rotate further even when the edge of the screen is reached. A custom cursor wil be rendered instead.")
-    private val hotbarSelection = BooleanSetting("Hotbar Select", true, description = "If enabled the Hotkeys will select your current hotbar slot but can no longer be used to move items in the inventory.")
-    private val rightClick = BooleanSetting("Right Click", true, description = "If enabled right clicks anywhere in the gui will attempt using the right click ability of the currently held item. This is disabled for swords because blocking in inventory might flag.")
-    private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled this module will only enabled in terminals.")
-    private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
+        .withDependency { rotate.enabled }
+    private val hotbarSelection = BooleanSetting("Hotbar Select", true, description = "When enabled, you can switch between Hotbar slots with Hotkeys")
+    private val rightClick = BooleanSetting("Right Click", true, description = "Right-clicking in a GUI will allow you to use your Item. This is disabled for swords because blocking in inventory might flag.")
+    private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled, this module will only work in terminals")
+    private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Will hide your inventory and render the terminals in a corner.\n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
+        .withDependency { rotate.enabled }
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
-        .withDependency { hideTerminal.enabled}
+        .withDependency { hideTerminal.enabled }
     private val stopInMelody = BooleanSetting("Stop in Melody", false, description = "Will prevent you from walking while in the melody terminal.")
     private val cursor = ResourceLocation(RESOURCE_DOMAIN, "gui/cursor.png")
-    private val debug = BooleanSetting("Debug Messages",false, visibility = Visibility.ADVANCED_ONLY)
+    private val debug = BooleanSetting("Debug Messages", false, visibility = Visibility.ADVANCED_ONLY)
 
-    private var moveTime = 0L
-
-    private var clickTime = 0L
+    private var nextPulse = System.currentTimeMillis()
+    private var didClick = System.currentTimeMillis()
+    private var unLag = false
 
     private val moveKeys = listOf(
         mc.gameSettings.keyBindSneak,
@@ -155,17 +162,15 @@ object InvActions : Module(
     fun onRender(event: DrawContainerEvent) {
         if (!this.enabled || (mc.currentScreen !is GuiContainer) || (onlyInTerminal.enabled && !isInTerminal())) return
         if (stopInMelody.enabled && AutoTerms.currentTerminal == AutoTerms.TerminalType.TIMING) return
-            if (invWalk.enabled) {
-                for (bind in moveKeys) {
-                    KeyBinding.setKeyBindState(bind.keyCode, GameSettings.isKeyDown(bind))
-                }
-            } else {
-                for (bind in moveKeys) {
-                    KeyBinding.setKeyBindState(bind.keyCode, false)
-                }
+        if (invWalk.enabled) {
+            for (bind in moveKeys) {
+                KeyBinding.setKeyBindState(bind.keyCode, GameSettings.isKeyDown(bind))
             }
-
-
+        } else {
+            for (bind in moveKeys) {
+                KeyBinding.setKeyBindState(bind.keyCode, false)
+            }
+        }
 
         // Render terminal preview
         if (shouldHideContainer()) {
@@ -175,26 +180,27 @@ object InvActions : Module(
             // rendered here as well as in onRenderLast. Only one of those can be active at a time.
         }
     }
-    private var nextPulse = System.currentTimeMillis()
-    private var didClick = System.currentTimeMillis()
-    private var unBlink = false
+
+    /**
+     * Handles the Lag Mode for GUI Move
+     */
 
     @SubscribeEvent(receiveCanceled = true)
     fun onPacket(event: PacketSentEvent) {
-        if (invWalkMode.selected != "Lag") return
-
+        if (invWalkMode.selected != "Lag" || mc.thePlayer == null) return
         val packet = event.packet
-        if (mc.thePlayer == null || Blink.noBlink) return
-
-        if (packet is C03PacketPlayer) {
-            event.isCanceled = true
-            packets.add(packet as Packet<INetHandlerPlayServer>)
-        }
 
         if (packet is C0EPacketClickWindow) {
-            if (debug.enabled) return ChatUtils.modMessage("C0EPacketClickWindow")
-            unBlink = true
+            if (debug.enabled) return modMessage("C0EPacketClickWindow")
+
+            unLag = true
             didClick = System.currentTimeMillis() + 25
+        }
+
+        if (packet is C03PacketPlayer) {
+            if (noLag) return
+            event.isCanceled = true
+            packets.add(packet as Packet<INetHandlerPlayServer>)
         }
     }
 
@@ -202,19 +208,18 @@ object InvActions : Module(
     fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
         if (invWalkMode.selected != "Lag") return
 
-            if (!unBlink) {
-                if (nextPulse < System.currentTimeMillis()) {
-                    blink()
-                    nextPulse = System.currentTimeMillis() + 500
-                }
-            }  else {
-                if (didClick < System.currentTimeMillis() && unBlink) {
-                    unBlink = false
-                    blink()
-                    nextPulse = System.currentTimeMillis() + 500
-                }
-            }
+        if (mc.currentScreen !is GuiContainer) noLag = true
+
+        if (didClick < System.currentTimeMillis() && unLag) {
+            sendPackets()
+            unLag = false
+            nextPulse = System.currentTimeMillis() + 200
+
+        } else if (nextPulse < System.currentTimeMillis()) {
+            sendPackets()
+            nextPulse = System.currentTimeMillis() + 200
         }
+    }
 
     /**
      * Render the Auto Kb indicator and the cursor.
@@ -280,9 +285,9 @@ object InvActions : Module(
 
                 if (AutoTerms.showClicks.enabled && AutoTerms.clickQueue.contains(slot)) {
                     val color = if (AutoTerms.clickQueue.indexOf(slot) == 0)
-                        Color(0,255,0,100)
+                        Color(0, 255, 0, 100)
                     else
-                        Color(255,255,0,100)
+                        Color(255, 255, 0, 100)
                     Gui.drawRect(x, y, x + 16, y + 16, color.rgb)
                 }
 
@@ -306,8 +311,6 @@ object InvActions : Module(
 
     @SubscribeEvent
     fun onWarp(event: WorldEvent.Load) {
-        moveTime = 0L
-        clickTime = 0L
         packets.clear()
     }
 }

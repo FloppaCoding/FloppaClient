@@ -5,6 +5,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.utils.ItemUtils.hasAbility
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager
@@ -42,7 +43,7 @@ object ItemAnimations : Module(
     private val yaw = NumberSetting("Yaw", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val pitch = NumberSetting("Pitch", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
     private val roll = NumberSetting("Roll", 0.0, -180.0, 180.0, 5.0, description = "Rotates your held item. Default: 0")
-    private val blockAnimation = BooleanSetting("No Block Animation", false, description = "Doesn't show blocking animation.") // for later on change this to a selector setting and put more animations here
+    private val blockAnimation = SelectorSetting("Animation", "No Block", arrayListOf("No Block Anim", "1.7 Block Anim"), description = "Type of animation when blocking")
 
     /**
      * Used in the EntitiyLivingBaseMixin
@@ -143,13 +144,13 @@ object ItemAnimations : Module(
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
-        if (event.phase != TickEvent.Phase.START || !blockAnimation.enabled) return
+        if (event.phase != TickEvent.Phase.START || blockAnimation.selected != "No Block") return
         isRightClickKeyDown = mc.gameSettings.keyBindUseItem.isKeyDown
     }
 
     @SubscribeEvent
     fun onInteract(event: PlayerInteractEvent) {
-        if (!blockAnimation.enabled) return
+        if (blockAnimation.selected != "No Block") return
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
             val item = mc.thePlayer.heldItem ?: return
             if (item.item !is ItemSword || mc.thePlayer.heldItem.hasAbility) return

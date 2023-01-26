@@ -101,9 +101,6 @@ object ModuleManager {
         AutoWeaponSwap,
         CancelInteract,
         FastMine,
-        PinglessHardstone,
-        ChatCleaner,
-        PinglessHardstone,
         ChatCleaner,
 
         //KEYBIND
