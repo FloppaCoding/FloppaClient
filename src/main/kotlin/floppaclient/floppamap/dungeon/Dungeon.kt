@@ -288,6 +288,7 @@ object Dungeon {
     /**
      * Returns the [dungeonList] as an immutable List.
      */
+    @JvmName("getDungeonTileListDefault")
     fun getDungeonTileList(): List<Tile?>{
         return dungeonList.asList()
     }
