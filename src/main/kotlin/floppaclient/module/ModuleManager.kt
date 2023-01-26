@@ -105,6 +105,7 @@ object ModuleManager {
         AutoWeaponSwap,
         CancelInteract,
         FastMine,
+        ChatCleaner,
 
         //KEYBIND
         AddKeybind,
