@@ -72,6 +72,7 @@ object ModuleManager {
         ExtraBlocks,
         DoorESP,
         CoordinateDisplay,
+        DayCounter,
         ItemAnimations,
         Camera,
 

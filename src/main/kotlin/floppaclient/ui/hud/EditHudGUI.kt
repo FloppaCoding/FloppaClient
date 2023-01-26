@@ -3,6 +3,7 @@ package floppaclient.ui.hud
 import floppaclient.floppamap.dungeon.MapRender
 import floppaclient.floppamap.utils.HUDRenderUtils
 import floppaclient.module.impl.render.CoordinateDisplay
+import floppaclient.module.impl.render.DayCounter
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
@@ -18,7 +19,8 @@ object EditHudGUI : GuiScreen() {
     private val hudElements: ArrayList<HudElement> = arrayListOf(
         DungeonWarpTimer.DungeonWarpTimerHUD,
         MapRender,
-        CoordinateDisplay.CoordinateHUD
+        CoordinateDisplay.CoordinateHUD,
+        DayCounter.DayCounter,
     )
     private var draggingElement: HudElement? = null
     private var startOffsetX = 0
