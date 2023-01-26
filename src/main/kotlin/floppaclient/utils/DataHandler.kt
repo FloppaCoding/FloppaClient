@@ -5,7 +5,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.commands.FloppaClientCommands
 import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.dungeon.Dungeon
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.isValidEtherwarpPos
@@ -17,7 +17,22 @@ import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import kotlin.math.floor
 
-// TODO add doc comments
+// TODO maybe move some of the coordinate transformation methods in here into RoomUtils or even merge both classes.
+/**
+ * A collection of methods for handling everything related to modifying the data for autoactions.
+ *
+ * There are methods for adding and removing actions to and from the config.
+ * There are also methods for modifying already stored data, such as clearing a room or rotating faulty data.
+ * Lastly there are methods for coordinate transformations.
+ *
+ * @see floppaclient.floppamap.utils.RoomUtils
+ * @see floppaclient.commands.WhereCommand
+ * @see floppaclient.commands.AddCommand
+ * @see floppaclient.commands.AddEtherCommand
+ * @see floppaclient.commands.RemoveCommand
+ * @see floppaclient.commands.RemoveEtherCommand
+ * @author Aton
+ */
 object DataHandler {
     // Cache for undoing room clear.
     private val cachedClips: MutableList<Pair<Room, MutableMap<MutableList<Int>, MutableList<Double>>>> = mutableListOf()
@@ -526,7 +541,7 @@ object DataHandler {
     /**
      * Gets the relative player position in a room as BlockPos
      */
-    fun getRelativePos(vec: Vec3, roomX: Int, roomZ: Int, rotation: Int): BlockPos {
+    private fun getRelativePos(vec: Vec3, roomX: Int, roomZ: Int, rotation: Int): BlockPos {
         return BlockPos(getRelativeCoords(vec, roomX, roomZ, rotation))
     }
 
@@ -563,7 +578,7 @@ object DataHandler {
      * To get the relative rotation inside a room use 360 - rotation.
      * @throws NullPointerException or similar when key.size is less than 3
      */
-    fun getRotatedKey(key: MutableList<Int>, rotation: Int): MutableList<Int> {
+    private fun getRotatedKey(key: MutableList<Int>, rotation: Int): MutableList<Int> {
         return when {
             rotation.equalsOneOf(90, -270) -> mutableListOf(-key[2], key[1], key[0])
             rotation.equalsOneOf(180, -180) -> mutableListOf(-key[0], key[1], -key[2])
@@ -590,7 +605,7 @@ object DataHandler {
      * Returns the real rotations of the given route in a room with given rotation.
      * To get the relative rotation inside a room use 360 - rotation.
      */
-    fun getRotatedRoute(route: MutableList<Double>, rotation: Int): MutableList<Double> {
+    private fun getRotatedRoute(route: MutableList<Double>, rotation: Int): MutableList<Double> {
         val returnRoute = mutableListOf<Double>()
         for (j in 0 until (route.size) / 3) {
             returnRoute.addAll(getRotatedCoordList(route.subList(3*j, 3*j + 3), rotation))

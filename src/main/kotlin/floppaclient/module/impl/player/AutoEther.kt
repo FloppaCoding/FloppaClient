@@ -6,7 +6,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.*
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.extras.EditMode
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Visibility

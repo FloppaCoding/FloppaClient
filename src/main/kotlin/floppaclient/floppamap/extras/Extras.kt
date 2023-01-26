@@ -3,7 +3,8 @@ package floppaclient.floppamap.extras
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.currentRegionPair
 import floppaclient.floppamap.dungeon.Dungeon.currentRoomPair
-import floppaclient.floppamap.extras.RoomUtils.getRoomExtrasData
+import floppaclient.floppamap.utils.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils.getRoomExtrasData
 import floppaclient.module.impl.render.ExtraBlocks
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.block.Block
@@ -27,7 +28,7 @@ object Extras {
         if (event.phase != TickEvent.Phase.START || !ExtraBlocks.enabled ) return
         // Alternate run of the extras data. No more looping through all rooms. This also works for the boss room when
         // the dungeon is not scanned.
-        (currentRoomPair ?: currentRegionPair)?.run {
+        (currentRoomPair ?: currentRegionPair)?.run roomPair@{
             val room = this.first
             val rotation = this.second
 
@@ -37,7 +38,7 @@ object Extras {
 
                     posList.forEach {
                         FloppaClient.mc.theWorld.setBlockState(
-                            RoomUtils.getRotatedPos(it, rotation).add(room.x, 0, room.z),
+                            RoomUtils.getRealPos(it, this@roomPair),
                             blockstate
                         )
                     }

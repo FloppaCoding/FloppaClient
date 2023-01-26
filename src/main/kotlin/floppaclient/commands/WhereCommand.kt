@@ -3,7 +3,7 @@ package floppaclient.commands
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.dungeon.Dungeon
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.utils.DataHandler
 import floppaclient.utils.DataHandler.toCoords
 import floppaclient.utils.DataHandler.toIntCoords

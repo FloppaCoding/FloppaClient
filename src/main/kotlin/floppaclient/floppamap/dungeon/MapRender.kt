@@ -28,14 +28,6 @@ object MapRender: HudElement(
     138,
     DungeonMap.mapScale
 ){
-
-    private val neuGreen     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/green_check.png")
-    private val neuWhite     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/white_check.png")
-    private val neuCross     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/cross.png")
-    private val defaultGreen = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/green_check.png")
-    private val defaultWhite = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/white_check.png")
-    private val defaultCross = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/cross.png")
-
     override fun renderHud() {
         super.renderHud()
 
@@ -97,7 +89,7 @@ object MapRender: HudElement(
         renderRooms()
 
         if (mc.currentScreen !is EditHudGUI) {
-            renderText()
+            renderCheckmarkAndText()
             renderPlayerHeads()
         }
 
@@ -114,10 +106,8 @@ object MapRender: HudElement(
 
         for (x in 0..10) {
             for (y in 0..10) {
-                val tile = Dungeon.dungeonList[x * 11 + y] ?: continue
-                // TODO use getTile instead??
-                if (tile.state == RoomState.UNDISCOVERED && !tile.visited) continue
-                // TODO fix visibility
+                val tile = Dungeon.getDungeonTile(x, y) ?: continue
+                if (DungeonMap.legitMode.enabled && tile.state == RoomState.UNDISCOVERED && !tile.visited) continue
 
                 val xOffset = (x shr 1) * (roomSize + connectorSize)
                 val yOffset = (y shr 1) * (roomSize + connectorSize)
@@ -169,30 +159,31 @@ object MapRender: HudElement(
         GlStateManager.popMatrix()
     }
 
-    //TODO Rename this, add doc comment and sort out visibility
-    private fun renderText() {
+    /**
+     * Draws all the information for the room which is displayed over the solid color tiles.
+     * This includes: Checkmarks, the question mark for unexplored rooms, room names and secret count.
+     */
+    private fun renderCheckmarkAndText() {
         GlStateManager.pushMatrix()
         GlStateManager.translate(MapUtils.startCorner.first.toFloat(), MapUtils.startCorner.second.toFloat(), 0f)
 
         val connectorSize = roomSize shr 2
+        val showCheckmarks = MapRooms.mapCheckmark.index != 0 && MapRooms.mapRoomSecrets.index != 2
 
         for (x in 0..10 step 2) {
             for (y in 0..10 step 2) {
 
-                val tile = Dungeon.dungeonList[x * 11 + y] ?: continue
-                // TODO use getTile instgead??
+                val room = Dungeon.getDungeonTile<Room>(x, y) ?: continue
 
                 // If legit mode is enabled filter whether the information should be visible.
-               // if (DungeonMap.legitMode.enabled && tile.state == RoomState.UNDISCOVERED && !tile.visited) continue
-                // TODO check visibility
+                if (DungeonMap.legitMode.enabled && room.state == RoomState.UNDISCOVERED && !room.visited) continue
 
-                if (tile is Room && (tile.isUnique || tile.state == RoomState.QUESTION_MARK) ) {
-
-                    val xOffset = (x shr 1) * (roomSize + connectorSize)
-                    val yOffset = (y shr 1) * (roomSize + connectorSize)
-
-                    if (MapRooms.mapCheckmark.index != 0 && MapRooms.mapRoomSecrets.index != 2) {
-                        getCheckmark(tile.state, MapRooms.mapCheckmark.index)?.let {
+                val xOffset = (x shr 1) * (roomSize + connectorSize)
+                val yOffset = (y shr 1) * (roomSize + connectorSize)
+                // Render the checkmark
+                if (showCheckmarks) {
+                    if (room.isUnique || (DungeonMap.legitMode.enabled && room.state == RoomState.QUESTION_MARK)) {
+                        getCheckmark(room)?.let {
                             GlStateManager.enableAlpha()
                             GlStateManager.color(255f, 255f, 255f, 255f)
                             mc.textureManager.bindTexture(it)
@@ -203,44 +194,38 @@ object MapRender: HudElement(
                             GlStateManager.disableAlpha()
                         }
                     }
+                }
+                //Render the name and secrets
+                if (room.isUnique) {
 
                     val name = mutableListOf<String>()
-
-                    /*
-                    if ((MapRooms.mapRoomNames.index != 0 && tile.data.type == RoomType.PUZZLE ||
-                        (MapRooms.mapRoomNames.index == 2 && tile.data.type.equalsOneOf(
-                            RoomType.NORMAL,
-                            RoomType.RARE,
-                            RoomType.CHAMPION,
-                            RoomType.TRAP
-                        ) && tile.visited))
-                        && (tile.state.revealed || tile.visited) && !tile.data.name.startsWith("Unknown")
-                    )
-
-                    // TODO merge these if statements with a legit map setting.
-                     */
-                    if (MapRooms.mapRoomNames.index != 0 && tile.data.type.equalsOneOf(RoomType.PUZZLE, RoomType.TRAP) ||
-                        MapRooms.mapRoomNames.index == 2 && tile.data.type.equalsOneOf(
+                    val showName = if (DungeonMap.legitMode.enabled) {
+                        (MapRooms.mapRoomNames.index != 0 && room.data.type == RoomType.PUZZLE
+                                || (MapRooms.mapRoomNames.index == 2 && room.data.type.equalsOneOf(
+                                    RoomType.NORMAL,
+                                    RoomType.RARE,
+                                    RoomType.CHAMPION,
+                                    RoomType.TRAP
+                                ) && room.visited))
+                                && (room.state.revealed || room.visited)
+                    }else {
+                        MapRooms.mapRoomNames.index != 0 && room.data.type.equalsOneOf(RoomType.PUZZLE, RoomType.TRAP)
+                                || MapRooms.mapRoomNames.index == 2 && room.data.type.equalsOneOf(
                             RoomType.NORMAL,
                             RoomType.RARE,
                             RoomType.CHAMPION
                         )
-                    ) {
-                        name.addAll(tile.data.name.split(" "))
-                    }
-//                    if (tile.data.type == RoomType.NORMAL && MapRooms.mapRoomSecrets.index == 1) {
-//                        name.add(tile.data.secrets.toString())
-//                    }
-                    // Room Secrets
-                    if (tile.canHaveSecrets) {
-                        val maxSecrets = if (tile.visited) tile.data.maxSecrets?.toString() ?: "?" else "?"
-                        name.add(
-                            "${tile.data.currentSecrets}/${maxSecrets}"
-                        )
-                    }
-                    // TODO merge the above, add legit setting.
+                    }  && !room.data.name.startsWith("Unknown")
 
-                    val color = if (MapRooms.mapColorText.enabled) when (tile.state) {
+                    if (showName) {
+                        name.addAll(room.data.name.split(" "))
+                    }
+                    // Room secrets if visible.
+                    getRoomSecerts(room)?.let {
+                        name.add(it)
+                    }
+
+                    val color = if (MapRooms.mapColorText.enabled) when (room.state) {
                         RoomState.GREEN -> 0x55ff55
                         RoomState.CLEARED, RoomState.FAILED -> 0xffffff
                         else -> 0xaaaaaa
@@ -254,23 +239,61 @@ object MapRender: HudElement(
         GlStateManager.popMatrix()
     }
 
-    // TODO revisit this with legit setting
-    private fun getCheckmark(state: RoomState, type: Int): ResourceLocation? {
-        return when (type) {
-            1 -> when (state) {
+    /**
+     * Returns the resource location for the rooms Checkmark.
+     * This is for white and green checkmarks, the red cross that is shown for failed puzzles and the question mark
+     * for unexplored rooms.
+     */
+    private fun getCheckmark(room: Room): ResourceLocation? {
+        return when (MapRooms.mapCheckmark.index) {
+            1 -> when (room.state) {
                 RoomState.CLEARED -> defaultWhite
                 RoomState.GREEN -> defaultGreen
                 RoomState.FAILED -> defaultCross
+                RoomState.QUESTION_MARK -> {
+                    if (!room.visited && DungeonMap.legitMode.enabled)
+                        defaultQuestion
+                    else null
+                }
                 else -> null
             }
-            2 -> when (state) {
+            2 -> when (room.state) {
                 RoomState.CLEARED -> neuWhite
                 RoomState.GREEN -> neuGreen
                 RoomState.FAILED -> neuCross
+                RoomState.QUESTION_MARK -> {
+                    if (!room.visited && DungeonMap.legitMode.enabled)
+                        neuQuestion
+                    else null
+                }
                 else -> null
             }
             else -> null
         }
+    }
+
+    /**
+     * Checks whether secrets should be visible for the given room and returns a String according to the settings
+     * containing information about the rooms secrets or null if nothing should be shown.
+     */
+    private fun getRoomSecerts(room: Room): String? {
+        val shouldShowSecrets = if (DungeonMap.legitMode.enabled && room.state == RoomState.QUESTION_MARK) {
+            false
+        } else when(room.data.type) {
+            RoomType.NORMAL, RoomType.RARE, RoomType.TRAP -> true
+            RoomType.PUZZLE -> room.data.name.contains(puzzleWithSecretsRegex)
+            else -> false
+        }
+        if (shouldShowSecrets) {
+            val maxSecrets = if (!DungeonMap.legitMode.enabled || room.visited)
+                room.data.maxSecrets?.toString() ?: "?"
+            else "?"
+            return if (DungeonMap.trackSecrets.enabled)
+                "${room.data.currentSecrets}/${maxSecrets}"
+            else
+                maxSecrets
+        }
+        return null
     }
 
     private fun renderPlayerHeads() {
@@ -282,14 +305,7 @@ object MapRender: HudElement(
         }catch (_: ConcurrentModificationException) {}
     }
 
-    private fun drawRoomConnector(
-        x: Int,
-        y: Int,
-        doorWidth: Int,
-        doorway: Boolean,
-        vertical: Boolean,
-        color: Color
-    ) {
+    private fun drawRoomConnector(x: Int, y: Int, doorWidth: Int, doorway: Boolean, vertical: Boolean, color: Color) {
         val doorwayOffset = if (roomSize == 16) 5 else 6
         val width = if (doorway) 6 else roomSize
         var x1 = if (vertical) x + roomSize else x
@@ -305,24 +321,35 @@ object MapRender: HudElement(
         )
     }
 
+    /**
+     * Renders information about the current run underneath the map.
+     */
     private fun renderRunInformation() {
         GlStateManager.pushMatrix()
         GlStateManager.translate(0f, 128f, 0f)
         GlStateManager.scale(0.66, 0.66, 1.0)
-        mc.fontRendererObj.drawString("Secrets: ${RunInformation.secretCount}/${Dungeon.secretCount}", 5, 0, 0xffffff)
-        mc.fontRendererObj.drawString("Crypts: ${RunInformation.cryptsCount}", 85, 0, 0xffffff)
-        mc.fontRendererObj.drawString("Deaths: ${RunInformation.deathCount}", 140, 0, 0xffffff)
-        GlStateManager.popMatrix()
-        /*
-        // First line
-        mc.fontRendererObj.drawString("Secrets: ${RunInformation.secretCount}/${RunInformation.totalSecrets ?: "?"}", 5, 0, 0xffffff)
+        val totalSecrets =
+        if (DungeonMap.legitMode.enabled || !Dungeon.fullyScanned) {
+            RunInformation.totalSecrets ?: "?"
+        }else {
+            Dungeon.secretCount
+        }
+        mc.fontRendererObj.drawString("Secrets: ${RunInformation.secretCount}/${totalSecrets}", 5, 0, 0xffffff)
         mc.fontRendererObj.drawString("Crypts: ${RunInformation.cryptsCount}", 85, 0, 0xffffff)
         mc.fontRendererObj.drawString("Deaths: ${RunInformation.deathCount}", 140, 0, 0xffffff)
         // Second Line
         mc.fontRendererObj.drawString("Score: ${RunInformation.score}", 5, mc.fontRendererObj.FONT_HEIGHT, 0xffffff)
         GlStateManager.popMatrix()
-
-        TODO merge the above with legit setting.
-         */
     }
+
+    private val puzzleWithSecretsRegex = Regex("Higher|Blaze|Tic")
+
+    private val neuGreen     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/green_check.png")
+    private val neuWhite     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/white_check.png")
+    private val neuCross     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/cross.png")
+    private val neuQuestion     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/question.png")
+    private val defaultGreen = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/green_check.png")
+    private val defaultWhite = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/white_check.png")
+    private val defaultCross = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/cross.png")
+    private val defaultQuestion = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/question.png")
 }

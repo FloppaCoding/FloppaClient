@@ -20,7 +20,12 @@ import net.minecraft.util.IChatComponent
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-//TODO doc comment
+
+/**
+ * A module to track information about your dungeon party and display it at the end of the run.
+ *
+ * @author Aton
+ */
 object PartyTracker : Module(
     "Party Tracker",
     category = Category.DUNGEON,
@@ -184,7 +189,7 @@ object PartyTracker : Module(
                 ticksDead = ticks
                 return@visited
             }
-            val roomData = (Dungeon.dungeonList[tileIndex] as? Room)?.data ?: unidentifiedRoomData
+            val roomData = (Dungeon.getDungeonTileList()[tileIndex] as? Room)?.data ?: unidentifiedRoomData
             visitedMap[roomData] = (visitedMap[roomData] ?: 0) + ticks
         }
 

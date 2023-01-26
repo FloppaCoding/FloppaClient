@@ -6,7 +6,7 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.core.RoomData
 import floppaclient.floppamap.core.RoomType
 import floppaclient.floppamap.dungeon.Dungeon
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.misc.ClipSettings

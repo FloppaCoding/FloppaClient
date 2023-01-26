@@ -2,34 +2,17 @@ package floppaclient.floppamap.dungeon
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.*
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.render.DungeonMap
-import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.ChatUtils.modMessage
-import com.google.gson.Gson
-import com.google.gson.JsonIOException
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import floppaclient.FloppaClient
+import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
-import net.minecraft.util.ResourceLocation
 
 object DungeonScan {
 
-    val roomList: Set<RoomConfigData> = try {
-        Gson().fromJson(
-            mc.resourceManager.getResource(ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "floppamap/rooms.json"))
-                .inputStream.bufferedReader(),
-            object : TypeToken<Set<RoomConfigData>>() {}.type
-        )
-    } catch (e: JsonSyntaxException) {
-        println("Error parsing FloppaMap room data.")
-        setOf()
-    } catch (e: JsonIOException) {
-        println("Error reading FloppaMap room data.")
-        setOf()
-    }
+
 
     /**
      * Scans the dungeon from the loaded chunks in the world and updates [Dungeon.dungeonList] based on that.
@@ -49,9 +32,9 @@ object DungeonScan {
                     continue
                 }
 
-                if (Dungeon.dungeonList[column * 11 + row]?.scanned == true) continue
+                if (Dungeon.getDungeonTile(column, row)?.scanned == true) continue
                 getRoomFromWorld(xPos, zPos, column, row)?.let { newTile ->
-                    val oldTile = Dungeon.dungeonList[column * 11 + row]
+                    val oldTile = Dungeon.getDungeonTile(column, row)
                     // When the tile is already scanned from the map item make sure to not overwrite it.
                     // Instead just update the values.
                     if (oldTile != null) {
@@ -66,7 +49,7 @@ object DungeonScan {
                             oldTile.scanned = true
                         }
                     } else {
-                        Dungeon.dungeonList[column * 11 + row] = newTile
+                        Dungeon.setDungeonTile(column, row, newTile)
                         if (newTile is Room && newTile.data.type == RoomType.NORMAL) updateConnection = true
                     }
                 }
@@ -84,7 +67,7 @@ object DungeonScan {
                 modMessage(
                     "&aScan Finished!\n&aPuzzles (&c${Dungeon.puzzles.size}&a):${
                         Dungeon.puzzles.joinToString("\n&b- &d", "\n&b- &d", "\n")
-                    }&6Trap: &a${Dungeon.trapType}\n&8Wither Doors: &7${Dungeon.dungeonList.filter { it is Door && it.type == DoorType.WITHER }.size + 1}\n&7Total Secrets: &b${Dungeon.secretCount}" +
+                    }&6Trap: &a${Dungeon.trapType}\n&8Wither Doors: &7${Dungeon.getDungeonTileList<Door>().filter { it.type == DoorType.WITHER }.size + 1}\n&7Total Secrets: &b${Dungeon.secretCount}" +
                             "\n&7Total Crypts: &b${Dungeon.cryptCount}"
                 )
             }
@@ -104,7 +87,7 @@ object DungeonScan {
         return when {
             rowEven && columnEven -> { // Room
                 val core = getCore(x, z)
-                getRoomConfigData(core)?.let { configData ->
+                RoomUtils.getRoomConfigData(core)?.let { configData ->
                     val data = RoomData(configData)
 
                     Room(x, z, data).apply { this.core = core }
@@ -142,15 +125,6 @@ object DungeonScan {
                 }
             }
         }
-    }
-
-    // TODO move these methods to RoomUtils maybe
-    fun getRoomConfigData(x: Int, z: Int): RoomConfigData? {
-        return getRoomConfigData(getCore(x, z))
-    }
-
-    private fun getRoomConfigData(hash: Int): RoomConfigData? {
-        return roomList.find { hash in it.cores }
     }
 
     fun getRoomCentre(posX: Int, posZ: Int): Pair<Int, Int> {

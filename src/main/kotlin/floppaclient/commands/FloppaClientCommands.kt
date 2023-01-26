@@ -8,6 +8,7 @@ import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.RoomConfigData
 import floppaclient.floppamap.dungeon.DungeonScan
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
@@ -54,7 +55,7 @@ class FloppaClientCommands : CommandBase() {
             "gui" -> display = clickGUI
             "scan" -> DungeonScan.scanDungeon()
             "roomdata" -> DungeonScan.getRoomCentre(mc.thePlayer.posX.toInt(), mc.thePlayer.posZ.toInt()).let {
-                DungeonScan.getRoomConfigData(it.first, it.second) ?: DungeonScan.getCore(it.first, it.second)
+                RoomUtils.getRoomConfigData(DungeonScan.getCore(it.first, it.second)) ?: DungeonScan.getCore(it.first, it.second)
             }.run {
                 GuiScreen.setClipboardString(this.toString())
                 modMessage(

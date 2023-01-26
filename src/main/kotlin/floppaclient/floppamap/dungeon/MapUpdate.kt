@@ -4,6 +4,8 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.DungeonRoomStateChangeEvent
 import floppaclient.floppamap.core.*
 import floppaclient.floppamap.utils.MapUtils
+import floppaclient.module.impl.render.DungeonMap
+import floppaclient.utils.Utils
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.StringUtils
@@ -13,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge
  * This object provides a collection of methods to update the dungeon information from the map item in the
  * hotbar and tab list.
  *
+ * Based on [FunnyMap by Harry282](https://github.com/Harry282/FunnyMap/blob/master/src/main/kotlin/funnymap/features/dungeon/MapUpdate.kt)
  * <p>
  *     Colors in the map item:
 85:  grey        - Unknown / unexplored room with questionmark in center. (color of the room not the questionmark)
@@ -28,7 +31,7 @@ import net.minecraftforge.common.MinecraftForge
 62:  orange      - trap
  * <p>
  *
- * @author Aton, Harry282
+ * @author Aton
  */
 object MapUpdate {
 
@@ -53,7 +56,6 @@ object MapUpdate {
             tabEntries[i].first.locationSkin
         }
     }
-
 
     /**
      * Adds missing Players to the [Dungeon.dungeonTeammates] list and updates the information.
@@ -102,22 +104,9 @@ object MapUpdate {
     }
 
     /**
-     * Updates the names of revealed puzzles from the tab list.
-     */
-    private fun updatePuzzleNames() {
-        val puzzles = Dungeon.dungeonList.filterIsInstance<Room>()
-            .filter { room -> !room.isSeparator && room.data.type == RoomType.PUZZLE && room.state.revealed  }
-            .sortedBy { room -> room.column*11 + room.row } // This is probably redundant since this is already the sort order of dungeonList
-        if (RunInformation.puzzles.size == puzzles.size) {
-            RunInformation.puzzles.withIndex().forEach { (index, puzzlePair) -> puzzles[index].data.name = puzzlePair.first }
-            unmappedPuzz = false
-        }
-    }
-
-    /**
      * Updates the dungeon info from the hotbar map item.
-     * This includes adding newly discovered rooms to the [Dungeon.dungeonList]
-     * as well as updating the room states and door states based on check marks and door color.
+     * Dispatches the map item based dungeon scan if that is enabled.
+     * Updates the room states and door states based on check marks and door color.
      */
     fun updateRooms() {
         if (!MapUtils.calibrated) return
@@ -131,21 +120,23 @@ object MapUpdate {
         val centerOffset = (MapUtils.roomSize shr 1)
         val increment = (MapUtils.roomSize shr 1) + 2
 
+        val scanRooms = shouldScanMapItem()
+
         for (column in 0..10) {
             for (row in 0..10) {
-                var tile = Dungeon.dungeonList[column * 11 + row]
+                var tile = Dungeon.getDungeonTile(column, row)
 
                 //If room unknown try to get it from the map item.
-                if (tile == null || (tile.state == RoomState.QUESTION_MARK && !tile.scanned)) {
+                if (scanRooms && (tile == null || (tile.state == RoomState.QUESTION_MARK && !tile.scanned))) {
                     getRoomFromMap(column, row, mapColors)?.let { newTile ->
-                        Dungeon.dungeonList[column * 11 + row] = newTile
+                        Dungeon.setDungeonTile(column, row, newTile)
 
                         if (newTile is Room && newTile.data.type == RoomType.NORMAL) shouldConnectRooms = true
 
                         // Update the room size.
                         if ((newTile as? Room)?.isSeparator == false && (newTile as? Room)?.data?.type == RoomType.NORMAL) {
-                            val size = Dungeon.dungeonList.filter { temporaryTile ->
-                                temporaryTile is Room && !temporaryTile.isSeparator && temporaryTile.data === newTile.data
+                            val size = Dungeon.getDungeonTileList<Room>().filter { temporaryTile ->
+                                !temporaryTile.isSeparator && temporaryTile.data === newTile.data
                             }.size
                             newTile.data.size = size
                         }
@@ -156,7 +147,7 @@ object MapUpdate {
                 }
 
                 // Scan the room centers on the map for check marks.
-                tile = Dungeon.dungeonList[column * 11 + row]
+                tile = Dungeon.getDungeonTile(column, row)
                 if (tile != null) {
                     val centerX = startX + column * increment + centerOffset
                     val centerZ = startZ + row * increment + centerOffset
@@ -201,6 +192,95 @@ object MapUpdate {
 
         if (unmappedPuzz)
             updatePuzzleNames()
+    }
+
+    /**
+     * Makes sure that all rooms within [Dungeon.dungeonList] which are connected have the same data.
+     * Also updates the [isUnique][Room.isUnique] state.
+     */
+    fun synchConnectedRooms() {
+        /** Buffer room data which was combined, to prevent any loss */
+        val bufferedData: MutableMap<RoomData, MutableSet<RoomData>> = mutableMapOf()
+        Dungeon.getDungeonTileList().withIndex().forEach { (index, tile) ->
+            if (tile !is Room) return@forEach
+            if (tile.data.type != RoomType.NORMAL) return@forEach
+            if (tile.isSeparator) return@forEach
+            val column = index / 11
+            val row = index % 11
+
+            // If the tile is a room check neighboring tiles for data in the order left, top
+            val leftConnector = Dungeon.getDungeonTile(column-1, row) as? Room
+            val topConnector = Dungeon.getDungeonTile(column, row-1) as? Room
+            var finalData: RoomData? = null
+            val bufferedDataTemporary: MutableSet<RoomData> = mutableSetOf()
+            var gotDataFromLeft = false
+
+            // link the tile and connector to the correct data
+            // this code could be compacted into a loop to reduce redundancy, but this form has better readability
+            if (leftConnector?.isSeparator == true) {
+                val leftRoom = Dungeon.getDungeonTile(column-2, row) as? Room
+                if (leftRoom != null) {
+                    gotDataFromLeft = true
+                    finalData = leftRoom.data
+                    bufferedDataTemporary.add(tile.data)
+                    leftConnector.data = leftRoom.data
+                    tile.data = leftRoom.data
+                }
+            }
+            if (topConnector?.isSeparator == true) {
+                val topRoom = Dungeon.getDungeonTile(column, row-2) as? Room
+                if (topRoom != null) {
+                    if (gotDataFromLeft) {
+                        bufferedDataTemporary.add(topRoom.data)
+                        topRoom.data = tile.data
+                        topConnector.data = tile.data
+                    }else {
+                        finalData = topRoom.data
+                        bufferedDataTemporary.add(tile.data)
+                        topConnector.data = topRoom.data
+                        tile.data = topRoom.data
+                    }
+                }
+            }
+
+            if (finalData != null) {
+                bufferedData.getOrPut(finalData) { mutableSetOf() }.addAll(bufferedDataTemporary)
+            }
+        }
+
+        // merge all the buffered Data together.
+        bufferedData.forEach { (finalData, bufferedSet) ->
+            //First make sure that no data is being merged with itself.
+            bufferedSet.remove(finalData)
+            bufferedSet.forEach {
+                if (finalData.maxSecrets == null) finalData.maxSecrets = it.maxSecrets
+                finalData.currentSecrets += it.currentSecrets
+            }
+        }
+
+        // Update the isUnique state. This works by checking whether a tile is the first in the list.
+        // This assumes that groupBy preserves the initial order of the rooms, which it should do.
+        Dungeon.getDungeonTileList<Room>().filter { !it.isSeparator }.groupBy { it.data }.forEach{ (_, rooms) ->
+            rooms.withIndex().forEach { (index, room) ->
+                room.isUnique = index == 0
+            }
+        }
+    }
+
+    private fun shouldScanMapItem() =
+        DungeonMap.mapItemScan.enabled && !Dungeon.fullyScanned && !Dungeon.inBoss && Utils.currentFloor != null
+
+    /**
+     * Updates the names of revealed puzzles from the tab list.
+     */
+    private fun updatePuzzleNames() {
+        val puzzles = Dungeon.getDungeonTileList<Room>()
+            .filter { room -> !room.isSeparator && room.data.type == RoomType.PUZZLE && room.state.revealed  }
+            .sortedBy { room -> room.column*11 + room.row } // This is probably redundant since this is already the sort order of dungeonList
+        if (RunInformation.puzzles.size == puzzles.size) {
+            RunInformation.puzzles.withIndex().forEach { (index, puzzlePair) -> puzzles[index].data.name = puzzlePair.first }
+            unmappedPuzz = false
+        }
     }
 
     /**
@@ -276,69 +356,5 @@ object MapUpdate {
                 }
             }
         }?.apply { scanned = false }
-    }
-
-    /**
-     * Makes sure that all rooms within [Dungeon.dungeonList] which are connected have the same data.
-     */
-    fun synchConnectedRooms() {
-        /** Buffer room data which was combined, to prevent */
-        val bufferedData: MutableMap<RoomData, MutableSet<RoomData>> = mutableMapOf()
-        Dungeon.dungeonList.withIndex().forEach { (index, tile) ->
-            if (tile !is Room) return@forEach
-            if (tile.data.type != RoomType.NORMAL) return@forEach
-            if (tile.isSeparator) return@forEach
-            val column = index / 11
-            val row = index % 11
-
-            // If the tile is a room check neighboring tiles for data in the order left, top
-            val leftConnector = Dungeon.getDungeonTile(column-1, row) as? Room
-            val topConnector = Dungeon.getDungeonTile(column, row-1) as? Room
-            var finalData: RoomData? = null
-            val bufferedDataTemporary: MutableSet<RoomData> = mutableSetOf()
-            var gotDataFromLeft = false
-
-            // link the tile and connector to the correct data
-            // this code could be compacted into a loop to reduce redundancy, but this form has better readability
-            if (leftConnector?.isSeparator == true) {
-                val leftRoom = Dungeon.getDungeonTile(column-2, row) as? Room
-                if (leftRoom != null) {
-                    gotDataFromLeft = true
-                    finalData = leftRoom.data
-                    bufferedDataTemporary.add(tile.data)
-                    leftConnector.data = leftRoom.data
-                    tile.data = leftRoom.data
-                }
-            }
-            if (topConnector?.isSeparator == true) {
-                val topRoom = Dungeon.getDungeonTile(column, row-2) as? Room
-                if (topRoom != null) {
-                    if (gotDataFromLeft) {
-                        bufferedDataTemporary.add(topRoom.data)
-                        topRoom.data = tile.data
-                        topConnector.data = tile.data
-                    }else {
-                        finalData = topRoom.data
-                        bufferedDataTemporary.add(tile.data)
-                        topConnector.data = topRoom.data
-                        tile.data = topRoom.data
-                    }
-                }
-            }
-
-            if (finalData != null) {
-                bufferedData.getOrPut(finalData) { mutableSetOf() }.addAll(bufferedDataTemporary)
-            }
-        }
-
-        // merge all the buffered Data together.
-        bufferedData.forEach { (finalData, bufferedSet) ->
-            //First make sure that no data is being merged with itself.
-            bufferedSet.remove(finalData)
-            bufferedSet.forEach {
-                if (finalData.maxSecrets == null) finalData.maxSecrets = it.maxSecrets
-                finalData.currentSecrets += it.currentSecrets
-            }
-        }
     }
 }

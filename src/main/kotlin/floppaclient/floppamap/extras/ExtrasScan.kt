@@ -5,9 +5,9 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.core.RoomType
 import floppaclient.floppamap.core.Tile
 import floppaclient.floppamap.dungeon.Dungeon
-import floppaclient.floppamap.dungeon.DungeonScan
-import floppaclient.utils.Utils.currentFloor
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.utils.ChatUtils.modMessage
+import floppaclient.utils.Utils.currentFloor
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import kotlin.math.min
@@ -19,12 +19,14 @@ import kotlin.math.min
  */
 object ExtrasScan {
 
+    // TODO make the rotations part of the room data?
+
     val rooms = mutableMapOf<Room, Int>()
 
     fun scanDungeon() {
         var allLoaded = true
-        Dungeon.dungeonList.forEach { room ->
-            if (room is Room && DungeonScan.roomList.any { it.cores[0] == room.core }) {
+        Dungeon.getDungeonTileList<Room>().forEach { room ->
+            if (RoomUtils.roomList.any { it.cores[0] == room.core }) {
 
                 // scan the room rotation
                 if (!rooms.containsKey(room)) {
@@ -78,8 +80,8 @@ object ExtrasScan {
         }
 
 
-        val cores = DungeonScan.roomList.find { it.cores.contains( room.core ) }?.cores ?: return null
-        val tiles = Dungeon.dungeonList.filterIsInstance<Room>().filter { !it.isSeparator && cores.contains(it.core) }
+        val cores = RoomUtils.roomList.find { it.cores.contains( room.core ) }?.cores ?: return null
+        val tiles = Dungeon.getDungeonTileList<Room>().filter { !it.isSeparator && cores.contains(it.core) }
         // Check if the room is fully scanned already
         if (room.data.size != tiles.size) return null
         val corners = listOf(

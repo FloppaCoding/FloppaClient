@@ -35,7 +35,7 @@ object DoorESP : Module(
     fun onTick(event: ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START) return
         if (!inDungeons) return
-        doors = Dungeon.dungeonList.filterIsInstance<Door>().filter {
+        doors = Dungeon.getDungeonTileList<Door>().filter {
             (it.type == DoorType.WITHER || it.type == DoorType.BLOOD) && !it.opened
                 && (it.state == RoomState.DISCOVERED || it.visited)
         }

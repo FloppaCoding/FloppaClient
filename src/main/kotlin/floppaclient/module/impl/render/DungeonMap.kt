@@ -22,9 +22,9 @@ object DungeonMap : Module(
 ){
     // General
     val autoScan = BooleanSetting("Auto Scan", true, description = "Automatically scans when entering dungeon. Manual scan can be done with \"/fcl scan\".")
-    //TODO settings for map item scan toogle and for secret tracker toggle.
-//    val mapItemScan = BooleanSetting("Map Item Scan", true, description = "Will use the held map item for scanning the dungeon.")
+    val mapItemScan = BooleanSetting("Map Item Scan", true, description = "Will use the held map item for scanning the dungeon.")
     val legitMode = BooleanSetting("Legit Mode", false, description = "Will only show you the information that is available legitimately.")
+    val trackSecrets = BooleanSetting("Track Secrets", true, visibility = Visibility.ADVANCED_ONLY, description = "Uses the Hypixel API to track how many secrets are collected in which room.")
     val hideInBoss = BooleanSetting("Hide in Boss", true, visibility = Visibility.ADVANCED_ONLY, description = "Hides the map in boss.")
     val showRunInformation = BooleanSetting("Show Run Info", true, description = "Shows run information under map.")
     val playerNameMode = SelectorSetting("Player Names", "Holding Leap", arrayListOf("Off", "Holding Leap", "Always"), visibility = Visibility.ADVANCED_ONLY, description = "Show player name under player head.")
@@ -54,7 +54,9 @@ object DungeonMap : Module(
     init {
         this.addSettings(
             autoScan,
+            mapItemScan,
             legitMode,
+            trackSecrets,
             hideInBoss,
             showRunInformation,
             playerNameMode,

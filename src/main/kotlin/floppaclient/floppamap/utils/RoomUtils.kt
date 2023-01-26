@@ -1,13 +1,51 @@
-package floppaclient.floppamap.extras
+package floppaclient.floppamap.utils
 
+import com.google.gson.Gson
+import com.google.gson.JsonIOException
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import floppaclient.FloppaClient
 import floppaclient.floppamap.core.*
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.util.BlockPos
-// TODO doc comments and move to utils dir
+import net.minecraft.util.ResourceLocation
+
+/**
+ * A collection of methods for dungeon room specific information.
+ *
+ * These include coordinate transformations and obtaining the correct data from config files.
+ *
+ * @author Aton
+ */
 object RoomUtils {
+    val roomList: Set<RoomConfigData> = try {
+        Gson().fromJson(
+            FloppaClient.mc.resourceManager.getResource(ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "floppamap/rooms.json"))
+                .inputStream.bufferedReader(),
+            object : TypeToken<Set<RoomConfigData>>() {}.type
+        )
+    } catch (e: JsonSyntaxException) {
+        println("Error parsing FloppaMap room data.")
+        setOf()
+    } catch (e: JsonIOException) {
+        println("Error reading FloppaMap room data.")
+        setOf()
+    }
+
     /**
-     * Rotates the given blockPos inside of a room with rotation to rotation 0.
+     * Rotates the given [blockPos] for a room with [rotation] to rotation 0.
+     *
+     * [rotation] is the rotation of the room in degrees. It has to be a multiple of 90 within the range of -360 to +360.
+     * For any other value [blockPos] is returned.
+     *
+     * If you have coordinates in the rooms coordinate system this function will rotate them into real world coordinates.
+     * The coordinates will still be offset by the position of the rooms center afterwards.
+     *
+     * To rotate coordinates from absolute world coordinates into the coordinate system of the room use this method with
+     * minus the rotation of the room as argument.
+     *
+     * @see getRealPos
+     * @see getRelativePos
      */
     fun getRotatedPos(blockPos: BlockPos, rotation: Int): BlockPos {
         return when {
@@ -19,7 +57,9 @@ object RoomUtils {
     }
 
     /**
-     * Rotates all blockPos in the given set inside of a room with rotation to rotation 0.
+     * Rotates the coordinates within the given [posSet] for a room with [rotation] to rotation 0.
+     *
+     * @see getRotatedPos
      */
     fun getRotatedPosSet(posSet: MutableSet<BlockPos>, rotation: Int): MutableSet<BlockPos> {
         val returnSet: MutableSet<BlockPos> = mutableSetOf()
@@ -30,14 +70,19 @@ object RoomUtils {
     }
 
     /**
-     * Translates the given blockpos to the corresponding relative position in the room.
+     * Transforms the given [blockPos] in absolute world coordinates to the corresponding room relative position for the
+     * given room with given rotation.
+     *
+     * @see getRealPos
      */
     fun getRelativePos(blockPos: BlockPos, roomPair: Pair<Room, Int>): BlockPos {
         return getRotatedPos(blockPos.add(-roomPair.first.x, 0, -roomPair.first.z), -roomPair.second)
     }
 
     /**
-     * Translates the given room relative coordinates to real coordinates.
+     * Transforms the given room relative coordinates to absolute coordinates.
+     *
+     * @see getRelativePos
      */
     fun getRealPos(blockPos: BlockPos, roomPair: Pair<Room, Int>): BlockPos {
         return getRotatedPos(blockPos, roomPair.second).add(roomPair.first.x,0,roomPair.first.z)
@@ -103,6 +148,13 @@ object RoomUtils {
             FloppaClient.autoactions.autoActionRegions[room.data.name]
         else
             FloppaClient.autoactions.autoActionRooms[room.data.name]
+    }
+
+    /**
+     * Fetches information about the Tile with the given [core] from the rooms resource rooms.json.
+     */
+    fun getRoomConfigData(core: Int): RoomConfigData? {
+        return roomList.find { core in it.cores }
     }
 
     fun instanceBossRoom(floor: Int): Room {

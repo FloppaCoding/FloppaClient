@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
 import java.awt.Color
-// TODO Doc comments for this and the moethods. Also maybe rename to WorldRenderUtils.
+// TODO Doc comments for this and the methods. Also maybe rename to WorldRenderUtils.
 // TODO maybe merge the code for drawing boxes into one method to reduce redundancy.
 object RenderObject {
 

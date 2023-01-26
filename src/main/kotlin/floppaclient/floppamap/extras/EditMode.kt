@@ -4,8 +4,8 @@ import floppaclient.FloppaClient.Companion.currentRegionPair
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
 import floppaclient.floppamap.dungeon.Dungeon.currentRoomPair
-import floppaclient.floppamap.extras.RoomUtils.getOrPutRoomExtrasData
-import floppaclient.floppamap.extras.RoomUtils.getRelativePos
+import floppaclient.floppamap.utils.RoomUtils.getOrPutRoomExtrasData
+import floppaclient.floppamap.utils.RoomUtils.getRelativePos
 import floppaclient.utils.ChatUtils
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState

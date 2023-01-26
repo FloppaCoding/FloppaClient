@@ -8,7 +8,7 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.extras.EditMode
 import floppaclient.floppamap.extras.Extras
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.ModuleManager
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils

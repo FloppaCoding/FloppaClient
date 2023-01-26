@@ -17,14 +17,8 @@ object RunInformation {
     private val deathsPattern = Regex("§r§a§lDeaths: §r§f\\((?<deaths>\\d+)\\)§r")
     private val puzzleCountPattern = Regex("§r§b§lPuzzles: §r§f\\((?<count>\\d)\\)§r")
 
-    //TODO check this comment, it might not be true anymore
     /**
      * Matches all three states a puzzle can be in (unfinished, completed, failed).
-     * Also matches unknown puzzle (???).
-     *
-     * To change that behaviour change the regex to:
-     *
-     *     "§r (?<puzzle>.+): §r§7\\[§r§[ac6]§l[✔✖✦]§r§7] §.+"
      */
     private val puzzlePattern = Regex("§r (?<puzzle>.+): §r§7\\[§r§[ac6]§l(?<state>[✔✖✦])§r§7].+")
     private val failedPuzzlePattern = Regex("§r (?<puzzle>.+): §r§7\\[§r§c§l✖§r§7] §.+")

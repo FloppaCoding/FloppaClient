@@ -7,7 +7,7 @@ import floppaclient.events.DungeonEndEvent
 import floppaclient.events.RoomChangeEvent
 import floppaclient.floppamap.core.*
 import floppaclient.floppamap.extras.ExtrasScan
-import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.floppamap.utils.MapUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.TabListUtils
@@ -36,8 +36,6 @@ object Dungeon {
     const val startZ = -185
 
     private var lastScanTime: Long = 0
-    private var isScanning = false
-    private var isScanningRotation = false
     var fullyScanned = false
     var fullyScannedRotation = false
 
@@ -56,7 +54,7 @@ object Dungeon {
      * for Puzzle names on the tab list.
      * </p>
      */
-    val dungeonList = Array<Tile?>(121) { null }
+    private val dungeonList = Array<Tile?>(121) { null }
 
     var mimicFound = false
 
@@ -88,28 +86,26 @@ object Dungeon {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onTick(event: TickEvent.ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START || !inDungeons || mc.thePlayer == null) return
+        // World based scan
         if (shouldScan()) {
             lastScanTime = System.currentTimeMillis()
-            isScanning = true
             DungeonScan.scanDungeon()
-            isScanning = false
         }
         if (shouldScanRotation()) {
-            isScanningRotation = true
             ExtrasScan.scanDungeon()
-            isScanningRotation = false
+        }
+        // Map item based scan
+        if (DungeonMap.enabled) {
+            MapUpdate.updateRooms()
         }
         val newRoom = getCurrentRoomPair()
         if (newRoom != currentRoomPair) {
             MinecraftForge.EVENT_BUS.post(RoomChangeEvent(newRoom, currentRoomPair))
             currentRoomPair = newRoom
         }
-
         if (!mimicFound && currentFloor.equalsOneOf(6, 7)) {
             MimicDetector.findMimic()
         }
-        // TODO sort this with scan settings
-        MapUpdate.updateRooms()
 
         getDungeonTabList()?.let {
             MapUpdate.updatePlayers(it)
@@ -212,10 +208,10 @@ object Dungeon {
     }
 
     private fun shouldScan() =
-        DungeonMap.autoScan.enabled && !isScanning && !fullyScanned && !inBoss && currentFloor != null
+        DungeonMap.autoScan.enabled && !fullyScanned && !inBoss && currentFloor != null
 
     private fun shouldScanRotation() =
-        DungeonMap.autoScan.enabled && !isScanningRotation && !fullyScannedRotation && !inBoss && currentFloor != null
+        DungeonMap.autoScan.enabled && !fullyScannedRotation && !inBoss && currentFloor != null
 
     fun getDungeonTabList(): List<Pair<NetworkPlayerInfo, String>>? {
         val tabEntries = TabListUtils.tabList
@@ -257,7 +253,7 @@ object Dungeon {
         }else {
             val x = ((mc.thePlayer.posX - startX + 15).toInt() shr 5)
             val z = ((mc.thePlayer.posZ - startZ + 15).toInt() shr 5)
-            dungeonList.getOrNull(x * 22 + z * 2)
+            getDungeonTile(x*2, z*2)
         }
         if (room !is Room) return null
         return room
@@ -268,17 +264,16 @@ object Dungeon {
      */
     @JvmName("getDungeonTileDefault")
     fun getDungeonTile(column: Int, row: Int) : Tile?{
-        return getDungeonTile<Tile>(column, row)
+        return dungeonList[column*11 + row]
     }
 
     /**
      * Gets the corresponding Tile from [dungeonList] but first performs a check whether the indices are in range.
      * It is attempted to cast the Tile to [T], if not possible returns null.
      */
-    fun <T : Tile> getDungeonTile(column: Int, row: Int) : T?{
+    inline fun <reified T : Tile> getDungeonTile(column: Int, row: Int) : T?{
         if (row !in 0..10 || column !in 0..10) return null
-        @Suppress("UNCHECKED_CAST") // This cast is fine, but the compiler does not know this.
-        return (dungeonList[column*11 + row] as? T)
+        return (getDungeonTile(column, row) as? T)
     }
 
     /**
@@ -288,6 +283,20 @@ object Dungeon {
         if (row !in 0..10 || column !in 0..10) return false
         dungeonList[column*11 + row] = tile
         return true
+    }
+
+    /**
+     * Returns the [dungeonList] as an immutable List.
+     */
+    fun getDungeonTileList(): List<Tile?>{
+        return dungeonList.asList()
+    }
+
+    /**
+     * Returns the [dungeonList] filtered for the supplied Tile Type.
+     */
+    inline fun <reified T : Tile> getDungeonTileList(): List<T>{
+        return getDungeonTileList().filterIsInstance<T>()
     }
 
     /**
