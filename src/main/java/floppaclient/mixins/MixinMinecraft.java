@@ -4,7 +4,7 @@ import floppaclient.events.ClickEvent;
 import floppaclient.events.PreKeyInputEvent;
 import floppaclient.events.PreMouseInputEvent;
 import floppaclient.module.impl.misc.CancelInteract;
-import floppaclient.module.impl.misc.InvActions;
+import floppaclient.module.impl.player.InvActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.BlockPos;

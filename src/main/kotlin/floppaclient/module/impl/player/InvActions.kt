@@ -1,23 +1,21 @@
-package floppaclient.module.impl.misc
+package floppaclient.module.impl.player
 
-import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.*
-import floppaclient.funnymap.utils.RenderUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms
+import floppaclient.module.impl.player.Blink.blink
+import floppaclient.module.impl.player.Blink.packets
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.ui.clickgui.util.FontUtil
-import floppaclient.utils.Utils
-import floppaclient.utils.Utils.isHolding
+import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.Utils.isInTerminal
-import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.client.gui.Gui
-import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.OpenGlHelper
@@ -26,56 +24,49 @@ import net.minecraft.client.settings.GameSettings
 import net.minecraft.client.settings.KeyBinding
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.item.EnumAction
+import net.minecraft.network.Packet
+import net.minecraft.network.play.INetHandlerPlayServer
+import net.minecraft.network.play.client.C03PacketPlayer
+import net.minecraft.network.play.client.C0EPacketClickWindow
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.event.entity.living.LivingEvent
 import net.minecraftforge.event.world.WorldEvent
-import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import org.lwjgl.input.Mouse
 import java.awt.Color
 
 
 /**
- * Module aimed to allow for as much actions from the inventory as possible without flagging.
- *
- * @author Aton
+ * Module aimed to allow for as many actions from the inventory as possible without flagging.
+ * Should reword alot of the module names and descriptions AND FIX A BUG THAT WHEN YOU ENABLE GUI MOVE WHILE MOVING U FLAG SOMETHING
+ * @author Aton, Stivais
  */
 object InvActions : Module(
-    "Inv Action",
-    category = Category.MISC,
+    "Gui Move",
+    category = Category.PLAYER,
     description = "Lets you perform certain actions while in inventory. Automatically shoots the Bonzo staff at the floor " +
             "to apply knockback to the player. This bypasses watchdog. The knockback from the Bonzo staff will be cancelld."
 ) {
+    private val invWalk = BooleanSetting("Gui Move", true, description= "Lets you walk while in inventory.", visibility = Visibility.ADVANCED_ONLY)
+    private val invWalkMode = SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Lag"), description = "Mode for GUI Move")
+        .withDependency { invWalk.enabled }
     private val rotate = BooleanSetting("Rotate", true, description = "Makes mouse movements in the inventory rotate your view angles. Can be toggled while in gui with Tab, if \"Tab toggle rot\" is enabled.")
     private val toggleRot = BooleanSetting("Tab toggle rot", true, description = "When enabled tab will toggle Rotate. This will also toggle hide terms if that is enabled.")
+        .withDependency { rotate.enabled || hideTerminal.enabled}
     private val grabCursor = BooleanSetting("Grab Cursor", true, description = "If enabled the cursor does not get un grabbed. This allows you to rotate further even when the edge of the screen is reached. A custom cursor wil be rendered instead.")
     private val hotbarSelection = BooleanSetting("Hotbar Select", true, description = "If enabled the Hotkeys will select your current hotbar slot but can no longer be used to move items in the inventory.")
     private val rightClick = BooleanSetting("Right Click", true, description = "If enabled right clicks anywhere in the gui will attempt using the right click ability of the currently held item. This is disabled for swords because blocking in inventory might flag.")
-    private val invWalk = BooleanSetting("Inv Walk", true, description= "Lets you walk while in inventory.")
-    private val kbmove = BooleanSetting("Kb Move", false, description= "Lets you walk while in inventory if enough knockback was recently taken.")
-    private val kbWithBonzo = BooleanSetting("Kb holding Bonzo", true, description = "If enabled you can take knockback when holding the Bonzo Staff")
-    private val autoKb = BooleanSetting("Auto Kb", true, visibility = Visibility.HIDDEN)
-    private val onlyMoveOnKey = BooleanSetting("Only on Input", false, description = "Only starts shooting the Bonzo staff when a movement key is being held. Especially with high ping this will result in quite a bit of delay.")
-    private val toggleAutoKb = BooleanSetting("f5 Toggle kb", true, description= "If enabled the perspective keybind will toggle whether the bonzo staff is being shot at the floor.")
     private val onlyInTerminal = BooleanSetting("Only In Terminal", false, description = "If enabled this module will only enabled in terminals.")
     private val hideTerminal = BooleanSetting("Hide Terminals", true, description = "Hides the inventory gui from rendering when in a terminal. A preview will be rendered instead in the corner of your screen. Only activates when rotate is enabled. \n§cClicks and key presses the Inventory will not be suppressed so be careful not to drop anything.")
     private val blockClicks = BooleanSetting("Block Clicks", true, description = "Suppresses Clicks and key presses in the Inventory when it is hidden.")
+        .withDependency { hideTerminal.enabled}
     private val stopInMelody = BooleanSetting("Stop in Melody", false, description = "Will prevent you from walking while in the melody terminal.")
-    //private val goofybypass = BooleanSetting("test", false, description = "A")
     private val cursor = ResourceLocation(RESOURCE_DOMAIN, "gui/cursor.png")
+    private val debug = BooleanSetting("Debug Messages",false, visibility = Visibility.ADVANCED_ONLY)
 
     private var moveTime = 0L
-    private const val moveBypass = 700L
 
     private var clickTime = 0L
-    private var clickCooldown = 600L
-
-    private val walkKeys = listOf(
-        mc.gameSettings.keyBindSprint,
-        mc.gameSettings.keyBindForward,
-        mc.gameSettings.keyBindBack,
-        mc.gameSettings.keyBindLeft,
-        mc.gameSettings.keyBindRight
-    )
 
     private val moveKeys = listOf(
         mc.gameSettings.keyBindSneak,
@@ -89,21 +80,18 @@ object InvActions : Module(
 
     init {
         this.addSettings(
+            invWalk,
+            invWalkMode,
             rotate,
             grabCursor,
             hotbarSelection,
             rightClick,
-            kbmove,
-            invWalk,
-            kbWithBonzo,
-            autoKb,
-            onlyMoveOnKey,
             toggleRot,
-            toggleAutoKb,
             onlyInTerminal,
             hideTerminal,
             blockClicks,
             stopInMelody,
+            debug,
         )
     }
 
@@ -111,7 +99,7 @@ object InvActions : Module(
      * Called by the entity renderer mixin to determine whether the mouse input should rotate the screen
      */
     fun shouldRotateHook(): Boolean {
-        if (this.enabled && this.rotate.enabled && (mc.currentScreen is GuiContainer) && (!onlyInTerminal.enabled || isInTerminal())) {
+        if (this.enabled && rotate.enabled && (mc.currentScreen is GuiContainer) && (!onlyInTerminal.enabled || isInTerminal())) {
             return true
         }
         return mc.inGameHasFocus
@@ -121,40 +109,8 @@ object InvActions : Module(
      * Called by the Minecraft Mixin to determine whether the cursor should be ungrabbed for the gui.
      */
     fun shouldSkipUngrabMouse(): Boolean {
-        if (this.enabled && this.grabCursor.enabled && rotate.enabled && (mc.currentScreen is GuiContainer) && (!onlyInTerminal.enabled || isInTerminal())) return true
+        if (this.enabled && grabCursor.enabled && rotate.enabled && (mc.currentScreen is GuiContainer) && (!onlyInTerminal.enabled || isInTerminal())) return true
         return false
-    }
-
-    /**
-     * Takes care of automatically shooting the bonzo staff down so you can move.
-     */
-    @SubscribeEvent
-    fun onTick(event: PositionUpdateEvent.Pre) {
-        if (!this.enabled || (mc.currentScreen !is GuiContainer) || (onlyInTerminal.enabled && !isInTerminal())) return
-        if (kbmove.enabled && autoKb.enabled) {
-            //Check whether above blocks
-            if (mc.thePlayer.isInLava || (!mc.thePlayer.onGround && !mc.theWorld.getBlockState(mc.thePlayer.position.down()).block.material.isSolid)) return
-
-            if (kbWithBonzo.enabled && mc.thePlayer.isHolding("Bonzo's Staff")) return
-            if (System.currentTimeMillis() > clickTime) {
-                clickTime = System.currentTimeMillis() + clickCooldown
-                if (onlyMoveOnKey.enabled) {
-                    var keyDown = false
-                    for (bind in walkKeys) {
-                        if (GameSettings.isKeyDown(bind)) keyDown = true
-                    }
-                    if (!keyDown) return
-                }
-                val slot = Utils.findItem("Bonzo's Staff", true)
-                if (slot != null) {
-                    FakeActionManager.stageRightClickSlot(
-                        mc.thePlayer.rotationYaw,
-                        70f,
-                        slot
-                    )
-                }
-            }
-        }
     }
 
     @SubscribeEvent
@@ -182,14 +138,11 @@ object InvActions : Module(
             }
         }
         if (toggleRot.enabled && event.keyCode == mc.gameSettings.keyBindPlayerList.keyCode) {
-            this.rotate.toggle()
+            rotate.toggle()
             if (rotate.enabled)
                 Mouse.setGrabbed(grabCursor.enabled)
             else
                 Mouse.setGrabbed(false)
-        }
-        if (toggleAutoKb.enabled && event.keyCode == mc.gameSettings.keyBindTogglePerspective.keyCode) {
-            this.autoKb.toggle()
         }
         if (blockClicks.enabled && shouldHideContainer()) event.isCanceled = true
     }
@@ -202,8 +155,7 @@ object InvActions : Module(
     fun onRender(event: DrawContainerEvent) {
         if (!this.enabled || (mc.currentScreen !is GuiContainer) || (onlyInTerminal.enabled && !isInTerminal())) return
         if (stopInMelody.enabled && AutoTerms.currentTerminal == AutoTerms.TerminalType.TIMING) return
-        if (invWalk.enabled || kbmove.enabled) {
-            if (invWalk.enabled || System.currentTimeMillis() < moveTime) {
+            if (invWalk.enabled) {
                 for (bind in moveKeys) {
                     KeyBinding.setKeyBindState(bind.keyCode, GameSettings.isKeyDown(bind))
                 }
@@ -213,7 +165,7 @@ object InvActions : Module(
                 }
             }
 
-        }
+
 
         // Render terminal preview
         if (shouldHideContainer()) {
@@ -221,9 +173,48 @@ object InvActions : Module(
 
             renderTermPreview()
             // rendered here as well as in onRenderLast. Only one of those can be active at a time.
-            renderKbIndicator()
         }
     }
+    private var nextPulse = System.currentTimeMillis()
+    private var didClick = System.currentTimeMillis()
+    private var unBlink = false
+
+    @SubscribeEvent(receiveCanceled = true)
+    fun onPacket(event: PacketSentEvent) {
+        if (invWalkMode.selected != "Lag") return
+
+        val packet = event.packet
+        if (mc.thePlayer == null || Blink.noBlink) return
+
+        if (packet is C03PacketPlayer) {
+            event.isCanceled = true
+            packets.add(packet as Packet<INetHandlerPlayServer>)
+        }
+
+        if (packet is C0EPacketClickWindow) {
+            if (debug.enabled) return ChatUtils.modMessage("C0EPacketClickWindow")
+            unBlink = true
+            didClick = System.currentTimeMillis() + 25
+        }
+    }
+
+    @SubscribeEvent
+    fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
+        if (invWalkMode.selected != "Lag") return
+
+            if (!unBlink) {
+                if (nextPulse < System.currentTimeMillis()) {
+                    blink()
+                    nextPulse = System.currentTimeMillis() + 500
+                }
+            }  else {
+                if (didClick < System.currentTimeMillis() && unBlink) {
+                    unBlink = false
+                    blink()
+                    nextPulse = System.currentTimeMillis() + 500
+                }
+            }
+        }
 
     /**
      * Render the Auto Kb indicator and the cursor.
@@ -233,11 +224,8 @@ object InvActions : Module(
     fun onRenderLast(event: DrawContainerLastEvent) {
         if (!this.enabled || (mc.currentScreen !is GuiContainer) || (onlyInTerminal.enabled && !isInTerminal())) return
 
-        if (kbmove.enabled) {
-            renderKbIndicator()
-        }
         //Render the cursor
-        if (!this.grabCursor.enabled || !this.rotate.enabled) return
+        if (!grabCursor.enabled || !rotate.enabled) return
         cursor.let {
             val cursorSize = 10
 
@@ -258,70 +246,6 @@ object InvActions : Module(
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun onKb(event: VelocityUpdateEvent) {
-        val entity = mc.theWorld.getEntityByID(event.packet.entityID)
-        if (entity == mc.thePlayer) {
-            if (!FloppaClient.inSkyblock) return
-            val totalMomentumSquare =
-                (event.packet.motionX * event.packet.motionX + event.packet.motionY * event.packet.motionY + event.packet.motionZ * event.packet.motionZ)
-//            if (packetInfo.enabled) {
-//
-//                modMessage("${event.packet.motionX}, ${event.packet.motionY}, ${event.packet.motionZ}, total: $totalMomentumSquare, normalized: ${totalMomentumSquare/8000.0/8000.0}")
-//            }
-            // This is true for bonzo staff, but false for chine
-            if (totalMomentumSquare > 159_000_000) {
-                if (kbmove.enabled) {
-                    moveTime = System.currentTimeMillis() + moveBypass
-                    if ((onlyInTerminal.enabled && !isInTerminal())) return
-                    if (!mc.thePlayer.isInLava && (mc.currentScreen is GuiContainer) && (!kbWithBonzo.enabled || !mc.thePlayer.isHolding("Bonzo's Staff"))) event.isCanceled = true
-                }
-            }
-        }
-    }
-
-    private fun renderKbIndicator() {
-        val text = "Auto KB ${if (autoKb.enabled) "enabled" else "disabled"}"
-        val scaledResolution = ScaledResolution(mc)
-
-        val textColor = Color(0,0, 255, 255).rgb
-        GlStateManager.pushMatrix()
-        GlStateManager.translate(
-            scaledResolution.scaledWidth.toDouble() / 2.0,
-            scaledResolution.scaledHeight.toDouble() * 0.2,
-            0.0
-        )
-        // Note: if you change these values they also have to be changed in isCursorOnReset
-        val textWidth = FontUtil.getStringWidth(text)
-        val textHeight = FontUtil.fontHeight.toDouble()
-        val textX = -textWidth / 2.0
-        val textY = -textHeight - 25
-        val boxX = textX - 20
-        val boxY = textY - 5
-        val boxHeight = textHeight + 10
-        val boxWidth = textWidth + 40.0
-
-        val indicatorColor = if (!autoKb.enabled) {
-            Color(200, 30, 30, 150)
-        } else {
-            Color(100, 200, 10, 150)
-        }
-        RenderUtils.renderRect(
-            boxX,
-            boxY,
-            boxWidth,
-            boxHeight,
-            indicatorColor
-        )
-
-        FontUtil.drawString(
-            text,
-            textX,
-            textY,
-            textColor
-        )
-        GlStateManager.popMatrix()
-    }
 
     private fun renderTermPreview() {
         val container = mc.thePlayer.openContainer ?: return
@@ -378,11 +302,12 @@ object InvActions : Module(
     }
 
     private fun shouldHideContainer(): Boolean =
-        this.hideTerminal.enabled && rotate.enabled && mc.thePlayer.openContainer is ContainerChest && isInTerminal()
+        hideTerminal.enabled && rotate.enabled && mc.thePlayer.openContainer is ContainerChest && isInTerminal()
 
     @SubscribeEvent
     fun onWarp(event: WorldEvent.Load) {
         moveTime = 0L
         clickTime = 0L
+        packets.clear()
     }
 }

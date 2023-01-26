@@ -83,11 +83,11 @@ object ModuleManager {
         NoRotate,
         Velocity,
         Blink,
+        InvActions,
 
         //MISC
         QOL,
         ClipSettings,
-        InvActions,
         AutoSprint,
         AutoRagnarock,
         AutoHarp,
@@ -103,7 +103,6 @@ object ModuleManager {
         FastMine,
         PinglessHardstone,
         ChatCleaner,
-        FastMine,
         PinglessHardstone,
         ChatCleaner,
 

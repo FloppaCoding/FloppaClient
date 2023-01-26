@@ -1,6 +1,6 @@
 package floppaclient.mixins.render;
 
-import floppaclient.module.impl.misc.InvActions;
+import floppaclient.module.impl.player.InvActions;
 import floppaclient.module.impl.misc.QOL;
 import floppaclient.module.impl.render.Camera;
 import floppaclient.module.impl.render.ChestEsp;

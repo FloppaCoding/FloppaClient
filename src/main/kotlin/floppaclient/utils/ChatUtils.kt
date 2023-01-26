@@ -39,7 +39,7 @@ object ChatUtils {
      * Replaces chat formatting codes using "&" as escape character with "§" as the escape character.
      * Example: "&aText &r" as input will return "§aText §r".
      */
-    private fun reformatString(text: String): String {
+    fun reformatString(text: String): String {
         return formattingCodePattern.replace(text, "§")
     }
 

@@ -40,8 +40,8 @@ object ChatCleaner : Module(
         when {
             text.startsWith("There are blocks in the way!") && blocksInTheWay.enabled  -> {event.isCanceled = true}
             text.startsWith("Your") && text.endsWith("damage.") && abilityHider.enabled -> {event.isCanceled = true}
-            (text.contains("&(?=[0-9]) Kill Combo".toRegex()) || text.startsWith("Your Kill Combo has expired!") && comboHider.enabled) -> {event.isCanceled = true}
-            text.startsWith("Your Auto-Recomb") && autoRecombHider.enabled -> {event.isCanceled = true}
+            (text.contains("&(?=[0-9])".toRegex()) || (text.contains("&Kill Combo".toRegex()) || text.startsWith("Your Kill Combo has expired!") && comboHider.enabled)) -> {event.isCanceled = true} // i cba to make it simple without it cancelling messages
+            text.startsWith("Your Auto-Recombobulator recombobulated") && autoRecombHider.enabled -> {event.isCanceled = true}
             text.endsWith("Click here to pick it all up!") && stashHider.enabled -> {event.isCanceled = true}
             text.startsWith("You are playing on profile:") && playingOnProfile.enabled -> {event.isCanceled = true}
             else -> { return}
