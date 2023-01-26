@@ -8,6 +8,11 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+/**
+ * A modules meant for removing spammy messages from chat.
+ *
+ * @author Stivais
+ */
 object ChatCleaner : Module(
     "Chat Cleaner",
     category = Category.MISC,
