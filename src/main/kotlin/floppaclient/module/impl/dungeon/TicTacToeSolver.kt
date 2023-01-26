@@ -3,7 +3,7 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
-import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting

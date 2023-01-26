@@ -55,6 +55,7 @@ object ModuleManager {
         IceSprayAura,
         CancelChestOpen,
         LavaBounce,
+        PartyTracker,
 
         //RENDER
         ClickGui,
@@ -66,8 +67,9 @@ object ModuleManager {
         XRay,
         DungeonWarpTimer,
         DungeonMap,
-        ExtraBlocks,
         MapRooms,
+        ExtraBlocks,
+        DoorESP,
         CoordinateDisplay,
         ItemAnimations,
         Camera,

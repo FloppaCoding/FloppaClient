@@ -2,8 +2,8 @@ package floppaclient.commands
 
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.utils.DataHandler
 import floppaclient.utils.DataHandler.toCoords
 import floppaclient.utils.DataHandler.toIntCoords
@@ -49,7 +49,7 @@ class WhereCommand : CommandBase() {
             chatMessage("§r&eRoom rotation: §r" + room.second)
             chatMessage("§r&eRelative Player coordinates: §r" + key.joinToString())
 
-            RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+            RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
                 val clips = this.clips
                 if (clips.isNotEmpty()) {
                     chatMessage("&r&eClip routes in this room: ")

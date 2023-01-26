@@ -4,9 +4,9 @@ import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.inSkyblock
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.*
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.EditMode
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.EditMode
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Visibility

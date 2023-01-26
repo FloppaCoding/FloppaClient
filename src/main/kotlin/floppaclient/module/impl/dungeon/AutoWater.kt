@@ -3,10 +3,10 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
-import floppaclient.funnymap.core.Room
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.RoomUtils
-import floppaclient.funnymap.features.extras.RoomUtils.getRealPos
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.RoomUtils
+import floppaclient.floppamap.extras.RoomUtils.getRealPos
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting

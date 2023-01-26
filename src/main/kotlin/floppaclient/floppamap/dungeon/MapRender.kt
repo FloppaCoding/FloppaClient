@@ -1,12 +1,12 @@
-package floppaclient.funnymap.features.dungeon
+package floppaclient.floppamap.dungeon
 
 import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.core.*
-import floppaclient.funnymap.utils.MapUtils
-import floppaclient.funnymap.utils.MapUtils.roomSize
-import floppaclient.funnymap.utils.RenderUtils
+import floppaclient.floppamap.core.*
+import floppaclient.floppamap.utils.MapUtils
+import floppaclient.floppamap.utils.MapUtils.roomSize
+import floppaclient.floppamap.utils.HUDRenderUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.module.impl.render.MapRooms
 import floppaclient.shaders.impl.Chroma2D
@@ -29,12 +29,12 @@ object MapRender: HudElement(
     DungeonMap.mapScale
 ){
 
-    private val neuGreen     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/green_check.png")
-    private val neuWhite     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/white_check.png")
-    private val neuCross     = ResourceLocation(RESOURCE_DOMAIN, "funnymap/neu/cross.png")
-    private val defaultGreen = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/green_check.png")
-    private val defaultWhite = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/white_check.png")
-    private val defaultCross = ResourceLocation(RESOURCE_DOMAIN, "funnymap/default/cross.png")
+    private val neuGreen     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/green_check.png")
+    private val neuWhite     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/white_check.png")
+    private val neuCross     = ResourceLocation(RESOURCE_DOMAIN, "floppamap/neu/cross.png")
+    private val defaultGreen = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/green_check.png")
+    private val defaultWhite = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/white_check.png")
+    private val defaultCross = ResourceLocation(RESOURCE_DOMAIN, "floppamap/default/cross.png")
 
     override fun renderHud() {
         super.renderHud()
@@ -42,20 +42,20 @@ object MapRender: HudElement(
         if (!inDungeons) return
         if (DungeonMap.hideInBoss.enabled && Dungeon.inBoss) return
         // Background
-        RenderUtils.renderRect(
+        HUDRenderUtils.renderRect(
             0.0,
             0.0,
             128.0,
-            if (DungeonMap.showRunInformation.enabled) 138.0 else 128.0,
+            if (DungeonMap.showRunInformation.enabled) 142.0 else 128.0,
             DungeonMap.mapBackground.value
         )
         // Border
         if (DungeonMap.chromaBorder.enabled) Chroma2D.useShader()
-        RenderUtils.renderRectBorder(
+        HUDRenderUtils.renderRectBorder(
             0.0,
             0.0,
             128.0,
-            if (DungeonMap.showRunInformation.enabled) 138.0 else 128.0,
+            if (DungeonMap.showRunInformation.enabled) 142.0 else 128.0,
             DungeonMap.mapBorderWidth.value,
             DungeonMap.mapBorder.value
         )
@@ -112,10 +112,12 @@ object MapRender: HudElement(
 
         val connectorSize = roomSize shr 2
 
-        for (y in 0..10) {
-            for (x in 0..10) {
-                val tile = Dungeon.dungeonList[y * 11 + x]
-                if (tile is Door && tile.type == DoorType.NONE) continue
+        for (x in 0..10) {
+            for (y in 0..10) {
+                val tile = Dungeon.dungeonList[x * 11 + y] ?: continue
+                // TODO use getTile instead??
+                if (tile.state == RoomState.UNDISCOVERED && !tile.visited) continue
+                // TODO fix visibility
 
                 val xOffset = (x shr 1) * (roomSize + connectorSize)
                 val yOffset = (y shr 1) * (roomSize + connectorSize)
@@ -136,7 +138,7 @@ object MapRender: HudElement(
 
                 when {
                     xEven && yEven -> if (tile is Room) {
-                        RenderUtils.renderRect(
+                        HUDRenderUtils.renderRect(
                             xOffset.toDouble(),
                             yOffset.toDouble(),
                             roomSize.toDouble(),
@@ -145,7 +147,7 @@ object MapRender: HudElement(
                         )
                     }
                     !xEven && !yEven -> {
-                        RenderUtils.renderRect(
+                        HUDRenderUtils.renderRect(
                             xOffset.toDouble(),
                             yOffset.toDouble(),
                             (roomSize + connectorSize).toDouble(),
@@ -167,18 +169,24 @@ object MapRender: HudElement(
         GlStateManager.popMatrix()
     }
 
+    //TODO Rename this, add doc comment and sort out visibility
     private fun renderText() {
         GlStateManager.pushMatrix()
         GlStateManager.translate(MapUtils.startCorner.first.toFloat(), MapUtils.startCorner.second.toFloat(), 0f)
 
         val connectorSize = roomSize shr 2
 
-        for (y in 0..10 step 2) {
-            for (x in 0..10 step 2) {
+        for (x in 0..10 step 2) {
+            for (y in 0..10 step 2) {
 
-                val tile = Dungeon.dungeonList[y * 11 + x]
+                val tile = Dungeon.dungeonList[x * 11 + y] ?: continue
+                // TODO use getTile instgead??
 
-                if (tile is Room && tile in Dungeon.uniqueRooms) {
+                // If legit mode is enabled filter whether the information should be visible.
+               // if (DungeonMap.legitMode.enabled && tile.state == RoomState.UNDISCOVERED && !tile.visited) continue
+                // TODO check visibility
+
+                if (tile is Room && (tile.isUnique || tile.state == RoomState.QUESTION_MARK) ) {
 
                     val xOffset = (x shr 1) * (roomSize + connectorSize)
                     val yOffset = (y shr 1) * (roomSize + connectorSize)
@@ -198,6 +206,19 @@ object MapRender: HudElement(
 
                     val name = mutableListOf<String>()
 
+                    /*
+                    if ((MapRooms.mapRoomNames.index != 0 && tile.data.type == RoomType.PUZZLE ||
+                        (MapRooms.mapRoomNames.index == 2 && tile.data.type.equalsOneOf(
+                            RoomType.NORMAL,
+                            RoomType.RARE,
+                            RoomType.CHAMPION,
+                            RoomType.TRAP
+                        ) && tile.visited))
+                        && (tile.state.revealed || tile.visited) && !tile.data.name.startsWith("Unknown")
+                    )
+
+                    // TODO merge these if statements with a legit map setting.
+                     */
                     if (MapRooms.mapRoomNames.index != 0 && tile.data.type.equalsOneOf(RoomType.PUZZLE, RoomType.TRAP) ||
                         MapRooms.mapRoomNames.index == 2 && tile.data.type.equalsOneOf(
                             RoomType.NORMAL,
@@ -207,9 +228,17 @@ object MapRender: HudElement(
                     ) {
                         name.addAll(tile.data.name.split(" "))
                     }
-                    if (tile.data.type == RoomType.NORMAL && MapRooms.mapRoomSecrets.index == 1) {
-                        name.add(tile.data.secrets.toString())
+//                    if (tile.data.type == RoomType.NORMAL && MapRooms.mapRoomSecrets.index == 1) {
+//                        name.add(tile.data.secrets.toString())
+//                    }
+                    // Room Secrets
+                    if (tile.canHaveSecrets) {
+                        val maxSecrets = if (tile.visited) tile.data.maxSecrets?.toString() ?: "?" else "?"
+                        name.add(
+                            "${tile.data.currentSecrets}/${maxSecrets}"
+                        )
                     }
+                    // TODO merge the above, add legit setting.
 
                     val color = if (MapRooms.mapColorText.enabled) when (tile.state) {
                         RoomState.GREEN -> 0x55ff55
@@ -218,13 +247,14 @@ object MapRender: HudElement(
                     } else 0xffffff
 
                     // Offset + half of roomsize
-                    RenderUtils.renderCenteredText(name, xOffset + (roomSize shr 1), yOffset + (roomSize shr 1), color)
+                    HUDRenderUtils.renderCenteredText(name, xOffset + (roomSize shr 1), yOffset + (roomSize shr 1), color)
                 }
             }
         }
         GlStateManager.popMatrix()
     }
 
+    // TODO revisit this with legit setting
     private fun getCheckmark(state: RoomState, type: Int): ResourceLocation? {
         return when (type) {
             1 -> when (state) {
@@ -244,15 +274,12 @@ object MapRender: HudElement(
     }
 
     private fun renderPlayerHeads() {
-        if (Dungeon.dungeonTeammates.isEmpty()) {
-            RenderUtils.drawPlayerHead(DungeonPlayer(mc.thePlayer, mc.thePlayer.name).apply {
-                yaw = mc.thePlayer.rotationYawHead
-            })
-        } else {
+        // Try catch in case the dungeonTeammates get updated in a coroutine.
+        try {
             for (player in Dungeon.dungeonTeammates) {
-                RenderUtils.drawPlayerHead(player)
+                HUDRenderUtils.drawPlayerHead(player)
             }
-        }
+        }catch (_: ConcurrentModificationException) {}
     }
 
     private fun drawRoomConnector(
@@ -270,7 +297,7 @@ object MapRender: HudElement(
         if (doorway) {
             if (vertical) y1 += doorwayOffset else x1 += doorwayOffset
         }
-        RenderUtils.renderRect(
+        HUDRenderUtils.renderRect(
             x1.toDouble(), y1.toDouble(),
             (if (vertical) doorWidth else width).toDouble(),
             (if (vertical) width else doorWidth).toDouble(),
@@ -286,5 +313,16 @@ object MapRender: HudElement(
         mc.fontRendererObj.drawString("Crypts: ${RunInformation.cryptsCount}", 85, 0, 0xffffff)
         mc.fontRendererObj.drawString("Deaths: ${RunInformation.deathCount}", 140, 0, 0xffffff)
         GlStateManager.popMatrix()
+        /*
+        // First line
+        mc.fontRendererObj.drawString("Secrets: ${RunInformation.secretCount}/${RunInformation.totalSecrets ?: "?"}", 5, 0, 0xffffff)
+        mc.fontRendererObj.drawString("Crypts: ${RunInformation.cryptsCount}", 85, 0, 0xffffff)
+        mc.fontRendererObj.drawString("Deaths: ${RunInformation.deathCount}", 140, 0, 0xffffff)
+        // Second Line
+        mc.fontRendererObj.drawString("Score: ${RunInformation.score}", 5, mc.fontRendererObj.FONT_HEIGHT, 0xffffff)
+        GlStateManager.popMatrix()
+
+        TODO merge the above with legit setting.
+         */
     }
 }

@@ -1,6 +1,6 @@
 package floppaclient.ui.hud
 
-import floppaclient.funnymap.utils.RenderUtils
+import floppaclient.floppamap.utils.HUDRenderUtils
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.NumberSetting
 import net.minecraft.client.renderer.GlStateManager
@@ -84,7 +84,7 @@ open class HudElement(
         GlStateManager.translate(x.toFloat(), y.toFloat(), 0f)
         GlStateManager.scale(scale.value, scale.value, 1.0)
 
-        RenderUtils.renderRect(
+        HUDRenderUtils.renderRect(
             0.0,
             0.0,
             width.toDouble(),

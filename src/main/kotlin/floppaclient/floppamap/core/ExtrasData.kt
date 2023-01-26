@@ -1,4 +1,4 @@
-package floppaclient.funnymap.core
+package floppaclient.floppamap.core
 
 import net.minecraft.util.BlockPos
 

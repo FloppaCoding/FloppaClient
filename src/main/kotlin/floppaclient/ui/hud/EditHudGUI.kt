@@ -1,7 +1,7 @@
 package floppaclient.ui.hud
 
-import floppaclient.funnymap.features.dungeon.MapRender
-import floppaclient.funnymap.utils.RenderUtils
+import floppaclient.floppamap.dungeon.MapRender
+import floppaclient.floppamap.utils.HUDRenderUtils
 import floppaclient.module.impl.render.CoordinateDisplay
 import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.util.ColorUtil
@@ -66,7 +66,7 @@ object EditHudGUI : GuiScreen() {
         }else {
             Color(-0x44eaeaeb, true).darker()
         }
-        RenderUtils.renderRect(
+        HUDRenderUtils.renderRect(
             boxX,
             boxY,
             boxWidth,

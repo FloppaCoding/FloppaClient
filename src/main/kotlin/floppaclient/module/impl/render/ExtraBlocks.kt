@@ -7,7 +7,7 @@ import floppaclient.module.settings.impl.SelectorSetting
 /**
  * Map extras block settings module.
  *
- * The actual implementation is in atonclient.funnymap
+ * The actual implementation is in floppaclient.floppamap
  */
 object ExtraBlocks : Module(
     "Extras",

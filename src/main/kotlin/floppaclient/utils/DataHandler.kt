@@ -3,9 +3,9 @@ package floppaclient.utils
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.commands.FloppaClientCommands
-import floppaclient.funnymap.core.Room
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.isValidEtherwarpPos
@@ -17,6 +17,7 @@ import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import kotlin.math.floor
 
+// TODO add doc comments
 object DataHandler {
     // Cache for undoing room clear.
     private val cachedClips: MutableList<Pair<Room, MutableMap<MutableList<Int>, MutableList<Double>>>> = mutableListOf()
@@ -82,7 +83,7 @@ object DataHandler {
                 )
             route.addAll(listOf(coords1.xCoord, coords1.yCoord, coords1.zCoord))
         }
-        RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
             if (this.clips.containsKey(key)) {
 
                 val start = getRotatedCoords(
@@ -135,7 +136,7 @@ object DataHandler {
                 }
             }
             this.clips.put(key, route)
-        }
+        } ?: return modMessage("§cRoom not properly scanned.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Registered new Clip!")
@@ -145,7 +146,7 @@ object DataHandler {
         if (args.size < 3) {
             return modMessage("§cNot enough arguments.")
         }
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return
+        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
 
         val key = getKey(
             Vec3(
@@ -157,13 +158,13 @@ object DataHandler {
             room.first.z,
             room.second
         )
-        RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
             if (!this.clips.containsKey(key)) { // if this clip does not exist return
                 modMessage("§cNo clips found for these coordinates.")
                 return
             }
             this.clips.remove(key)
-        }
+        } ?: return modMessage("§cRoom not properly scanned.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Clip removed!")
@@ -257,7 +258,7 @@ object DataHandler {
             )
         }
 
-        RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
             if (this.etherwarps.containsKey(key)) {
                 val start = getRotatedCoords(
                     Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
@@ -271,7 +272,7 @@ object DataHandler {
                 chatMessage("/add ${start.toIntCoords()} ${targetOld.toIntCoords()}")
             }
             this.etherwarps.put(key, target)
-        }
+        }  ?: return modMessage("§cRoom not properly scanned.")
         lastEtherTarget = Pair(room.first, target)
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
@@ -284,22 +285,22 @@ object DataHandler {
         var showMessage = false
         if (args.size < 3) {
             modMessage("Removing closest etherwarp.")
-            RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+            key = RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
                 val ethers = this.etherwarps
                 if (ethers.isNotEmpty()) {
-                    key = ethers.minByOrNull { (key, _) ->
+                    showMessage = true
+                    return@run ethers.minByOrNull { (key, _) ->
                         val start = getRotatedCoords(
                             Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
                         )
                             .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
                         mc.thePlayer.getDistance(start.xCoord, start.yCoord, start.zCoord)
                     }!!.key
-                    showMessage = true
                 } else {
                     modMessage("&r&eNo Etherwarps found in this room")
                     return
                 }
-            }
+            } ?: return modMessage("§cRoom not properly scanned.")
         } else {
             key = getKey(
                 Vec3(
@@ -313,7 +314,7 @@ object DataHandler {
             )
         }
 
-        RoomUtils.getOrPutRoomAutoActionData(room.first).run {
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
             if (!this.etherwarps.containsKey(key)) { // if this etherwarp does not exist return
                 modMessage("§cNo Etherwarp found for these coordinates.")
                 return
@@ -330,7 +331,7 @@ object DataHandler {
                 chatMessage("/add ${start.toIntCoords()} ${targetOld.toIntCoords()}")
             }
             this.etherwarps.remove(key)
-        }
+        } ?: return modMessage("§cRoom not properly scanned.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Etherwarp removed!")
@@ -395,9 +396,9 @@ object DataHandler {
      */
     fun undoClearClips() {
         if (cachedClips.isEmpty()) return modMessage("No data cached for undo!")
-        RoomUtils.getOrPutRoomAutoActionData(cachedClips.last().first).run {
+        RoomUtils.getOrPutRoomAutoActionData(cachedClips.last().first)?.run {
             this.clips.putAll(cachedClips.last().second)
-        }
+        } ?: return modMessage("§cThis should not have happened. Report this issue.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Clips recovered in ${cachedClips.last().first.data.name}.")
@@ -409,9 +410,9 @@ object DataHandler {
      */
     fun undoClearEther() {
         if (cachedEtherwarps.isEmpty()) return modMessage("No data cached for undo!")
-        RoomUtils.getOrPutRoomAutoActionData(cachedEtherwarps.last().first).run {
+        RoomUtils.getOrPutRoomAutoActionData(cachedEtherwarps.last().first)?.run {
             this.etherwarps.putAll(cachedEtherwarps.last().second)
-        }
+        } ?: return modMessage("§cThis should not have happened. Report this issue.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Etherwarps recovered in ${cachedEtherwarps.last().first.data.name}.")
@@ -423,9 +424,9 @@ object DataHandler {
      */
     fun undoClearBlocks() {
         if (cachedPreBlocks.isEmpty()) return modMessage("No data cached for undo!")
-        RoomUtils.getOrPutRoomExtrasData(cachedPreBlocks.last().first).run {
+        RoomUtils.getOrPutRoomExtrasData(cachedPreBlocks.last().first)?.run {
             this.preBlocks.putAll(cachedPreBlocks.last().second)
-        }
+        } ?: return modMessage("§cThis should not have happened. Report this issue.")
         FloppaClient.extras.saveConfig()
         FloppaClient.extras.loadConfig()
         modMessage("Blocks recovered in ${cachedPreBlocks.last().first.data.name}.")

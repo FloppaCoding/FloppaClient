@@ -1,6 +1,8 @@
 package floppaclient.events
 
-import floppaclient.funnymap.core.Room
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.core.RoomState
+import floppaclient.floppamap.core.Tile
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.audio.ISound
 import net.minecraft.client.gui.inventory.GuiContainer
@@ -97,10 +99,31 @@ class RenderLivingEntityEvent(
 @Cancelable
 class PacketSentEvent(val packet: Packet<*>) : Event()
 
+//<editor-fold desc="Dungeon Events">
+
 /**
- * Fired in Dungeon.kt whenever the room is changed.
+ * Fired in [Dungeon.onTick][floppaclient.floppamap.dungeon.Dungeon.onTick] whenever the room is changed.
  */
 class RoomChangeEvent(val newRoomPair: Pair<Room, Int>?, val oldRoomPair: Pair<Room, Int>?) : Event()
+
+/**
+ * Fired when a secret is picked up in dungeons.
+ * Currently gets fired whenever SecretChime plays its sound.
+ */
+class DungeonSecretEvent : Event()
+
+/**
+ * Fired in [Dungeon.onChat][floppaclient.floppamap.dungeon.Dungeon.onChat] when the "> EXTRA STATS <" message is received.
+ */
+class DungeonEndEvent : Event()
+
+/**
+ * Posted in [MapUpdate.updateRooms][floppaclient.floppamap.dungeon.MapUpdate.updateRooms] right before the state of a Tile is changed.
+ * The old state is still contained in [tile] as [Tile.state].
+ */
+class DungeonRoomStateChangeEvent(val tile: Tile, val newState: RoomState) : Event()
+
+//</editor-fold>
 
 @Cancelable
 class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val newState: IBlockState) : Event()
@@ -108,12 +131,6 @@ class BlockStateChangeEvent(val pos: BlockPos, val oldState: IBlockState, val ne
 class BlockDestroyEvent(val pos: BlockPos, val side: EnumFacing, val state: IBlockState) : Event()
 
 /**
- * Fired when a secret is picked up in dungeons.
- * Currently gets fired whenever SecretChime plays its sound.
- */
-class DungeonSecretEvent() : Event()
-
-/**
  * Fired when a clip chain is finished.
  */
-class ClipFinishEvent() : Event()
+class ClipFinishEvent : Event()

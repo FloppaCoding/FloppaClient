@@ -1,4 +1,4 @@
-package floppaclient.funnymap.core
+package floppaclient.floppamap.core
 
 enum class RoomType {
     BLOOD,
@@ -10,5 +10,6 @@ enum class RoomType {
     RARE,
     TRAP,
     BOSS,
+    UNKNOWN, // For the question mark rooms on the map.
     REGION
 }

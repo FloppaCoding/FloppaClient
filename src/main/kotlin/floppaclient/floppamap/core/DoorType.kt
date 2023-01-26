@@ -1,9 +1,8 @@
-package floppaclient.funnymap.core
+package floppaclient.floppamap.core
 
 enum class DoorType {
     BLOOD,
     ENTRANCE,
-    NONE,
     NORMAL,
     WITHER
 }

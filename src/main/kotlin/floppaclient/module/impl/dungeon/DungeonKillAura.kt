@@ -3,9 +3,9 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
-import floppaclient.funnymap.core.RoomType
-import floppaclient.funnymap.features.dungeon.Dungeon.currentRoom
-import floppaclient.funnymap.features.dungeon.Dungeon.inBoss
+import floppaclient.floppamap.core.RoomType
+import floppaclient.floppamap.dungeon.Dungeon.currentRoom
+import floppaclient.floppamap.dungeon.Dungeon.inBoss
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting

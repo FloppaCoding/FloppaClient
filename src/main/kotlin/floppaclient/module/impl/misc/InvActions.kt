@@ -4,7 +4,7 @@ import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.RESOURCE_DOMAIN
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.*
-import floppaclient.funnymap.utils.RenderUtils
+import floppaclient.floppamap.utils.HUDRenderUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms
@@ -305,7 +305,7 @@ object InvActions : Module(
         } else {
             Color(100, 200, 10, 150)
         }
-        RenderUtils.renderRect(
+        HUDRenderUtils.renderRect(
             boxX,
             boxY,
             boxWidth,

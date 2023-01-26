@@ -1,11 +1,11 @@
-package floppaclient.funnymap.features.extras
+package floppaclient.floppamap.extras
 
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.core.Room
-import floppaclient.funnymap.core.RoomType
-import floppaclient.funnymap.core.Tile
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.dungeon.DungeonScan
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.core.RoomType
+import floppaclient.floppamap.core.Tile
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.DungeonScan
 import floppaclient.utils.Utils.currentFloor
 import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.init.Blocks

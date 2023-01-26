@@ -1,4 +1,4 @@
-package floppaclient.funnymap.utils
+package floppaclient.floppamap.utils
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.utils.Utils

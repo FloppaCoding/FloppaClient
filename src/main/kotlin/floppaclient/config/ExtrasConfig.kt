@@ -6,7 +6,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import floppaclient.config.jsonutils.SetBlockPosDeserializer
 import floppaclient.config.jsonutils.SetBlockPosSerializer
-import floppaclient.funnymap.core.ExtrasData
+import floppaclient.floppamap.core.ExtrasData
 import net.minecraft.util.BlockPos
 import java.io.File
 import java.io.IOException

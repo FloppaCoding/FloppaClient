@@ -6,14 +6,14 @@ import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.core.RoomData
-import floppaclient.funnymap.features.dungeon.DungeonScan
+import floppaclient.floppamap.core.RoomConfigData
+import floppaclient.floppamap.dungeon.DungeonScan
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.render.ClickGui
-import floppaclient.utils.DataHandler
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.ChatUtils.modMessage
+import floppaclient.utils.DataHandler
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.command.CommandBase
@@ -54,11 +54,11 @@ class FloppaClientCommands : CommandBase() {
             "gui" -> display = clickGUI
             "scan" -> DungeonScan.scanDungeon()
             "roomdata" -> DungeonScan.getRoomCentre(mc.thePlayer.posX.toInt(), mc.thePlayer.posZ.toInt()).let {
-                DungeonScan.getRoomData(it.first, it.second) ?: DungeonScan.getCore(it.first, it.second)
+                DungeonScan.getRoomConfigData(it.first, it.second) ?: DungeonScan.getCore(it.first, it.second)
             }.run {
                 GuiScreen.setClipboardString(this.toString())
                 modMessage(
-                    if (this is RoomData) "Copied room data to clipboard."
+                    if (this is RoomConfigData) "Copied room data to clipboard."
                     else "Existing room data not found. Copied room core to clipboard."
                 )
             }

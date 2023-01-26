@@ -37,6 +37,7 @@ object MapRooms : Module(
     val colorPuzzle         = ColorSetting("Puzzle Room", Color(117, 0, 133), true)
     val colorRare           = ColorSetting("Rare Room", Color(255, 203, 89), true)
     val colorTrap           = ColorSetting("Trap Room", Color(216, 127, 51), true)
+    val colorUnexplored     = ColorSetting("Unexplored", Color(64, 64, 64), true)
 
     init {
         this.addSettings(
@@ -61,6 +62,7 @@ object MapRooms : Module(
             colorPuzzle,
             colorRare,
             colorTrap,
+            colorUnexplored,
         )
     }
 

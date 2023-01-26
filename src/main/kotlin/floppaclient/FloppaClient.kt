@@ -4,11 +4,11 @@ import floppaclient.commands.*
 import floppaclient.config.AutoActionConfig
 import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
-import floppaclient.funnymap.core.Room
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.EditMode
-import floppaclient.funnymap.features.extras.Extras
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.EditMode
+import floppaclient.floppamap.extras.Extras
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.module.ModuleManager
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.utils.ScoreboardUtils

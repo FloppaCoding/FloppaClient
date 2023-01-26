@@ -3,8 +3,8 @@ package floppaclient.utils
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.core.DungeonPlayer
-import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.floppamap.core.DungeonPlayer
+import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.mixins.MinecraftAccessor
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.utils.ScoreboardUtils.sidebarLines
@@ -109,9 +109,11 @@ object Utils {
 
     /**
      * The current dungeon floor (1..7) or null if not in dungeon
+     * @see [floppaclient.floppamap.dungeon.RunInformation]
      */
     val currentFloor: Int?
         get() {
+            // TODO merge this with Run INformation?
             sidebarLines.forEach {
                 val line = ScoreboardUtils.cleanSB(it)
                 if (line.contains("The Catacombs (")) {
@@ -216,7 +218,7 @@ object Utils {
             area + (extraInfo ?: "")
     }
 
-    // TODO put this in RenderUtils
+    // TODO put this in HUDRenderUtils
     fun renderText(
         text: String,
         x: Int,

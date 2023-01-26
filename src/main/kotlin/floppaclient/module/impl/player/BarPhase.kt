@@ -1,7 +1,7 @@
 package floppaclient.module.impl.player
 
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting

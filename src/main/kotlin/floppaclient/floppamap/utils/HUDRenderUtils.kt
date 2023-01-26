@@ -1,8 +1,8 @@
-package floppaclient.funnymap.utils
+package floppaclient.floppamap.utils
 
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.funnymap.core.DungeonPlayer
-import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.floppamap.core.DungeonPlayer
+import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.utils.ItemUtils.itemID
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.Utils.equalsOneOf
@@ -15,7 +15,12 @@ import net.minecraft.entity.player.EnumPlayerModelParts
 import org.lwjgl.opengl.GL11
 import java.awt.Color
 
-object RenderUtils {
+/**
+ * A Collection of methods for rendering 2D Objects in orthographic projection for the HUD or for a gui.
+ *
+ * Heavily based on the rendering for [Funny Map by Harry282](https://github.com/Harry282/FunnyMap/blob/master/src/main/kotlin/funnymap/utils/RenderUtils.kt).
+ */
+object HUDRenderUtils {
 
     private val tessellator: Tessellator = Tessellator.getInstance()
     private val worldRenderer: WorldRenderer = tessellator.worldRenderer

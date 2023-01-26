@@ -1,7 +1,7 @@
 package floppaclient.commands
 
 import floppaclient.FloppaClient
-import floppaclient.funnymap.features.extras.EditMode
+import floppaclient.floppamap.extras.EditMode
 import floppaclient.module.impl.render.ExtraBlocks
 import floppaclient.utils.ChatUtils.modMessage
 import net.minecraft.block.Block

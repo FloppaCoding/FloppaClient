@@ -1,9 +1,9 @@
-package floppaclient.funnymap.features.extras
+package floppaclient.floppamap.extras
 
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.currentRegionPair
-import floppaclient.funnymap.features.dungeon.Dungeon.currentRoomPair
-import floppaclient.funnymap.features.extras.RoomUtils.getRoomExtrasData
+import floppaclient.floppamap.dungeon.Dungeon.currentRoomPair
+import floppaclient.floppamap.extras.RoomUtils.getRoomExtrasData
 import floppaclient.module.impl.render.ExtraBlocks
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.block.Block

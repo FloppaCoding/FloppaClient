@@ -7,8 +7,8 @@ import floppaclient.events.ClipFinishEvent
 import floppaclient.events.PlaySoundEventPre
 import floppaclient.events.PositionUpdateEvent
 import floppaclient.events.TeleportEventPre
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting

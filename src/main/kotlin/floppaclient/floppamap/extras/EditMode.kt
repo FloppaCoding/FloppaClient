@@ -1,11 +1,11 @@
-package floppaclient.funnymap.features.extras
+package floppaclient.floppamap.extras
 
 import floppaclient.FloppaClient.Companion.currentRegionPair
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
-import floppaclient.funnymap.features.dungeon.Dungeon.currentRoomPair
-import floppaclient.funnymap.features.extras.RoomUtils.getOrPutRoomExtrasData
-import floppaclient.funnymap.features.extras.RoomUtils.getRelativePos
+import floppaclient.floppamap.dungeon.Dungeon.currentRoomPair
+import floppaclient.floppamap.extras.RoomUtils.getOrPutRoomExtrasData
+import floppaclient.floppamap.extras.RoomUtils.getRelativePos
 import floppaclient.utils.ChatUtils
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
@@ -26,7 +26,7 @@ object EditMode {
         val roomPair = currentRoomPair ?: currentRegionPair ?: return
         val relativeCoords = getRelativePos(mc.objectMouseOver.blockPos, roomPair)
 
-        getOrPutRoomExtrasData(roomPair.first).run {
+        getOrPutRoomExtrasData(roomPair.first)?.run {
             var removedBlock = false
             // this for each will remove all entries at those coordinates, there should only be one
             this.preBlocks.forEach { (blockID, _) ->
@@ -41,7 +41,7 @@ object EditMode {
             }
             event.isCanceled = true
             mc.theWorld.setBlockToAir(mc.objectMouseOver.blockPos)
-        }
+        } ?: return
     }
 
     @SubscribeEvent
@@ -62,7 +62,7 @@ object EditMode {
         val relativeCoords =
             getRelativePos(blockPos, roomPair)
 
-        getOrPutRoomExtrasData(roomPair.first).run {
+        getOrPutRoomExtrasData(roomPair.first)?.run {
             if (this.preBlocks[0]?.remove(relativeCoords) != true) {
                 var blockstate = adjustBlockState(blockPos, currentBlockID)
                 mc.theWorld.setBlockState(blockPos, blockstate)
@@ -76,7 +76,7 @@ object EditMode {
                 }.add(relativeCoords)
                 event.isCanceled = true
             }
-        }
+        } ?: return
     }
 
     private fun adjustBlockState(blockPos: BlockPos, blockID: Int): IBlockState {

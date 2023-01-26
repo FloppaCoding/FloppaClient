@@ -10,7 +10,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
 import java.awt.Color
-
+// TODO Doc comments for this and the moethods. Also maybe rename to WorldRenderUtils.
+// TODO maybe merge the code for drawing boxes into one method to reduce redundancy.
 object RenderObject {
 
     private val tessellator: Tessellator = Tessellator.getInstance()
@@ -148,6 +149,50 @@ object RenderObject {
         GlStateManager.popMatrix()
         GlStateManager.enableTexture2D()
         if(phase) GlStateManager.enableDepth()
+        GlStateManager.disableBlend()
+    }
+
+    fun drawCustomSizedBoxAt(x: Double, y: Double, z: Double, size: Double, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
+        GlStateManager.disableLighting()
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+        GL11.glLineWidth(thickness)
+        GlStateManager.disableDepth()
+        GlStateManager.disableTexture2D()
+
+        GlStateManager.pushMatrix()
+
+        if (relocate) GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
+        worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
+        GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f,
+            color.blue.toFloat() / 255f, 1f)
+
+
+        worldRenderer.pos(x+size,y+size,z+size).endVertex()
+        worldRenderer.pos(x+size,y+size,z).endVertex()
+        worldRenderer.pos(x,y+size,z).endVertex()
+        worldRenderer.pos(x,y+size,z+size).endVertex()
+        worldRenderer.pos(x+size,y+size,z+size).endVertex()
+        worldRenderer.pos(x+size,y,z+size).endVertex()
+        worldRenderer.pos(x+size,y,z).endVertex()
+        worldRenderer.pos(x,y,z).endVertex()
+        worldRenderer.pos(x,y,z+size).endVertex()
+        worldRenderer.pos(x,y,z).endVertex()
+        worldRenderer.pos(x,y+size,z).endVertex()
+        worldRenderer.pos(x,y,z).endVertex()
+        worldRenderer.pos(x+size,y,z).endVertex()
+        worldRenderer.pos(x+size,y+size,z).endVertex()
+        worldRenderer.pos(x+size,y,z).endVertex()
+        worldRenderer.pos(x+size,y,z+size).endVertex()
+        worldRenderer.pos(x,y,z+size).endVertex()
+        worldRenderer.pos(x,y+size,z+size).endVertex()
+        worldRenderer.pos(x+size,y+size,z+size).endVertex()
+
+        tessellator.draw()
+
+        GlStateManager.popMatrix()
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableDepth()
         GlStateManager.disableBlend()
     }
 }

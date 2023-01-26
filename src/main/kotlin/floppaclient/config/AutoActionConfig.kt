@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken
 import floppaclient.config.jsonutils.BlockPosDeserializer
 import floppaclient.config.jsonutils.BlockPosSerializer
 import floppaclient.config.jsonutils.IntListDeserializer
-import floppaclient.funnymap.core.AutoActionData
+import floppaclient.floppamap.core.AutoActionData
 import net.minecraft.util.BlockPos
 import java.io.File
 import java.io.IOException

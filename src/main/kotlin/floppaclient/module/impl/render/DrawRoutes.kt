@@ -1,12 +1,12 @@
 package floppaclient.module.impl.render
 
 import floppaclient.FloppaClient
-import floppaclient.funnymap.core.AutoActionData
-import floppaclient.funnymap.core.Room
-import floppaclient.funnymap.core.RoomData
-import floppaclient.funnymap.core.RoomType
-import floppaclient.funnymap.features.dungeon.Dungeon
-import floppaclient.funnymap.features.extras.RoomUtils
+import floppaclient.floppamap.core.AutoActionData
+import floppaclient.floppamap.core.Room
+import floppaclient.floppamap.core.RoomData
+import floppaclient.floppamap.core.RoomType
+import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.extras.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.misc.ClipSettings
@@ -75,7 +75,7 @@ object DrawRoutes : Module(
         super.onEnable()
     }
 
-    private var room = Pair(Room(0,0, RoomData("Unknown",RoomType.ENTRANCE,0, 0, listOf(),0,0)), 0)
+    private var room = Pair(Room(0,0, RoomData("Unknown", RoomType.ENTRANCE)),0)
     private var autoClipData: AutoActionData? = null
 
     /**
@@ -193,7 +193,7 @@ object DrawRoutes : Module(
      * Resets the data in the module
      */
     private fun reset() {
-        room = Pair(Room(0,0, RoomData("Unknown",RoomType.ENTRANCE,0, 0, listOf(),0,0)), 0)
+        room = Pair(Room(0,0, RoomData("Unknown", RoomType.ENTRANCE)), 0)
         autoClipData = null
     }
 }

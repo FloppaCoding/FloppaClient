@@ -1,10 +1,10 @@
-package floppaclient.funnymap.features.extras
+package floppaclient.floppamap.extras
 
 import floppaclient.FloppaClient
-import floppaclient.funnymap.core.*
+import floppaclient.floppamap.core.*
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.util.BlockPos
-
+// TODO doc comments and move to utils dir
 object RoomUtils {
     /**
      * Rotates the given blockPos inside of a room with rotation to rotation 0.
@@ -45,18 +45,19 @@ object RoomUtils {
 
     /**
      * Gets the extras data for the specified room (this can also be a region).
-     *
      * If none exits it will create a blank entry.
      * @see getRoomExtrasData
+     * @return null when [room].[core][Room.core] is null.
      */
-    fun getOrPutRoomExtrasData(room: Room): ExtrasData {
+    fun getOrPutRoomExtrasData(room: Room): ExtrasData? {
+        if (room.core == null) return null
         return if (room.data.type == RoomType.REGION)
             FloppaClient.extras.extraRegions.getOrPut(room.data.name) {
-                ExtrasData(room.core)
+                ExtrasData(room.core!!)
             }
         else
             FloppaClient.extras.extraRooms.getOrPut(room.data.name) {
-                ExtrasData(room.core)
+                ExtrasData(room.core!!)
             }
     }
 
@@ -74,24 +75,25 @@ object RoomUtils {
     }
 
     /**
-     * Gets the autop action data for the specified room (this can also be a region).
-     *
+     * Gets the auto action data for the specified room (this can also be a region).
      * If none exits it will create a blank entry.
      * @see getRoomAutoActionData
+     * @return null when [room].[core][Room.core] is null.
      */
-    fun getOrPutRoomAutoActionData(room: Room): AutoActionData {
+    fun getOrPutRoomAutoActionData(room: Room): AutoActionData? {
+        if(room.core == null) return null
         return if (room.data.type == RoomType.REGION)
             FloppaClient.autoactions.autoActionRegions.getOrPut(room.data.name) {
-                AutoActionData(room.core)
+                AutoActionData(room.core!!)
             }
         else
             FloppaClient.autoactions.autoActionRooms.getOrPut(room.data.name) {
-                AutoActionData(room.core)
+                AutoActionData(room.core!!)
             }
     }
 
     /**
-     * Gets the autop action data for the specified room (this can also be a region).
+     * Gets the auto action data for the specified room (this can also be a region).
      *
      * If none exits it will return null.
      * @see getOrPutRoomAutoActionData
@@ -104,10 +106,10 @@ object RoomUtils {
     }
 
     fun instanceBossRoom(floor: Int): Room {
-        return Room(0,0, RoomData("Boss $floor", RoomType.BOSS, 0, 1, listOf(0), 0,0))
+        return Room(0,0, RoomData("Boss $floor", RoomType.BOSS))
     }
 
     fun instanceRegionRoom(region: String): Room {
-        return Room(0,0, RoomData(region, RoomType.REGION, 0, 1, listOf(0), 0,0))
+        return Room(0,0, RoomData(region, RoomType.REGION))
     }
 }

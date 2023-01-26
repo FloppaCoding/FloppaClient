@@ -1,6 +1,6 @@
 package floppaclient.module.impl.dungeon
 
-import floppaclient.funnymap.features.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms.currentTerminal
