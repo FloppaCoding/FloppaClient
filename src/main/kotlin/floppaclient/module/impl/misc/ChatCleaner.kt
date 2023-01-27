@@ -20,11 +20,11 @@ object ChatCleaner : Module(
 ) {
 
     private val abilityHider = BooleanSetting("Hide Ability Damage", false, description = "Hides Ability Damage from chat.")
-    private val blocksInTheWay = BooleanSetting("Blocks in way", false, description = "Hides §c'There are blocks in the way!' messages")
+    private val blocksInTheWay = BooleanSetting("Blocks in way", false, description = "Hides §c§oThere are blocks in the way!§r messages")
     private val comboHider = BooleanSetting("Hide Combo", false, description = "Hides Kill Combo messages")
     private val autoRecombHider = BooleanSetting("Hide Auto Recomb", false, description = "Hides Auto Recombobulator Messages")
     private val stashHider = BooleanSetting("Hide Stash", false, description = "Hides Stash Messages")
-    private val playingOnProfile = BooleanSetting("Profile Message", false, description = "Hides 'You are playing on profile.'")
+    private val playingOnProfile = BooleanSetting("Profile Message", false, description = "Hides §a§oou are playing on profile: §eLime §b(Co-op)§r.")
 
 
     init {

@@ -27,7 +27,7 @@ import java.util.Calendar
 object JerryBoxOpener : Module(
     "Jerry Box Opener",
     category = Category.MISC,
-    description = "Opens all the jerry boxes you have in your inventory. To start it right click a jerry box.\n" +
+    description = "Opens all the jerry boxes you have in your inventory. To start the opening process right click a jerry box.\n" +
             "To abort run the command \"/fcl stop\""
 ){
     private var nextItemUse = 0L
