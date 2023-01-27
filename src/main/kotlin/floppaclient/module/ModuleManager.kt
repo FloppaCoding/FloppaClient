@@ -54,7 +54,6 @@ object ModuleManager {
         DungeonKillAura,
         IceSprayAura,
         CancelChestOpen,
-        LavaBounce,
         PartyTracker,
 
         //RENDER
@@ -85,7 +84,7 @@ object ModuleManager {
         HClip,
         BarPhase,
         NoRotate,
-        Velocity,
+        JerryRocket,
 
         //MISC
         QOL,
