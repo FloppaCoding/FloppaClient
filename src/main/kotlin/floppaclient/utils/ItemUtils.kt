@@ -40,14 +40,14 @@ object ItemUtils {
             return this.extraAttributes?.getString("id") ?: ""
         }
 
-    private val ItemStack.lore: List<String>
+    val ItemStack.lore: List<String>
         get() {
             val display = this.getSubCompound("display", false) ?: return emptyList()
             if (display.hasKey("Lore", 9)) {
                 val nbt = display.getTagList("Lore", 8)
                 val lore = ArrayList<String>()
-                (0..nbt.tagCount()).forEach {
-                    lore.add(nbt.getStringTagAt(it))
+                for (ii in 0 until nbt.tagCount()) {
+                    lore.add(nbt.getStringTagAt(ii))
                 }
                 return lore
             }

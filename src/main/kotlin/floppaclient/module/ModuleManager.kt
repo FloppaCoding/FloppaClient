@@ -97,6 +97,7 @@ object ModuleManager {
         Salvage,
         Enchanting,
         SellGarbo,
+        JerryBoxOpener,
         GhostBlocks,
         StonkDelay,
         RemoveFrontView,

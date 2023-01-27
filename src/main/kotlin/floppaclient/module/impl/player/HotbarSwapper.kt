@@ -48,7 +48,7 @@ object HotbarSwapper : Module(
                     for (i in 0 until slots.size) {
                         if ((slots[i] as BooleanSetting).enabled) {
                             val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[27 + i] as Slot
-                            val slotId = slot.slotIndex
+                            val slotId = slot.slotNumber
                             mc.playerController.windowClick(
                                 (inventory as GuiContainer).inventorySlots.windowId, slotId, i, 2, mc.thePlayer
                             )

@@ -104,7 +104,7 @@ object Enchanting : Module(
                     val slot = container.inventorySlots[ii]
                     if ((slot.stack?.item as? ItemBlock)?.block === Blocks.stained_hardened_clay) {
                         clickOrder.add(slot)
-                        lastAdded = slot.slotIndex
+                        lastAdded = slot.slotNumber
                         break
                     }
                 }
