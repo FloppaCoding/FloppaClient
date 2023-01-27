@@ -115,7 +115,7 @@ object MapRender: HudElement(
                 val xEven = x and 1 == 0
                 val yEven = y and 1 == 0
 
-                val color = if (MapRooms.darkenUndiscovered.enabled && tile.state == RoomState.UNDISCOVERED) {
+                val color = if (MapRooms.darkenUndiscovered.enabled && !tile.state.revealed) {
                     tile.color.run {
                         Color(
                             (red   * (1 - MapRooms.mapDarkenPercent.value)).toInt(),

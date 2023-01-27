@@ -6,6 +6,7 @@ import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.FloppaClient.Companion.scope
 import floppaclient.floppamap.core.RoomConfigData
 import floppaclient.floppamap.dungeon.DungeonScan
 import floppaclient.floppamap.utils.RoomUtils
@@ -16,7 +17,10 @@ import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.DataHandler
+import floppaclient.utils.HypixelApiUtils
 import floppaclient.utils.fakeactions.FakeActionUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -164,6 +168,15 @@ class FloppaClientCommands : CommandBase() {
                     modMessage("Error loading shader.")
                 }
 
+            }
+            "secrets" -> scope.launch(Dispatchers.IO) {
+                val uuid = if (args.size > 1 ) {
+                    args[1]
+                }else {
+                    mc.thePlayer.uniqueID.toString()
+                }
+                val secrets = HypixelApiUtils.getSecrets(uuid)
+                modMessage("$secrets")
             }
             "gametype" -> {
                 modMessage(mc.playerController.currentGameType.name)

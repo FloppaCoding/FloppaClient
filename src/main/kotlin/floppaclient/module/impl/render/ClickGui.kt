@@ -3,6 +3,7 @@ package floppaclient.module.impl.render
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.onHypixel
+import floppaclient.module.AlwaysActive
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Visibility
@@ -18,6 +19,7 @@ import java.awt.Color
  * Settings for the CLick Gui
  * @author Aton
  */
+@AlwaysActive
 object ClickGui: Module(
     "ClickGUI",
     category = Category.RENDER,

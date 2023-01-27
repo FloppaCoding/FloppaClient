@@ -1,6 +1,7 @@
 package floppaclient.floppamap.core
 
 import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.module.impl.render.DungeonMap
 import floppaclient.module.impl.render.MapRooms
 import java.awt.Color
 
@@ -24,7 +25,7 @@ class Room(x: Int, z: Int, var data: RoomData) : Tile(x, z) {
     var isUnique: Boolean = false
 
     override val color: Color
-        get() = if (this.state == RoomState.QUESTION_MARK && !visited)
+        get() = if (DungeonMap.legitMode.enabled && this.state == RoomState.QUESTION_MARK && !visited)
             MapRooms.colorUnexplored.value
         else when (data.type) {
             RoomType.UNKNOWN ->   MapRooms.colorUnexplored.value

@@ -264,6 +264,7 @@ object Dungeon {
      */
     @JvmName("getDungeonTileDefault")
     fun getDungeonTile(column: Int, row: Int) : Tile?{
+        if (row !in 0..10 || column !in 0..10) return null
         return dungeonList[column*11 + row]
     }
 
@@ -272,7 +273,6 @@ object Dungeon {
      * It is attempted to cast the Tile to [T], if not possible returns null.
      */
     inline fun <reified T : Tile> getDungeonTile(column: Int, row: Int) : T?{
-        if (row !in 0..10 || column !in 0..10) return null
         return (getDungeonTile(column, row) as? T)
     }
 
