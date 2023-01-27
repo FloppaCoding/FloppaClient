@@ -11,6 +11,7 @@ import floppaclient.floppamap.dungeon.DungeonScan
 import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
+import floppaclient.module.impl.misc.JerryBoxOpener
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.ChatUtils.modMessage
@@ -66,6 +67,7 @@ class FloppaClientCommands : CommandBase() {
             "stop" -> {
                 AutoWater.stop()
                 AutoBlaze.stop()
+                JerryBoxOpener.abort()
             }
             "reload" -> {
                 modMessage("Reloading config files.")

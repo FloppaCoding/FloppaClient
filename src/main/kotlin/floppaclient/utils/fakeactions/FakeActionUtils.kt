@@ -336,7 +336,7 @@ object FakeActionUtils {
             val clickBlockFromInv: (GuiInventory) -> Unit = {
                 if (mc.thePlayer.inventory.itemStack == null) {
                     val swapSlot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
-                    val slotId = swapSlot.slotIndex
+                    val slotId = swapSlot.slotNumber
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
                     clickBlock(blockPos, range)
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
@@ -397,7 +397,7 @@ object FakeActionUtils {
             val useItemFromInv: (GuiInventory) -> Unit = { inventory ->
                 if (mc.thePlayer.inventory.itemStack == null) {
                     val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[itemSlot] as Slot
-                    val slotId = slot.slotIndex
+                    val slotId = slot.slotNumber
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
                     mc.thePlayer.sendQueue.addToSendQueue(C08PacketPlayerBlockPlacement(mc.thePlayer.heldItem))
                     mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, mc.thePlayer.inventory.currentItem, 2, mc.thePlayer)
@@ -438,6 +438,52 @@ object FakeActionUtils {
     }
 
     /**
+     * Swaps the item in [sourceSlot] to the [targetSlot] in your hotbar.
+     *
+     * Keep in mind that this swap is **not instantaneous** it gets queued to happen at the end of the tick.
+     * Use mc.thePlayer.inventory.currentItem as target if you want to swap the item to the currently selected hotbar slot.
+     *
+     * @see FakeInventoryActionManager
+     * @param targetSlot the slot in your hotbar that the item should be swapped to. Hsa to be in between 0 and 8.
+     * @return true if the swap was successful, false otherwise.
+     */
+    fun swapItemToSlot(sourceSlot: Int, targetSlot: Int) : Boolean{
+        val source = if (sourceSlot < 9) sourceSlot + 36 else sourceSlot
+        if (source in 0..36 && targetSlot in 0..8) {
+            // return if on horse.
+            if (mc.playerController.isRidingHorse) return false
+
+            // Swap slots
+            val swapSlots: (GuiInventory) -> Unit = { inventory ->
+                if (mc.thePlayer.inventory.itemStack == null) {
+                    val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[source] as Slot
+                    val slotId = slot.slotNumber
+                    mc.playerController.windowClick((inventory as GuiContainer).inventorySlots.windowId, slotId, targetSlot, 2, mc.thePlayer)
+                }
+            }
+            FakeInventoryActionManager.addAction(swapSlots)
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Looks for the specified item in your inventory queues to and swaps it to the specified target slot.
+     *
+     * Keep in mind that this swap is **not instantaneous** it gets queued to happen at the end of the tick.
+     * Use mc.thePlayer.inventory.currentItem as target if you want to swap the item to the currently selected hotbar slot.
+     *
+     * @see FakeInventoryActionManager
+     * @param target the slot in your hotbar that the item should be swapped to. Hsa to be in between 0 and 8.
+     * @param matchMode Specify what to check for finding the item. 0: display name and item id. 1: only display name. 2: only itemID.
+     * @return true if the swap was successful, false otherwise.
+     */
+    fun swapItemToSlot(regex: Regex, target: Int, matchMode : Int = 0) : Boolean {
+        val itemSlot = Utils.findItem(regex, true, matchMode) ?: return false
+        return swapItemToSlot(itemSlot, target)
+    }
+
+    /**
      * Swaps out the first item found that matches the given name with the corresponding worn armor piece.
      *
      * Armor swaps must only be performed when the inventory is open. It is checked whether the inventory is alr open, if not
@@ -470,7 +516,7 @@ object FakeActionUtils {
             val inventorySlot = itemSlot + if (fromHotbar) 36 else 0
 
             val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[inventorySlot] as Slot
-            val slotId = slot.slotIndex
+            val slotId = slot.slotNumber
             val item = slot.stack?.item ?: return@swapSlots null
 
             // Crafting slots seem to be 0...4, armor 5..8, and the main inventory 9..44 starting top left when

@@ -246,16 +246,43 @@ object Utils {
     }
 
     /**
-     * Returns the first slot where the item name contains the gives string.
+     * Returns the first slot where the item name or id passes a check for the name.
+     * The item name is checked to contain the name.
+     * The item id is checked for a full match.
      * Returns null if no matches were found.
      * @param name The name or item ID to find.
      * @param ignoreCase Applies for the item name check.
      * @param inInv Will also search in the inventory and not only in the hotbar
+     * @param mode Specify what to check. 0: display name and item id. 1: only display name. 2: only itemID.
      */
-    fun findItem(name: String, ignoreCase: Boolean = false, inInv: Boolean = false): Int? {
+    fun findItem(name: String, ignoreCase: Boolean = false, inInv: Boolean = false, mode: Int = 0): Int? {
+        val regex = Regex("${if (ignoreCase) "(?i)" else ""}$name")
+        return findItem(regex, inInv, mode)
+    }
+
+    /**
+     * Returns the first slot where the item name or id passes a check for the regex.
+     * The item name is checked to contain the regex.
+     * The item id is checked for a full match.
+     * Returns null if no matches were found.
+     *
+     * For case insensitivity use the flag "(?i)":
+     *
+     *     val regex = Regex("(?i)item name")
+     * @param regex regex that has to be matched.
+     * @param inInv Will also search in the inventory and not only in the hotbar
+     * @param mode Specify what to check. 0: display name and item id. 1: only display name. 2: only itemID.
+     */
+    fun findItem(regex: Regex, inInv: Boolean = false, mode: Int = 0): Int? {
         for (i in 0..if (inInv) 35 else 8) {
-            if (mc.thePlayer.inventory.getStackInSlot(i)
-                    ?.run { displayName.contains(name, ignoreCase) || itemID == name } == true
+            if (mc.thePlayer.inventory.getStackInSlot(i)?.run {
+                    when (mode) {
+                        0 -> displayName.contains(regex) || itemID.matches(regex)
+                        1 -> displayName.contains(regex)
+                        2 -> itemID.matches(regex)
+                        else -> false
+                    }
+                } == true
             ) {
                 return i
             }

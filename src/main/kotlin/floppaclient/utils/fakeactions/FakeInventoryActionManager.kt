@@ -8,6 +8,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
+/**
+ * A Utility class for performing item movements in the players inventory all within a single game tick.
+ *
+ * Use [addAction] to queue an interaction with the player inventory.
+ *
+ * All added actions will be executed at the end of the tick if possible and cleared.
+ *
+ * @author Aton
+ */
 object FakeInventoryActionManager {
 
     private val actions: MutableList<(GuiInventory) -> Unit> = mutableListOf()

@@ -2,7 +2,6 @@ package floppaclient.module
 
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
-import floppaclient.module.impl.dev.DevModule
 import floppaclient.module.impl.dungeon.*
 import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.module.impl.keybinds.KeyBind
@@ -98,6 +97,7 @@ object ModuleManager {
         Salvage,
         Enchanting,
         SellGarbo,
+        JerryBoxOpener,
         GhostBlocks,
         StonkDelay,
         RemoveFrontView,
@@ -106,7 +106,6 @@ object ModuleManager {
         AutoWeaponSwap,
         CancelInteract,
         FastMine,
-        DevModule,
 
         //KEYBIND
         AddKeybind,

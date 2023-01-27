@@ -90,7 +90,7 @@ object ChatUtils {
      * @see sendChat
      */
     fun chatMessage(iChatComponent: IChatComponent) {
-        mc.thePlayer.addChatMessage(iChatComponent)
+        mc.thePlayer?.addChatMessage(iChatComponent)
     }
 
     /**
@@ -101,7 +101,7 @@ object ChatUtils {
      * @see modMessage
      */
     fun sendChat(message: String) {
-        mc.thePlayer.sendChatMessage(message)
+        mc.thePlayer?.sendChatMessage(message)
     }
 
     /**
@@ -109,7 +109,7 @@ object ChatUtils {
      * The input is assumed to **not** include the slash "/" that signals a command.
      */
     fun command(text: String, clientSide: Boolean = true) {
-        if (clientSide) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
+        if (clientSide && mc.thePlayer != null) ClientCommandHandler.instance.executeCommand(mc.thePlayer, "/$text")
         else mc.thePlayer?.sendChatMessage("/$text")
     }
 
