@@ -44,7 +44,7 @@ object JerryBoxOpener : Module(
     @SubscribeEvent
     fun onRightClick(event: ClickEvent.RightClickEvent) {
         if (!inSkyblock || opening) return
-        if (mc.thePlayer.heldItem.itemID.matches(jerryIDMatcher)) {
+        if (mc.thePlayer?.heldItem?.itemID?.matches(jerryIDMatcher) == true) {
             opening = true
             startTime = System.currentTimeMillis()
             nextItemUse = System.currentTimeMillis() + 1000L

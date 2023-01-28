@@ -95,15 +95,16 @@ object RoomUtils {
      * @return null when [room].[core][Room.core] is null.
      */
     fun getOrPutRoomExtrasData(room: Room): ExtrasData? {
-        if (room.core == null) return null
         return if (room.data.type == RoomType.REGION)
             FloppaClient.extras.extraRegions.getOrPut(room.data.name) {
-                ExtrasData(room.core!!)
+                ExtrasData(room.core ?: 0)
             }
-        else
+        else {
+            if (room.core == null) return null
             FloppaClient.extras.extraRooms.getOrPut(room.data.name) {
                 ExtrasData(room.core!!)
-            }
+        }
+    }
     }
 
     /**
@@ -126,15 +127,16 @@ object RoomUtils {
      * @return null when [room].[core][Room.core] is null.
      */
     fun getOrPutRoomAutoActionData(room: Room): AutoActionData? {
-        if(room.core == null) return null
         return if (room.data.type == RoomType.REGION)
             FloppaClient.autoactions.autoActionRegions.getOrPut(room.data.name) {
-                AutoActionData(room.core!!)
+                AutoActionData(room.core ?: 0)
             }
-        else
+        else {
+            if (room.core == null) return null
             FloppaClient.autoactions.autoActionRooms.getOrPut(room.data.name) {
                 AutoActionData(room.core!!)
             }
+        }
     }
 
     /**
