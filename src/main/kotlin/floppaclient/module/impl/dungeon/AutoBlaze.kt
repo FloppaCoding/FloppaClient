@@ -205,7 +205,7 @@ object AutoBlaze : Module(
             modMessage("Starting Auto Blaze.")
             // clip to the correct position
             val expDelay = ClipTools.executeClipRoute(route, -rotation, startDelay = 50)
-            bowSlot = Utils.findItem("Terminator") ?: Utils.findItem("Shortbow") ?: return modMessage("No Shortbow found in your hotbar!")
+            bowSlot = Utils.findItem("Terminator") ?: Utils.findItem("Shortbow") ?: Utils.findItem("Spirit Bow") ?: return modMessage("No Shortbow found in your hotbar!")
             mc.thePlayer.inventory.currentItem = bowSlot
             startTime = System.currentTimeMillis()
             mc.thePlayer.rotationYaw = 155f - rotation.toFloat() + angle

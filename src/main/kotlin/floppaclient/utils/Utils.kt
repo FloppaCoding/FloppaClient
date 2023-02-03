@@ -144,6 +144,16 @@ object Utils {
         return false
     }
 
+    fun isInM7(): Boolean {
+        sidebarLines.forEach {
+            val line = ScoreboardUtils.cleanSB(it)
+            if (line.contains("The Catacombs (M7)")) {
+                    return true
+                }
+            }
+        return false
+    }
+
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>, playerName: String = mc.thePlayer.name): String? {
         for (i in listOf(5, 9, 13, 17, 1)) {
             val tabText = StringUtils.stripControlCodes(tabEntries[i].second).trim()
