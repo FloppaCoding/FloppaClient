@@ -53,7 +53,7 @@ object JerryBoxOpener : Module(
             val minutes = calendar.get(Calendar.MINUTE)
             val seconds = calendar.get(Calendar.SECOND)
             modMessage("Started opening Jerry Boxes at $hour:$minutes:$seconds.")
-        }
+        } else return
     }
 
     @SubscribeEvent
