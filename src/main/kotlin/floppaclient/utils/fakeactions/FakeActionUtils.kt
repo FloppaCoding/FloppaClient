@@ -71,13 +71,18 @@ object FakeActionUtils {
             Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
 
             // corners of the block
-            Vec3(targetPos).add(Vec3(0.0, 0.0, 0.0)),
-            Vec3(targetPos).add(Vec3(0.0, 1.0, 0.0)),
-            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.0)),
-            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.0)),
-            Vec3(targetPos).add(Vec3(0.0, 0.0, 1.0)),
-            Vec3(targetPos).add(Vec3(0.0, 1.0, 1.0)),
-            Vec3(targetPos).add(Vec3(1.0, 1.0, 1.0))
+            Vec3(targetPos).add(Vec3(0.1, 0.0, 0.1)),
+            Vec3(targetPos).add(Vec3(0.1, 1.0, 0.1)),
+
+            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.1)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.1)),
+
+            Vec3(targetPos).add(Vec3(0.1, 0.0, 1.0)),
+            Vec3(targetPos).add(Vec3(0.1, 1.0, 1.0)),
+
+            Vec3(targetPos).add(Vec3(0.9, 1.0, 1.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.9)),
+            Vec3(targetPos).add(Vec3(0.9, 1.0, 1.0))
         )
 
         var target: Vec3? = null
@@ -133,7 +138,7 @@ object FakeActionUtils {
      * Stages an etherwarp fake action to the specified block pos for the given start vec which is assumed to be the
      * players coordinates (at feet level).
      * Returns false as well as sends a chat message if etherwarp not possible.
-     * Checks the center of all 6 sides of the block for visibility.
+     * Checks the center of all 6 sides and all corners of the block for visibility.
      * @param start the start position.
      * @param targetPos the Target
      * @param message if true sends a chat message on fail.

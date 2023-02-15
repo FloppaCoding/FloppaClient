@@ -71,7 +71,10 @@ object ChatCleaner : Module(
     private val uselessMSG = setOf(
         "You are playing on profile:",
         "Welcome to Hypixel SkyBlock!",
-        "from playing Skyblock!"
+        "from playing Skyblock!",
+        "[WATCHDOG ANNOUNCEMENT]",
+        "Watchdog has banned",
+        "Staff have banned an additional"
     )
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)

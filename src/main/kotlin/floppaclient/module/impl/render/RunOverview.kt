@@ -141,154 +141,48 @@ object RunOverview : Module(
     ) {
         override fun renderHud() {
 
-            fun renderLine(a: String, b: Int) {
-                mc.fontRendererObj.drawString(a, 0, mc.fontRendererObj.FONT_HEIGHT * b + 1, 0xffffff)
+            fun renderLine2(string: String, pair: Pair<Long, Long>, int: Int): Any {
+                val text = "§c§l$string§r: ${
+                    if (pair.first == -1L) {
+                        if (pair.second != -1L) timeFormat(System.currentTimeMillis() - pair.second)
+                        else "0.0s"
+                    } else timeFormat(pair.first - pair.second)
+                }"
+                return mc.fontRendererObj.drawString(text, 0, mc.fontRendererObj.FONT_HEIGHT * int + 1, 0xffffff)
             }
 
-            val bloodOpen = "§c§lBlood Open§r: ${
-                if (bloodOpenTime == -1L && dungeonStart != -1L) {
-                    timeFormat(System.currentTimeMillis() - dungeonStart)
-                } else {
-                    timeFormat(bloodOpenTime - dungeonStart)
-                }
-            }"
+            val bloodOpen = Pair(bloodOpenTime, dungeonStart)
+            val bloodClear = Pair(bloodClearTime, bloodOpenTime)
+            val bossEntry = Pair(bossEnterTime, bloodClearTime)
+            val maxorKill = Pair(p1ClearTime, bossEnterTime)
+            val stormKill = Pair(p2ClearTime, p1ClearTime)
+            val terminals = Pair(p3TermTime, p2ClearTime)
+            val goldorKill = Pair(p3ClearTime, p3TermTime)
+            val necronKill = Pair(p4ClearTime, p3ClearTime)
 
-            val bloodClear = "§c§lWatcher Clear§r: ${
-                if (bloodClearTime == -1L) {
-                    if (bloodOpenTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - bloodOpenTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(bloodClearTime - bloodOpenTime)
-                }
-            }"
-
-            val bossEntry = "§c§lBoss entry§r: ${
-                if (bossEnterTime == -1L) {
-                    if (bloodClearTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - bloodClearTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(bossEnterTime - bloodClearTime)
-                }
-            }"
-
-            val maxor = "§c§lMaxor§r: ${
-                if (p1ClearTime == -1L) {
-                    if (bossEnterTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - bossEnterTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(p1ClearTime - bossEnterTime)
-                }
-            }"
-
-            val storm = "§c§lStorm§r: ${
-                if (p2ClearTime == -1L) {
-                    if (p1ClearTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - p1ClearTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(p2ClearTime - p1ClearTime)
-                }
-            }"
-
-            val terminals = "§c§lTerminals§r: ${
-                if (p3TermTime == -1L) {
-                    if (p2ClearTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - p2ClearTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(p3TermTime - p2ClearTime)
-                }
-            }"
-
-            val goldor = "§c§lGoldor§r: ${
-                if (p3ClearTime == -1L) {
-                    if (p2ClearTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - p3ClearTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(p3ClearTime - p3TermTime)
-                }
-            }"
-
-            val necron = "§c§lNecron§r: ${
-                if (p4ClearTime == -1L) {
-                    if (p3ClearTime != -1L) {
-                        (timeFormat(System.currentTimeMillis() - p3ClearTime))
-                    } else {
-                        "0.0"
-                    }
-                } else {
-                    timeFormat(p4ClearTime - p3ClearTime)
-                }
-            }"
-
-            val bossKill: String
-
-            if (floorSevenSplits.enabled && Utils.inF7Boss()) {
-                bossKill = "§c§lWither King§r: ${
-                    if (dungClearTime == -1L) {
-                        if (p4ClearTime != -1L) {
-                            (timeFormat(System.currentTimeMillis() - p4ClearTime))
-                        } else {
-                            "0.0"
-                        }
-                    } else {
-                        timeFormat(dungClearTime - p4ClearTime)
-                    }
-                }"
-            } else {
-                bossKill = "§c§lBoss§r: ${
-                    if (dungClearTime == -1L) {
-                        if (bossEnterTime != -1L) {
-                            (timeFormat(System.currentTimeMillis() - bossEnterTime))
-                        } else {
-                            "0.0"
-                        }
-                    } else {
-                        timeFormat(dungClearTime - bossEnterTime)
-                    }
-                }"
-            }
+            // add check for in boss
+            val bossKill: Pair<Long, Long> = if (floorSevenSplits.enabled) {
+                Pair(dungClearTime, p4ClearTime)
+            } else Pair(dungClearTime, bossEnterTime)
 
             if (inDungeons && showHud.enabled) {
 
-                renderLine(bloodOpen, 0) // blood open time
-                renderLine(bloodClear, 1) // blood clear time
-                this.width = mc.fontRendererObj.getStringWidth(bloodClear)
-                renderLine(bossEntry, 2) // boss entry
+                renderLine2("Blood Clear", bloodOpen, 0)    // blood open time
+                renderLine2("Watcher Clear", bloodClear, 1)
+                renderLine2("Boss Entry", bossEntry, 2)
 
-                if (floorSevenSplits.enabled) {
-                    if (!Utils.inF7Boss()) return
+                if (floorSevenSplits.enabled) { // add another check for inside of boss
+                    renderLine2("Maxor", maxorKill, 4)
+                    renderLine2("Storm", stormKill, 5)
+                    renderLine2("Terminals", terminals, 6)
+                    renderLine2("Goldor", goldorKill, 7)
+                    renderLine2("Necron", necronKill, 8)
 
-                    renderLine(maxor, 3) // maxor clear time
-                    renderLine(storm, 4) // storm clear time
-                    renderLine(terminals, 5) // terminal time
-                    renderLine(goldor, 6) // goldor clear time
-                    renderLine(necron, 7) // necron clear time
-
-                    if (Utils.isInMM()) {
-
-                        renderLine(bossKill, 8) //wither king/kill time
-                        this.height = mc.fontRendererObj.FONT_HEIGHT * 8 + 1
-                    }
+                    renderLine2("Wither King", bossKill, 9)
+                    this.height = mc.fontRendererObj.FONT_HEIGHT * 9 + 9
                 } else {
-                    renderLine(bossKill, 3)
-                    this.height = mc.fontRendererObj.FONT_HEIGHT * 3 + 1
+                    renderLine2("Boss Kill", bossKill, 3)
+                    this.height = mc.fontRendererObj.FONT_HEIGHT * 3 + 3
                 }
             }
             super.renderHud()
