@@ -55,6 +55,7 @@ object ModuleManager {
         IceSprayAura,
         CancelChestOpen,
         PartyTracker,
+        M7P5,
 
         //RENDER
         ClickGui,

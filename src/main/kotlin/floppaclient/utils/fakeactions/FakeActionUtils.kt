@@ -69,6 +69,15 @@ object FakeActionUtils {
             Vec3(targetPos).add(Vec3(1.0, 0.5, 0.5)),
             Vec3(targetPos).add(Vec3(0.5, 0.5, 1.0)),
             Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
+
+            // corners of the block
+            Vec3(targetPos).add(Vec3(0.0, 0.0, 0.0)),
+            Vec3(targetPos).add(Vec3(0.0, 1.0, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.0)),
+            Vec3(targetPos).add(Vec3(0.0, 0.0, 1.0)),
+            Vec3(targetPos).add(Vec3(0.0, 1.0, 1.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 1.0))
         )
 
         var target: Vec3? = null
@@ -162,6 +171,14 @@ object FakeActionUtils {
             Vec3(targetPos).add(Vec3(1.0, 0.5, 0.5)),
             Vec3(targetPos).add(Vec3(0.5, 0.5, 1.0)),
             Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
+
+            Vec3(targetPos).add(Vec3(0.0, 0.0, 0.0)),
+            Vec3(targetPos).add(Vec3(0.0, 1.0, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.0)),
+            Vec3(targetPos).add(Vec3(0.0, 0.0, 1.0)),
+            Vec3(targetPos).add(Vec3(0.0, 1.0, 1.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 1.0))
         )
 
         var target: Vec3? = null

@@ -47,14 +47,14 @@ object DayCounter : Module(
     object DayCounter : HudElement(
         xHud,
         yHud,
-        mc.fontRendererObj.getStringWidth("Server age: 281 Minutes"),
+        mc.fontRendererObj.getStringWidth("Day (32)"),
         mc.fontRendererObj.FONT_HEIGHT * 2 + 1,
         scaleHud
     ) {
         override fun renderHud() {
             val time = mc.theWorld.worldTime
 
-            val dayText = "Day (${(time / 24000).toInt()})"
+            val dayText = "Day: ${(time / 24000).toInt()}"
 
             mc.fontRendererObj.drawString(dayText, 0, 0, 0xffffff)
             this.width = mc.fontRendererObj.getStringWidth(dayText)

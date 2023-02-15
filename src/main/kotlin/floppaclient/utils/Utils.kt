@@ -23,7 +23,9 @@ import net.minecraft.inventory.ContainerChest
 import net.minecraft.util.*
 import net.minecraft.util.Timer
 import java.util.*
+import kotlin.math.floor
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 /**
  * ## A general collection of utility functions.
@@ -144,10 +146,11 @@ object Utils {
         return false
     }
 
-    fun isInM7(): Boolean {
+    // Remove this later
+    fun isInMM(): Boolean {
         sidebarLines.forEach {
             val line = ScoreboardUtils.cleanSB(it)
-            if (line.contains("The Catacombs (M7)")) {
+            if (line.contains("The Catacombs (M")) {
                     return true
                 }
             }
@@ -181,6 +184,18 @@ object Utils {
             }
         }
         return null
+    }
+
+    /**
+     * Returns a string formatted for minutes and seconds from a value
+     */
+    fun timeFormat(long: Long): String {
+        val seconds = (long.toDouble() / 10).roundToInt().toDouble() / 100
+        return if (seconds >= 60) {
+            "${floor(seconds / 60).toInt()}m ${((seconds % 60) * 100).roundToInt().toDouble() / 100}s"
+        } else {
+            "${seconds}s"
+        }
     }
 
     /**

@@ -45,7 +45,7 @@ object DoorESP : Module(
     fun onRenderWorld(event: RenderWorldLastEvent) {
         if (!inDungeons) return
         doors.forEach {
-            RenderObject.drawCustomSizedBoxAt(it.x-1.0, 69.0, it.z - 1.0, 3.0, color.value)
+            RenderObject.drawCustomSizedBoxAt(it.x-1.0, 69.0, it.z - 1.0, 3.0, color.value, phase = true)
         }
     }
 }
