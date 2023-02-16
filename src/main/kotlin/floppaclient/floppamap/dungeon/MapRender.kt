@@ -332,7 +332,7 @@ object MapRender: HudElement(
         if (DungeonMap.legitMode.enabled || !Dungeon.fullyScanned) {
             RunInformation.totalSecrets ?: "?"
         }else {
-            Dungeon.secretCount
+            Dungeon.totalSecrets
         }
         mc.fontRendererObj.drawString("Secrets: ${RunInformation.secretCount}/${totalSecrets}", 5, 0, 0xffffff)
         mc.fontRendererObj.drawString("Crypts: ${RunInformation.cryptsCount}", 85, 0, 0xffffff)

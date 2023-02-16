@@ -12,8 +12,6 @@ import net.minecraft.util.BlockPos
 
 object DungeonScan {
 
-
-
     /**
      * Scans the dungeon from the loaded chunks in the world and updates [Dungeon.dungeonList] based on that.
      * When all chunks are loaded [Dungeon.fullyScanned] will be set to true afterwards.
@@ -62,12 +60,17 @@ object DungeonScan {
 
         if (allLoaded) {
             Dungeon.fullyScanned = true
+            Dungeon.totalSecrets = Dungeon.getDungeonTileList<Room>().filter { it.isUnique }.sumOf { it.data.maxSecrets ?: 0 }
+            Dungeon.cryptCount = Dungeon.getDungeonTileList<Room>().filter { it.isUnique }.sumOf { it.data.crypts ?: 0 }
+            Dungeon.trapType = Dungeon.getDungeonTileList<Room>().find { it.data.type === RoomType.TRAP }?.data?.name ?: ""
+            Dungeon.witherDoors = Dungeon.getDungeonTileList<Door>().filter { it.type === DoorType.WITHER }.size + 1
+            Dungeon.puzzles.addAll(Dungeon.getDungeonTileList<Room>().filter { it.data.type === RoomType.PUZZLE }.map{it.data.name})
 
             if (DungeonMap.scanChatInfo.enabled && !DungeonMap.legitMode.enabled) {
                 modMessage(
                     "&aScan Finished!\n&aPuzzles (&c${Dungeon.puzzles.size}&a):${
                         Dungeon.puzzles.joinToString("\n&b- &d", "\n&b- &d", "\n")
-                    }&6Trap: &a${Dungeon.trapType}\n&8Wither Doors: &7${Dungeon.getDungeonTileList<Door>().filter { it.type == DoorType.WITHER }.size + 1}\n&7Total Secrets: &b${Dungeon.secretCount}" +
+                    }&6Trap: &a${Dungeon.trapType}\n&8Wither Doors: &7${Dungeon.witherDoors}\n&7Total Secrets: &b${Dungeon.totalSecrets}" +
                             "\n&7Total Crypts: &b${Dungeon.cryptCount}"
                 )
             }

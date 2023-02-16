@@ -68,7 +68,7 @@ object Dungeon {
     val puzzles = mutableListOf<String>()
     var trapType = ""
     var witherDoors = 0
-    var secretCount = 0
+    var totalSecrets = 0
     var cryptCount = 0
 
     /**
@@ -317,7 +317,7 @@ object Dungeon {
         puzzles.clear()
         trapType = ""
         witherDoors = 0
-        secretCount = 0
+        totalSecrets = 0
         cryptCount = 0
     }
 
