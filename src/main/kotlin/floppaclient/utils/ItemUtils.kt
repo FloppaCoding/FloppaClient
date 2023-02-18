@@ -77,12 +77,10 @@ object ItemUtils {
 
 
     /**
-     *
      * Converts an NBT tag into a pretty-printed string.
      *
-     * For constant definitions, see [Constants.NBT]
-     * From SBA
-     * @link https://github.com/BiscuitDevelopment/SkyblockAddons/blob/9a45f04f8c07e9127674c0d7fbfeb0dd45222d0e/src/main/java/codes/biscuit/skyblockaddons/utils/DevUtils.java#L467
+     * For constant definitions, see [Constants.NBT].
+     * Taken from [SBA](https://github.com/BiscuitDevelopment/SkyblockAddons/blob/9a45f04f8c07e9127674c0d7fbfeb0dd45222d0e/src/main/java/codes/biscuit/skyblockaddons/utils/DevUtils.java#L467).
      * @param nbt the NBT tag to pretty print
      * @return pretty-printed string of the NBT data
      */
