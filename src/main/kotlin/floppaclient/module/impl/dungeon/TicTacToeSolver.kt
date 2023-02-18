@@ -7,7 +7,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.utils.RenderObject
+import floppaclient.utils.WorldRenderUtils
 import net.minecraft.entity.item.EntityItemFrame
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
@@ -190,7 +190,7 @@ object TicTacToeSolver : Module(
     fun onRenderWorld(event: RenderWorldLastEvent) {
         if (!inDungeons) return
         if (bestMove != null) {
-            RenderObject.drawBoxAtBlock(
+            WorldRenderUtils.drawBoxAtBlock(
                 bestMove!!,
                 Color(0,255,0),
                 3f

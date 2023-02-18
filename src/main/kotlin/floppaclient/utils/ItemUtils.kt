@@ -40,6 +40,11 @@ object ItemUtils {
             return this.extraAttributes?.getString("id") ?: ""
         }
 
+    val ItemStack?.reforge : String
+        get() {
+            return this?.extraAttributes?.getString("modifier") ?: ""
+        }
+
     val ItemStack.lore: List<String>
         get() {
             val display = this.getSubCompound("display", false) ?: return emptyList()

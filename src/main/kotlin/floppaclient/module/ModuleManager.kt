@@ -55,6 +55,7 @@ object ModuleManager {
         IceSprayAura,
         CancelChestOpen,
         PartyTracker,
+        M7P5,
 
         //RENDER
         ClickGui,
@@ -73,6 +74,7 @@ object ModuleManager {
         DayCounter,
         ItemAnimations,
         Camera,
+        RunOverview,
 
         //PLAYER
         HotbarSwapper,
@@ -99,7 +101,7 @@ object ModuleManager {
         JerryBoxOpener,
         GhostBlocks,
         StonkDelay,
-        RemoveFrontView,
+        SecretTriggerbot,
         TerminatorClicker,
         AutoClicker,
         AutoWeaponSwap,

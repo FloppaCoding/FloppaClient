@@ -40,6 +40,7 @@ object SellGarbo : Module(
     private val onlyTrades = BooleanSetting("Only Trades", true, description = "Only activates in the trades menu. If disabled auto sell will also work with all npc shops.")
     private val dungeonItems = BooleanSetting("Dugeon Mob Drops", true, description = "Will auto sell Dungeon mob drops.")
     private val sellSuperBoom = BooleanSetting("Sell SuperBoom", false, description = "Will also sell SuperBoom tnt.")
+    private val sellRevStone = BooleanSetting("Sell Revive Stone", false, description = "Will also sell Revive stones.")
     private val sellMaxStat = BooleanSetting("Sell max stat", false, description = "Will also sell items with +50% stat boost.")
     private val sellStarred = BooleanSetting("Sell Starred", false, description = "When enabled starred items will also be sold.")
     private val sellRecombed = BooleanSetting("Sell Recombed", false, description = "When enabled rarity upgraded items will also be sold.")
@@ -53,6 +54,7 @@ object SellGarbo : Module(
             onlyTrades,
             dungeonItems,
             sellSuperBoom,
+            sellRevStone,
             sellMaxStat,
             sellStarred,
             sellRecombed,
@@ -67,12 +69,11 @@ object SellGarbo : Module(
     private var confirmed = false
 
     private var garbo = listOf(
-        "Health Potion VIII Splash Potion",
+        "Health VIII Splash Potion",
         "Training Weights",
         "Defuse Kit",
-        "Revive Stone",
-        "Healing Potion 8 Splash Potion",
-        "Healing Potion VIII Splash Potion",
+        "Healing 8 Splash Potion",
+        "Healing VIII Splash Potion",
         "Beating Heart",
         "Premium Flesh",
         "Mimic Fragment",
@@ -141,6 +142,7 @@ object SellGarbo : Module(
             else (stack.rarityBoost ?: 0) < 50
         }
         if (sellSuperBoom.enabled && stack.itemID == "SUPERBOOM_TNT") return true
+        if (sellRevStone.enabled && stack.itemID == "REVIVE_STONE") return true
         if (treasureTalis.enabled &&  stack.displayName.contains(treasure)) return true
         if (stack.displayName.containsOneOf(garbo)) return true
         if (other.text != "") {
