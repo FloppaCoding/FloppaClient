@@ -22,16 +22,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  * @link https://github.com/Skytils/SkytilsMod/blob/801bc0d29e0e50a85c3e672e7f54759e10acb558/src/main/kotlin/gg/skytils/skytilsmod/features/impl/dungeons/DungeonTimer.kt
  * @author Stivais
  */
-
 object RunOverview : Module(
     "Run Overview",
     category = Category.RENDER,
-    description = "Shows the time each phase took of a run."
+    description = "Shows how much time your party needed to complete individual stages / splits of a dungeon run. "
 ) {
 
-    private val showHud = BooleanSetting("Show HUD", enabled = true, description = "Render the splits on a hud")
-    private val sendChat = BooleanSetting("Send Chat Message", enabled = false, description = "Send a message of split")
-    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", enabled = true, description = "Show Custom splits for Floor 7 and Master Floor 7")
+    private val showHud = BooleanSetting("Show HUD", enabled = true, description = "Render the splits in a hud.")
+    private val chatMessage = BooleanSetting("Chat Message", enabled = false, description = "Shows a message of whenever a phase is completed.")
+    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", enabled = true, description = "Show Custom splits for Floor 7 and Master Floor 7.")
 
     private val xHud = NumberSetting("x", default = 3.0, visibility = Visibility.HIDDEN)
     private val yHud = NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)
@@ -51,7 +50,7 @@ object RunOverview : Module(
     init {
         this.addSettings(
             showHud,
-            sendChat,
+            chatMessage,
             floorSevenSplits,
             xHud,
             yHud,
@@ -60,12 +59,12 @@ object RunOverview : Module(
     }
 
     override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(RunOverview)
+        MinecraftForge.EVENT_BUS.register(RunOverviewHUD)
         super.onEnable()
     }
 
     override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(RunOverview)
+        MinecraftForge.EVENT_BUS.unregister(RunOverviewHUD)
         super.onDisable()
     }
 
@@ -82,18 +81,18 @@ object RunOverview : Module(
 
             text.startsWith("The BLOOD DOOR has been opened!") || text.startsWith("[BOSS] The Watcher:") && bloodOpenTime == -1L -> {
                 bloodOpenTime = System.currentTimeMillis()
-                if (sendChat.enabled) modMessage("Blood opened at§c ${timeFormat(bloodOpenTime - dungeonStart)}")
+                if (chatMessage.enabled) modMessage("Blood opened at§c ${timeFormat(bloodOpenTime - dungeonStart)}")
             }
 
             formattedText.startsWith("§r§c[BOSS] The Watcher§r§f: You have proven yourself. You may pass.§r") && bloodClearTime == -1L -> {
                 bloodClearTime = System.currentTimeMillis()
-                if (sendChat.enabled) modMessage("Watcher cleared at§c ${timeFormat(bloodClearTime - bloodOpenTime)}")
+                if (chatMessage.enabled) modMessage("Watcher cleared at§c ${timeFormat(bloodClearTime - bloodOpenTime)}")
             }
 
             text.startsWith("[BOSS]") && !text.startsWith("[BOSS] The Watcher:") && (!text.startsWith("[BOSS] Scarf") && !Utils.isFloor(2))
                     && (!text.startsWith("[BOSS] Bonzo") && !Utils.isFloor(1)) && bossEnterTime == -1L -> {
                 bossEnterTime = System.currentTimeMillis()
-                if (sendChat.enabled) modMessage("Portal entered at §c${timeFormat(bossEnterTime - bloodClearTime)}")
+                if (chatMessage.enabled) modMessage("Portal entered at §c${timeFormat(bossEnterTime - bloodClearTime)}")
             }
 
             formattedText.contains("§r§c☠ §r§eDefeated §r") -> {
@@ -105,34 +104,34 @@ object RunOverview : Module(
                 when {
                     formattedText.endsWith("§r§cPathetic Maxor, just like expected.§r") && p1ClearTime == -1L -> {
                         p1ClearTime = System.currentTimeMillis()
-                        if (sendChat.enabled) modMessage("Maxor finished at §c${timeFormat(p1ClearTime - bossEnterTime)}")
+                        if (chatMessage.enabled) modMessage("Maxor finished at §c${timeFormat(p1ClearTime - bossEnterTime)}")
                     }
 
                     formattedText.endsWith("§r§cAt least my son died by your hands.§r") && p2ClearTime == -1L -> {
                         p2ClearTime = System.currentTimeMillis()
-                        if (sendChat.enabled) modMessage("Storm finished at §c${timeFormat(p2ClearTime - p1ClearTime)}")
+                        if (chatMessage.enabled) modMessage("Storm finished at §c${timeFormat(p2ClearTime - p1ClearTime)}")
                     }
 
                     text.startsWith("The Core entrance is opening!") && p3TermTime == -1L -> {
                         p3TermTime = System.currentTimeMillis()
-                        if (sendChat.enabled) modMessage("Terminals finished at §c${timeFormat(p3TermTime - p1ClearTime)}")
+                        if (chatMessage.enabled) modMessage("Terminals finished at §c${timeFormat(p3TermTime - p1ClearTime)}")
                     }
 
                     text.startsWith("[BOSS] Goldor: ....") && p3ClearTime == -1L -> {
                         p3ClearTime = System.currentTimeMillis()
-                        if (sendChat.enabled) modMessage("Goldor finished at §c${timeFormat(p3ClearTime - p3TermTime)}")
+                        if (chatMessage.enabled) modMessage("Goldor finished at §c${timeFormat(p3ClearTime - p3TermTime)}")
                     }
 
                     formattedText.endsWith("§r§cAll this, for nothing...§r") && p4ClearTime == -1L -> {
                         p4ClearTime = System.currentTimeMillis()
-                        if (sendChat.enabled) modMessage("Necron finished at §c${timeFormat(p4ClearTime - p3ClearTime)}")
+                        if (chatMessage.enabled) modMessage("Necron finished at §c${timeFormat(p4ClearTime - p3ClearTime)}")
                     }
                 }
             }
         }
     }
 
-    object RunOverview : HudElement(
+    object RunOverviewHUD : HudElement(
         xHud,
         yHud,
         mc.fontRendererObj.getStringWidth("Watcher Clear: 100.0"),
@@ -140,32 +139,20 @@ object RunOverview : Module(
         scaleHud
     ) {
         override fun renderHud() {
-
-            fun renderLine2(string: String, pair: Pair<Long, Long>, int: Int): Any {
-                val text = "§c§l$string§r: ${
-                    if (pair.first == -1L) {
-                        if (pair.second != -1L) timeFormat(System.currentTimeMillis() - pair.second)
-                        else "0.0s"
-                    } else timeFormat(pair.first - pair.second)
-                }"
-                return mc.fontRendererObj.drawString(text, 0, mc.fontRendererObj.FONT_HEIGHT * int + 1, 0xffffff)
-            }
-
-            val bloodOpen = Pair(bloodOpenTime, dungeonStart)
-            val bloodClear = Pair(bloodClearTime, bloodOpenTime)
-            val bossEntry = Pair(bossEnterTime, bloodClearTime)
-            val maxorKill = Pair(p1ClearTime, bossEnterTime)
-            val stormKill = Pair(p2ClearTime, p1ClearTime)
-            val terminals = Pair(p3TermTime, p2ClearTime)
-            val goldorKill = Pair(p3ClearTime, p3TermTime)
-            val necronKill = Pair(p4ClearTime, p3ClearTime)
-
-            // add check for in boss
-            val bossKill: Pair<Long, Long> = if (floorSevenSplits.enabled) {
-                Pair(dungClearTime, p4ClearTime)
-            } else Pair(dungClearTime, bossEnterTime)
-
             if (inDungeons && showHud.enabled) {
+                val bloodOpen = Pair(bloodOpenTime, dungeonStart)
+                val bloodClear = Pair(bloodClearTime, bloodOpenTime)
+                val bossEntry = Pair(bossEnterTime, bloodClearTime)
+                val maxorKill = Pair(p1ClearTime, bossEnterTime)
+                val stormKill = Pair(p2ClearTime, p1ClearTime)
+                val terminals = Pair(p3TermTime, p2ClearTime)
+                val goldorKill = Pair(p3ClearTime, p3TermTime)
+                val necronKill = Pair(p4ClearTime, p3ClearTime)
+
+                // add check for in boss
+                val bossKill: Pair<Long, Long> = if (floorSevenSplits.enabled) {
+                    Pair(dungClearTime, p4ClearTime)
+                } else Pair(dungClearTime, bossEnterTime)
 
                 renderLine2("Blood Clear", bloodOpen, 0)    // blood open time
                 renderLine2("Watcher Clear", bloodClear, 1)
@@ -186,6 +173,16 @@ object RunOverview : Module(
                 }
             }
             super.renderHud()
+        }
+
+        private fun renderLine2(string: String, pair: Pair<Long, Long>, int: Int) {
+            val text = "§c§l$string§r: ${
+                if (pair.first == -1L) {
+                    if (pair.second != -1L) timeFormat(System.currentTimeMillis() - pair.second)
+                    else "0.0s"
+                } else timeFormat(pair.first - pair.second)
+            }"
+            mc.fontRendererObj.drawString(text, 0, mc.fontRendererObj.FONT_HEIGHT * int + 1, 0xffffff)
         }
     }
 

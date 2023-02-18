@@ -8,7 +8,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.ColorSetting
-import floppaclient.utils.RenderObject
+import floppaclient.utils.WorldRenderUtils
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -45,7 +45,7 @@ object DoorESP : Module(
     fun onRenderWorld(event: RenderWorldLastEvent) {
         if (!inDungeons) return
         doors.forEach {
-            RenderObject.drawCustomSizedBoxAt(it.x-1.0, 69.0, it.z - 1.0, 3.0, color.value, phase = true)
+            WorldRenderUtils.drawCustomSizedBoxAt(it.x-1.0, 69.0, it.z - 1.0, 3.0, color.value, phase = true)
         }
     }
 }

@@ -11,7 +11,7 @@ import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
-import floppaclient.utils.RenderObject.drawCustomSizedBoxAt
+import floppaclient.utils.WorldRenderUtils.drawCustomSizedBoxAt
 import floppaclient.utils.Utils
 import net.minecraft.init.Blocks
 import net.minecraft.network.play.server.S2APacketParticles
@@ -28,16 +28,15 @@ import java.awt.Color
  * QOL Stuff For M7,
  * @author Stivais
  */
-
 object M7P5 : Module(
-    "M7 QOL",
+    "M7 Dragon QOL",
     category = Category.DUNGEON,
-    description = "Quality of life stuff for Master Mode Floor 7"
+    description = "A collection of QOL features for the Dragon Phase in Master Mode Floor 7."
 ) {
     private val statueBox = BooleanSetting("Statue Box", true, description = "Renders a box, showing where you can kill a dragon.")
-    private val boxThickness = NumberSetting("Box Thickness", 2.5, 0.1, 10.0, 0.1, description = "Thickness of the Statue Box")
+    private val boxThickness = NumberSetting("Box Thickness", 2.5, 0.1, 10.0, 0.1, description = "Thickness of the Statue Box.")
             .withDependency { this.statueBox.enabled }
-    private val dragonSpawnTimer = BooleanSetting("Dragon Spawn Timer", true, description = "Renders a timer for when a dragon spawns in")
+    private val dragonSpawnTimer = BooleanSetting("Dragon Spawn Timer", true, description = "Renders a timer for when a dragon spawns in.")
 
     private val xHud = NumberSetting("x", default = 200.0, visibility = Visibility.HIDDEN)
     private val yHud = NumberSetting("y", default = 50.0, visibility = Visibility.HIDDEN)
@@ -73,7 +72,7 @@ object M7P5 : Module(
         if (M7Drags.PURPLE.isAlive) drawCustomSizedBoxAt(45.5, 23.0, 13.0, 10.0, 113.5, 23.0, Color(128, 0, 255), boxThickness.value.toFloat(), false)
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(receiveCanceled = true)
     fun onParticle(event: ReceivePacketEvent) {
         if (!FloppaClient.inDungeons) return
 

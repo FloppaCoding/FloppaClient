@@ -1,7 +1,7 @@
 package floppaclient.mixins.render;
 
 import floppaclient.module.impl.render.ChestEsp;
-import floppaclient.utils.RenderObject;
+import floppaclient.utils.WorldRenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.tileentity.TileEntityChest;
@@ -26,7 +26,7 @@ abstract class ChestRendererMixin {
     @Inject(method = {"renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityChest;DDDFI)V"}, at = @At("RETURN"))
     public void onRenderReturn(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci){
         if (ChestEsp.INSTANCE.isBoxMode() && ChestEsp.INSTANCE.isDrawingWorld())
-            RenderObject.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), ChestEsp.INSTANCE.getBoxThickness(), false);
+            WorldRenderUtils.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), ChestEsp.INSTANCE.getBoxThickness(), false);
         if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()){
             GlStateManager.disablePolygonOffset();
         }
