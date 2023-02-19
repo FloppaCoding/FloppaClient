@@ -8,11 +8,11 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils
-import floppaclient.utils.ItemUtils.isDungeonMobDrop
-import floppaclient.utils.ItemUtils.isRarityUpgraded
-import floppaclient.utils.ItemUtils.isStarred
-import floppaclient.utils.ItemUtils.itemID
-import floppaclient.utils.ItemUtils.rarityBoost
+import floppaclient.utils.inventory.ItemUtils.isDungeonMobDrop
+import floppaclient.utils.inventory.ItemUtils.isRarityUpgraded
+import floppaclient.utils.inventory.ItemUtils.isStarred
+import floppaclient.utils.inventory.ItemUtils.itemID
+import floppaclient.utils.inventory.ItemUtils.rarityBoost
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.shiftClickWindow

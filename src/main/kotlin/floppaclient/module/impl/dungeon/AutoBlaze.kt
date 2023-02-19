@@ -10,15 +10,17 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.ClipTools
 import floppaclient.utils.DataHandler
 import floppaclient.utils.DataHandler.toMutableIntList
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.Utils
-import floppaclient.utils.Utils.isHolding
-import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.InventoryUtils
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import kotlinx.coroutines.runBlocking
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.item.EntityArmorStand
@@ -120,7 +122,7 @@ object AutoBlaze : Module(
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
         if (EditMode.enabled || !inDungeons || topDown == null) return
-        if (!mc.thePlayer.isHolding("Aspect of the Void") && !mc.thePlayer.isHolding("Terminator")) return
+        if (!mc.thePlayer.isHolding(SkyblockItem.AOTV, SkyblockItem.TERMINATOR)) return
         val room = Dungeon.currentRoomPair ?: return
         if (room.first.data.name != "Blaze" && room.first.data.name != "Blaze 2") return
         val relPos = DataHandler.getRelativeCoords(mc.thePlayer.positionVector, room.first.x, room.first.z, -rotation)
@@ -205,7 +207,7 @@ object AutoBlaze : Module(
             modMessage("Starting Auto Blaze.")
             // clip to the correct position
             val expDelay = ClipTools.executeClipRoute(route, -rotation, startDelay = 50)
-            bowSlot = Utils.findItem("Terminator") ?: Utils.findItem("Shortbow") ?: Utils.findItem("Spirit Bow") ?: return modMessage("No Shortbow found in your hotbar!")
+            bowSlot = InventoryUtils.findItem(SkyblockItem.Attribute.SHORTBOW) ?: return modMessage("No Shortbow found in your hotbar!")
             mc.thePlayer.inventory.currentItem = bowSlot
             startTime = System.currentTimeMillis()
             mc.thePlayer.rotationYaw = 155f - rotation.toFloat() + angle
@@ -356,7 +358,7 @@ object AutoBlaze : Module(
         }
 
         // find shortbow; if none found stop
-        val slot = Utils.findItem("Terminator") ?: Utils.findItem("Shortbow")
+        val slot = InventoryUtils.findItem(SkyblockItem.Attribute.SHORTBOW)
         if (slot == null) {
             doingBlaze = false
             modMessage("No Shortbow found in your hotbar. Stopped Auto Blaze!")
@@ -391,12 +393,12 @@ object AutoBlaze : Module(
         return (distance * 50.0 / 3.0)
     }
 
-    fun checkBlazes () {
-        if (orderedBlazes.size < 1) return
-        orderedBlazes.forEach{
-            modMessage(it.blaze.positionVector.toString() + ", " + it.blaze.canEntityBeSeen(mc.thePlayer).toString() + ", " + mc.thePlayer.canEntityBeSeen(it.blaze).toString())
-        }
-    }
+//    fun checkBlazes () {
+//        if (orderedBlazes.size < 1) return
+//        orderedBlazes.forEach{
+//            modMessage(it.blaze.positionVector.toString() + ", " + it.blaze.canEntityBeSeen(mc.thePlayer).toString() + ", " + mc.thePlayer.canEntityBeSeen(it.blaze).toString())
+//        }
+//    }
 
 
     private fun Double.getDecimals(): Double =

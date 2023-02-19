@@ -5,8 +5,8 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.utils.ItemUtils.hasAbility
-import floppaclient.utils.Utils.isHolding
+import floppaclient.utils.inventory.ItemUtils.hasAbility
+import floppaclient.utils.inventory.InventoryUtils.isHolding
 import net.minecraft.block.Block
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraft.init.Blocks

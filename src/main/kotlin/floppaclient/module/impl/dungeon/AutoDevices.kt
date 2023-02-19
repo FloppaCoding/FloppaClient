@@ -11,9 +11,10 @@ import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.Utils.inF7Boss
-import floppaclient.utils.Utils.isHoldingOneOf
 import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.entity.item.EntityItemFrame
 import net.minecraft.init.Blocks
@@ -162,7 +163,7 @@ object AutoDevices : Module(
     fun onBlockChange(event: BlockStateChangeEvent){
         if (!inDungeons || !aiming.enabled || !inF7Boss()) return
         if (event.pos.z != 50) return
-        if (!mc.thePlayer.isHoldingOneOf("Terminator", "Shortbow")) return
+        if (!mc.thePlayer.isHolding(SkyblockItem.Attribute.SHORTBOW)) return
         if (event.newState.block !== Blocks.emerald_block || event.oldState.block !== Blocks.stained_hardened_clay) return
         val direction = mc.thePlayer.getDirection(Vec3(event.pos).addVector(0.5, 1.15, 0.0), -mc.thePlayer.eyeHeight.toDouble())
         FakeActionManager.stageRightClickSlot(direction[1], direction[2])

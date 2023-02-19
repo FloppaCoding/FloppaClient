@@ -6,8 +6,8 @@ import floppaclient.events.ClickEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.utils.ChatUtils.modMessage
-import floppaclient.utils.ItemUtils.itemID
-import floppaclient.utils.ItemUtils.lore
+import floppaclient.utils.inventory.ItemUtils.itemID
+import floppaclient.utils.inventory.ItemUtils.lore
 import floppaclient.utils.Utils
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.client.gui.inventory.GuiChest

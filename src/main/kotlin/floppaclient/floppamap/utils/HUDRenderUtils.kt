@@ -3,9 +3,9 @@ package floppaclient.floppamap.utils
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.DungeonPlayer
 import floppaclient.floppamap.dungeon.Dungeon
-import floppaclient.utils.ItemUtils.itemID
 import floppaclient.module.impl.render.DungeonMap
-import floppaclient.utils.Utils.equalsOneOf
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
@@ -122,10 +122,8 @@ object HUDRenderUtils {
                 GlStateManager.translate(player.mapX, player.mapZ, 0.0)
             }
 
-            if (DungeonMap.playerNameMode.index == 2 || DungeonMap.playerNameMode.index == 1 && mc.thePlayer.heldItem?.itemID.equalsOneOf(
-                    "SPIRIT_LEAP",
-                    "INFINITE_SPIRIT_LEAP"
-                )
+            if (DungeonMap.playerNameMode.index == 2 || DungeonMap.playerNameMode.index == 1
+                && mc.thePlayer.isHolding(SkyblockItem.SPIRIT_LEAP, SkyblockItem.INFINILEAP)
             ) {
                 GlStateManager.pushMatrix()
                 GlStateManager.scale(0.8, 0.8, 1.0)

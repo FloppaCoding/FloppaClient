@@ -13,10 +13,10 @@ import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.GeometryUtils.getDirection
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionManager.doAction
+import floppaclient.utils.inventory.InventoryUtils
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
 import net.minecraft.entity.boss.EntityWither
@@ -117,6 +117,7 @@ object DungeonKillAura : Module(
     /**
      * Checks for mobs in range and stages the click.
      */
+    @Suppress("UNUSED_PARAMETER")
     @SubscribeEvent(priority = EventPriority.LOW)
     fun preMove(event: PositionUpdateEvent.Pre) {
         if(!inDungeons || doAction) return
@@ -153,7 +154,7 @@ object DungeonKillAura : Module(
             item.selected
         }
 
-        val slot = Utils.findItem(itemName) ?: return
+        val slot = InventoryUtils.findItem(itemName) ?: return
         if (leftClick.enabled) {
             FakeActionManager.stageLeftClickSlot(direction[1], direction[2], slot, swingItem.enabled)
         }else {
