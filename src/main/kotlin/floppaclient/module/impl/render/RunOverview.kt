@@ -2,6 +2,7 @@ package floppaclient.module.impl.render
 
 import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Visibility
@@ -9,7 +10,6 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
 import floppaclient.utils.ChatUtils.modMessage
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.timeFormat
 import net.minecraft.util.StringUtils
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -89,8 +89,8 @@ object RunOverview : Module(
                 if (chatMessage.enabled) modMessage("Watcher cleared at§c ${timeFormat(bloodClearTime - bloodOpenTime)}")
             }
 
-            text.startsWith("[BOSS]") && !text.startsWith("[BOSS] The Watcher:") && (!text.startsWith("[BOSS] Scarf") && !Utils.isFloor(2))
-                    && (!text.startsWith("[BOSS] Bonzo") && !Utils.isFloor(1)) && bossEnterTime == -1L -> {
+            text.startsWith("[BOSS]") && !text.startsWith("[BOSS] The Watcher:") && (!text.startsWith("[BOSS] Scarf") && !RunInformation.isInFloor(2))
+                    && (!text.startsWith("[BOSS] Bonzo") && !RunInformation.isInFloor(1)) && bossEnterTime == -1L -> {
                 bossEnterTime = System.currentTimeMillis()
                 if (chatMessage.enabled) modMessage("Portal entered at §c${timeFormat(bossEnterTime - bloodClearTime)}")
             }

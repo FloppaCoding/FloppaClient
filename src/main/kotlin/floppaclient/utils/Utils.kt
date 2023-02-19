@@ -1,12 +1,10 @@
 package floppaclient.utils
 
 import floppaclient.FloppaClient
-import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.DungeonPlayer
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.mixins.MinecraftAccessor
-import floppaclient.utils.ScoreboardUtils.sidebarLines
 import net.minecraft.block.BlockDoor
 import net.minecraft.block.BlockLadder
 import net.minecraft.block.BlockLiquid
@@ -106,43 +104,6 @@ object Utils {
             }
         }
         return removed
-    }
-
-    /**
-     * The current dungeon floor (1..7) or null if not in dungeon
-     * @see [floppaclient.floppamap.dungeon.RunInformation]
-     */
-    val currentFloor: Int?
-        get() {
-            // TODO merge this with Run INformation?
-            sidebarLines.forEach {
-                val line = ScoreboardUtils.cleanSB(it)
-                if (line.contains("The Catacombs (")) {
-                    return line.substringAfter("(").substringBefore(")").last().digitToIntOrNull()
-                }
-            }
-            return null
-        }
-
-    fun inF7Boss(): Boolean {
-        if (!inDungeons) return false
-        if(currentFloor == 7) { // check whether floor is 7
-            if(mc.thePlayer.posZ > 0 ) { //check whether in boss room
-                return true
-            }}
-        return false
-    }
-
-    fun isFloor(floor: Int): Boolean {
-        sidebarLines.forEach {
-            val line = ScoreboardUtils.cleanSB(it)
-            if (line.contains("The Catacombs (")) {
-                if (line.substringAfter("(").substringBefore(")").equalsOneOf("F$floor", "M$floor")) {
-                    return true
-                }
-            }
-        }
-        return false
     }
 
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>, playerName: String = mc.thePlayer.name): String? {

@@ -109,8 +109,10 @@ class FloppaClient {
             if (mc.thePlayer != null) {
                 onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
 
-                inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
-                    ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
+                if (!inSkyblock) {
+                    inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
+                        ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
+                }
 
                 // If alr known that in dungeons dont update the value. It does get reset to false on world change.
                 if (!inDungeons) {
@@ -140,6 +142,7 @@ class FloppaClient {
     @SubscribeEvent
     fun onWorldChange(event: WorldEvent.Load) {
         inDungeons = false
+        inSkyblock = false
         currentRegionPair = null
         tickRamp = 18
     }

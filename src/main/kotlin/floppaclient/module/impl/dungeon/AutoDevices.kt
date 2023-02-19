@@ -10,7 +10,7 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.GeometryUtils.getDirection
-import floppaclient.utils.Utils.inF7Boss
+import floppaclient.floppamap.dungeon.RunInformation.inF7Boss
 import floppaclient.utils.fakeactions.FakeActionManager
 import floppaclient.utils.fakeactions.FakeActionUtils
 import floppaclient.utils.inventory.InventoryUtils.isHolding

@@ -11,7 +11,7 @@ import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils
-import floppaclient.utils.Utils.inF7Boss
+import floppaclient.floppamap.dungeon.RunInformation.inF7Boss
 import floppaclient.utils.Utils.rightClick
 import floppaclient.utils.inventory.InventoryUtils.isHolding
 import floppaclient.utils.inventory.SkyblockItem
