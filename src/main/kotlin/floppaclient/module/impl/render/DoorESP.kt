@@ -8,7 +8,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.ColorSetting
-import floppaclient.utils.WorldRenderUtils
+import floppaclient.utils.render.WorldRenderUtils
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

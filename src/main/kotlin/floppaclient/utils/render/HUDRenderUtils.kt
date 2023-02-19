@@ -1,8 +1,9 @@
-package floppaclient.floppamap.utils
+package floppaclient.utils.render
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.DungeonPlayer
 import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.utils.MapUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.inventory.InventoryUtils.isHolding
 import floppaclient.utils.inventory.SkyblockItem

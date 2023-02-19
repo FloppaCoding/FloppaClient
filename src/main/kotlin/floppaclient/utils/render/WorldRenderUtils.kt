@@ -1,4 +1,4 @@
-package floppaclient.utils
+package floppaclient.utils.render
 
 import floppaclient.FloppaClient.Companion.mc
 import org.lwjgl.opengl.GL11

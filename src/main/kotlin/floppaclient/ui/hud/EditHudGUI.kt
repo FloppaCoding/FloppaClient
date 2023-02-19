@@ -1,7 +1,7 @@
 package floppaclient.ui.hud
 
 import floppaclient.floppamap.dungeon.MapRender
-import floppaclient.floppamap.utils.HUDRenderUtils
+import floppaclient.utils.render.HUDRenderUtils
 import floppaclient.module.impl.render.CoordinateDisplay
 import floppaclient.module.impl.render.DayCounter
 import floppaclient.module.impl.render.DungeonWarpTimer
