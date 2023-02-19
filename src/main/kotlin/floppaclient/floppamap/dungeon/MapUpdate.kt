@@ -5,7 +5,6 @@ import floppaclient.events.DungeonRoomStateChangeEvent
 import floppaclient.floppamap.core.*
 import floppaclient.floppamap.utils.MapUtils
 import floppaclient.module.impl.render.DungeonMap
-import floppaclient.utils.Utils
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.StringUtils
@@ -268,7 +267,7 @@ object MapUpdate {
     }
 
     private fun shouldScanMapItem() =
-        DungeonMap.mapItemScan.enabled && !Dungeon.fullyScanned && !Dungeon.inBoss && Utils.currentFloor != null
+        DungeonMap.mapItemScan.enabled && !Dungeon.fullyScanned && !Dungeon.inBoss && RunInformation.currentFloor != null
 
     /**
      * Updates the names of revealed puzzles from the tab list.

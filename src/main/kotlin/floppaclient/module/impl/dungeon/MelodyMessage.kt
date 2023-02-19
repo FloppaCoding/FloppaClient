@@ -1,12 +1,12 @@
 package floppaclient.module.impl.dungeon
 
 import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.impl.dungeon.AutoTerms.currentTerminal
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
-import floppaclient.utils.Utils.isFloor
 import floppaclient.utils.ChatUtils.sendChat
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraftforge.client.event.GuiOpenEvent
@@ -42,7 +42,7 @@ object MelodyMessage : Module(
 
     @SubscribeEvent(priority = EventPriority.LOW)
     fun onGuiOpen(event: GuiOpenEvent) {
-        if (event.gui !is GuiChest ||  !isFloor(7) || !Dungeon.inBoss) return
+        if (event.gui !is GuiChest ||  !RunInformation.isInFloor(7) || !Dungeon.inBoss) return
         if (currentTerminal == AutoTerms.TerminalType.TIMING) {
             if (melodyTicks <= 0) {
                 sendChat("/pc ${message.text}")

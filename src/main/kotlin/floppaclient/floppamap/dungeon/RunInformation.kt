@@ -1,5 +1,6 @@
 package floppaclient.floppamap.dungeon
 
+import floppaclient.FloppaClient
 import floppaclient.utils.ScoreboardUtils
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.client.network.NetworkPlayerInfo
@@ -30,21 +31,44 @@ object RunInformation {
     private val timeElapsedPattern = Regex(" Elapsed: (?:(?<hrs>\\d+)h )?(?:(?<min>\\d+)m )?(?:(?<sec>\\d+)s)?")
 
     var deathCount = 0
+        private set
     var secretCount = 0
+        private set
     var cryptsCount = 0
+        private set
     var secretPercentage = 0.0
+        private set
     var totalSecrets: Int? = null
+        private set
     var clearedPercentage = 0
+        private set
     var secondsElapsed = 0
+        private set
 
     /**
      * List of Puzzle name with completion state: true -> solved, false -> failed, null -> not finished.
      */
     val puzzles = mutableListOf<Pair<String, Boolean?>>()
     var uncompletedPuzzles = 0
+        private set
     var currentFloor: Floor? = null
-
+        private set
     var score = 0
+        private set
+
+    fun inF7Boss() : Boolean{
+        if (!FloppaClient.inDungeons) return false
+        if(currentFloor?.floorNumber == 7) { // check whether floor is 7
+            if(FloppaClient.mc.thePlayer.posZ > 0 ) { //check whether in boss room
+                return true
+            }}
+        return false
+    }
+
+    fun isInFloor(vararg floor: Int): Boolean {
+        val floorNumber = currentFloor?.floorNumber ?: return false
+        return floor.any { floorNumber == it }
+    }
 
     /**
      * Updates the run information from the tab entries provided and from the tab list.
@@ -215,6 +239,31 @@ object RunInformation {
     )
 
     enum class Floor{
-        E, F1, F2, F3, F4, F5, F6, F7, M1, M2, M3, M4, M5, M6, M7
+        E, F1, F2, F3, F4, F5, F6, F7, M1, M2, M3, M4, M5, M6, M7;
+
+        val isMasterMode: Boolean
+            get() {
+                return when(this) {
+                    M1, M2, M3, M4, M5, M6, M7 -> true
+                    else -> false
+                }
+            }
+
+        /**
+         * Entrance is treated as floor 0.
+         */
+        val floorNumber: Int
+            get() {
+                return when(this) {
+                    E -> 0
+                    F1, M1 -> 1
+                    F2, M2 -> 2
+                    F3, M3 -> 3
+                    F4, M4 -> 4
+                    F5, M5 -> 5
+                    F6, M6 -> 6
+                    F7, M7 -> 7
+                }
+            }
     }
 }

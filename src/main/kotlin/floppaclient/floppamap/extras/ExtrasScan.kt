@@ -5,9 +5,9 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.core.RoomType
 import floppaclient.floppamap.core.Tile
 import floppaclient.floppamap.dungeon.Dungeon
+import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.utils.ChatUtils.modMessage
-import floppaclient.utils.Utils.currentFloor
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import kotlin.math.min
@@ -40,7 +40,7 @@ object ExtrasScan {
 
         // Also add the information for the boss room
         if (rooms.none { it.key.data.type == RoomType.BOSS }) {
-            val floor = currentFloor ?: return
+            val floor = RunInformation.currentFloor?.floorNumber ?: return
             val bossRoom = RoomUtils.instanceBossRoom(floor)
             rooms[bossRoom] = 0
         }
