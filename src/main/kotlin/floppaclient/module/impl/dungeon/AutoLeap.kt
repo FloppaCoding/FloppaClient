@@ -9,11 +9,12 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils
 import floppaclient.utils.Utils.inF7Boss
-import floppaclient.utils.Utils.isHoldingOneOf
-import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.rightClick
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.util.StringUtils.stripControlCodes
@@ -87,7 +88,7 @@ object AutoLeap : Module(
     fun onClick(event: ClickEvent.LeftClickEvent) {
         if (!inDungeons) return
         if (disableAfterBr.enabled && bloodOpened && (!inF7Boss() || bossTarget.isSelected("None"))) return
-        if (mc.thePlayer.isHoldingOneOf("SPIRIT_LEAP", "INFINITE_SPIRIT_LEAP") && doorOpener != null) {
+        if (mc.thePlayer.isHolding(SkyblockItem.SPIRIT_LEAP, SkyblockItem.INFINILEAP) && doorOpener != null) {
             val mode = if (inF7Boss()) bossTarget.selected
             else if(!bloodOpened || !disableAfterBr.enabled) brTarget.selected
             else "None"

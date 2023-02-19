@@ -14,9 +14,10 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.DataHandler
 import floppaclient.utils.Utils.flooredPosition
-import floppaclient.utils.Utils.isHolding
+import floppaclient.utils.inventory.InventoryUtils.isHolding
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
 import net.minecraft.network.play.server.S08PacketPlayerPosLook
 import net.minecraft.util.BlockPos
@@ -92,7 +93,7 @@ object AutoEther : Module(
     @SubscribeEvent
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
         if (!inSkyblock || EditMode.enabled || cooldownTicks > 0) return
-        if (!mc.thePlayer.isHolding("Aspect of the Void")) return
+        if (!mc.thePlayer.isHolding(SkyblockItem.ASPECT_OF_THE_VOID)) return
         tryEther = true
         if (blockClick.enabled) event.isCanceled = true
     }
