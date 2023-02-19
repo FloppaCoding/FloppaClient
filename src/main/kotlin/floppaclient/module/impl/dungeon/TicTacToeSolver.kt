@@ -7,7 +7,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.utils.WorldRenderUtils
+import floppaclient.utils.render.WorldRenderUtils
 import net.minecraft.entity.item.EntityItemFrame
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items

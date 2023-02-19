@@ -17,7 +17,7 @@ import floppaclient.utils.DataHandler
 import floppaclient.utils.GeometryUtils.cosDeg
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.GeometryUtils.sinDeg
-import floppaclient.utils.WorldRenderUtils
+import floppaclient.utils.render.WorldRenderUtils
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
 import net.minecraftforge.client.event.RenderWorldLastEvent

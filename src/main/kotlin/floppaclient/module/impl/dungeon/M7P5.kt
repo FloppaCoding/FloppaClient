@@ -11,7 +11,7 @@ import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
-import floppaclient.utils.WorldRenderUtils.drawCustomSizedBoxAt
+import floppaclient.utils.render.WorldRenderUtils.drawCustomSizedBoxAt
 import floppaclient.utils.Utils
 import net.minecraft.init.Blocks
 import net.minecraft.network.play.server.S2APacketParticles

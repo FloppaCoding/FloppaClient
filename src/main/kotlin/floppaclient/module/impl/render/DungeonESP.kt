@@ -7,7 +7,7 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.utils.WorldRenderUtils.drawBoxByEntity
+import floppaclient.utils.render.WorldRenderUtils.drawBoxByEntity
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
 import net.minecraft.entity.boss.EntityWither

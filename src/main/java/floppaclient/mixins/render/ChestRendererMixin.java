@@ -1,7 +1,7 @@
 package floppaclient.mixins.render;
 
 import floppaclient.module.impl.render.ChestEsp;
-import floppaclient.utils.WorldRenderUtils;
+import floppaclient.utils.render.WorldRenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.tileentity.TileEntityChest;

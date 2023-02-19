@@ -1,6 +1,6 @@
 package floppaclient.ui.hud
 
-import floppaclient.floppamap.utils.HUDRenderUtils
+import floppaclient.utils.render.HUDRenderUtils
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.NumberSetting
 import net.minecraft.client.renderer.GlStateManager
