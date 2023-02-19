@@ -150,7 +150,7 @@ class FloppaClient {
     companion object {
         const val MOD_ID = "fc"
         const val MOD_NAME = "Floppa Client"
-        const val MOD_VERSION = "1.0.1"
+        const val MOD_VERSION = "1.0.2"
         const val CHAT_PREFIX = "§6§lFloppa§r§eClient §6§l»§r"
         const val SHORT_PREFIX = "§6§lF§r§eC §6§l»§r"
         const val RESOURCE_DOMAIN = "floppaclient"

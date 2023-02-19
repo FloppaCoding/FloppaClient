@@ -54,10 +54,10 @@ object AutoWeaponSwap : Module(
     private const val activationTime = 150
 
     private var activeUntil = System.currentTimeMillis()
-    private var lastAxe = System.currentTimeMillis()
-    private var lastWhip = System.currentTimeMillis()
-    private var lastTerm = System.currentTimeMillis()
-    private var lastSpray = System.currentTimeMillis()
+    private var nextAxe = System.currentTimeMillis()
+    private var nextWhip = System.currentTimeMillis()
+    private var nextTerm = System.currentTimeMillis()
+    private var nextSpray = System.currentTimeMillis()
 
 
     init {
@@ -75,40 +75,36 @@ object AutoWeaponSwap : Module(
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
         if (mc.thePlayer.isHolding(*leftClickBlacklist)) return
         if (mc.thePlayer.heldItem?.reforge?.containsOneOf(leftClickItems) == true) {
-            if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
-                if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
-                    FakeActionUtils.useItem(SkyblockItem.TERMINATOR)
-                    lastTerm = System.currentTimeMillis() - ((System.currentTimeMillis() - lastTerm) % termSleep.value.toInt())
-                }
+            val nowMillis = System.currentTimeMillis()
+            if (terminator.enabled && nowMillis in nextTerm until activeUntil) {
+                FakeActionUtils.useItem(SkyblockItem.TERMINATOR)
+                val overshoot =  (nowMillis - nextTerm).takeIf { it < 200 } ?: 0L
+                nextTerm = nowMillis + (termSleep.value.toLong() - overshoot).coerceAtLeast(0L)
             }
-            if (axeOfTheShredded.enabled) {
-                if (System.currentTimeMillis() - lastAxe >= axeCooldown) {
-                    FakeActionUtils.useItem(SkyblockItem.AXE_OF_THE_SHREDDED, fromInv = fromInv.enabled)
-                    lastAxe = System.currentTimeMillis()
-                }
+            if (axeOfTheShredded.enabled && nowMillis >= nextAxe) {
+                FakeActionUtils.useItem(SkyblockItem.AXE_OF_THE_SHREDDED, fromInv = fromInv.enabled)
+                nextAxe = nowMillis + axeCooldown
             }
-            if (soulWhip.enabled) {
-                if (System.currentTimeMillis() - lastWhip >= whipCooldown) {
-                    FakeActionUtils.useItem(SkyblockItem.SOUL_WHIP, fromInv = fromInv.enabled)
-                    lastWhip = System.currentTimeMillis()
-                }
+            if (soulWhip.enabled && nowMillis >= nextWhip) {
+                FakeActionUtils.useItem(SkyblockItem.SOUL_WHIP, fromInv = fromInv.enabled)
+                nextWhip = nowMillis + whipCooldown
             }
-            if (iceSpray.enabled) {
-                if (System.currentTimeMillis() - lastSpray >= sprayCooldown) {
-                    FakeActionUtils.useItem(SkyblockItem.ICE_SPRAY, fromInv = fromInv.enabled)
-                    lastSpray = System.currentTimeMillis()
-                }
+            if (iceSpray.enabled && nowMillis >= nextSpray) {
+                FakeActionUtils.useItem(SkyblockItem.ICE_SPRAY, fromInv = fromInv.enabled)
+                nextSpray = nowMillis + sprayCooldown
             }
-            activeUntil = System.currentTimeMillis() + activationTime
+            activeUntil = nowMillis + activationTime
         }
     }
 
     @SubscribeEvent
     fun onRenderWorldLast(event: RenderWorldLastEvent?) {
-        if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
-            if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
+        val nowMillis = System.currentTimeMillis()
+        if (terminator.enabled && nowMillis < activeUntil) {
+            if (nowMillis >= nextTerm) {
                 FakeActionUtils.useItem(SkyblockItem.TERMINATOR)
-                lastTerm = System.currentTimeMillis() - ((System.currentTimeMillis() - lastTerm) % termSleep.value.toInt())
+                val overshoot =  (nowMillis - nextTerm).takeIf { it < 200 } ?: 0L
+                nextTerm = nowMillis + (termSleep.value.toLong() - overshoot).coerceAtLeast(0L)
             }
         }
     }
