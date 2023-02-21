@@ -1,0 +1,16 @@
+.library-name a {
+    position: relative;
+    margin-left: 55px;
+}
+
+.library-name a::before {
+    content: '';
+    background-image: url('../images/Icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 55px;
+    height: 50px;
+    top: -18px;
+    left: -55px;
+}

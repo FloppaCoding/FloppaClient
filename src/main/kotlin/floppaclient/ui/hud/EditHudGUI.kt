@@ -1,8 +1,7 @@
 package floppaclient.ui.hud
 
 import floppaclient.floppamap.dungeon.MapRender
-import floppaclient.floppamap.utils.HUDRenderUtils
-import floppaclient.module.impl.dungeon.M7P5
+import floppaclient.utils.render.HUDRenderUtils
 import floppaclient.module.impl.render.CoordinateDisplay
 import floppaclient.module.impl.render.DayCounter
 import floppaclient.module.impl.render.DungeonWarpTimer
@@ -22,7 +21,6 @@ object EditHudGUI : GuiScreen() {
         MapRender,
         CoordinateDisplay.CoordinateHUD,
         DayCounter.DayCounter,
-        M7P5.SpawnTimer
     )
     private var draggingElement: HudElement? = null
     private var startOffsetX = 0
@@ -44,7 +42,7 @@ object EditHudGUI : GuiScreen() {
     }
 
     private fun renderRestButton(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val resetText = "Reset HUD"
+        val resetText = "Rest HUD"
         val scaledResolution = ScaledResolution(mc)
 
         val temp = ColorUtil.clickGUIColor.darker()

@@ -2,7 +2,7 @@ package floppaclient.mixins;
 
 import floppaclient.events.BlockDestroyEvent;
 import floppaclient.module.impl.misc.FastMine;
-import floppaclient.utils.ItemUtils;
+import floppaclient.utils.inventory.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

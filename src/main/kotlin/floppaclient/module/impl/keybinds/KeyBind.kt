@@ -11,7 +11,7 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils
-import floppaclient.utils.Utils.isHolding
+import floppaclient.utils.inventory.InventoryUtils.isHolding
 import floppaclient.utils.fakeactions.FakeActionUtils
 
 class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
@@ -63,7 +63,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
                 ChatUtils.sendChat(message.text)
             }
             "Use Item" -> {
-                if (condition.text == "" || mc.thePlayer.isHolding(condition.text, true)) {
+                if (condition.text == "" || mc.thePlayer.isHolding(condition.text, ignoreCase = true)) {
                     FakeActionUtils.useItem(item.text,true, fromInventory.enabled, ignoreCase = true)
                 }
             }

@@ -13,7 +13,7 @@ import floppaclient.module.Category
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.DataHandler
-import floppaclient.utils.Utils.inF7Boss
+import floppaclient.floppamap.dungeon.RunInformation.inF7Boss
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.ClipTools.executeClipRoute
 import floppaclient.module.Module

@@ -1,13 +1,10 @@
 package floppaclient.utils
 
 import floppaclient.FloppaClient
-import floppaclient.FloppaClient.Companion.inDungeons
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.DungeonPlayer
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.mixins.MinecraftAccessor
-import floppaclient.utils.ItemUtils.itemID
-import floppaclient.utils.ScoreboardUtils.sidebarLines
 import net.minecraft.block.BlockDoor
 import net.minecraft.block.BlockLadder
 import net.minecraft.block.BlockLiquid
@@ -107,54 +104,6 @@ object Utils {
             }
         }
         return removed
-    }
-
-    /**
-     * The current dungeon floor (1..7) or null if not in dungeon
-     * @see [floppaclient.floppamap.dungeon.RunInformation]
-     */
-    val currentFloor: Int?
-        get() {
-            // TODO merge this with Run INformation?
-            sidebarLines.forEach {
-                val line = ScoreboardUtils.cleanSB(it)
-                if (line.contains("The Catacombs (")) {
-                    return line.substringAfter("(").substringBefore(")").last().digitToIntOrNull()
-                }
-            }
-            return null
-        }
-
-    fun inF7Boss(): Boolean {
-        if (!inDungeons) return false
-        if(currentFloor == 7) { // check whether floor is 7
-            if(mc.thePlayer.posZ > 0 ) { //check whether in boss room
-                return true
-            }}
-        return false
-    }
-
-    fun isFloor(floor: Int): Boolean {
-        sidebarLines.forEach {
-            val line = ScoreboardUtils.cleanSB(it)
-            if (line.contains("The Catacombs (")) {
-                if (line.substringAfter("(").substringBefore(")").equalsOneOf("F$floor", "M$floor")) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    // Remove this later
-    fun isInMM(): Boolean {
-        sidebarLines.forEach {
-            val line = ScoreboardUtils.cleanSB(it)
-            if (line.contains("The Catacombs (M")) {
-                    return true
-                }
-            }
-        return false
     }
 
     fun getDungeonClass(tabEntries: List<Pair<NetworkPlayerInfo, String>>, playerName: String = mc.thePlayer.name): String? {
@@ -270,51 +219,6 @@ object Utils {
         GlStateManager.popMatrix()
     }
 
-    /**
-     * Returns the first slot where the item name or id passes a check for the name.
-     * The item name is checked to contain the name.
-     * The item id is checked for a full match.
-     * Returns null if no matches were found.
-     * @param name The name or item ID to find.
-     * @param ignoreCase Applies for the item name check.
-     * @param inInv Will also search in the inventory and not only in the hotbar
-     * @param mode Specify what to check. 0: display name and item id. 1: only display name. 2: only itemID.
-     */
-    fun findItem(name: String, ignoreCase: Boolean = false, inInv: Boolean = false, mode: Int = 0): Int? {
-        val regex = Regex("${if (ignoreCase) "(?i)" else ""}$name")
-        return findItem(regex, inInv, mode)
-    }
-
-    /**
-     * Returns the first slot where the item name or id passes a check for the regex.
-     * The item name is checked to contain the regex.
-     * The item id is checked for a full match.
-     * Returns null if no matches were found.
-     *
-     * For case insensitivity use the flag "(?i)":
-     *
-     *     val regex = Regex("(?i)item name")
-     * @param regex regex that has to be matched.
-     * @param inInv Will also search in the inventory and not only in the hotbar
-     * @param mode Specify what to check. 0: display name and item id. 1: only display name. 2: only itemID.
-     */
-    fun findItem(regex: Regex, inInv: Boolean = false, mode: Int = 0): Int? {
-        for (i in 0..if (inInv) 35 else 8) {
-            if (mc.thePlayer.inventory.getStackInSlot(i)?.run {
-                    when (mode) {
-                        0 -> displayName.contains(regex) || itemID.matches(regex)
-                        1 -> displayName.contains(regex)
-                        2 -> itemID.matches(regex)
-                        else -> false
-                    }
-                } == true
-            ) {
-                return i
-            }
-        }
-        return null
-    }
-
     fun isInTerminal(): Boolean {
         if (mc.thePlayer == null) return false
         val container: Container = mc.thePlayer.openContainer
@@ -325,29 +229,6 @@ object Utils {
         ) || name.contains("What starts with:") || name.contains("Select all the") || name.contains("Change all to same color!") || name.contains(
             "Click the button on time!"
         )
-    }
-
-    /**
-     * Check whether the player is holding the given item.
-     * Checks both the name and item ID.
-     * @param name The name or item ID.
-     * @param ignoreCase Applies for the item name check.
-     */
-    fun EntityPlayerSP?.isHolding(name: String, ignoreCase: Boolean = false): Boolean {
-        return this?.heldItem?.run { displayName.contains(name, ignoreCase) || itemID == name } == true
-    }
-
-    /**
-     * Check whether the player is holding one of the given items.
-     * Checks both the name and item ID.
-     * @param names The names or item IDs.
-     * @param ignoreCase Applies for the item name check.
-     */
-    fun EntityPlayerSP?.isHoldingOneOf(vararg names: String, ignoreCase: Boolean = false): Boolean {
-        names.forEach {
-            if (this.isHolding(it, ignoreCase)) return true
-        }
-        return false
     }
 
     /**

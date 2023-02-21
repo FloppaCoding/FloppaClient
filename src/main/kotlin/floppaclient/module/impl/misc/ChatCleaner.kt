@@ -71,12 +71,10 @@ object ChatCleaner : Module(
     private val uselessMSG = setOf(
         "You are playing on profile:",
         "Welcome to Hypixel SkyBlock!",
-        "from playing Skyblock!"
-    )
-    private val stupidFuckingStashMessagesHolyFukcingShit = setOf(
-        "Click here to pick it all up!",
-        "Click here to pick them up!",
-        "Click here to pick it up!"
+        "from playing Skyblock!",
+        "[WATCHDOG ANNOUNCEMENT]",
+        "Watchdog has banned",
+        "Staff have banned an additional"
     )
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
@@ -89,12 +87,12 @@ object ChatCleaner : Module(
             text.containsOneOf(dungPots) && dungPot.enabled -> event.isCanceled = true
             text.containsOneOf(uselessMSG) && hypixelMsgs.enabled -> event.isCanceled = true
             text.containsOneOf(dungClasses) && FloppaClient.inDungeons && milestones.enabled -> event.isCanceled = true
-            text.containsOneOf(stupidFuckingStashMessagesHolyFukcingShit) && stashHider.enabled -> event.isCanceled = true
 
             text.startsWith("There are blocks in the way!") && blocksInTheWay.enabled -> event.isCanceled = true
             text.startsWith("Your") && text.endsWith("damage.") && abilityHider.enabled -> event.isCanceled = true
             (text.contains("Kill Combo") && !text.contains(":") && comboHider.enabled) -> event.isCanceled = true
             text.startsWith("Your Auto-Recombobulator recombobulated") && autoRecombHider.enabled -> event.isCanceled = true
+            text.endsWith("Click here to pick it all up!") && stashHider.enabled -> event.isCanceled = true
         }
     }
 }

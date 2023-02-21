@@ -22,7 +22,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
  * Might be nice to make this a mod in secret aura
  * @author Stivais
  */
-
 object SecretTriggerbot : Module(
     "Secret Triggerbot",
     category = Category.MISC,
@@ -52,12 +51,12 @@ object SecretTriggerbot : Module(
         if (room == "Water Board" || room == "Three Weirdos" || room == "Blaze" || room == "Blaze 2") return
 
         val objectPos = mc.objectMouseOver.blockPos
-        val state = mc.theWorld.getBlockState(objectPos).block
+        val block = mc.theWorld.getBlockState(objectPos).block
 
         if (System.currentTimeMillis() < nextAction) return
-        if (state == Blocks.chest || state == Blocks.lever || (state == Blocks.trapped_chest && trappedChests.enabled)) {
+        if (block == Blocks.chest || block == Blocks.lever || (block == Blocks.trapped_chest && trappedChests.enabled)) {
             interactBlock(objectPos)
-        } else if (state == Blocks.skull) {
+        } else if (block == Blocks.skull) {
 
             val tileEntity: TileEntitySkull = mc.theWorld.getTileEntity(objectPos) as TileEntitySkull
             val id = tileEntity.playerProfile?.id?.toString()
@@ -79,10 +78,10 @@ object SecretTriggerbot : Module(
         fun onRightClick(event: ClickEvent.RightClickEvent) {
             if (mc.thePlayer == null || !keyHelper.enabled || mc.objectMouseOver?.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
 
-            val oP = mc.objectMouseOver.blockPos
-            if (mc.theWorld.getBlockState(oP).block == Blocks.redstone_block && Utils.findItem("Redstone Key", inInv = true) != null) {
+            val position = mc.objectMouseOver.blockPos
+            if (mc.theWorld.getBlockState(position).block == Blocks.redstone_block && Utils.findItem("Redstone Key", inInv = true) != null) {
                 event.isCanceled = true
-                FakeActionUtils.clickBlockWithItem(oP, mc.thePlayer.inventory.currentItem, "Redstone Key", 10.0, fromInv = true, abortIfNotFound = true)
+                FakeActionUtils.clickBlockWithItem(position, mc.thePlayer.inventory.currentItem, "Redstone Key", 10.0, fromInv = true, abortIfNotFound = true)
             }
         }
     */

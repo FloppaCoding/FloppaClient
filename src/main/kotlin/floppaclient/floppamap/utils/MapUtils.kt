@@ -1,7 +1,7 @@
 package floppaclient.floppamap.utils
 
 import floppaclient.FloppaClient.Companion.mc
-import floppaclient.utils.Utils
+import floppaclient.floppamap.dungeon.RunInformation
 import net.minecraft.item.ItemMap
 import net.minecraft.util.Vec4b
 import net.minecraft.world.storage.MapData
@@ -49,7 +49,7 @@ object MapUtils {
      */
     fun getStartCornerFromMap(): Pair<Int, Int>? {
 
-        if (Utils.currentFloor == 1) return Pair(22, 11)
+        if (RunInformation.currentFloor?.floorNumber == 1) return Pair(22, 11)
 
         val mapColorString = colorString ?: return null
 

@@ -1,4 +1,4 @@
-package floppaclient.utils
+package floppaclient.utils.inventory
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.*
@@ -6,8 +6,15 @@ import net.minecraftforge.common.util.Constants
 import java.io.ByteArrayInputStream
 import java.io.IOException
 
+/**
+ * ## A collection of methods for accessing NBT data of Skyblock items.
+ *
+ * Based on [SBC by Harry282](https://github.com/Harry282/Skyblock-Client/blob/main/src/main/kotlin/skyblockclient/utils/Utils.kt)
+ *
+ * @author Aton
+ */
+@Suppress("unused")
 object ItemUtils {
-
 
     private val ItemStack.extraAttributes: NBTTagCompound?
         get() {
@@ -35,9 +42,19 @@ object ItemUtils {
             return (this.extraAttributes?.getInteger("upgrade_level") ?: 0) > 0
         }
 
+    /**
+     * The skyblock item ID
+     *
+     * See [SkyblockItem] for an incomplete list of itemIDs.
+     */
     val ItemStack.itemID: String
         get() {
             return this.extraAttributes?.getString("id") ?: ""
+        }
+
+    val ItemStack?.reforge : String
+        get() {
+            return this?.extraAttributes?.getString("modifier") ?: ""
         }
 
     val ItemStack.lore: List<String>
@@ -70,14 +87,23 @@ object ItemUtils {
         return this?.hasKey(key) ?: false
     }
 
+/**
+ * Checks the item's lore for whether it is a shortbow.
+ *
+ * See also [SkyblockItem] for a list of skyblock items.
+ */
+    val ItemStack?.isShortbow: Boolean
+    get() {
+        return this?.lore?.any { it.contains("Shortbow: Instantly shoots!") } == true
+    }
+
 
     /**
-     *
      * Converts an NBT tag into a pretty-printed string.
      *
-     * For constant definitions, see [Constants.NBT]
-     * From SBA
-     * @link https://github.com/BiscuitDevelopment/SkyblockAddons/blob/9a45f04f8c07e9127674c0d7fbfeb0dd45222d0e/src/main/java/codes/biscuit/skyblockaddons/utils/DevUtils.java#L467
+     * For constant definitions, see [Constants.NBT].
+     *
+     * Taken from [SBA](https://github.com/BiscuitDevelopment/SkyblockAddons/blob/9a45f04f8c07e9127674c0d7fbfeb0dd45222d0e/src/main/java/codes/biscuit/skyblockaddons/utils/DevUtils.java#L467).
      * @param nbt the NBT tag to pretty print
      * @return pretty-printed string of the NBT data
      */

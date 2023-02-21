@@ -8,18 +8,19 @@ import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils
-import floppaclient.utils.ItemUtils.isDungeonMobDrop
-import floppaclient.utils.ItemUtils.isRarityUpgraded
-import floppaclient.utils.ItemUtils.isStarred
-import floppaclient.utils.ItemUtils.itemID
-import floppaclient.utils.ItemUtils.lore
-import floppaclient.utils.ItemUtils.rarityBoost
+import floppaclient.utils.inventory.ItemUtils.isDungeonMobDrop
+import floppaclient.utils.inventory.ItemUtils.isRarityUpgraded
+import floppaclient.utils.inventory.ItemUtils.isStarred
+import floppaclient.utils.inventory.ItemUtils.itemID
+import floppaclient.utils.inventory.ItemUtils.rarityBoost
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.Utils.shiftClickWindow
 import net.minecraft.client.gui.inventory.GuiChest
+import net.minecraft.init.Blocks
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.inventory.Slot
+import net.minecraft.item.Item
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -66,7 +67,6 @@ object SellGarbo : Module(
     private var inSellMenu = false
     private var sellMenuName = "akljsdlkmnfldskhfsdhf"
     private var confirmed = false
-    private var soldSomething = false
 
     private var garbo = listOf(
         "Health VIII Splash Potion",
@@ -110,26 +110,24 @@ object SellGarbo : Module(
         val inventoryName = container.lowerChestInventory.displayName.unformattedText
         if (inventoryName != sellMenuName) {
             inSellMenu = false
-            soldSomething = false
             return
         }
         if (!confirmed) {
             val stack = container.inventorySlots[49].stack
-            if (stack?.lore?.contains("§7sell them to this Shop!") == true || stack?.lore?.contains("eClick to buyback!") == true) inSellMenu = true
-
-            else if (stack == null) return
-            else {
+            if (stack?.item == Item.getItemFromBlock(Blocks.hopper) && stack?.displayName == "§aSell Item")
+                confirmed = true
+            else if(stack == null) {
+                return
+            }else {
                 inSellMenu = false
-                soldSomething = false
                 return
             }
         }
         if (System.currentTimeMillis() < nextClick) return
         val slotIndex = container.inventorySlots.subList(54,90).firstOrNull { shouldSell(it) }?.slotNumber
-            ?: return (if (message.enabled && soldSomething) ChatUtils.modMessage("Finished auto sell.") else Unit).also { inSellMenu = false; soldSomething = false }
+            ?: return (if (message.enabled) ChatUtils.modMessage("Finished auto sell.") else Unit).also { inSellMenu = false }
 
         shiftClickWindow(container.windowId, slotIndex)
-        soldSomething = true
         nextClick = System.currentTimeMillis() + sleep.value.toLong()
         return
     }
@@ -149,7 +147,8 @@ object SellGarbo : Module(
         if (stack.displayName.containsOneOf(garbo)) return true
         if (other.text != "") {
             val options = other.text.split(";")
-            if (stack.run { displayName.containsOneOf(options, ignoreCase = true) || itemID.equalsOneOf(options) }) return true
+            if( stack.run { displayName.containsOneOf(options, ignoreCase = true) || itemID.equalsOneOf(options) })
+                return true
         }
         return false
     }

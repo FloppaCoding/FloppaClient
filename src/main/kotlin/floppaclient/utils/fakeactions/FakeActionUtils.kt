@@ -5,7 +5,9 @@ import floppaclient.mixins.packet.C02Accessor
 import floppaclient.module.impl.player.AutoEther
 import floppaclient.utils.ChatUtils
 import floppaclient.utils.GeometryUtils
+import floppaclient.utils.inventory.SkyblockItem
 import floppaclient.utils.Utils
+import floppaclient.utils.inventory.InventoryUtils
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.gui.inventory.GuiInventory
 import net.minecraft.entity.Entity
@@ -40,7 +42,7 @@ object FakeActionUtils {
      * @param fakeTp will set the position client side to the etherwarp position after sending the click packet.
      */
     fun etherwarpTo(targetPos: BlockPos, message: Boolean = false, fakeTp: Boolean = false): Boolean {
-        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+        val aotvSlot = InventoryUtils.findItem(SkyblockItem.AOTV) ?: run {
             if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
@@ -71,13 +73,18 @@ object FakeActionUtils {
             Vec3(targetPos).add(Vec3(0.5, 0.0, 0.5)),
 
             // corners of the block
-            Vec3(targetPos).add(Vec3(0.0, 0.0, 0.0)),
-            Vec3(targetPos).add(Vec3(0.0, 1.0, 0.0)),
-            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.0)),
-            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.0)),
-            Vec3(targetPos).add(Vec3(0.0, 0.0, 1.0)),
-            Vec3(targetPos).add(Vec3(0.0, 1.0, 1.0)),
-            Vec3(targetPos).add(Vec3(1.0, 1.0, 1.0))
+            Vec3(targetPos).add(Vec3(0.1, 0.0, 0.1)),
+            Vec3(targetPos).add(Vec3(0.1, 1.0, 0.1)),
+
+            Vec3(targetPos).add(Vec3(1.0, 0.0, 0.1)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.1)),
+
+            Vec3(targetPos).add(Vec3(0.1, 0.0, 1.0)),
+            Vec3(targetPos).add(Vec3(0.1, 1.0, 1.0)),
+
+            Vec3(targetPos).add(Vec3(0.9, 1.0, 1.0)),
+            Vec3(targetPos).add(Vec3(1.0, 1.0, 0.9)),
+            Vec3(targetPos).add(Vec3(0.9, 1.0, 1.0))
         )
 
         var target: Vec3? = null
@@ -133,7 +140,7 @@ object FakeActionUtils {
      * Stages an etherwarp fake action to the specified block pos for the given start vec which is assumed to be the
      * players coordinates (at feet level).
      * Returns false as well as sends a chat message if etherwarp not possible.
-     * Checks the center of all 6 sides of the block for visibility.
+     * Checks the center of all 6 sides and all corners of the block for visibility.
      * @param start the start position.
      * @param targetPos the Target
      * @param message if true sends a chat message on fail.
@@ -146,7 +153,7 @@ object FakeActionUtils {
         queueMode: Boolean = false,
         fakeTp: Boolean = false
     ): Boolean {
-        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+        val aotvSlot = InventoryUtils.findItem(SkyblockItem.AOTV) ?: run {
             if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
@@ -246,7 +253,7 @@ object FakeActionUtils {
         queueMode: Boolean = false,
         fakeTp: Boolean = false
     ): Boolean {
-        val aotvSlot = Utils.findItem("Aspect of the Void") ?: run {
+        val aotvSlot = InventoryUtils.findItem(SkyblockItem.AOTV) ?: run {
             if (message) ChatUtils.modMessage("No AOTV found in your hotbar!")
             return false
         }
@@ -327,7 +334,7 @@ object FakeActionUtils {
         val itemSlot = when (name) {
             "" -> slot
             else -> {
-                Utils.findItem(name, inInv = fromInv) ?: if (abortIfNotFound) return false else slot
+                InventoryUtils.findItem(name, inInv = fromInv) ?: if (abortIfNotFound) return false else slot
             }
         } ?: previous
 
@@ -386,7 +393,7 @@ object FakeActionUtils {
     }
 
     /**
-     * Swaps to and uses the specified item slot.
+     * Swaps to and uses the specified [itemSlot].
      */
     fun useItem(itemSlot: Int, swapBack: Boolean = true, fromInv: Boolean = false): Boolean{
         if (itemSlot < 9) {
@@ -426,11 +433,21 @@ object FakeActionUtils {
     }
 
     /**
-     * Attempts to swap to and the item with the specified name.
+     * Attempts to swap to and use the specified [item].
+     * Returns true if successful.
+     */
+    fun useItem(item: SkyblockItem, swapBack: Boolean = true, fromInv: Boolean = false): Boolean {
+        val itemSlot = InventoryUtils.findItem(item, fromInv) ?: return false
+        this.useItem(itemSlot, swapBack, fromInv)
+        return true
+    }
+
+    /**
+     * Attempts to swap to and use the item with the specified [name].
      * Returns true if successful.
      */
     fun useItem(name: String, swapBack: Boolean = true, fromInv: Boolean = false, ignoreCase: Boolean = false): Boolean {
-        val itemSlot = Utils.findItem(name, ignoreCase, fromInv) ?: return false
+        val itemSlot = InventoryUtils.findItem(name, ignoreCase, fromInv) ?: return false
         this.useItem(itemSlot, swapBack, fromInv)
         return true
     }
@@ -442,7 +459,7 @@ object FakeActionUtils {
      * returns true if successful, false otherwise.
      */
     fun clickItem(name: String, rightClick: Boolean = true, swapBack: Boolean = true): Boolean {
-        val itemSlot = Utils.findItem(name) ?: return false
+        val itemSlot = InventoryUtils.findItem(name) ?: return false
         val previous = mc.thePlayer.inventory.currentItem
         mc.thePlayer.inventory.currentItem = itemSlot
         if (rightClick) {
@@ -496,7 +513,7 @@ object FakeActionUtils {
      * @return true if the swap was successful, false otherwise.
      */
     fun swapItemToSlot(regex: Regex, target: Int, matchMode : Int = 0) : Boolean {
-        val itemSlot = Utils.findItem(regex, true, matchMode) ?: return false
+        val itemSlot = InventoryUtils.findItem(regex, true, matchMode) ?: return false
         return swapItemToSlot(itemSlot, target)
     }
 
@@ -523,7 +540,7 @@ object FakeActionUtils {
             if (mc.thePlayer.inventory.itemStack != null) return@swapSlots null
             if (blockedSlots == 0b1111) return@swapSlots null
             if (itemName == "") return@swapSlots null
-            val itemSlot = Utils.findItem(itemName, ignoreCase, true) ?: return@swapSlots null
+            val itemSlot = InventoryUtils.findItem(itemName, ignoreCase, true) ?: return@swapSlots null
             if (itemSlot > 35) return@swapSlots null
 
             // The indices for the inventory slots of the GuiInventory do not match the indices of InventoryPlayer.

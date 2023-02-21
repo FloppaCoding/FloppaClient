@@ -21,6 +21,7 @@
     "MixinNetworkManager",
     "MixinPlayerHandler",
     "MixinSoundManager",
+    "MovementInputFromOptionsMixin",
     "PlayerControllerMixin",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinPlayerSP",
@@ -32,9 +33,12 @@
     "render.BlockFluidRendererMixin",
     "render.BlockRendererDispatcherMixin",
     "render.ChestRendererMixin",
+    "render.ChunkRendererWorkerMixin",
     "render.EntityRendererMixin",
     "render.ItemRendererMixin",
     "render.RenderChunkMixin",
+    "render.RenderGlobalMixin",
+    "render.RenderPlayerMixin",
     "render.VisGraphAccessor"
   ]
 }

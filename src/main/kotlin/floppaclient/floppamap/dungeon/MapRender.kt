@@ -6,7 +6,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.core.*
 import floppaclient.floppamap.utils.MapUtils
 import floppaclient.floppamap.utils.MapUtils.roomSize
-import floppaclient.floppamap.utils.HUDRenderUtils
+import floppaclient.utils.render.HUDRenderUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.module.impl.render.MapRooms
 import floppaclient.shaders.impl.Chroma2D

@@ -3,11 +3,11 @@ package floppaclient.module.impl.dungeon
 import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.PositionUpdateEvent
+import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.isInTerminal
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.entity.item.EntityArmorStand
@@ -41,7 +41,7 @@ object TerminalAura : Module(
 
     @SubscribeEvent
     fun onPositionUpdatePost(event: PositionUpdateEvent.Post) {
-        if (!FloppaClient.inDungeons || mc.thePlayer == null || !Utils.inF7Boss() || isInTerminal()) return
+        if (!FloppaClient.inDungeons || mc.thePlayer == null || !RunInformation.inF7Boss() || isInTerminal()) return
 
         if(System.currentTimeMillis() - lastClicked < cooldown.value) return
 

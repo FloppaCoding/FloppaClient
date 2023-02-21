@@ -9,10 +9,11 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.GeometryUtils.getDirection
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.containsOneOf
-import floppaclient.utils.Utils.isHoldingOneOf
 import floppaclient.utils.fakeactions.FakeActionManager
+import floppaclient.utils.inventory.InventoryUtils
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
 import net.minecraft.entity.monster.EntityZombie
@@ -40,13 +41,6 @@ object IceSprayAura : Module(
         "Shadow Assassin",
     )
 
-    private val witherBlades = arrayOf(
-        "Hyperion",
-        "Astraea",
-        "Scylla",
-        "Valkyrie"
-    )
-
     private var cooldown: Long = System.currentTimeMillis()
 
     init {
@@ -64,19 +58,19 @@ object IceSprayAura : Module(
     /**
      * Checks for mobs in range and stages the click.
      */
+    @Suppress("UNUSED_PARAMETER")
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun preMove(event: PositionUpdateEvent.Pre) {
         if(!inDungeons || FakeActionManager.doAction) return
         if (System.currentTimeMillis() < cooldown) return
-        if (pauseWithHype.enabled && mc.thePlayer.isHoldingOneOf(*witherBlades)) return
-        if (pauseWithAOTV.enabled && mc.thePlayer.isHoldingOneOf("Aspect of the Void", "Aspect of the Eoid", ignoreCase = false)) return
+        if (pauseWithHype.enabled && mc.thePlayer.isHolding(SkyblockItem.Attribute.WITHERBLADE)) return
+        if (pauseWithAOTV.enabled && mc.thePlayer.isHolding(SkyblockItem.AOTV, SkyblockItem.AOTE)) return
 
         /** Look for mobs  */
         val target = getTarget() ?: return
 
         val direction = mc.thePlayer.getDirection(target, (target.eyeHeight - mc.thePlayer.eyeHeight).toDouble())
-        val itemName = "Ice Spray"
-        val slot = Utils.findItem(itemName) ?: return
+        val slot = InventoryUtils.findItem(SkyblockItem.ICE_SPRAY) ?: return
         FakeActionManager.stageRightClickSlot(direction[1], direction[2], slot, false)
         cooldown = System.currentTimeMillis() + 5000
     }

@@ -2,12 +2,12 @@ package floppaclient.module.impl.dungeon
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.GuiContainerEvent
+import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.AlwaysActive
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.utils.Utils
 import floppaclient.utils.Utils.renderText
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.inventory.GuiChest
@@ -102,7 +102,7 @@ object AutoTerms : Module(
 
     @SubscribeEvent
     fun onGuiOpen(event: GuiOpenEvent) {
-        if (event.gui !is GuiChest || currentTerminal != TerminalType.NONE || !Utils.inF7Boss()) return
+        if (event.gui !is GuiChest || currentTerminal != TerminalType.NONE || !RunInformation.inF7Boss()) return
         val container = (event.gui as GuiChest).inventorySlots
         if (container is ContainerChest) {
             val chestName = container.lowerChestInventory.displayName.unformattedText
@@ -150,7 +150,7 @@ object AutoTerms : Module(
 
     @SubscribeEvent
     fun onSlotDraw(event: GuiContainerEvent.DrawSlotEvent) {
-        if (!this.enabled || !showClicks.enabled || event.gui !is GuiChest || currentTerminal == TerminalType.NONE || !Utils.inF7Boss()) return
+        if (!this.enabled || !showClicks.enabled || event.gui !is GuiChest || currentTerminal == TerminalType.NONE || !RunInformation.inF7Boss()) return
         if (clickQueue.contains(event.slot)) {
             val i: Int = event.slot.xDisplayPosition
             val j: Int = event.slot.yDisplayPosition

@@ -4,11 +4,14 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.events.ClickEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.StringSetting
+import floppaclient.utils.inventory.ItemUtils.reforge
 import floppaclient.utils.Utils.containsOneOf
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -26,9 +29,8 @@ object AutoWeaponSwap : Module(
             "The abilities will only be used on cooldown.\n" +
             "Whether the currently held item qualifies as a melee weapon is determined by it's reforge and an item blacklist. " +
             "Items in the blacklist will never trigger a weapon swap by this module, regardless of the reforge. "+
-            "You can effectively extend the whitelist through the use of the \"Custom Filter\" setting.\n"+
             "Whitelisted reforges: §a§oSuspicious, Fabled, Heroic, Spicy, Withered§r\n" +
-            "§fBlacklisted Items: §c§oAspect of the Void, Jerry, Bonzo"
+            "§fBlacklisted Items: §c§oAspect of the Void, Jerry-chine, Bonzo Staff"
 
 ) {
 
@@ -37,20 +39,12 @@ object AutoWeaponSwap : Module(
     private val terminator = BooleanSetting("Terminator Swap", false, description = "Include Terminator in the weapon swap cycle.")
     private val iceSpray = BooleanSetting("Ice Spray Swap", false, description = "Include Ice Spray in the weapon swap cycle.")
     private val termSleep = NumberSetting("Sleep ms",50.0,10.0,100.0,5.0, description = "Delay between Terminator clicks. This will determine the CPS on the Terminator and lets it exceed your left click CPS.")
+        .withDependency { this.terminator.enabled }
     private val fromInv = BooleanSetting("From Inv", false, description = "Lets you use Soul Whip, AOTS and Ice Spray from inventory. §cNot recommended.")
-    private val customFilter = StringSetting("Custom Filter", description = "Any item which contains this string in the name will also trigger a weapon swap by this module. Leave empty for this to be ignored. Case sensitive.")
 
-    private val leftClickItems = setOf("Suspicious", "Fabled", "Heroic", "Spicy", "Withered")
-        get() {
-            return if (customFilter.text == "") {
-                field
-            }else {
-                val temp = field.toMutableSet()
-                temp.add(customFilter.text)
-                return temp
-            }
-        }
-    private val leftClickBlacklist = setOf("Aspect of the Void", "Jerry", "Bonzo")
+    private val leftClickItems = setOf("suspicious", "fabled", "heroic", "spicy", "withered")
+    private val leftClickBlacklist = arrayOf(SkyblockItem.AOTV, SkyblockItem.JERRY_GUN, SkyblockItem.BONZO_STAFF, SkyblockItem.BONZO_STAFF_FRAGGED)
+
     private const val axeCooldown = 450
     private const val whipCooldown = 500
     private const val sprayCooldown = 5000
@@ -60,10 +54,10 @@ object AutoWeaponSwap : Module(
     private const val activationTime = 150
 
     private var activeUntil = System.currentTimeMillis()
-    private var lastAxe = System.currentTimeMillis()
-    private var lastWhip = System.currentTimeMillis()
-    private var lastTerm = System.currentTimeMillis()
-    private var lastSpray = System.currentTimeMillis()
+    private var nextAxe = System.currentTimeMillis()
+    private var nextWhip = System.currentTimeMillis()
+    private var nextTerm = System.currentTimeMillis()
+    private var nextSpray = System.currentTimeMillis()
 
 
     init {
@@ -71,51 +65,46 @@ object AutoWeaponSwap : Module(
             axeOfTheShredded,
             soulWhip,
             terminator,
-            iceSpray,
             termSleep,
+            iceSpray,
             fromInv,
-            customFilter
         )
     }
 
     @SubscribeEvent
     fun onLeftClick(event: ClickEvent.LeftClickEvent) {
-        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickBlacklist) == true) return
-        if (mc.thePlayer.heldItem?.displayName?.containsOneOf(leftClickItems) == true) {
-            if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
-                if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
-                    FakeActionUtils.useItem("Terminator")
-                    lastTerm = System.currentTimeMillis() - ((System.currentTimeMillis() - lastTerm) % termSleep.value.toInt())
-                }
+        if (mc.thePlayer.isHolding(*leftClickBlacklist)) return
+        if (mc.thePlayer.heldItem?.reforge?.containsOneOf(leftClickItems) == true) {
+            val nowMillis = System.currentTimeMillis()
+            if (terminator.enabled && nowMillis in nextTerm until activeUntil) {
+                FakeActionUtils.useItem(SkyblockItem.TERMINATOR)
+                val overshoot =  (nowMillis - nextTerm).takeIf { it < 200 } ?: 0L
+                nextTerm = nowMillis + (termSleep.value.toLong() - overshoot).coerceAtLeast(0L)
             }
-            if (axeOfTheShredded.enabled) {
-                if (System.currentTimeMillis() - lastAxe >= axeCooldown) {
-                    FakeActionUtils.useItem("Axe of the Shredded", fromInv = fromInv.enabled)
-                    lastAxe = System.currentTimeMillis()
-                }
+            if (axeOfTheShredded.enabled && nowMillis >= nextAxe) {
+                FakeActionUtils.useItem(SkyblockItem.AXE_OF_THE_SHREDDED, fromInv = fromInv.enabled)
+                nextAxe = nowMillis + axeCooldown
             }
-            if (soulWhip.enabled) {
-                if (System.currentTimeMillis() - lastWhip >= whipCooldown) {
-                    FakeActionUtils.useItem("Soul Whip", fromInv = fromInv.enabled)
-                    lastWhip = System.currentTimeMillis()
-                }
+            if (soulWhip.enabled && nowMillis >= nextWhip) {
+                FakeActionUtils.useItem(SkyblockItem.SOUL_WHIP, fromInv = fromInv.enabled)
+                nextWhip = nowMillis + whipCooldown
             }
-            if (iceSpray.enabled) {
-                if (System.currentTimeMillis() - lastSpray >= sprayCooldown) {
-                    FakeActionUtils.useItem("Ice Spray", fromInv = fromInv.enabled)
-                    lastSpray = System.currentTimeMillis()
-                }
+            if (iceSpray.enabled && nowMillis >= nextSpray) {
+                FakeActionUtils.useItem(SkyblockItem.ICE_SPRAY, fromInv = fromInv.enabled)
+                nextSpray = nowMillis + sprayCooldown
             }
-            activeUntil = System.currentTimeMillis() + activationTime
+            activeUntil = nowMillis + activationTime
         }
     }
 
     @SubscribeEvent
     fun onRenderWorldLast(event: RenderWorldLastEvent?) {
-        if (terminator.enabled && System.currentTimeMillis() < activeUntil) {
-            if (System.currentTimeMillis() - lastTerm >= termSleep.value) {
-                FakeActionUtils.useItem("Terminator")
-                lastTerm = System.currentTimeMillis() - ((System.currentTimeMillis() - lastTerm) % termSleep.value.toInt())
+        val nowMillis = System.currentTimeMillis()
+        if (terminator.enabled && nowMillis < activeUntil) {
+            if (nowMillis >= nextTerm) {
+                FakeActionUtils.useItem(SkyblockItem.TERMINATOR)
+                val overshoot =  (nowMillis - nextTerm).takeIf { it < 200 } ?: 0L
+                nextTerm = nowMillis + (termSleep.value.toLong() - overshoot).coerceAtLeast(0L)
             }
         }
     }

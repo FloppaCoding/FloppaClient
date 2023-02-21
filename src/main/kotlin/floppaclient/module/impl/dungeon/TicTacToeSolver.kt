@@ -7,7 +7,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.utils.RenderObject
+import floppaclient.utils.render.WorldRenderUtils
 import net.minecraft.entity.item.EntityItemFrame
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
@@ -24,8 +24,7 @@ import kotlin.experimental.and
 /**
  * Automatized tic tac toe solver.
  *
- * Based on the Skytils Tic Tac Toe Solver
- * @link https://github.com/Skytils/SkytilsMod
+ * Based on the [Skytils](https://github.com/Skytils/SkytilsMod) Tic Tac Toe Solver.
  * @author Aton
  */
 object TicTacToeSolver : Module(
@@ -190,7 +189,7 @@ object TicTacToeSolver : Module(
     fun onRenderWorld(event: RenderWorldLastEvent) {
         if (!inDungeons) return
         if (bestMove != null) {
-            RenderObject.drawBoxAtBlock(
+            WorldRenderUtils.drawBoxAtBlock(
                 bestMove!!,
                 Color(0,255,0),
                 false
@@ -200,8 +199,7 @@ object TicTacToeSolver : Module(
 
     /**
      * Represents the Tic Tac Toe board.
-     * Modified version of LazoCoder's Tic-Tac-Toe Java Implementation, GPLv3 License
-     * @link https://github.com/LazoCoder/Tic-Tac-Toe
+     * Modified version of [LazoCoder's Tic-Tac-Toe Java Implementation](https://github.com/LazoCoder/Tic-Tac-Toe), GPLv3 License.
      */
     class Board {
         enum class State {
@@ -479,8 +477,7 @@ object TicTacToeSolver : Module(
      * into the evaluation function, it allows the AI to pick the move that would
      * make it win as soon as possible.
      *
-     * Modified version of LazoCoder's Tic-Tac-Toe Java Implementation, GPLv3 License
-     * @link https://github.com/LazoCoder/Tic-Tac-Toe
+     * Modified version of [LazoCoder's Tic-Tac-Toe Java Implementation](https://github.com/LazoCoder/Tic-Tac-Toe), GPLv3 License.
      */
     object AlphaBetaAdvanced {
         private var maxPly = 0.0

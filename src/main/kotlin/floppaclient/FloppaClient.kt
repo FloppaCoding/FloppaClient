@@ -35,6 +35,15 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnection
 import java.io.File
 import kotlin.coroutines.EmptyCoroutineContext
 
+/**
+ * ## This is the main class of the mod.
+ *
+ * It dispatches things such as setting up all Modules and loading in data from the config.
+ *
+ * The companion object also provides some very frequently used or fundamental properties.
+ *
+ * @author Aton
+ */
 @Mod(
     modid = FloppaClient.MOD_ID,
     name = FloppaClient.MOD_NAME,
@@ -109,8 +118,10 @@ class FloppaClient {
             if (mc.thePlayer != null) {
                 onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
 
-                inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
-                    ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
+                if (!inSkyblock) {
+                    inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
+                        ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
+                }
 
                 // If alr known that in dungeons dont update the value. It does get reset to false on world change.
                 if (!inDungeons) {
@@ -138,8 +149,9 @@ class FloppaClient {
     }
 
     @SubscribeEvent
-    fun onWorldChange(event: WorldEvent.Load) {
+    fun onWorldChange(@Suppress("UNUSED_PARAMETER") event: WorldEvent.Load) {
         inDungeons = false
+        inSkyblock = false
         currentRegionPair = null
         tickRamp = 18
     }
@@ -147,7 +159,7 @@ class FloppaClient {
     companion object {
         const val MOD_ID = "fc"
         const val MOD_NAME = "Floppa Client"
-        const val MOD_VERSION = "1.0.1"
+        const val MOD_VERSION = "1.0.3"
         const val CHAT_PREFIX = "§6§lFloppa§r§eClient §6§l»§r"
         const val SHORT_PREFIX = "§6§lF§r§eC §6§l»§r"
         const val RESOURCE_DOMAIN = "floppaclient"

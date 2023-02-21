@@ -7,7 +7,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.utils.Utils.isHolding
+import floppaclient.utils.inventory.InventoryUtils.isHolding
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.settings.KeyBinding
 import net.minecraft.entity.player.EntityPlayer

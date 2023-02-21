@@ -7,11 +7,10 @@ import floppaclient.events.DungeonEndEvent
 import floppaclient.events.RoomChangeEvent
 import floppaclient.floppamap.core.*
 import floppaclient.floppamap.extras.ExtrasScan
-import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.floppamap.utils.MapUtils
+import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.TabListUtils
-import floppaclient.utils.Utils.currentFloor
 import floppaclient.utils.Utils.equalsOneOf
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.StringUtils
@@ -65,9 +64,15 @@ object Dungeon {
     val dungeonTeammates = mutableListOf<DungeonPlayer>()
 
     // Used for chat info
+    /**
+     * @see [RunInformation.puzzles]
+     */
     val puzzles = mutableListOf<String>()
     var trapType = ""
     var witherDoors = 0
+    /**
+     * @see [RunInformation.totalSecrets]
+     */
     var totalSecrets = 0
     var cryptCount = 0
 
@@ -86,6 +91,11 @@ object Dungeon {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onTick(event: TickEvent.ClientTickEvent) {
         if (event.phase != TickEvent.Phase.START || !inDungeons || mc.thePlayer == null) return
+        getDungeonTabList()?.let {
+            MapUpdate.updatePlayers(it)
+            RunInformation.updateRunInformation(it)
+        }
+
         // World based scan
         if (shouldScan()) {
             lastScanTime = System.currentTimeMillis()
@@ -103,19 +113,15 @@ object Dungeon {
             MinecraftForge.EVENT_BUS.post(RoomChangeEvent(newRoom, currentRoomPair))
             currentRoomPair = newRoom
         }
-        if (!mimicFound && currentFloor.equalsOneOf(6, 7)) {
-            MimicDetector.findMimic()
-        }
 
-        getDungeonTabList()?.let {
-            MapUpdate.updatePlayers(it)
-            RunInformation.updateRunInformation(it)
+        if (!mimicFound && RunInformation.currentFloor?.floorNumber.equalsOneOf(6, 7)) {
+            MimicDetector.findMimic()
         }
 
         // added check to determine whether in boss based on coordinates. This is relevant when blood is being skipped.
         // this also makes the chat message based detection obsolete
         if (FloppaClient.tickRamp % 20 == 0) {
-            when ( currentFloor ) {
+            when ( RunInformation.currentFloor?.floorNumber ) {
                 1 -> inBoss = mc.thePlayer.posX > -71 && mc.thePlayer.posZ > -39
                 2,3,4 -> inBoss = mc.thePlayer.posX > -39 && mc.thePlayer.posZ > -39
                 5,6 -> inBoss = mc.thePlayer.posX > -39 && mc.thePlayer.posZ > -7
@@ -208,10 +214,10 @@ object Dungeon {
     }
 
     private fun shouldScan() =
-        DungeonMap.autoScan.enabled && !fullyScanned && !inBoss && currentFloor != null
+        DungeonMap.autoScan.enabled && !fullyScanned && !inBoss && RunInformation.currentFloor != null
 
     private fun shouldScanRotation() =
-        DungeonMap.autoScan.enabled && !fullyScannedRotation && !inBoss && currentFloor != null
+        DungeonMap.autoScan.enabled && !fullyScannedRotation && !inBoss && RunInformation.currentFloor != null
 
     fun getDungeonTabList(): List<Pair<NetworkPlayerInfo, String>>? {
         val tabEntries = TabListUtils.tabList
@@ -244,7 +250,7 @@ object Dungeon {
     @JvmName("getCurrentRoomFromCoordinates")
     fun getCurrentRoom(): Room? {
         val room = if (inBoss) {
-            val floor = currentFloor
+            val floor = RunInformation.currentFloor?.floorNumber
             if (floor != null) {
                 RoomUtils.instanceBossRoom(floor)
             }else {

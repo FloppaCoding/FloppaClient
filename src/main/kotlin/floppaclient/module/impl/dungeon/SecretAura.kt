@@ -9,10 +9,10 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.StringSetting
-import floppaclient.utils.Utils
-import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.ChatUtils.modMessage
+import floppaclient.utils.Utils.equalsOneOf
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.InventoryUtils
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntitySkull
@@ -106,6 +106,7 @@ object SecretAura : Module(
     /**
      * Initiates the scan for secrets in range
      */
+    @Suppress("UNUSED_PARAMETER")
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun onTick(event: PositionUpdateEvent.Post)  {
         if (mc.thePlayer == null || !inDungeons) return
@@ -142,7 +143,7 @@ object SecretAura : Module(
         if (!secrets.containsKey(blockPos)){
             if (block == Blocks.chest || block == Blocks.lever ||
                 (block == Blocks.trapped_chest && trappedChest.enabled)
-                || (block == Blocks.redstone_block && redstoneKey.enabled && Utils.findItem("Redstone Key", inInv = true) != null)
+                || (block == Blocks.redstone_block && redstoneKey.enabled && InventoryUtils.findItem("Redstone Key", inInv = true) != null)
             ){
                 secrets[blockPos] = Pair(block,mutableListOf(0, System.currentTimeMillis()-10000))
             }else if (block == Blocks.skull) {
