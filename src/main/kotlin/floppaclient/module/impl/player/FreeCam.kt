@@ -39,17 +39,18 @@ object FreeCam : Module(
             "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}True Free Cam${ChatUtils.RESET} Mode lets you move the camera independently from the player character. " +
             "Communication with the server is not affected and the character you see is not a clone but the actual placer character. " +
             "You can still move your character using the arrow keys while in True Free Fam Mode. " +
-            "The command ${ChatUtils.ITALIC}\"fc freewalk\"${ChatUtils.RESET} freezes the camera but lets you move your character normally." +
-            "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
+            "The command ${ChatUtils.ITALIC}${ChatUtils.YELLOW}/fc freewalk${ChatUtils.RESET} freezes the camera but lets you move your character normally.\n" +
+            "${ChatUtils.BOLD}${ChatUtils.BLUE}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
             "A clone of the player character will be placed in its position. \n" +
             "${ChatUtils.RED}Ping Spoof Mode is not recommended!${ChatUtils.RESET} It does change the way the client communicates with the server."
 ){
     private val mode = SelectorSetting("Mode", "True Free Cam", arrayListOf("True Free Cam", "Ping Spoof"),
-        description = "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
-                "A clone of the player character will be placed in its position. \n" +
+        description =
                 "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}True Free Cam${ChatUtils.RESET} Mode lets you move the camera without moving the player character. " +
-                "Communication with the server is not affected and the character you see is not a clone but the actual placer character.")
-        .apply {
+                "Communication with the server is not affected and the character you see is not a clone but the actual placer character.\n" +
+                "${ChatUtils.BOLD}${ChatUtils.BLUE}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
+                "A clone of the player character will be placed in its position."
+    ).apply {
             // Prevent the mode from being changed while free cam is active.
             processInput = {
                 if (FreeCam.enabled) this.index
