@@ -134,7 +134,7 @@ object WorldRenderUtils {
         val y = entity.posY + ((entity.posY-entity.lastTickPosY)*partialTicks) + yOffset
         val z = entity.posZ + ((entity.posZ-entity.lastTickPosZ)*partialTicks) + zOffset - width / 2.0
 
-        drawCustomSizedBoxAt(x, width.toDouble(), y, height.toDouble(), z, width.toDouble(), color, lineWidth, phase)
+        drawCustomSizedBoxAt(x, y, z, width.toDouble(), height.toDouble(), width.toDouble(), color, lineWidth, phase)
     }
 
     /**

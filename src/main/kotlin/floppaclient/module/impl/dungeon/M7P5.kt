@@ -65,11 +65,11 @@ object M7P5 : Module(
     @SubscribeEvent
     fun onWorldRender(event: RenderWorldLastEvent) {
         if (!statueBox.enabled) return
-        if (M7Drags.GREEN.isAlive) drawCustomSizedBoxAt(7.0, 30.0, 8.0, 20.0, 80.0, 30.0, Color(0, 255, 0, 1), boxThickness.value.toFloat(), false)
-        if (M7Drags.RED.isAlive) drawCustomSizedBoxAt(14.5, 25.0, 13.0, 15.0, 45.5, 25.0, Color(255, 0, 0, 1), boxThickness.value.toFloat(), false)
-        if (M7Drags.ORANGE.isAlive) drawCustomSizedBoxAt(72.0, 30.0, 7.0, 20.0, 47.0, 30.0, Color(255, 128, 0, 1), boxThickness.value.toFloat(), false)
-        if (M7Drags.BLUE.isAlive) drawCustomSizedBoxAt(71.5, 25.0, 16.0, 10.0, 82.5, 25.0, Color(0, 255, 255, 1), boxThickness.value.toFloat(), false)
-        if (M7Drags.PURPLE.isAlive) drawCustomSizedBoxAt(45.5, 23.0, 13.0, 10.0, 113.5, 23.0, Color(128, 0, 255), boxThickness.value.toFloat(), false)
+        if (M7Drags.GREEN.isAlive)  drawCustomSizedBoxAt(7.0,   8.0,  80.0, 30.0, 20.0, 30.0, Color(  0, 255,   0), boxThickness.value.toFloat(), false)
+        if (M7Drags.RED.isAlive)    drawCustomSizedBoxAt(14.5, 13.0,  45.5, 25.0, 15.0, 25.0, Color(255,   0,   0), boxThickness.value.toFloat(), false)
+        if (M7Drags.ORANGE.isAlive) drawCustomSizedBoxAt(72.0,  7.0,  47.0, 30.0, 20.0, 30.0, Color(255, 128,   0), boxThickness.value.toFloat(), false)
+        if (M7Drags.BLUE.isAlive)   drawCustomSizedBoxAt(71.5, 16.0,  82.5, 25.0, 10.0, 25.0, Color(  0, 255, 255), boxThickness.value.toFloat(), false)
+        if (M7Drags.PURPLE.isAlive) drawCustomSizedBoxAt(45.5, 13.0, 113.5, 23.0, 10.0, 23.0, Color(128,   0, 255), boxThickness.value.toFloat(), false)
     }
 
     @SubscribeEvent(receiveCanceled = true)
