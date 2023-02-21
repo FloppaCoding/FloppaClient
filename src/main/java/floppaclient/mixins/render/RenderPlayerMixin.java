@@ -1,7 +1,7 @@
 package floppaclient.mixins.render;
 
 import floppaclient.FloppaClient;
-import floppaclient.module.impl.player.FreeCam2;
+import floppaclient.module.impl.player.FreeCam;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
@@ -14,7 +14,7 @@ abstract public class RenderPlayerMixin {
 
     @Redirect(method = "doRender(Lnet/minecraft/client/entity/AbstractClientPlayer;DDDFF)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/RenderManager;livingPlayer:Lnet/minecraft/entity/Entity;"))
     public Entity tweakViewEntity(RenderManager instance) {
-        if (FreeCam2.INSTANCE.isFreecamActive()) {
+        if (FreeCam.INSTANCE.shouldTweakViewEntity()) {
             return FloppaClient.mc.thePlayer;
         }else {
             return instance.livingPlayer;

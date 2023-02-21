@@ -1,13 +1,10 @@
 package floppaclient.mixins;
 
-import floppaclient.module.impl.player.FreeCam2;
-import net.minecraft.client.settings.GameSettings;
+import floppaclient.module.impl.player.FreeCam;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.MovementInputFromOptions;
 import org.lwjgl.input.Keyboard;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,7 +14,7 @@ public abstract class MovementInputFromOptionsMixin extends MovementInput {
 
     @Inject(method = "updatePlayerMoveState", at = @At("HEAD"), cancellable = true)
     public void supressMovement(CallbackInfo ci) {
-        if (FreeCam2.INSTANCE.shouldTweakMovement()) {
+        if (FreeCam.INSTANCE.shouldTweakMovement()) {
 
             this.moveStrafe = 0.0F;
             this.moveForward = 0.0F;

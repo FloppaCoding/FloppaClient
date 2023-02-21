@@ -82,7 +82,6 @@ object ModuleManager {
         AutoClip,
         AutoEther,
         FreeCam,
-        FreeCam2,
         Clip,
         HClip,
         BarPhase,
@@ -109,6 +108,8 @@ object ModuleManager {
         CancelInteract,
         FastMine,
         ChatCleaner,
+
+//        DevModule,
 
         //KEYBIND
         AddKeybind,

@@ -13,7 +13,7 @@ import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.misc.JerryBoxOpener
-import floppaclient.module.impl.player.FreeCam2
+import floppaclient.module.impl.player.FreeCam
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.utils.ChatUtils
 import floppaclient.utils.ChatUtils.chatMessage
@@ -122,7 +122,7 @@ class FloppaClientCommands : CommandBase() {
                 }
             }
             "freewalk", "freecamwalk" -> {
-                val enabled = FreeCam2.toggleControlCharacter()
+                val enabled = FreeCam.toggleControlCharacter()
                 modMessage("${if(enabled) "${ChatUtils.GREEN}enabled" else "${ChatUtils.RED}disabled"}${ChatUtils.RESET} walking in Freecam")
             }
             "resetgui" -> {
