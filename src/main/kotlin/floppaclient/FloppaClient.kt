@@ -35,6 +35,15 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnection
 import java.io.File
 import kotlin.coroutines.EmptyCoroutineContext
 
+/**
+ * ## This is the main class of the mod.
+ *
+ * It dispatches things such as setting up all Modules and loading in data from the config.
+ *
+ * The companion object also provides some very frequently used or fundamental properties.
+ *
+ * @author Aton
+ */
 @Mod(
     modid = FloppaClient.MOD_ID,
     name = FloppaClient.MOD_NAME,

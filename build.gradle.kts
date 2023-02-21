@@ -2,6 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import dev.architectury.pack200.java.Pack200Adapter
 import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     kotlin("jvm") version "1.7.10"
@@ -12,6 +13,12 @@ plugins {
     id("dev.architectury.architectury-pack200") version "0.1.3"
     idea
     java
+}
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-base:1.7.10")
+    }
 }
 
 version = "1.0.3"
@@ -102,6 +109,20 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
+        }
+    }
+    register<DokkaTask>("dokkaCustomFormat") {
+        pluginConfiguration<org.jetbrains.dokka.base.DokkaBase, org.jetbrains.dokka.base.DokkaBaseConfiguration> {
+            // Dokka's stylesheets and assets with conflicting names will be overriden.
+            // In this particular case, logo-styles.css will be overriden and Icon.png will
+            // be added as an additional image asset
+            // see the original assets at: https://github.com/Kotlin/dokka/tree/1.7.20/plugins/base/src/main/resources/dokka/styles
+            customStyleSheets = listOf(file("documentation/dokka/logo-styles.css"))
+            customAssets = listOf(file("documentation/dokka/Icon.png"))
+            footerMessage = "(c) 2023 Floppa Coding"
+            separateInheritedMembers = false
+            templatesDir = file("documentation/dokka/templates")
+            mergeImplicitExpectActualDeclarations = false
         }
     }
 }
