@@ -13,7 +13,9 @@ import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.impl.dungeon.AutoBlaze
 import floppaclient.module.impl.dungeon.AutoWater
 import floppaclient.module.impl.misc.JerryBoxOpener
+import floppaclient.module.impl.player.FreeCam2
 import floppaclient.module.impl.render.ClickGui
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.ChatUtils.chatMessage
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.DataHandler
@@ -119,6 +121,10 @@ class FloppaClientCommands : CommandBase() {
                     else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\".")
                 }
             }
+            "freewalk", "freecamwalk" -> {
+                val enabled = FreeCam2.toggleControlCharacter()
+                modMessage("${if(enabled) "${ChatUtils.GREEN}enabled" else "${ChatUtils.RED}disabled"}${ChatUtils.RESET} walking in Freecam")
+            }
             "resetgui" -> {
                 modMessage("Resetting positions in the click gui.")
                 ClickGui.resetPositions()
@@ -205,7 +211,7 @@ class FloppaClientCommands : CommandBase() {
         if (args.size == 1) {
             return getListOfStringsMatchingLastWord(
                 args,
-                mutableListOf("scan", "roomdata", "reload" , "clickentity" , "armorstands" , "entities")
+                mutableListOf("scan", "roomdata", "reload" , "stop" , "reload" , "clear" , "undo" , "rotate" , "freecamwalk" , "clickentity" , "armorstands" , "entities")
             )
         }
         return mutableListOf()

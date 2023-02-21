@@ -82,6 +82,7 @@ object ModuleManager {
         AutoClip,
         AutoEther,
         FreeCam,
+        FreeCam2,
         Clip,
         HClip,
         BarPhase,
