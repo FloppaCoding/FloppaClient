@@ -5,6 +5,7 @@ import floppaclient.events.ReceivePacketEvent
 import floppaclient.events.TeleportEventPre
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.utils.Utils.isHolding
 import net.minecraft.client.gui.GuiScreen
@@ -35,6 +36,7 @@ object NoRotate : Module(
     private val stopOnHopper = BooleanSetting("Stop on Hopper", false, description = "Teleporting onto a hopper will stop your movement. Press your walk keys again to move again.")
     private val clipInHopper = BooleanSetting("Clip into Hopper", false, description = "Will directly place you inside of a hopper when you teleport onto it.")
     private val stopMotionWithPearl = BooleanSetting("Stop with Pearl", true, description = "Stops keep motion when holding a Pearl.")
+        .withDependency { this.keepMotion.enabled }
 
     private var doneLoadingTerrain = false
 
@@ -52,9 +54,9 @@ object NoRotate : Module(
         this.addSettings(
             pitch,
             keepMotion,
+            stopMotionWithPearl,
             stopOnHopper,
             clipInHopper,
-            stopMotionWithPearl
         )
     }
 

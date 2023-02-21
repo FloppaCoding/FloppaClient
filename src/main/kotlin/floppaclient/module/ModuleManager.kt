@@ -39,6 +39,7 @@ object ModuleManager {
         //DUNGEON
         SecretChime,
         SecretAura,
+        SecretAura2,
         AutoWeirdos,
         AutoWater,
         AutoBlaze,
@@ -82,8 +83,6 @@ object ModuleManager {
         AutoClip,
         AutoEther,
         FreeCam,
-        Clip,
-        HClip,
         BarPhase,
         NoRotate,
         JerryRocket,

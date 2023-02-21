@@ -14,20 +14,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class ChestRendererMixin {
 
     @Inject(method = {"renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityChest;DDDFI)V"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;enableDepth()V", shift = At.Shift.AFTER))
-    public void onRender(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci){
-        if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()){
+    public void onRender(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci) {
+        if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()) {
             // Polygon offset is a pretty scuffed way of doing this, since it is meant only for small offsets,
             // but it works and is really simple. Stencil would probably be the proper way.
             GlStateManager.enablePolygonOffset();
-            GlStateManager.doPolygonOffset(0,-7_000_000);
+            GlStateManager.doPolygonOffset(0, -7_000_000);
         }
     }
 
     @Inject(method = {"renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityChest;DDDFI)V"}, at = @At("RETURN"))
-    public void onRenderReturn(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci){
-        if (ChestEsp.INSTANCE.isBoxMode() && ChestEsp.INSTANCE.isDrawingWorld())
-            RenderObject.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), ChestEsp.INSTANCE.getBoxThickness(), false);
-        if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()){
+    public void onRenderReturn(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci) {
+        if (ChestEsp.INSTANCE.isBoxMode() || ChestEsp.INSTANCE.isFillMode() && ChestEsp.INSTANCE.isDrawingWorld())
+            RenderObject.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), ChestEsp.INSTANCE.isFillMode(), false, ChestEsp.INSTANCE.getBoxThickness(), ChestEsp.INSTANCE.getBoxOpacity());
+        if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()) {
             GlStateManager.disablePolygonOffset();
         }
     }

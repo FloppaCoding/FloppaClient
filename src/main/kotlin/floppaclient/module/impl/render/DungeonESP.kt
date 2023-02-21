@@ -4,9 +4,11 @@ import floppaclient.FloppaClient
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.module.settings.impl.SelectorSetting
 import floppaclient.utils.RenderObject.drawBoxByEntity
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
@@ -29,7 +31,11 @@ object DungeonESP : Module(
     category = Category.RENDER,
     description = "Draws an esp around dungeon mobs."
 ){
+    private val style = SelectorSetting("Style", "Outline", arrayListOf("Outline", "Filled"), description = "Style of the esp box.")
     private val boxWidth = NumberSetting("Box Width",0.9,0.1,2.0,0.05, description = "Width of the esp box in units of blocks.")
+        .withDependency { this.style.index == 0 }
+    private val opacity = NumberSetting("Opacity",0.3,0.05,1.0,0.05, description = "Width of the esp box in units of blocks.")
+        .withDependency { this.style.index == 1 }
     private val deaultLineWidth = NumberSetting("Default LW",1.0,0.1,10.0,0.1, description = "Default line width of the esp box.")
     private val specialLineWidth = NumberSetting("Special Mob LW",2.0,0.1,10.0,0.1, description = "Line width of the esp box for special mobs like Fel and Withermancer.")
     private val miniLineWidth = NumberSetting("Mini Boss LW",3.0,0.1,10.0,0.1, description = "Line width of the esp box for Mini Bosses.")
@@ -47,7 +53,9 @@ object DungeonESP : Module(
 
     init {
         this.addSettings(
+            style,
             boxWidth,
+            opacity,
             deaultLineWidth,
             specialLineWidth,
             miniLineWidth,
@@ -81,40 +89,45 @@ object DungeonESP : Module(
                             val mob = getCorrespondingMob(entity) ?: return@forEach
                             if(entity.customNameTag.contains("Fel")){ // Fel
                                 drawBoxByEntity(mob,colorFel.value, boxWidth.value,3.0,event.partialTicks,
-                                    specialLineWidth.value, true)
+                                    this.style.index == 1, true,
+                                    lineWidth = specialLineWidth.value, opacity = opacity.value.toFloat())
                             }else if(entity.customNameTag.contains("Withermancer")){ // Withermancer
                                 drawBoxByEntity(mob,colorWithermancer.value, boxWidth.value,2.4,event.partialTicks,
-                                    specialLineWidth.value,true)
+                                    this.style.index == 1, true,
+                                    lineWidth = specialLineWidth.value, opacity = opacity.value.toFloat())
                             }else {
                                 drawBoxByEntity(mob,colorStar.value, boxWidth.value,2.0,event.partialTicks,
-                                    deaultLineWidth.value,true)
+                                    this.style.index == 1,true,
+                                    lineWidth = deaultLineWidth.value, opacity = opacity.value.toFloat())
                             }
                         }
                         else if (name.equals("Wither Key") || name.equals("Blood Key")){
                             drawBoxByEntity(entity,colorKey.value, boxWidth.value,1.0,event.partialTicks,
-                                miniLineWidth.value,true,0.0,1.0,0.0)
+                                this.style.index == 1,true,0.0,1.0,0.0, miniLineWidth.value, opacity.value.toFloat())
                         }
                     }
                     is EntityEnderman -> {
                         if(showFelHead.enabled && entity.customNameTag == "Dinnerbone"){
                             drawBoxByEntity(entity,colorFelHead.value, boxWidth.value,1.0,event.partialTicks,
-                                specialLineWidth.value,false)
+                                this.style.index == 1,false,
+                                lineWidth = deaultLineWidth.value, opacity = opacity.value.toFloat())
                         }
                     }
                     is EntityOtherPlayerMP -> {
                         if(entity.name.contains("Shadow Assassin")){ // shadow assassin
                             drawBoxByEntity(entity,colorShadowAssassin.value,boxWidth.value,2.0,event.partialTicks,
-                                miniLineWidth.value,true)
+                                this.style.index == 1,true, lineWidth = miniLineWidth.value, opacity = opacity.value.toFloat())
                         }
                         if(entity.name == "Diamond Guy" || entity.name == "Lost Adventurer"){ // miniBoss
                             drawBoxByEntity(entity,colorMini.value, boxWidth.value,2.0, event.partialTicks,
-                                miniLineWidth.value,true)
+                                this.style.index == 1,true, lineWidth = miniLineWidth.value, opacity = opacity.value.toFloat())
                         }
                     }
                     is EntityBat -> {
                         if (showBat.enabled && !entity.isInvisible) {
-                            drawBoxByEntity(entity, colorBat.value, entity.width, entity.height, event.partialTicks,
-                            deaultLineWidth.value.toFloat(), true)
+                            drawBoxByEntity(entity, colorBat.value, entity.width.toDouble(), entity.height.toDouble(), event.partialTicks,
+                                this.style.index == 1, true,
+                                lineWidth = specialLineWidth.value, opacity = opacity.value.toFloat())
                         }
                     }
                 }

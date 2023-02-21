@@ -15,14 +15,14 @@ object HotbarSwapper : Module(
     category = Category.PLAYER,
     description = "Swaps out the the items in the specified slots in your hotbar with the slots above them when you press the key bind."
 ){
-    private val slot0 = BooleanSetting("Slot 0",false, description = "Toggle whether this slot should be swapped.")
-    private val slot1 = BooleanSetting("Slot 1",false, description = "Toggle whether this slot should be swapped.")
-    private val slot2 = BooleanSetting("Slot 2",false, description = "Toggle whether this slot should be swapped.")
-    private val slot3 = BooleanSetting("Slot 3",false, description = "Toggle whether this slot should be swapped.")
-    private val slot4 = BooleanSetting("Slot 4",false, description = "Toggle whether this slot should be swapped.")
-    private val slot5 = BooleanSetting("Slot 5",false, description = "Toggle whether this slot should be swapped.")
-    private val slot6 = BooleanSetting("Slot 6",false, description = "Toggle whether this slot should be swapped.")
-    private val slot7 = BooleanSetting("Slot 7",false, description = "Toggle whether this slot should be swapped.")
+    private val slot0 = BooleanSetting("Slot 1",false, description = "Toggle whether this slot should be swapped.")
+    private val slot1 = BooleanSetting("Slot 2",false, description = "Toggle whether this slot should be swapped.")
+    private val slot2 = BooleanSetting("Slot 3",false, description = "Toggle whether this slot should be swapped.")
+    private val slot3 = BooleanSetting("Slot 4",false, description = "Toggle whether this slot should be swapped.")
+    private val slot4 = BooleanSetting("Slot 5",false, description = "Toggle whether this slot should be swapped.")
+    private val slot5 = BooleanSetting("Slot 6",false, description = "Toggle whether this slot should be swapped.")
+    private val slot6 = BooleanSetting("Slot 7",false, description = "Toggle whether this slot should be swapped.")
+    private val slot7 = BooleanSetting("Slot 8",false, description = "Toggle whether this slot should be swapped.")
 
     private val slots = arrayListOf<Setting>(
         slot0,

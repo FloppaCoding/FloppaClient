@@ -9,13 +9,14 @@ import floppaclient.floppamap.extras.EditMode
 import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.DataHandler
 import floppaclient.utils.Utils.flooredPosition
 import floppaclient.utils.Utils.isHolding
-import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.fakeactions.FakeActionUtils
 import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
 import net.minecraft.network.play.server.S08PacketPlayerPosLook
@@ -49,9 +50,10 @@ object AutoEther : Module(
     private val pingless = BooleanSetting("Pingless", false, description = "Pre moves client side before the teleport packet is received. Only for chains.")
     private val packetLimit = NumberSetting("Max Packets", 10.0, 1.0, 15.0, 1.0, visibility = Visibility.HIDDEN, description = "Sets the limit for overflow packets.")
     private val visibilityCheck = BooleanSetting("Visibility Check", true, description = "Will perform a visibility check for pingless routes.")
-    private val debugMessages = BooleanSetting("Debug Messages", false, description = "Shows debug messages for fake responses.")
-    private val blockClick = BooleanSetting("Cancel click", false, description = "Cancels left clicks with ATOV")
+        .withDependency { this.pingless.enabled }
+    private val debugMessages = BooleanSetting("Debug Messages", false, visibility = Visibility.HIDDEN, description = "Shows debug messages for fake responses.")
     private val noPinglessOnDouble = BooleanSetting("Normal on Double", true, description = "Disables pingless mode when you are not in a chain longer than 2.")
+        .withDependency { this.pingless.enabled }
 
     private var tryEther = false
     private var inChain = false
@@ -81,7 +83,6 @@ object AutoEther : Module(
             packetLimit,
             visibilityCheck,
             debugMessages,
-            blockClick,
             noPinglessOnDouble
         )
     }
@@ -94,7 +95,6 @@ object AutoEther : Module(
         if (!inSkyblock || EditMode.enabled || cooldownTicks > 0) return
         if (!mc.thePlayer.isHolding("Aspect of the Void")) return
         tryEther = true
-        if (blockClick.enabled) event.isCanceled = true
     }
 
     /**

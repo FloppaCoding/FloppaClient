@@ -16,22 +16,14 @@ object ArmorSwapper : Module(
     category = Category.PLAYER,
     description = "Swaps out the the  specified items with the armor you are wearing."
 ) {
-    private val item0 =
-        StringSetting("Item 0", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item1 =
-        StringSetting("Item 1", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item2 =
-        StringSetting("Item 2", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item3 =
-        StringSetting("Item 3", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item4 =
-        StringSetting("Item 4", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item5 =
-        StringSetting("Item 5", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item6 =
-        StringSetting("Item 6", "", description = "Name of an item to be swapped, leave empty to do nothing.")
-    private val item7 =
-        StringSetting("Item 7", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item0 = StringSetting("Item 1", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item1 = StringSetting("Item 2", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item2 = StringSetting("Item 3", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item3 = StringSetting("Item 4", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item4 = StringSetting("Item 5", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item5 = StringSetting("Item 6", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item6 = StringSetting("Item 7", "", description = "Name of an item to be swapped, leave empty to do nothing.")
+    private val item7 = StringSetting("Item 8", "", description = "Name of an item to be swapped, leave empty to do nothing.")
 
     private val items = arrayListOf<Setting>(
         item0,

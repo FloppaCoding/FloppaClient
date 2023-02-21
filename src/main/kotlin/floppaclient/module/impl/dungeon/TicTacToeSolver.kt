@@ -193,7 +193,7 @@ object TicTacToeSolver : Module(
             RenderObject.drawBoxAtBlock(
                 bestMove!!,
                 Color(0,255,0),
-                3f
+                false
             )
         }
     }
