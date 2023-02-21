@@ -109,6 +109,8 @@ object ModuleManager {
         FastMine,
         ChatCleaner,
 
+//        DevModule,
+
         //KEYBIND
         AddKeybind,
     )

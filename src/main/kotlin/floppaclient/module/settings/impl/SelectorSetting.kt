@@ -12,10 +12,13 @@ class SelectorSetting(
     description: String? = null,
 ) : Setting(name, visibility, description){
 
+    var processInput: (Int) -> Int = { input: Int -> input }
+
     var index: Int = optionIndex(default)
      set(value) {
          /** guarantees that index is in bounds and enables cycling behaviour */
-         field = if (value > options.size - 1)  0 else if ( value < 0) options.size - 1 else value
+         val newVal = processInput(value)
+         field = if (newVal > options.size - 1)  0 else if ( newVal < 0) options.size - 1 else newVal
      }
 
     var selected: String

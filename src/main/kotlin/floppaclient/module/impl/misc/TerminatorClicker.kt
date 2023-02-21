@@ -31,7 +31,7 @@ object TerminatorClicker : Module(
     }
 
     @SubscribeEvent
-    fun onRenderWorldLast(event: RenderWorldLastEvent?) {
+    fun onRenderWorldLast(event: RenderWorldLastEvent) {
         if (mc.gameSettings.keyBindUseItem.isKeyDown) {
             val held = mc.thePlayer.inventory.getCurrentItem()
             if (held != null) {

@@ -28,9 +28,8 @@ object ClipTools {
     }
 
     fun dClip(dist: Double, yaw: Float = yaw(), pitch: Float = 0.0f) {
-        clip(-GeometryUtils.sinDeg(yaw) * GeometryUtils.cosDeg(pitch) *dist, -GeometryUtils.sinDeg(pitch) *dist, GeometryUtils.cosDeg(
-            yaw
-        ) * GeometryUtils.cosDeg(pitch) *dist)
+        clip(-GeometryUtils.sinDeg(yaw) * GeometryUtils.cosDeg(pitch) *dist,
+            -GeometryUtils.sinDeg(pitch) *dist, GeometryUtils.cosDeg(yaw) * GeometryUtils.cosDeg(pitch) *dist)
     }
 
     fun hClip(dist: Double, yaw: Float = yaw(), yOffs: Double = 0.0) {
