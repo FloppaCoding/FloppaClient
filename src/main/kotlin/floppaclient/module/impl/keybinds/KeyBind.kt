@@ -49,7 +49,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
         )
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (!this.enabled) return
         performAction()
     }

@@ -48,7 +48,7 @@ object ArmorSwapper : Module(
         this.addSettings(items)
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (this.enabled) {
 
             // Swap slots. No direct reference to the FakeInventoryActionManager needed here. swapArmorItem takes care of that.

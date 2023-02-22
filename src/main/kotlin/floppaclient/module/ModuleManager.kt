@@ -13,18 +13,20 @@ import floppaclient.ui.clickgui.ClickGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
- * This object handles all the modules. After making a module it just has to be added to the "modules" list and
+ * ## This object handles all the modules of the mod.
+ *
+ * After making a [Module] it just has to be added to the [modules] list and
  * everything else will be taken care of automatically. This entails:
  *
  * It will be added to the click gui in the order it is put in here. But keep in mind that the category is set within
  * the module. The comments here are only for readability.
  *
- * All settings that are registered within the module will be saved to and loaded the module config.
+ * All settings that are registered within the module will be saved to and loaded from the module config.
  * For this to properly work remember to register the settings to the module.
  *
  * The module will be registered and unregistered to the forge eventbus when it is enabled / disabled.
  *
- * The module will be informed of its keybind press.
+ * The module will be informed of its keybind presses.
  *
  *
  * @author Aton
@@ -150,7 +152,7 @@ object ModuleManager {
      */
     @SubscribeEvent
     fun activateModuleKeyBinds(event: PreKeyInputEvent) {
-        modules.stream().filter { module -> module.keyCode == event.key }.forEach { module -> module.keyBind() }
+        modules.stream().filter { module -> module.keyCode == event.key }.forEach { module -> module.onKeyBind() }
     }
 
     /**
@@ -160,7 +162,7 @@ object ModuleManager {
      */
     @SubscribeEvent
     fun activateModuleMouseBinds(event: PreMouseInputEvent) {
-        modules.stream().filter { module -> module.keyCode + 100 == event.button }.forEach { module -> module.keyBind() }
+        modules.stream().filter { module -> module.keyCode + 100 == event.button }.forEach { module -> module.onKeyBind() }
     }
 
     fun getModuleByName(name: String): Module? {

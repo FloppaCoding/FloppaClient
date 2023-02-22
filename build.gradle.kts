@@ -21,7 +21,8 @@ buildscript {
     }
 }
 
-version = "1.0.4"
+// This variable determine the filename of the produced jar file.
+version = "1.0.3:0.1"
 group = "floppaclient"
 
 repositories {

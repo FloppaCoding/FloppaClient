@@ -128,7 +128,7 @@ object ClickGui: Module(
     /**
      * Overridden to prevent the chat message from being sent.
      */
-    override fun keyBind() {
+    override fun onKeyBind() {
         this.toggle()
     }
 

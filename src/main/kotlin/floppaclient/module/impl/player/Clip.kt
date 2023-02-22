@@ -27,7 +27,7 @@ object Clip : Module(
         )
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (this.enabled) {
             if (allow3DClip.enabled) {
                 dClip(clipDistance.value, yaw(), pitch())

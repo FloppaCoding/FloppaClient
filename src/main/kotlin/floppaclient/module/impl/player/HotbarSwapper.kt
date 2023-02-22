@@ -39,7 +39,7 @@ object HotbarSwapper : Module(
         this.addSettings(slots)
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (this.enabled) {
 
             // Swap slots

@@ -9,20 +9,24 @@ import net.minecraftforge.common.MinecraftForge
 import kotlin.reflect.full.hasAnnotation
 
 /**
- * Super class for all modules in the mod.
+ * Super class for all Modules in the mod.
+ *
+ * To make your own Module simply create an object which inherits from this class and add it to the list of
+ * [modules][ModuleManager.modules] in [ModuleManager].
+ * The sample provided below shows how you can do this
  *
  * Annotate with [AlwaysActive] to have a Module always registered to the Event Bus regardless of the Module being [enabled].
  *
- * <br>
- * This class must not be abstract!
- * While this might look like a good thing to do it prevents Gson from reading the config. when the config is being read
- * Gson creates dummy instances of this class directly to temporarily store the read data.
- * </br>
- *
  * @author Aton
  * @see ModuleManager
+ * @param name The name of the Module. **This has to be unique!** This name is shown in the GUI and used to identify the module in the config.
+ * @param keyCode Key code for the Modules key-bind.
+ * @param category Determines in which category Panel the module will appear in the GUI.
+ * @param description A description of the module and its usage that is shown in the [Advanced GUI][floppaclient.ui.clickgui.advanced.AdvancedMenu].
+ *
+ * @sample floppaclient.module.impl.misc.AutoSprint
  */
-open class Module(
+abstract class Module(
     name: String,
     keyCode: Int = 0,
     category: Category = Category.MISC,
@@ -45,7 +49,7 @@ open class Module(
     val category: Category
 
     /**
-     * Dont set this value directly, instead use toggle()
+     * Do NOT set this value directly, use [toggle()][toggle] instead!
      */
     @Expose
     @SerializedName("enabled")
@@ -56,7 +60,7 @@ open class Module(
     val settings: ArrayList<Setting<*>>
 
     /**
-     * Will be used for an advanced info gui
+     * A description of the module and its usage that is shown in the [Advanced GUI][floppaclient.ui.clickgui.advanced.AdvancedMenu].
      */
     var description: String
 
@@ -68,6 +72,12 @@ open class Module(
         this.description = description
     }
 
+    /**
+     * Triggers the module initialization.
+     *
+     * Also takes care of registering the module to the Forge [EventBus][MinecraftForge.EVENT_BUS] if it has
+     * the [AlwaysActive] annotation.
+     */
     fun initializeModule() {
         if (this::class.hasAnnotation<AlwaysActive>()) {
             MinecraftForge.EVENT_BUS.register(this)
@@ -76,12 +86,42 @@ open class Module(
     }
 
     /**
-     * This method will be run on the FMLInitializationEvent on game startup.
+     * This method will be run on the FMLLoadCompleteEvent on game startup after the config is loaded.
+     *
+     * Override it in your implementation to perform additional initialization actions
+     * which require certain things like the config to be loaded.
+     * In the example below you can see this being used to register the module to run in the background
+     * if the corresponding setting is enabled.
+     * @see FloppaClient.postInit
+     * @sample floppaclient.module.impl.render.DungeonWarpTimer.onInitialize
      */
     open fun onInitialize() {}
+
+    /**
+     * This method is run whenever the module is enabled.
+     *
+     * Its default implementation registers the module to the Forge [EventBus][MinecraftForge.EVENT_BUS].
+     *
+     * Override it in your implementation to perform extra actions when the module is activated.
+     * Keep in mind that you still have to invoke this implementation to register the module to the event bus.
+     *
+     * The following example shows how you can use this to prevent a module from being enabled in certain conditions and
+     * to run some extra code.
+     *
+     * @sample floppaclient.module.impl.player.FreeCam.onEnable
+     */
     open fun onEnable() {
         MinecraftForge.EVENT_BUS.register(this)
     }
+
+    /**
+     * This method is run whenever the module is disabled.
+     *
+     * Its default implementation unregisters the module to the Forge [EventBus][MinecraftForge.EVENT_BUS] unless it has
+     * the [AlwaysActive] annotation.
+     *
+     * Override it in your implementation to change this behaviour or add extra functionality.
+     */
     open fun onDisable() {
         //Only allow unregistering the class if it is not set to be always active.
         if (!this::class.hasAnnotation<AlwaysActive>()) {
@@ -90,17 +130,20 @@ open class Module(
     }
 
     /**
-     * Call to perform the key bind action for this module.
+     * This method is run whenever the [key-bind][keyCode] for the Module is pressed.
+     *
      * By default, this will toggle the module and send a chat message.
      * It can be overwritten in the module to change that behaviour.
      */
-    open fun keyBind() {
+    open fun onKeyBind() {
         this.toggle()
         ChatUtils.modMessage("$name ${if (enabled) "§aenabled" else "§cdisabled"}.")
     }
 
     /**
-     * Will toggle the module
+     * Will toggle the module.
+     *
+     * Invokes [onEnable] or [onDisable] accordingly.
      */
     fun toggle() {
         enabled = !enabled
@@ -122,7 +165,7 @@ open class Module(
     }
 
     /**
-     * Adds all settings in the input to the settings field of the module.
+     * Adds all settings in the input to the [settings] field of the module.
      * This is required for saving and loading these settings to / from a file.
      * Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.
      */

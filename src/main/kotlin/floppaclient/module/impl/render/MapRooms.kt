@@ -77,7 +77,7 @@ object MapRooms : Module(
     /**
      * Prevent keybind Action.
      */
-    override fun keyBind() {
+    override fun onKeyBind() {
 
     }
 }

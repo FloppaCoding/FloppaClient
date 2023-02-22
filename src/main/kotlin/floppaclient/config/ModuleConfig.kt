@@ -1,15 +1,15 @@
 package floppaclient.config
 
-import floppaclient.config.jsonutils.SettingDeserializer
-import floppaclient.config.jsonutils.SettingSerializer
-import floppaclient.module.Module
-import floppaclient.module.ModuleManager
-import floppaclient.module.settings.Setting
-import floppaclient.module.settings.impl.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import floppaclient.config.jsonutils.SettingDeserializer
+import floppaclient.config.jsonutils.SettingSerializer
+import floppaclient.module.ConfigModule
+import floppaclient.module.ModuleManager
+import floppaclient.module.settings.Setting
+import floppaclient.module.settings.impl.*
 import java.awt.Color
 import java.io.File
 import java.io.IOException
@@ -44,14 +44,14 @@ class ModuleConfig(path: File) {
 
     fun loadConfig() {
         try {
-            val configModules: ArrayList<Module>
+            val configModules: ArrayList<ConfigModule>
             with(configFile.bufferedReader().use { it.readText() }) {
                 if (this == "") {
                     return
                 }
                 configModules= gson.fromJson(
                     this,
-                    object : TypeToken<ArrayList<Module>>() {}.type
+                    object : TypeToken<ArrayList<ConfigModule>>() {}.type
                 )
             }
             configModules.forEach { configModule ->

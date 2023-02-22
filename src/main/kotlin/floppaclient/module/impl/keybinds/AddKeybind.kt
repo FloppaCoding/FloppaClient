@@ -22,5 +22,5 @@ object AddKeybind : Module(
         }
     }
 
-    override fun keyBind() {}
+    override fun onKeyBind() {}
 }
