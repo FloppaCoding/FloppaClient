@@ -21,7 +21,7 @@ buildscript {
     }
 }
 
-version = "1.0.3"
+version = "1.0.4"
 group = "floppaclient"
 
 repositories {

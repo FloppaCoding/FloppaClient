@@ -8,12 +8,13 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import floppaclient.module.settings.impl.DummySetting
 import java.lang.reflect.Type
 
 class SettingDeserializer: JsonDeserializer<Setting> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Setting {
         if (json?.isJsonObject == true) {
-            if (json.asJsonObject.entrySet().isEmpty()) return  Setting("Undefined")
+            if (json.asJsonObject.entrySet().isEmpty()) return  DummySetting("Undefined")
 
             /**
              * The JsonObject for a Setting should only have one property. If more properties will be needed, this
@@ -31,6 +32,6 @@ class SettingDeserializer: JsonDeserializer<Setting> {
                 }
             }
         }
-        return Setting("Undefined")
+        return DummySetting("Undefined")
     }
 }

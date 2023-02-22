@@ -3,14 +3,11 @@ package floppaclient.module.settings
 /**
  * The super class that all Module Settings for the gui and config should inherit from.
  *
- * <br>
- * This class is not abstract because it is instanced as a default if reading the config files.
- * It is also used as a place holder for Keybind elements in the gui to avoid using null.
- * </br>
+ * To avoid nullability you can use [DummySetting][floppaclient.module.settings.impl.DummySetting] instead of null.
  *
  * @author Aton
  */
-open class Setting(
+abstract class Setting(
     val name: String,
     val visibility: Visibility = Visibility.VISIBLE,
     var description: String? = null,
