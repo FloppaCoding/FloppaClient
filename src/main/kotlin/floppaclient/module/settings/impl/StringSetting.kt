@@ -5,13 +5,13 @@ import floppaclient.module.settings.Visibility
 
 class StringSetting(
     name: String,
-    var default: String = "",
+    override var default: String = "",
     var length: Int = 30,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description) {
+) : Setting<String>(name, visibility, description) {
 
-    var text: String = default
+    override var value: String = default
         set(newStr) {
             field = newStr
             if (newStr.length > length) {
@@ -19,8 +19,5 @@ class StringSetting(
             }
         }
 
-    override fun reset() {
-        text = default
-        super.reset()
-    }
+    var text: String by this::value
 }

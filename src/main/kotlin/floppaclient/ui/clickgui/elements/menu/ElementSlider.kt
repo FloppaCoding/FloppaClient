@@ -22,7 +22,7 @@ import kotlin.math.roundToInt
  *
  * @author HeroCode, Aton
  */
-class ElementSlider(iparent: ModuleButton, iset: Setting) : Element() {
+class ElementSlider(iparent: ModuleButton, iset: Setting<*>) : Element() {
     var dragging: Boolean
 
     init {

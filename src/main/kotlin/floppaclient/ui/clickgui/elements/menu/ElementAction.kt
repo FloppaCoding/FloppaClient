@@ -14,7 +14,7 @@ import net.minecraft.client.gui.Gui
  *
  * @author Aton
  */
-class ElementAction(iparent: ModuleButton, iset: Setting) : Element()  {
+class ElementAction(iparent: ModuleButton, iset: Setting<*>) : Element()  {
 
 
     init {

@@ -11,8 +11,8 @@ import com.google.gson.JsonPrimitive
 import floppaclient.module.settings.impl.DummySetting
 import java.lang.reflect.Type
 
-class SettingDeserializer: JsonDeserializer<Setting> {
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Setting {
+class SettingDeserializer: JsonDeserializer<Setting<*>> {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Setting<*> {
         if (json?.isJsonObject == true) {
             if (json.asJsonObject.entrySet().isEmpty()) return  DummySetting("Undefined")
 

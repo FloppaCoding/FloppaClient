@@ -44,6 +44,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  *
  * @author Aton
  */
+@Suppress("UNUSED_PARAMETER")
 @Mod(
     modid = FloppaClient.MOD_ID,
     name = FloppaClient.MOD_NAME,

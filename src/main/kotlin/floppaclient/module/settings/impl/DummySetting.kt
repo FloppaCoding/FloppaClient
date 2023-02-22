@@ -17,4 +17,19 @@ class DummySetting(
     name: String,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description)
+) : Setting<Any?>(name, visibility, description) {
+    /**
+     * Always is null.
+     * Not intended to be used.
+     */
+    override val default: Any?
+        get() = null
+
+    /**
+     * Always is null.
+     * Not intended to be used.
+     */
+    override var value: Any?
+        get() = null
+        set(_) {}
+}

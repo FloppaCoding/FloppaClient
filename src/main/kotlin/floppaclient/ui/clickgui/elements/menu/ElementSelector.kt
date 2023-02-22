@@ -19,7 +19,7 @@ import java.util.*
  *
  * @author HeroCode, Aton
  */
-class ElementSelector(iparent: ModuleButton, iset: Setting) : Element() {
+class ElementSelector(iparent: ModuleButton, iset: Setting<*>) : Element() {
 
     init {
         parent = iparent

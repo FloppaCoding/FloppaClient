@@ -33,7 +33,7 @@ object ArmorSwapper : Module(
     private val item7 =
         StringSetting("Item 7", "", description = "Name of an item to be swapped, leave empty to do nothing.")
 
-    private val items = arrayListOf<Setting>(
+    private val items = arrayListOf<Setting<*>>(
         item0,
         item1,
         item2,

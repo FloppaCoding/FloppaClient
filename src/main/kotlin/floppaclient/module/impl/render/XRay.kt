@@ -3,6 +3,7 @@ package floppaclient.module.impl.render
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withInputTransform
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.Utils.identicalToOneOf
@@ -35,15 +36,13 @@ object XRay : Module(
     private val showFluids = BooleanSetting("Fluids", false, description = "If enabled the opacity of fluids will not be affected.")
 
     private val opacity = NumberSetting("Opacity", 180.0, 0.0, 255.0, 1.0, description = "The opacity of hidden blocks.")
-        .apply {
+        .withInputTransform { input ->
             // store the value in an int to avoid needing a type conversion for every rendered block surface.
             // This might help with performance, or not idk.
-            processInput = {
-                alphaInt = it.toInt()
-                alphaFloat = it.toFloat() / 255f
-                if(this@XRay.enabled) mc.renderGlobal.loadRenderers()
-                it
-            }
+            alphaInt = input.toInt()
+            alphaFloat = input.toFloat() / 255f
+            if(this@XRay.enabled) mc.renderGlobal.loadRenderers()
+            input
         }
 
     private var alphaInt: Int = 180

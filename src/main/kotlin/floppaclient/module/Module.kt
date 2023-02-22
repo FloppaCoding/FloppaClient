@@ -27,7 +27,7 @@ open class Module(
     keyCode: Int = 0,
     category: Category = Category.MISC,
     toggled: Boolean = false,
-    settings: ArrayList<Setting> = ArrayList(),
+    settings: ArrayList<Setting<*>> = ArrayList(),
     description: String = ""
 ){
     @Expose
@@ -53,7 +53,7 @@ open class Module(
         private set
     @Expose
     @SerializedName("settings")
-    val settings: ArrayList<Setting>
+    val settings: ArrayList<Setting<*>>
 
     /**
      * Will be used for an advanced info gui
@@ -115,7 +115,7 @@ open class Module(
      * This is required for saving and loading these settings to / from a file.
      * Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.
      */
-    fun addSettings(setArray: ArrayList<Setting>) {
+    fun addSettings(setArray: ArrayList<Setting<*>>) {
         setArray.forEach {
             settings.add(it)
         }
@@ -126,11 +126,11 @@ open class Module(
      * This is required for saving and loading these settings to / from a file.
      * Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.
      */
-    fun addSettings(vararg setArray: Setting) {
+    fun addSettings(vararg setArray: Setting<*>) {
         this.addSettings(ArrayList(setArray.asList()))
     }
 
-    fun getSettingByName(name: String): Setting? {
+    fun getSettingByName(name: String): Setting<*>? {
         for (set in settings) {
             if (set.name.equals(name, ignoreCase = true)) {
                 return set

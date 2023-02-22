@@ -25,7 +25,7 @@ import kotlin.math.roundToInt
  *
  * @author Aton
  */
-class ElementColor(iparent: ModuleButton, iset: Setting) : Element() {
+class ElementColor(iparent: ModuleButton, iset: Setting<*>) : Element() {
     var dragging: Int?
 
     private val hueScale = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/HueScale.png")

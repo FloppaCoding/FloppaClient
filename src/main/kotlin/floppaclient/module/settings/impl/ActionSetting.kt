@@ -7,8 +7,12 @@ class ActionSetting(
     name: String,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-    var action: () -> Unit = {}
-) : Setting(name, visibility, description) {
+    override val default: () -> Unit = {}
+) : Setting<() -> Unit>(name, visibility, description) {
+
+    override var value: () -> Unit = default
+
+    var action: () -> Unit by this::value
 
     fun doAction() {
         action()

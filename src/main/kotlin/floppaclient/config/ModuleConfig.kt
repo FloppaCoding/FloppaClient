@@ -17,8 +17,8 @@ import java.io.IOException
 class ModuleConfig(path: File) {
 
     private val gson = GsonBuilder()
-        .registerTypeAdapter(object : TypeToken<Setting>(){}.type, SettingSerializer())
-        .registerTypeAdapter(object : TypeToken<Setting>(){}.type, SettingDeserializer())
+        .registerTypeAdapter(object : TypeToken<Setting<*>>(){}.type, SettingSerializer())
+        .registerTypeAdapter(object : TypeToken<Setting<*>>(){}.type, SettingDeserializer())
         .excludeFieldsWithoutExposeAnnotation()
         .setPrettyPrinting().create()
 
@@ -66,8 +66,10 @@ class ModuleConfig(path: File) {
                     module.keyCode = configModule.keyCode
                     for (setting in module.settings) {
                         for (configSetting in configModule.settings) {
-                            // When the config parsing failed it can result in this being null. The compiler does not know this.
-                            // So just ignore the warning here.
+                            // It seems like when the config parsing failed it can result in this being null. The compiler does not know this.
+                            // This check ensures that the rest of the config will still get processed in that case, avoiding the loss of data.
+                            // So just suppress the warning here.
+                            @Suppress("SENSELESS_COMPARISON")
                             if (configSetting == null) continue
                             if (setting.name.equals(configSetting.name, ignoreCase = true)) {
                                 when (setting) {

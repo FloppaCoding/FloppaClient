@@ -16,7 +16,7 @@ import java.awt.Color
  *
  * @author HeroCode, Aton
  */
-class ElementCheckBox(iparent: ModuleButton, iset: Setting) : Element() {
+class ElementCheckBox(iparent: ModuleButton, iset: Setting<*>) : Element() {
 
     init {
         parent = iparent

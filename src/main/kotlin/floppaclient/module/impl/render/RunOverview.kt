@@ -28,9 +28,9 @@ object RunOverview : Module(
     description = "Shows how much time your party needed to complete individual stages / splits of a dungeon run. "
 ) {
 
-    private val showHud = BooleanSetting("Show HUD", enabled = true, description = "Render the splits in a hud.")
-    private val chatMessage = BooleanSetting("Chat Message", enabled = false, description = "Shows a message of whenever a phase is completed.")
-    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", enabled = true, description = "Show Custom splits for Floor 7 and Master Floor 7.")
+    private val showHud = BooleanSetting("Show HUD", default = true, description = "Render the splits in a hud.")
+    private val chatMessage = BooleanSetting("Chat Message", default = false, description = "Shows a message of whenever a phase is completed.")
+    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", default = true, description = "Show Custom splits for Floor 7 and Master Floor 7.")
 
     private val xHud = NumberSetting("x", default = 3.0, visibility = Visibility.HIDDEN)
     private val yHud = NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)

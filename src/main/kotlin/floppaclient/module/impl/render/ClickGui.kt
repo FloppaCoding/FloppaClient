@@ -117,7 +117,7 @@ object ClickGui: Module(
         for(category in Category.values()) {
             panelX.getOrPut(category) { NumberSetting(category.name + ",x", default = px, visibility = Visibility.HIDDEN) }.value = px
             panelY.getOrPut(category) { NumberSetting(category.name + ",y", default = py, visibility = Visibility.HIDDEN) }.value = py
-            panelExtended.getOrPut(category) { BooleanSetting(category.name + ",extended", enabled = true, visibility = Visibility.HIDDEN) }.enabled = true
+            panelExtended.getOrPut(category) { BooleanSetting(category.name + ",extended", default = true, visibility = Visibility.HIDDEN) }.enabled = true
             px += pxplus
         }
 

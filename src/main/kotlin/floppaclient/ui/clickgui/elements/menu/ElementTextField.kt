@@ -16,7 +16,7 @@ import java.awt.Color
  *
  * @author Aton
  */
-class ElementTextField(iparent: ModuleButton, iset: Setting) : Element() {
+class ElementTextField(iparent: ModuleButton, iset: Setting<*>) : Element() {
     var listening: Boolean
 /*
     private val keyWhitelist = intArrayOf(

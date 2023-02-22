@@ -5,6 +5,7 @@ import floppaclient.events.PacketSentEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
+import floppaclient.module.settings.Setting.Companion.withInputTransform
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.module.settings.impl.SelectorSetting
@@ -50,13 +51,11 @@ object FreeCam : Module(
                 "Communication with the server is not affected and the character you see is not a clone but the actual placer character.\n" +
                 "${ChatUtils.BOLD}${ChatUtils.BLUE}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
                 "A clone of the player character will be placed in its position."
-    ).apply {
-            // Prevent the mode from being changed while free cam is active.
-            processInput = {
-                if (FreeCam.enabled) this.index
-                else it
-            }
-        }
+    ).withInputTransform {input, setting ->
+        // Prevent the mode from being changed while free cam is active.
+        if (FreeCam.enabled) setting.index
+        else input
+    }
     private val speed = NumberSetting("Speed", 3.0, 0.1, 5.0, 0.1, description = "Fly speed.")
     private val glide = BooleanSetting("Glide", false, description = "Lets you glide upon release movement keys.")
         .withDependency { mode.isSelected("Ping Spoof") }

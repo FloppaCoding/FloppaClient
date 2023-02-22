@@ -8,14 +8,14 @@ import java.awt.Color
 
 class ColorSetting(
     name: String,
-    val default: Color,
+    override val default: Color,
     var allowAlpha: Boolean = true,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description){
+) : Setting<Color>(name, visibility, description){
 
-    var value: Color = default
-    var hsbvals: FloatArray = Color.RGBtoHSB(default.red, default.green, default.blue, null)
+    override var value: Color = default
+    private var hsbvals: FloatArray = Color.RGBtoHSB(default.red, default.green, default.blue, null)
 
     var red: Int
         get() = value.red
@@ -160,10 +160,5 @@ class ColorSetting(
                 HUE, SATURATION, BRIGHTNESS -> 1.0
             }
         }
-    }
-
-    override fun reset() {
-        value = default
-        super.reset()
     }
 }

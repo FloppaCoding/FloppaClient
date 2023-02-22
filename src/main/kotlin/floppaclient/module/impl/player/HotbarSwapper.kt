@@ -24,7 +24,7 @@ object HotbarSwapper : Module(
     private val slot6 = BooleanSetting("Slot 6",false, description = "Toggle whether this slot should be swapped.")
     private val slot7 = BooleanSetting("Slot 7",false, description = "Toggle whether this slot should be swapped.")
 
-    private val slots = arrayListOf<Setting>(
+    private val slots = arrayListOf<Setting<*>>(
         slot0,
         slot1,
         slot2,

@@ -6,15 +6,18 @@ import net.minecraft.util.MathHelper
 
 class SelectorSetting(
     name: String,
-    var default: String,
+    private val defaultSelected: String,
     var options: ArrayList<String>,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description){
+) : Setting<Int>(name, visibility, description){
 
-    var processInput: (Int) -> Int = { input: Int -> input }
+    override val default: Int = optionIndex(defaultSelected)
+    override var value: Int
+        get() = index
+        set(value) {index = value}
 
-    var index: Int = optionIndex(default)
+    var index: Int = optionIndex(defaultSelected)
      set(value) {
          /** guarantees that index is in bounds and enables cycling behaviour */
          val newVal = processInput(value)
@@ -40,10 +43,4 @@ class SelectorSetting(
     fun isSelected(string: String): Boolean {
         return  this.selected.equals(string, ignoreCase = true)
     }
-
-    override fun reset() {
-        selected = default
-        super.reset()
-    }
-
 }

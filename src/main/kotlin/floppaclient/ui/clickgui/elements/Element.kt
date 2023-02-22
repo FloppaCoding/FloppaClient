@@ -15,7 +15,7 @@ import floppaclient.ui.clickgui.util.FontUtil
 open class Element {
     var clickgui: ClickGUI? = null
     var parent: ModuleButton? = null
-    var setting: Setting? = null
+    var setting: Setting<*>? = null
     var offset = 0.0
     var x = 0.0
     var y = 0.0
