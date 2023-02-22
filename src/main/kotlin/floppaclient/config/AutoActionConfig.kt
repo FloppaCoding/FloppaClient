@@ -14,6 +14,11 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
+/**
+ * ## A class to handle the auto actions config file for the mod.
+ *
+ * @author Aton
+ */
 class AutoActionConfig(path: File) {
 
     private val gson = GsonBuilder()

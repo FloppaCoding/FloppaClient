@@ -5,7 +5,6 @@ import floppaclient.events.PositionUpdateEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import org.lwjgl.input.Keyboard
 
 /**
  * Module that makes you always sprint.
@@ -13,7 +12,6 @@ import org.lwjgl.input.Keyboard
  */
 object AutoSprint : Module(
     "Auto Sprint",
-    Keyboard.KEY_O,
     category = Category.MISC,
     description = "A simple auto sprint module that toggles sprinting when moving forwards and not collided " +
             "with anything."

@@ -166,6 +166,6 @@ object ModuleManager {
     }
 
     fun getModuleByName(name: String): Module? {
-        return modules.stream().filter{module -> module.name.equals(name, ignoreCase = true)}.findFirst().orElse(null)
+        return modules.find{ it.name.equals(name, ignoreCase = true) }
     }
 }

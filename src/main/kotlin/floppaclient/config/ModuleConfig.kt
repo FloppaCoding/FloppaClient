@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import floppaclient.FloppaClient.Companion.MOD_NAME
 import floppaclient.config.jsonutils.SettingDeserializer
 import floppaclient.config.jsonutils.SettingSerializer
 import floppaclient.module.ConfigModule
@@ -14,6 +15,13 @@ import java.awt.Color
 import java.io.File
 import java.io.IOException
 
+/**
+ * ## A class to handle the module config file for the mod.
+ *
+ * Provides methods to save and load the settings for all [modules][ModuleManager.modules] in [ModuleManager] to / from the file.
+ *
+ * @author Aton
+ */
 class ModuleConfig(path: File) {
 
     private val gson = GsonBuilder()
@@ -37,10 +45,9 @@ class ModuleConfig(path: File) {
             // create file if it doesn't exist
             configFile.createNewFile()
         } catch (e: Exception) {
-            println("Error initializing module config")
+            println("Error initializing $MOD_NAME module config")
         }
     }
-
 
     fun loadConfig() {
         try {
@@ -64,35 +71,32 @@ class ModuleConfig(path: File) {
                     }
                     if (module.enabled != configModule.enabled) module.toggle()
                     module.keyCode = configModule.keyCode
-                    for (setting in module.settings) {
-                        for (configSetting in configModule.settings) {
-                            // It seems like when the config parsing failed it can result in this being null. The compiler does not know this.
-                            // This check ensures that the rest of the config will still get processed in that case, avoiding the loss of data.
-                            // So just suppress the warning here.
-                            @Suppress("SENSELESS_COMPARISON")
-                            if (configSetting == null) continue
-                            if (setting.name.equals(configSetting.name, ignoreCase = true)) {
-                                when (setting) {
-                                    is BooleanSetting -> setting.enabled = (configSetting as BooleanSetting).enabled
-                                    is NumberSetting -> setting.value = (configSetting as NumberSetting).value
-                                    is ColorSetting -> setting.value = Color((configSetting as NumberSetting).value.toInt(), true)
-                                    is SelectorSetting -> setting.selected = (configSetting as StringSetting).text
-                                    is StringSetting -> setting.text = (configSetting as StringSetting).text
-                                }
-                            }
+                    for (configSetting in configModule.settings) {
+                        // It seems like when the config parsing failed it can result in this being null. The compiler does not know this.
+                        // This check ensures that the rest of the config will still get processed in that case, avoiding the loss of data.
+                        // So just suppress the warning here.
+                        @Suppress("SENSELESS_COMPARISON")
+                        if (configSetting == null) continue
+                        val setting = module.getSettingByName(configModule.name) ?: continue
+                        when (setting) {
+                            is BooleanSetting -> setting.enabled = (configSetting as BooleanSetting).enabled
+                            is NumberSetting -> setting.value = (configSetting as NumberSetting).value
+                            is ColorSetting -> setting.value = Color((configSetting as NumberSetting).value.toInt(), true)
+                            is SelectorSetting -> setting.selected = (configSetting as StringSetting).text
+                            is StringSetting -> setting.text = (configSetting as StringSetting).text
                         }
                     }
                 }
             }
 
         } catch (e: JsonSyntaxException) {
-            println("Error parsing Floppa Client config.")
+            println("Error parsing $MOD_NAME config.")
             println(e.message)
             e.printStackTrace()
         } catch (e: JsonIOException) {
-            println("Error reading Floppa Client config.")
+            println("Error reading $MOD_NAME config.")
         } catch (e: Exception) {
-            println("Floppa Client Config Error.")
+            println("$MOD_NAME Config Error.")
             println(e.message)
             e.printStackTrace()
         }
@@ -104,7 +108,7 @@ class ModuleConfig(path: File) {
                 it.write(gson.toJson(ModuleManager.modules))
             }
         } catch (e: IOException) {
-            println("Error saving Floppa Client config.")
+            println("Error saving $MOD_NAME config.")
         }
     }
 }

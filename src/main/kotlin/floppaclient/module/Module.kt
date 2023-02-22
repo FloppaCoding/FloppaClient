@@ -6,6 +6,7 @@ import floppaclient.FloppaClient
 import floppaclient.module.settings.Setting
 import floppaclient.utils.ChatUtils
 import net.minecraftforge.common.MinecraftForge
+import org.lwjgl.input.Keyboard
 import kotlin.reflect.full.hasAnnotation
 
 /**
@@ -28,7 +29,7 @@ import kotlin.reflect.full.hasAnnotation
  */
 abstract class Module(
     name: String,
-    keyCode: Int = 0,
+    keyCode: Int = Keyboard.KEY_NONE,
     category: Category = Category.MISC,
     toggled: Boolean = false,
     settings: ArrayList<Setting<*>> = ArrayList(),
@@ -174,12 +175,6 @@ abstract class Module(
     }
 
     fun getSettingByName(name: String): Setting<*>? {
-        for (set in settings) {
-            if (set.name.equals(name, ignoreCase = true)) {
-                return set
-            }
-        }
-        System.err.println("[" + FloppaClient.MOD_NAME + "] Error Setting NOT found: '" + name + "'!")
-        return null
+        return settings.find { it.name.equals(name, ignoreCase = true) }
     }
 }

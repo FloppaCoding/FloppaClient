@@ -54,7 +54,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 class FloppaClient {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        runBlocking {
+        scope.launch {
             launch(Dispatchers.IO) {
                 autoactions.loadConfig()
             }

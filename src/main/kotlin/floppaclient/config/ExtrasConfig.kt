@@ -13,6 +13,11 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
+/**
+ * ## A class to handle the extras config file for the mod.
+ *
+ * @author Aton
+ */
 class ExtrasConfig(path: File) {
     private val gson = GsonBuilder()
         .registerTypeAdapter(object : TypeToken<MutableSet<BlockPos>>(){}.type, SetBlockPosSerializer())
