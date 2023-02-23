@@ -8,14 +8,11 @@ import floppaclient.module.AlwaysActive
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
-import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
-import floppaclient.module.settings.impl.StringSetting
+import floppaclient.module.settings.impl.*
 import floppaclient.utils.ChatUtils
-import floppaclient.utils.RenderObject
-import floppaclient.utils.Utils
 import floppaclient.utils.fakeactions.FakeActionUtils
+import floppaclient.utils.inventory.InventoryUtils
+import floppaclient.utils.render.WorldRenderUtils
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntitySkull
 import net.minecraft.util.BlockPos
@@ -60,6 +57,8 @@ object SecretAura2 : Module(
         .withDependency { this.mode.index == 0 }
     private val renderBox = BooleanSetting("Render box", true, description = "Will render a box for secrets in reach")
         .withDependency { this.mode.index == 0 }
+    private val renderBoxColor = ColorSetting("Box Color", Color(200, 200, 200), true, description = "Color of the box tihng")
+        .withDependency { renderBox.enabled }
 
     private val swingItem = BooleanSetting("Swing Item", true, description = "Will swing your item when clicking a secret")
         .withDependency { this.mode.index == 1 }
@@ -83,6 +82,7 @@ object SecretAura2 : Module(
             slot,
             itemName,
             renderBox,
+            renderBoxColor,
             swingItem,
         )
     }
@@ -134,8 +134,8 @@ object SecretAura2 : Module(
     fun onWorldRender(event: RenderWorldLastEvent) {
         if (this.enabled && this.renderBox.enabled && this.mode.index == 0)
         secrets.keys.forEach {
-            val color = if ((secrets[it]?.get(0) ?: 1000) < maxClicks.value) Color(204, 204, 204) else Color(255, 0, 0)
-            if (inDistance(it)) RenderObject.drawBoxAtBlock(it, color, true, opacity = 0.15f)
+            val color = if ((secrets[it]?.get(0) ?: 1000) < maxClicks.value) renderBoxColor.value else Color(255, 0, 0)
+            if (inDistance(it)) WorldRenderUtils.drawBoxAtBlock(it, color, true, opacity = renderBoxColor.alpha.toFloat() / 255f)
         }
     }
 
@@ -149,7 +149,7 @@ object SecretAura2 : Module(
         if (!secrets.containsKey(blockPos)) {
 
             if (block == Blocks.chest || block == Blocks.lever || (block == Blocks.trapped_chest && trappedChest.enabled)
-                || (block == Blocks.redstone_block && redstoneKey.enabled && Utils.findItem("Redstone Key", inInv = true) != null))
+                || (block == Blocks.redstone_block && redstoneKey.enabled && InventoryUtils.findItem("Redstone Key", inInv = true) != null))
                 secrets[blockPos] = mutableListOf(0, System.currentTimeMillis() - 10000)
 
             else if (block == Blocks.skull) {

@@ -7,8 +7,10 @@ import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.Entity
+import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
+import org.lwjgl.opengl.GL11.GL_QUADS
 import java.awt.Color
 
 /**
@@ -84,8 +86,9 @@ object WorldRenderUtils {
      *
      * @param relocate Translates the coordinates to account for the camera position. See [WorldRenderUtils] for more information.
      */
-    fun drawBoxAtBlock (blockPos: BlockPos, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
-        drawBoxAtBlock(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), color, thickness, relocate)
+    fun drawBoxAtBlock (blockPos: BlockPos, color: Color, filled: Boolean = false, relocate: Boolean = true, thickness: Float = 2.5f, opacity: Float = 0.15f) {
+        if (filled) drawFilledBoxAt(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), 1.0 , 1.0, 1.0, color, opacity, true)
+        else drawBoxAtBlock(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), color, true, relocate, thickness)
     }
 
     /**
@@ -95,8 +98,9 @@ object WorldRenderUtils {
      *
      * @param relocate Translates the coordinates to account for the camera position. See [WorldRenderUtils] for more information.
      */
-    fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, thickness: Float = 3f, relocate: Boolean = true) {
-        drawCustomSizedBoxAt(x, y, z, 1.0, color, thickness, true, relocate)
+    fun drawBoxAtBlock (x: Double, y: Double, z: Double, color: Color, filled: Boolean = false, relocate: Boolean = true, thickness: Float = 2.5f, opacity: Float = 0.15f) {
+        if (filled) drawFilledBoxAt(x, y, z, 1.0, 1.0, 1.0, color, opacity, true)
+        else drawCustomSizedBoxAt(x, y, z, 1.0, color, thickness, true, relocate)
     }
 
     /**
@@ -109,11 +113,13 @@ object WorldRenderUtils {
      * @param phase Determines whether the box should be visible through walls (disables the depth test).
      * @param partialTicks Used for predicting the [entity]'s position so that the box smoothly moves with the entity.
      */
-    fun drawBoxByEntity (entity: Entity, color: Color, width: Double, height: Double, partialTicks: Float = 0f,
-                         lineWidth: Double = 2.0, phase: Boolean = false,
-                         xOffset: Double = 0.0, yOffset: Double = 0.0, zOffset: Double = 0.0
+    fun drawBoxByEntity (
+        entity: Entity, color: Color, width: Double, height: Double, partialTicks: Float = 0f,
+        filled: Boolean = true, phase: Boolean = false,
+        xOffset: Double = 0.0, yOffset: Double = 0.0, zOffset: Double = 0.0,
+        thickness: Float = 2.5f, opacity: Float = 0.15f
     ) {
-        drawBoxByEntity(entity, color, width.toFloat(), height.toFloat(), partialTicks, lineWidth.toFloat(),phase,xOffset, yOffset, zOffset)
+        drawBoxByEntity(entity, color, width.toFloat(), height.toFloat(), partialTicks, filled, phase,xOffset, yOffset, zOffset, thickness, opacity)
     }
 
     /**
@@ -127,14 +133,16 @@ object WorldRenderUtils {
      * @param partialTicks Used for predicting the [entity]'s position so that the box smoothly moves with the entity.
      */
     fun drawBoxByEntity (entity: Entity, color: Color, width: Float, height: Float, partialTicks: Float = 0f,
-                         lineWidth: Float = 2f, phase: Boolean = false,
-                         xOffset: Double = 0.0, yOffset: Double = 0.0, zOffset: Double = 0.0
+                         filled: Boolean = false, phase: Boolean = false,
+                         xOffset: Double = 0.0, yOffset: Double = 0.0, zOffset: Double = 0.0,
+                         thickness: Float = 2.5f, opacity: Float = 0.15f
     ){
         val x = entity.posX + ((entity.posX-entity.lastTickPosX)*partialTicks) + xOffset - width / 2.0
         val y = entity.posY + ((entity.posY-entity.lastTickPosY)*partialTicks) + yOffset
         val z = entity.posZ + ((entity.posZ-entity.lastTickPosZ)*partialTicks) + zOffset - width / 2.0
 
-        drawCustomSizedBoxAt(x, y, z, width.toDouble(), height.toDouble(), width.toDouble(), color, lineWidth, phase)
+        if (filled) drawFilledBoxAt(x, y, z, width.toDouble(), height.toDouble(), width.toDouble(), color, opacity, phase)
+        else drawCustomSizedBoxAt(x, y, z, width.toDouble(), height.toDouble(), width.toDouble(), color, thickness, phase)
     }
 
     /**
@@ -188,6 +196,86 @@ object WorldRenderUtils {
         worldRenderer.pos(x,y,z+zWidth).endVertex()
         worldRenderer.pos(x,y+yHeight,z+zWidth).endVertex()
         worldRenderer.pos(x+xWidth,y+yHeight,z+zWidth).endVertex()
+
+        tessellator.draw()
+
+        GlStateManager.popMatrix()
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableDepth()
+        GlStateManager.disableBlend()
+    }
+
+    private fun drawFilledBoxAt(x: Double, y: Double, z: Double, xWidth: Double, yHeight: Double, zWidth: Double, color: Color, opacity: Float = 0.15f, phase: Boolean = true) {
+        drawFilledBoxAt(AxisAlignedBB(x, y, z,x+xWidth, y+yHeight, z+zWidth), color, opacity, phase)
+    }
+
+    private fun drawFilledBoxAt(aabb: AxisAlignedBB, color: Color, opacity: Float = 0.15f, phase: Boolean = true) {
+        GlStateManager.disableLighting()
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+        if (phase) GlStateManager.disableDepth()
+        GlStateManager.disableTexture2D()
+
+        GlStateManager.pushMatrix()
+
+        GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
+        worldRenderer.begin(GL_QUADS, DefaultVertexFormats.POSITION)
+        GlStateManager.color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, opacity)
+
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex()
+        worldRenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex()
+
 
         tessellator.draw()
 

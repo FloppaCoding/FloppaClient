@@ -25,8 +25,8 @@ abstract class ChestRendererMixin {
 
     @Inject(method = {"renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityChest;DDDFI)V"}, at = @At("RETURN"))
     public void onRenderReturn(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci) {
-        if (ChestEsp.INSTANCE.isBoxMode() || ChestEsp.INSTANCE.isFillMode() && ChestEsp.INSTANCE.isDrawingWorld())
-            WorldRenderUtils.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), ChestEsp.INSTANCE.isFillMode(), false, ChestEsp.INSTANCE.getBoxThickness(), ChestEsp.INSTANCE.getBoxOpacity());
+        if (ChestEsp.INSTANCE.isBoxMode() && ChestEsp.INSTANCE.isDrawingWorld())
+            WorldRenderUtils.INSTANCE.drawBoxAtBlock(x, y, z, ChestEsp.INSTANCE.getBoxColor(), false, false, ChestEsp.INSTANCE.getBoxThickness(), 1f);
         if (ChestEsp.INSTANCE.isPhaseMode() && ChestEsp.INSTANCE.isDrawingWorld()) {
             GlStateManager.disablePolygonOffset();
         }

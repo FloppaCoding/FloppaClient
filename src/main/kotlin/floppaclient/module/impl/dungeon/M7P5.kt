@@ -65,11 +65,13 @@ object M7P5 : Module(
     @SubscribeEvent
     fun onWorldRender(event: RenderWorldLastEvent) {
         if (!statueBox.enabled) return
-        if (M7Drags.GREEN.isAlive)  drawCustomSizedBoxAt(7.0,   8.0,  80.0, 30.0, 20.0, 30.0, Color(  0, 255,   0), boxThickness.value.toFloat(), false)
-        if (M7Drags.RED.isAlive)    drawCustomSizedBoxAt(14.5, 13.0,  45.5, 25.0, 15.0, 25.0, Color(255,   0,   0), boxThickness.value.toFloat(), false)
-        if (M7Drags.ORANGE.isAlive) drawCustomSizedBoxAt(72.0,  7.0,  47.0, 30.0, 20.0, 30.0, Color(255, 128,   0), boxThickness.value.toFloat(), false)
-        if (M7Drags.BLUE.isAlive)   drawCustomSizedBoxAt(71.5, 16.0,  82.5, 25.0, 10.0, 25.0, Color(  0, 255, 255), boxThickness.value.toFloat(), false)
-        if (M7Drags.PURPLE.isAlive) drawCustomSizedBoxAt(45.5, 13.0, 113.5, 23.0, 10.0, 23.0, Color(128,   0, 255), boxThickness.value.toFloat(), false)
+
+        M7Drags.values().forEach {
+            if (it.isAlive) drawCustomSizedBoxAt(
+                it.boxCoords.xCoord, it.boxCoords.yCoord, it.boxCoords.zCoord, it.boxWidth, it.boxHeight, it.boxWidth,
+                it.color, boxThickness.value.toFloat(), false
+            )
+        }
     }
 
     @SubscribeEvent(receiveCanceled = true)
@@ -124,12 +126,16 @@ object M7P5 : Module(
         val Name: String,
         val particles: Vec3,
         val statue: BlockPos,
+        val boxCoords: Vec3,
+        val boxWidth: Double,
+        val boxHeight: Double,
+        val color: Color,
         var isAlive: Boolean = false
     ) {
-        GREEN("§a§lGreen", Vec3(27.0, 19.0, 94.0), BlockPos(32, 19, 94)),
-        RED("§c§lRed", Vec3(27.0, 19.0, 59.0), BlockPos(32, 18, 59)),
-        ORANGE("§6§lOrange", Vec3(85.0, 19.0, 56.0), BlockPos(80, 19, 56)),
-        BLUE("§b§lBlue", Vec3(84.0, 19.0, 94.0), BlockPos(79, 19, 94)),
-        PURPLE("§d§lPurple", Vec3(56.0, 19.0, 125.0), BlockPos(56, 18, 120))
+        GREEN("§a§lGreen", Vec3(27.0, 19.0, 94.0), BlockPos(32, 19, 94), Vec3(7.0,8.0,80.0), 30.0, 20.0, Color(0,255,0)),
+        RED("§c§lRed", Vec3(27.0, 19.0, 59.0), BlockPos(32, 18, 59), Vec3(14.5, 13.0,  45.5), 25.0, 15.0, Color(255,0,0)),
+        ORANGE("§6§lOrange", Vec3(85.0, 19.0, 56.0), BlockPos(80, 19, 56), Vec3(72.0,  7.0,  47.0) , 30.0, 20.0, Color(255,128,0)),
+        BLUE("§b§lBlue", Vec3(84.0, 19.0, 94.0), BlockPos(79, 19, 94), Vec3(72.0,  7.0,  47.0), 30.0, 20.0, Color(  0, 255, 255)),
+        PURPLE("§d§lPurple", Vec3(56.0, 19.0, 125.0), BlockPos(56, 18, 120), Vec3(45.5, 13.0, 113.5), 23.0, 10.0, Color(128,0,255))
     }
 }

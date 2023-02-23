@@ -113,7 +113,7 @@ object DrawRoutes : Module(
         ).addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
 
         //Draw start box
-        WorldRenderUtils.drawBoxAtBlock(start.xCoord, start.yCoord-1.0 , start.zCoord, acStartColor.value, acLineWidth.value.toFloat())
+        WorldRenderUtils.drawBoxAtBlock(start.xCoord, start.yCoord-1.0 , start.zCoord, acStartColor.value, thickness = acLineWidth.value.toFloat())
 
         //Draw lines and target boxes for all paths (one or multiple clips along a straight line) that are part of the route
         var direction: Array<Double>
@@ -139,14 +139,14 @@ object DrawRoutes : Module(
                     // Draw intermediate boxes
                     WorldRenderUtils.drawBoxAtBlock(starPos.xCoord - sinDeg(yaw) * cosDeg(pitch) *dist*ii -0.5,
                         starPos.yCoord - sinDeg(pitch) *dist*ii - 1,
-                        starPos.zCoord + cosDeg(yaw) * cosDeg(pitch) *dist*ii - 0.5, acStepColor.value, acLineWidth.value.toFloat())
+                        starPos.zCoord + cosDeg(yaw) * cosDeg(pitch) *dist*ii - 0.5, acStepColor.value, thickness = acLineWidth.value.toFloat())
                 }
             }
 
             // Draw end location box
             WorldRenderUtils.drawBoxAtBlock(starPos.xCoord + path.xCoord -0.5,
                 starPos.yCoord + path.yCoord - 1,
-                starPos.zCoord + path.zCoord- 0.5, acTargetColor.value, acLineWidth.value.toFloat())
+                starPos.zCoord + path.zCoord- 0.5, acTargetColor.value, thickness = acLineWidth.value.toFloat())
 
             // Set the start position to the target position of this path for next iteration
             starPos = starPos.add(path)
@@ -161,7 +161,7 @@ object DrawRoutes : Module(
         ).addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
 
         //Draw start box
-        WorldRenderUtils.drawBoxAtBlock(start.xCoord, start.yCoord , start.zCoord, etherStartColor.value, etherLineWidth.value.toFloat())
+        WorldRenderUtils.drawBoxAtBlock(start.xCoord, start.yCoord , start.zCoord, etherStartColor.value, thickness = etherLineWidth.value.toFloat())
 
         val target = DataHandler.getRotatedCoords(
             value, room.second)
@@ -169,7 +169,7 @@ object DrawRoutes : Module(
 //        target = target.addVector(DataHandler.isNegative(target.xCoord), 0.0, DataHandler.isNegative(target.zCoord))
 
         //Draw target box
-        WorldRenderUtils.drawBoxAtBlock(target.xCoord, target.yCoord , target.zCoord, etherTargetColor.value, etherLineWidth.value.toFloat())
+        WorldRenderUtils.drawBoxAtBlock(target.xCoord, target.yCoord , target.zCoord, etherTargetColor.value, thickness = etherLineWidth.value.toFloat())
 
         val starPos = start.addVector(0.5, 1.0, 0.5)
         val targetPos = target.addVector(0.5, 1.0, 0.5)

@@ -76,6 +76,7 @@ object ModuleManager {
         ItemAnimations,
         Camera,
         RunOverview,
+        EtherwarpOverlay,
 
         //PLAYER
         HotbarSwapper,
