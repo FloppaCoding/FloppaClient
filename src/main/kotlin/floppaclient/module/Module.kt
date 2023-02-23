@@ -10,13 +10,53 @@ import org.lwjgl.input.Keyboard
 import kotlin.reflect.full.hasAnnotation
 
 /**
- * Super class for all Modules in the mod.
- *
- * To make your own Module simply create an object which inherits from this class and add it to the list of
- * [modules][ModuleManager.modules] in [ModuleManager].
- * The sample provided below shows how you can do this
+ * ## Super class for all Modules in the mod.
  *
  * Annotate with [AlwaysActive] to have a Module always registered to the Event Bus regardless of the Module being [enabled].
+ *
+ * ### Making your own Module
+ * To make your own Module simply create an object which inherits from this class and add it to the list of
+ * [modules][ModuleManager.modules] in [ModuleManager].
+ * The sample provided below shows how you can do this.
+ *
+ * ### Adding settings to your module.
+ * If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and
+ * also register them by adding them to the [settings] list.
+ *
+ * There are four different ways to achieve this.
+ * These are shown in the following on the example of a [NumberSetting][floppaclient.module.settings.impl.NumberSetting].
+ * Probably the easiest to understand is to first define a property in your Module which is an Instance of the
+ * setting you want. And then registering that setting in the initializer.
+ *
+ *     private val distance : NumberSetting = NumberSetting("Distance", 4.0)
+ *
+ *     init{
+ *         this.addSettings(distance)
+ *     }
+ *
+ * This syntax can be shortened by using the [register] method directly when defining your setting.
+ * Inside of Module classes the unary Add operator is overridden for members of [Setting] to register them.
+ * So the following two lines will do exactly the same.
+ *
+ *     private val distance : NumberSetting = register(NumberSetting("Distance", 4.0))
+ *     private val distance : NumberSetting = +NumberSetting("Distance", 4.0)
+ *
+ * Lastly the probably most convenient way of adding settings is through the use of delegation.
+ * The key difference here is that the property you are defining is not referring to the Setting but rather directly
+ * to its [value][Setting.value].
+ * Since often the value is the only relevant aspect of the setting within the Modules code
+ * this approach is a lot more convenient to use in most cases.
+ * Notice how the type of *distance* is Double in the following example and not NumberSetting.
+ *
+ *     private val distance : Double by NumberSetting("Distance", 4.0)
+ *
+ * ### Adding more functionality to your Settings.
+ * The setting classes offer support for more functionality, namely adding a dependency for the setting to show in the GUI
+ * and the option to perform custom processing of changes to the setting.
+ * The sample from [AutoClicker][floppaclient.module.impl.misc.AutoClicker] below shows both of these being used.
+ * The input transform is used to further limit the range in which the slider can be moved.
+ * And the dependency is set so that the setting only shows in the click gui when the corresponding click mode is enabled.
+ *
  *
  * @author Aton
  * @see ModuleManager
@@ -24,7 +64,7 @@ import kotlin.reflect.full.hasAnnotation
  * @param keyCode Key code for the Modules key-bind.
  * @param category Determines in which category Panel the module will appear in the GUI.
  * @param description A description of the module and its usage that is shown in the [Advanced GUI][floppaclient.ui.clickgui.advanced.AdvancedMenu].
- *
+ * @sample floppaclient.module.impl.misc.AutoClicker.maxCps
  * @sample floppaclient.module.impl.misc.AutoSprint
  */
 abstract class Module(
@@ -63,7 +103,7 @@ abstract class Module(
     /**
      * A description of the module and its usage that is shown in the [Advanced GUI][floppaclient.ui.clickgui.advanced.AdvancedMenu].
      */
-    var description: String
+    val description: String
 
     init {
         this.name = name
@@ -71,6 +111,19 @@ abstract class Module(
         this.category = category
         this.settings = settings
         this.description = description
+    }
+
+    /**
+     * Will toggle the module.
+     *
+     * Invokes [onEnable] or [onDisable] accordingly.
+     */
+    fun toggle() {
+        enabled = !enabled
+        if (enabled)
+            onEnable()
+        else
+            onDisable()
     }
 
     /**
@@ -142,37 +195,36 @@ abstract class Module(
     }
 
     /**
-     * Will toggle the module.
-     *
-     * Invokes [onEnable] or [onDisable] accordingly.
-     */
-    fun toggle() {
-        enabled = !enabled
-        if (enabled)
-            onEnable()
-        else
-            onDisable()
-    }
-
-    /**
-     * Adds all settings in the input to the settings field of the module.
+     * Adds all settings in the input to the [settings] field of the module.
      * This is required for saving and loading these settings to / from a file.
      * Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.
      */
-    fun addSettings(setArray: ArrayList<Setting<*>>) {
+    fun addSettings(vararg setArray: Setting<*>) {
         setArray.forEach {
             settings.add(it)
         }
     }
 
     /**
-     * Adds all settings in the input to the [settings] field of the module.
-     * This is required for saving and loading these settings to / from a file.
-     * Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.
+     * Registers the setting to this Module.
+     * This will make the setting appear in the GUI and save to the config.
+     * The following is an example of how it can be used to define a setting for a module.
+     *
+     *     private val distance = register(NumberSetting("Distance", 4.0, 1.0,10.0,0.1))
      */
-    fun addSettings(vararg setArray: Setting<*>) {
-        this.addSettings(ArrayList(setArray.asList()))
+    fun <K: Setting<*>> register(setting: K): K{
+        addSettings(setting)
+        return setting
     }
+
+    /**
+     * Overloads the unaryPlus operator for [Setting] classes to register them to the module.
+     * The following is an example of how it can be used to define a setting for a module.
+     *
+     *     private val distance = +NumberSetting("Distance", 4.0, 1.0,10.0,0.1)
+     * @see register
+     */
+    operator fun <K: Setting<*>> K.unaryPlus(): K = register(this)
 
     fun getSettingByName(name: String): Setting<*>? {
         return settings.find { it.name.equals(name, ignoreCase = true) }

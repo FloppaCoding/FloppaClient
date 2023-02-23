@@ -19,23 +19,9 @@ object Camera : Module(
     category = Category.RENDER,
     description = "Modifies the behaviour of the Camera."
 ){
-
-    private val thirdPDist = NumberSetting("Distance", 4.0, 1.0,10.0,0.1, description = "Distance of the third person view camera.")
-    private val noFrontView = BooleanSetting("No Front View", false, description = "Skips the front view when toggling perspective.")
-
-    /**
-     * Used in the Entity Renderer Mixin
-     */
-    val clip = BooleanSetting("Camera Clip", true, description = "Lets the camera clip through blocks.")
-
-    init {
-        this.addSettings(
-            thirdPDist,
-            clip,
-            noFrontView
-        )
-    }
-
+    private val thirdPDist by NumberSetting("Distance", 4.0, 1.0,10.0,0.1, description = "Distance of the third person view camera.")
+    private val clip by BooleanSetting("Camera Clip", true, description = "Lets the camera clip through blocks.")
+    private val noFrontView by BooleanSetting("No Front View", false, description = "Skips the front view when toggling perspective.")
 
     /**
      * Called by the EntityRendererMixin when it checks the thirdPersonDistance.
@@ -43,7 +29,7 @@ object Camera : Module(
      */
     fun thirdPersonDistanceHook(): Float? {
         return if (this.enabled)
-            thirdPDist.value.toFloat()
+            thirdPDist.toFloat()
         else
             null
     }
@@ -52,15 +38,15 @@ object Camera : Module(
      * Redirected to by the EntityRendererMixin. Returns a high distance to clip the camera if that is enabled.
      */
     fun cameraClipHook(instance: Vec3, vec: Vec3): Double {
-        return if (this.enabled && clip.enabled)
-            thirdPDist.value
+        return if (this.enabled && clip)
+            thirdPDist
         else
             instance.distanceTo(vec)
     }
 
     @SubscribeEvent
     fun onKey(event: InputEvent.KeyInputEvent) {
-        if (!noFrontView.enabled) return
+        if (!noFrontView) return
         /** adds +1 tp the perspective setting to skip front view, does not override the vanilla toggle
          * isKeyDown has to be used here instead of isKeyPressed because the vanilla function is called first.*/
         if (FloppaClient.mc.gameSettings.keyBindTogglePerspective.isKeyDown) {

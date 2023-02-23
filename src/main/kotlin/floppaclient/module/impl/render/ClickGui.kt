@@ -66,7 +66,7 @@ object ClickGui: Module(
         options.add("New")
         design = SelectorSetting("Design","JellyLike", options, description = "Design theme of the gui.")
 
-        addSettings(arrayListOf(
+        addSettings(
             design,
             sound,
             blur,
@@ -83,24 +83,24 @@ object ClickGui: Module(
             apiKey,
             advancedRelX,
             advancedRelY
-        ))
+        )
 
         // The Panels
 
         // this will set the default click gui panel settings. These will be overwritten by the config once it is loaded
         resetPositions()
 
-        addSettings(arrayListOf(
+        addSettings(
             panelWidth,
             panelHeight
-        ))
+        )
 
         for(category in Category.values()) {
-            addSettings(arrayListOf(
+            addSettings(
                 panelX[category]!!,
                 panelY[category]!!,
                 panelExtended[category]!!
-            ))
+            )
         }
     }
 

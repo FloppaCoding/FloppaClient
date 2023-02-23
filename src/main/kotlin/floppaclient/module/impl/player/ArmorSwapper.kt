@@ -33,7 +33,7 @@ object ArmorSwapper : Module(
     private val item7 =
         StringSetting("Item 7", "", description = "Name of an item to be swapped, leave empty to do nothing.")
 
-    private val items = arrayListOf<Setting<*>>(
+    private val items = arrayOf<Setting<*>>(
         item0,
         item1,
         item2,
@@ -45,7 +45,7 @@ object ArmorSwapper : Module(
     )
 
     init {
-        this.addSettings(items)
+        this.addSettings(*items)
     }
 
     override fun onKeyBind() {
@@ -55,9 +55,9 @@ object ArmorSwapper : Module(
             /** Used to keep track of swapped items, the 4 right most bits correspond to the swapped slots. */
             var swappedSlots = 0b0000
             if (mc.thePlayer.inventory.itemStack == null) {
-                for (i in 0 until items.size) {
+                for (item in items) {
                     if (swappedSlots == 0b1111) break
-                    val itemName = (items[i] as StringSetting).text
+                    val itemName = (item as StringSetting).text
                     if (itemName == "") continue
 
                     val swappedIndex = FakeActionUtils.swapArmorItem(itemName, swappedSlots) ?: continue
