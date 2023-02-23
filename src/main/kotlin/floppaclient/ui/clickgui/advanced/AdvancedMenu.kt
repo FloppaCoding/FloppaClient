@@ -62,7 +62,8 @@ class AdvancedMenu(val module: Module) {
             when (setting) {
                 is BooleanSetting   -> elements.add(AdvancedElementCheckBox (this, module, setting))
                 is NumberSetting    -> elements.add(AdvancedElementSlider   (this, module, setting))
-                is StringSelectorSetting  -> elements.add(AdvancedElementSelector (this, module, setting))
+                is StringSelectorSetting  -> elements.add(AdvancedElementStringSelector (this, module, setting))
+                is SelectorSetting  -> elements.add(AdvancedElementSelector (this, module, setting))
                 is StringSetting    -> elements.add(AdvancedElementTextField(this, module, setting))
                 is ColorSetting     -> elements.add(AdvancedElementColor    (this, module, setting))
                 is ActionSetting    -> elements.add(AdvancedElementAction   (this, module, setting))

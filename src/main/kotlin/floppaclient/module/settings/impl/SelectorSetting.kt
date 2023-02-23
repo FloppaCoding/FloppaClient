@@ -34,6 +34,8 @@ class SelectorSetting<T>(
     /**
      * [displayName][Options.displayName] of the selected Enum.
      * Can be used to set [value] based on the displayName of the Enum.
+     * This is required for loading data from the config.
+     * If possible [value] should be directly instead.
      */
     var selected: String
         get() = value.displayName
@@ -41,7 +43,7 @@ class SelectorSetting<T>(
             value = options.find { it.displayName.equals(input, ignoreCase = true) } ?: return
         }
 
-    fun isSelected(option: T): Boolean {
+    fun isSelected(option: Options): Boolean {
         return  this.value === option
     }
 }

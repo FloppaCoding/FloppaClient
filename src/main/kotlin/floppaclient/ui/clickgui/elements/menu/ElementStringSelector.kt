@@ -2,8 +2,8 @@ package floppaclient.ui.clickgui.elements.menu
 
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.impl.render.ClickGui
-import floppaclient.module.settings.impl.Options
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.Setting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.elements.Element
 import floppaclient.ui.clickgui.elements.ElementType
 import floppaclient.ui.clickgui.elements.ModuleButton
@@ -19,9 +19,8 @@ import java.util.*
  *
  * @author HeroCode, Aton
  */
-class ElementSelector<T>(iparent: ModuleButton, iset: SelectorSetting<T>) : Element()
-        where T : Options, T: Enum<T>
-{
+@Deprecated("Use enum version instead")
+class ElementStringSelector(iparent: ModuleButton, iset: Setting<*>) : Element() {
 
     init {
         parent = iparent
@@ -36,7 +35,7 @@ class ElementSelector<T>(iparent: ModuleButton, iset: SelectorSetting<T>) : Elem
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         val temp = ColorUtil.clickGUIColor
         val color = Color(temp.red, temp.green, temp.blue, 150).rgb
-        val displayValue = (setting as SelectorSetting<*>).selected
+        val displayValue = (setting as StringSelectorSetting).selected
 
         /** Render the box and text */
         if(parent?.parent?.shouldRender(y + 15) == true) {
@@ -66,16 +65,15 @@ class ElementSelector<T>(iparent: ModuleButton, iset: SelectorSetting<T>) : Elem
             val clr2 = temp.rgb
             var ay = y + 15
             val increment = FontUtil.fontHeight + 2
-            for (option in (setting as SelectorSetting<*>).options) {
+            for (option in (setting as StringSelectorSetting).options) {
                 if(parent?.parent?.shouldRender(ay + increment) == true) {
                     Gui.drawRect(x.toInt(), (ay).toInt(), (x + width).toInt(), (ay + increment).toInt(), -0x55ededee)
-                    val optionName = option.displayName
                     val elementtitle =
-                        optionName.substring(0, 1).uppercase(Locale.getDefault()) + optionName.substring(1, optionName.length)
+                        option.substring(0, 1).uppercase(Locale.getDefault()) + option.substring(1, option.length)
                     FontUtil.drawCenteredString(elementtitle, x + width / 2, ay + 2, -0x1)
 
                     /** Highlights the element if it is selected */
-                    if ((setting as SelectorSetting<*>).isSelected(option)) {
+                    if (option.equals((setting as StringSelectorSetting).selected, ignoreCase = true)) {
                         Gui.drawRect(
                             x.toInt(),
                             ay.toInt(),
@@ -107,18 +105,21 @@ class ElementSelector<T>(iparent: ModuleButton, iset: SelectorSetting<T>) : Elem
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
         if (mouseButton == 0) {
             if (isButtonHovered(mouseX, mouseY)) {
-                (setting as SelectorSetting<*>).index += 1
+                (setting as StringSelectorSetting).index += 1
                 return true
             }
 
             if (!comboextended) return false
             var ay = y + 15
             val increment = FontUtil.fontHeight + 2
-            for (option in (setting as SelectorSetting<T>).options) {
+            for (option in (setting as StringSelectorSetting).options) {
                 if(parent?.parent?.shouldRender(ay + increment) == true) {
                     if (mouseX >= x && mouseX <= x + width && mouseY >= ay && mouseY <= ay + increment) {
                         if (ClickGui.sound.enabled) mc.thePlayer.playSound("tile.piston.in", 20.0f, 20.0f)
-                        if (clickgui != null) (setting as SelectorSetting<T>).value = option
+                        if (clickgui != null) (setting as StringSelectorSetting).selected =
+                            option.lowercase(
+                                Locale.getDefault()
+                            )
                         return true
                     }
                 }
