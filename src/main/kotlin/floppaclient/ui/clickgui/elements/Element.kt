@@ -2,7 +2,7 @@ package floppaclient.ui.clickgui.elements
 
 import floppaclient.module.settings.Setting
 import floppaclient.module.settings.impl.ColorSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.ui.clickgui.util.FontUtil
 
@@ -48,11 +48,11 @@ open class Element {
             }
             ElementType.SELECTOR -> {
                 height = if (comboextended)
-                    ((setting as SelectorSetting).options.size * (FontUtil.fontHeight + 2) + 15).toDouble()
+                    ((setting as StringSelectorSetting).options.size * (FontUtil.fontHeight + 2) + 15).toDouble()
                 else
                     15.0
 //            var longest = FontUtil.getStringWidth(displayName)
-//            for (option in (setting as SelectorSetting).options) {
+//            for (option in (setting as StringSelectorSetting).options) {
 //                val temp = FontUtil.getStringWidth(option)
 //                if (temp > longest) {
 //                    longest = temp

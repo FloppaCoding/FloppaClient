@@ -43,7 +43,7 @@ class ModuleButton(val module: Module, val parent: Panel) {
                 val newElement = when (setting) {
                     is BooleanSetting ->    ElementCheckBox(this, setting)
                     is NumberSetting ->     ElementSlider(this, setting)
-                    is SelectorSetting ->   ElementSelector(this, setting)
+                    is StringSelectorSetting ->   ElementSelector(this, setting)
                     is StringSetting ->     ElementTextField(this, setting)
                     is ColorSetting ->      ElementColor(this, setting)
                     is ActionSetting ->     ElementAction(this, setting)

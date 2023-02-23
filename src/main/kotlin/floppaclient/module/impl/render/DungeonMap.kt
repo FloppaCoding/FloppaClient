@@ -7,7 +7,7 @@ import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import net.minecraftforge.common.MinecraftForge
 import java.awt.Color
 
@@ -27,7 +27,7 @@ object DungeonMap : Module(
     val trackSecrets = BooleanSetting("Track Secrets", true, visibility = Visibility.ADVANCED_ONLY, description = "Uses the Hypixel API to track how many secrets are collected in which room.")
     val hideInBoss = BooleanSetting("Hide in Boss", true, visibility = Visibility.ADVANCED_ONLY, description = "Hides the map in boss.")
     val showRunInformation = BooleanSetting("Show Run Info", true, description = "Shows run information under map.")
-    val playerNameMode = SelectorSetting("Player Names", "Holding Leap", arrayListOf("Off", "Holding Leap", "Always"), visibility = Visibility.ADVANCED_ONLY, description = "Show player name under player head.")
+    val playerNameMode = StringSelectorSetting("Player Names", "Holding Leap", arrayListOf("Off", "Holding Leap", "Always"), visibility = Visibility.ADVANCED_ONLY, description = "Show player name under player head.")
     // Chat info
     val scanChatInfo = BooleanSetting("Scan Chat Info", true, description = "Show dungeon overview information after scanning.")
     val mimicInfo = BooleanSetting("Mimic Info", false, visibility = Visibility.ADVANCED_ONLY, description = "Show message when the mimic is found.")

@@ -27,7 +27,7 @@ object XRay : Module(
 ){
     /*
      * TODO in the future replace these boolean settings with a new setting type that works as a multi select dropdown.
-     *  This could be derived from the SelectorSetting but with mutiple selections being possible.
+     *  This could be derived from the StringSelectorSetting but with mutiple selections being possible.
      *  Also a gui for block selection would be nice. That could also be used for EditMode.
      */
     private val showOres = BooleanSetting("Ores", true, description = "Makes the module show ores")

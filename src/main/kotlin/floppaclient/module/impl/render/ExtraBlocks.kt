@@ -2,7 +2,7 @@ package floppaclient.module.impl.render
 
 import floppaclient.module.Category
 import floppaclient.module.Module
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 
 /**
  * Map extras block settings module.
@@ -15,7 +15,7 @@ object ExtraBlocks : Module(
     description = "Create coordinate blocks. Use edit mode with /em (block)."
 ){
 
-    val defaultStairs = SelectorSetting("Default Stairs","jungle", arrayListOf(
+    val defaultStairs = StringSelectorSetting("Default Stairs","jungle", arrayListOf(
         "birch",
         "acacia",
         "stone_brick",
@@ -31,7 +31,7 @@ object ExtraBlocks : Module(
         "spruce"),
         description = "Stairs type that will be selected with /em stairs or /em stair."
     )
-    val defaultFence = SelectorSetting("Default Fence","birch", arrayListOf(
+    val defaultFence = StringSelectorSetting("Default Fence","birch", arrayListOf(
         "oak",
         "dark_oak",
         "acacia",
@@ -41,7 +41,7 @@ object ExtraBlocks : Module(
         "spruce"),
         description = "Fence type that will be selected with /em fence."
     )
-    val defaultSlab = SelectorSetting("Default Slab","stone", arrayListOf(
+    val defaultSlab = StringSelectorSetting("Default Slab","stone", arrayListOf(
         "stone",
         "oak"),
         description = "Slab type that will be selected with /em slab."

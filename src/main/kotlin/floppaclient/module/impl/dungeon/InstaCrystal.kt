@@ -8,7 +8,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.utils.ChatUtils.modMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
@@ -28,7 +28,7 @@ object InstaCrystal : Module (
      * Right crystal target block: 66,237,49
      */
 
-    private val targetCrystal = SelectorSetting("Target","right", arrayListOf("right", "left"))
+    private val targetCrystal = StringSelectorSetting("Target","right", arrayListOf("right", "left"))
     private val delay = NumberSetting("Delay",150.0, 0.0, 300.0,10.0)
     private val showInfo = BooleanSetting("Chat message", true)
 

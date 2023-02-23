@@ -3,7 +3,7 @@ package floppaclient.ui.clickgui.advanced.elements.menu
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
 import floppaclient.module.impl.render.ClickGui
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElementType
@@ -19,8 +19,8 @@ import java.util.*
  * @author Aton
  */
 class AdvancedElementSelector(
-    parent: AdvancedMenu, module: Module, setting: SelectorSetting,
-) : AdvancedElement<SelectorSetting>(parent, module, setting, AdvancedElementType.SELECTOR) {
+    parent: AdvancedMenu, module: Module, setting: StringSelectorSetting,
+) : AdvancedElement<StringSelectorSetting>(parent, module, setting, AdvancedElementType.SELECTOR) {
 
 
     /**

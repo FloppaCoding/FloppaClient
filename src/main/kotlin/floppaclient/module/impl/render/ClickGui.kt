@@ -29,14 +29,14 @@ object ClickGui: Module(
             "§00...§ff§r are colors, l is §lBold§r, n is §nUnderlined§r, o is §oItalic§r, m is §mStrikethrough§r, k is §kObfuscated§r, r is Reset."
 ) {
 
-    val design: SelectorSetting
+    val design: StringSelectorSetting
     val sound: BooleanSetting = BooleanSetting("Sound", false, description = "Toggles whether a sound should be played on interaction with the gui.")
     val blur: BooleanSetting = BooleanSetting("Blur", true, description = "Toggles the background blur for the gui.")
     val scrollPastTop = BooleanSetting("Scroll Past Top", false, description = "Dont hide settings that have scrolled past the Panel button. Why? - Idk, but you can.")
     val color = ColorSetting("Color", Color(134,26,71), false, description = "Color theme in the gui.")
-    val colorSettingMode = SelectorSetting("Color Mode", "HSB", arrayListOf("HSB", "RGB"), description = "Mode for all color settings in the gui. Changes the way colors are put in.")
+    val colorSettingMode = StringSelectorSetting("Color Mode", "HSB", arrayListOf("HSB", "RGB"), description = "Mode for all color settings in the gui. Changes the way colors are put in.")
     val clientName: StringSetting = StringSetting("Name", "Floppa Client", description = "Name that will be rendered in the gui.")
-    val prefixStyle: SelectorSetting = SelectorSetting("Prefix Style", "Long", arrayListOf("Long", "Short", "Custom"), description = "Chat prefix selection for mod messages.")
+    val prefixStyle: StringSelectorSetting = StringSelectorSetting("Prefix Style", "Long", arrayListOf("Long", "Short", "Custom"), description = "Chat prefix selection for mod messages.")
     val customPrefix = StringSetting("Custom Prefix", "§0§l[§4§lFloppa Client§0§l]§r", 40, description = "You can set a custom chat prefix that will be used when Custom is selected in the Prefix Style dropdown.")
     val chromaSize = NumberSetting("Chroma Size", 0.5, 0.0, 1.0, 0.01, description = "Determines how rapidly the chroma pattern changes spatially.")
     val chromaSpeed = NumberSetting("Chroma Speed", 0.5, 0.0, 1.0, 0.01, description = "Determines how fast the chroma changes with time.")
@@ -64,7 +64,7 @@ object ClickGui: Module(
         val options = java.util.ArrayList<String>()
         options.add("JellyLike")
         options.add("New")
-        design = SelectorSetting("Design","JellyLike", options, description = "Design theme of the gui.")
+        design = StringSelectorSetting("Design","JellyLike", options, description = "Design theme of the gui.")
 
         addSettings(
             design,

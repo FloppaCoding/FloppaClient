@@ -8,7 +8,7 @@ import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Setting.Companion.withInputTransform
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.utils.ChatUtils
 import net.minecraft.client.entity.EntityOtherPlayerMP
 import net.minecraft.entity.Entity
@@ -45,7 +45,7 @@ object FreeCam : Module(
             "A clone of the player character will be placed in its position. \n" +
             "${ChatUtils.RED}Ping Spoof Mode is not recommended!${ChatUtils.RESET} It does change the way the client communicates with the server."
 ){
-    private val mode = SelectorSetting("Mode", "True Free Cam", arrayListOf("True Free Cam", "Ping Spoof"),
+    private val mode = StringSelectorSetting("Mode", "True Free Cam", arrayListOf("True Free Cam", "Ping Spoof"),
         description =
                 "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}True Free Cam${ChatUtils.RESET} Mode lets you move the camera without moving the player character. " +
                 "Communication with the server is not affected and the character you see is not a clone but the actual placer character.\n" +
