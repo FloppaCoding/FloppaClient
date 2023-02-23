@@ -5,6 +5,12 @@ import floppaclient.module.settings.Visibility
 import net.minecraft.util.MathHelper
 import kotlin.math.round
 
+/**
+ * A Double Setting for Modules.
+ *
+ * Represented in the GUI by a slider.
+ * To use a different type adjust the [increment] and use the toInt() etc. methods.
+ */
 class NumberSetting(
     name: String,
     override val default: Double = 1.0,

@@ -12,6 +12,7 @@ import floppaclient.module.settings.Visibility
  * Doing this allows you to avoid using the nullable type *Setting?*.
  *
  * Used for pasrsing the config file and for displaying the Module Keybind in the advanced gui.
+ * @author Aton
  */
 class DummySetting(
     name: String,
