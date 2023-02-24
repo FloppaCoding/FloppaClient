@@ -7,9 +7,8 @@ import java.util.*
 
 /**
  * Provides methods for rending text.
- * Based on HeroCode's gui.
  *
- * @author HeroCode, Aton
+ * @author Aton
  */
 object FontUtil {
     private var fontRenderer: FontRenderer? = null
@@ -32,31 +31,31 @@ object FontUtil {
     val fontHeight: Int
         get() = fontRenderer!!.FONT_HEIGHT
 
-    fun drawString(text: String?, x: Double, y: Double, color: Int) {
+    fun drawString(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         drawString(text, x.toInt(), y.toInt(), color)
     }
 
-    fun drawString(text: String?, x: Int, y: Int, color: Int) {
+    fun drawString(text: String, x: Int, y: Int, color: Int = ColorUtil.textcolor) {
         fontRenderer!!.drawString(text, x, y, color)
     }
 
-    fun drawStringWithShadow(text: String?, x: Double, y: Double, color: Int) {
+    fun drawStringWithShadow(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         fontRenderer?.drawStringWithShadow(text, x.toFloat(), y.toFloat(), color)
     }
 
-    fun drawCenteredString(text: String?, x: Double, y: Double, color: Int) {
+    fun drawCenteredString(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         drawString(text, x - fontRenderer!!.getStringWidth(text) / 2, y, color)
     }
 
-    fun drawCenteredStringWithShadow(text: String?, x: Double, y: Double, color: Int) {
+    fun drawCenteredStringWithShadow(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         drawStringWithShadow(text, x - fontRenderer!!.getStringWidth(text) / 2, y, color)
     }
 
-    fun drawTotalCenteredString(text: String?, x: Double, y: Double, color: Int) {
+    fun drawTotalCenteredString(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         drawString(text, x - fontRenderer!!.getStringWidth(text) / 2, y - fontRenderer!!.FONT_HEIGHT / 2, color)
     }
 
-    fun drawTotalCenteredStringWithShadow(text: String?, x: Double, y: Double, color: Int) {
+    fun drawTotalCenteredStringWithShadow(text: String, x: Double, y: Double, color: Int = ColorUtil.textcolor) {
         drawStringWithShadow(
             text,
             x - fontRenderer!!.getStringWidth(text) / 2,
@@ -68,7 +67,7 @@ object FontUtil {
     /**
      * Draws a string with line wrapping.
      */
-    fun drawSplitString(text: String, x: Int, y: Int, wrapWidth: Int, color: Int) {
+    fun drawSplitString(text: String, x: Int, y: Int, wrapWidth: Int, color: Int = ColorUtil.textcolor) {
         fontRenderer?.drawSplitString(text, x, y, wrapWidth, color)
     }
 

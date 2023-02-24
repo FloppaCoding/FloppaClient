@@ -1,8 +1,6 @@
 package floppaclient.ui.clickgui.advanced.elements.menu
 
-import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Module
-import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
@@ -98,7 +96,6 @@ class AdvancedElementStringSelector(
             val increment = FontUtil.fontHeight + 2
             for (option in setting.options) {
                 if (mouseX >= parent.x + x && mouseX <= parent.x + x + settingWidth && mouseY >= parent.y + ay && mouseY <= parent.y + ay + increment) {
-                    if (ClickGui.sound.enabled) mc.thePlayer.playSound("tile.piston.in", 20.0f, 20.0f)
                     setting.selected = option.lowercase(Locale.getDefault())
                     return true
                 }

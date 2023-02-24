@@ -30,10 +30,8 @@ object ClickGui: Module(
 ) {
 
     val design: StringSelectorSetting
-    val sound: BooleanSetting = BooleanSetting("Sound", false, description = "Toggles whether a sound should be played on interaction with the gui.")
-    val blur: BooleanSetting = BooleanSetting("Blur", true, description = "Toggles the background blur for the gui.")
-    val scrollPastTop = BooleanSetting("Scroll Past Top", false, description = "Dont hide settings that have scrolled past the Panel button. Why? - Idk, but you can.")
-    val color = ColorSetting("Color", Color(134,26,71), false, description = "Color theme in the gui.")
+    val blur: BooleanSetting = BooleanSetting("Blur", false, description = "Toggles the background blur for the gui.")
+    val color = ColorSetting("Color", Color(255,200,0), false, description = "Color theme in the gui.")
     val colorSettingMode = StringSelectorSetting("Color Mode", "HSB", arrayListOf("HSB", "RGB"), description = "Mode for all color settings in the gui. Changes the way colors are put in.")
     val clientName: StringSetting = StringSetting("Name", "Floppa Client", description = "Name that will be rendered in the gui.")
     val prefixStyle: StringSelectorSetting = StringSelectorSetting("Prefix Style", "Long", arrayListOf("Long", "Short", "Custom"), description = "Chat prefix selection for mod messages.")
@@ -68,9 +66,7 @@ object ClickGui: Module(
 
         addSettings(
             design,
-            sound,
             blur,
-            scrollPastTop,
             color,
             colorSettingMode,
             clientName,

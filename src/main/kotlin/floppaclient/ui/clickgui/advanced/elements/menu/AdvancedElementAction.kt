@@ -19,7 +19,6 @@ class AdvancedElementAction(parent: AdvancedMenu, module: Module, setting: Actio
      * Render the element
      */
     override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float) : Int{
-        // Rendering the name.
         FontUtil.drawString(setting.name,  1,  2, -0x1)
         return this.settingHeight
     }

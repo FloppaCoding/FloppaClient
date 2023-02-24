@@ -104,7 +104,6 @@ class AdvancedMenu(val module: Module) {
         Gui.drawRect(0, 0, width, 15, color)
         FontUtil.drawTotalCenteredStringWithShadow(module.name, width / 2.0,  1 + 15 / 2.0, textcolor)
 
-        //<editor-fold desc="RENDERING THE COMPONENTS IN THE GUI.">
         // Set up the Scissor Box
         val scale = mc.displayHeight /  ScaledResolution(mc).scaledHeight
         GL11.glScissor(
@@ -131,8 +130,6 @@ class AdvancedMenu(val module: Module) {
             dy += element.height
         }
         length = dy + scrollOffs
-
-        //</editor-fold>
 
         // Resetting the scissor
         GL11.glDisable(GL11.GL_SCISSOR_TEST)

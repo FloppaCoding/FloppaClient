@@ -41,12 +41,10 @@ object EditHudGUI : GuiScreen() {
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
-    private fun renderRestButton(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    private fun renderRestButton(mouseX: Int, mouseY: Int, @Suppress("UNUSED_PARAMETER") partialTicks: Float) {
         val resetText = "Rest HUD"
         val scaledResolution = ScaledResolution(mc)
 
-        val temp = ColorUtil.clickGUIColor.darker()
-        val titleColor = Color(temp.red, temp.green, temp.blue, 255).rgb
         GL11.glPushMatrix()
         GL11.glTranslated(
             scaledResolution.scaledWidth.toDouble() / 2.0,
@@ -68,20 +66,9 @@ object EditHudGUI : GuiScreen() {
         }else {
             Color(-0x44eaeaeb, true).darker()
         }
-        HUDRenderUtils.renderRect(
-            boxX,
-            boxY,
-            boxWidth,
-            boxHeight,
-            buttonColor
-        )
+        HUDRenderUtils.renderRect(boxX, boxY, boxWidth, boxHeight, buttonColor)
 
-        FontUtil.drawString(
-            resetText,
-            textX,
-            textY,
-            titleColor
-        )
+        FontUtil.drawString(resetText, textX, textY, ColorUtil.clickGUIColor.rgb)
         GL11.glPopMatrix()
     }
 

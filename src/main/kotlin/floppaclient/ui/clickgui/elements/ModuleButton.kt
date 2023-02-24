@@ -5,27 +5,34 @@ import floppaclient.module.Module
 import floppaclient.module.impl.keybinds.KeyBind
 import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.impl.*
-import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.Panel
+import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.elements.menu.*
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
 import net.minecraft.client.gui.Gui
-import java.awt.Color
+import net.minecraft.client.renderer.GlStateManager
 
 /**
  * Provides the toggle button for modules in the click gui.
- * Based on HeroCode's gui.
  *
- * @author HeroCode, Aton
+ * @author Aton
  */
-class ModuleButton(val module: Module, val parent: Panel) {
-    val menuElements: ArrayList<Element> = ArrayList()
-    var x = 0.0
-    var y = 0.0
-    var width = 0.0
-    var height: Double = (mc.fontRendererObj.FONT_HEIGHT + 2).toDouble()
+class ModuleButton(val module: Module, val panel: Panel) {
+    val menuElements: ArrayList<Element<*>> = ArrayList()
+    /** Relative position of this button in respect to [panel]. */
+    var x = 0
+    /** Relative position of this button in respect to [panel]. */
+    var y = 0
+    val width = panel.width
+    val height = (mc.fontRendererObj.FONT_HEIGHT + 2)
     var extended = false
+    /** Absolute position of the panel on the screen. */
+    val xAbsolute: Int
+        get() = x + panel.x
+    /** Absolute position of the panel on the screen. */
+    val yAbsolute: Int
+        get() = y + panel.y
 
     init {
         /** Register the corresponding gui element for all non-hidden settings in the module */
@@ -33,6 +40,12 @@ class ModuleButton(val module: Module, val parent: Panel) {
         menuElements.add(ElementKeyBind(this, module))
     }
 
+    /**
+     * Updates the [menuElements].
+     *
+     * This is used to initially populate the elements and to update the list based on the visibility condition of the settings.
+     * @see floppaclient.module.settings.Setting.shouldBeVisible
+     */
     fun updateElements() {
         var position = -1 // This looks weird, but it starts at -1 because it gets incremented before being used.
         for (setting in module.settings) {
@@ -60,25 +73,30 @@ class ModuleButton(val module: Module, val parent: Panel) {
     }
 
     /**
-	 * Render the Button
+	 * Render the Button.
+     * Dispatches rendering of its [menuElements].
 	 */
-    fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val temp = ColorUtil.clickGUIColor
-        val color = Color(temp.red, temp.green, temp.blue, 150).rgb
-        val color2 = Color(temp.red, temp.green, temp.blue, 100).darker().rgb
+    fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) : Int {
 
-        // Change the text color and put a colored box on the element if it is toggled
-        val textcolor = -0x101011
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(x.toFloat(), y.toFloat(), 0f)
+
+        Gui.drawRect(0, 0, width, height + 1, ColorUtil.moduleButtonColor)
+        if (ClickGui.design.isSelected("New")) {
+            Gui.drawRect(0, 0, 2, height + 1, ColorUtil.outlineColor)
+        }
+
+        /** Draw the highlight when the module is enabled. */
         if (module.enabled) {
-            Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), color)
+            Gui.drawRect(0, 0, width, height + 1, ColorUtil.outlineColor)
         }
 
         /** Change color on hover */
-        if (isHovered(mouseX, mouseY)) {
+        if (isButtonHovered(mouseX, mouseY)) {
             if (module.enabled)
-                Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), 0x55111111)
+                Gui.drawRect(0, 0,  width, height + 1, 0x55111111)
             else
-                Gui.drawRect((x - 2).toInt(), y.toInt(), (x + width + 2).toInt(), (y + height + 1).toInt(), color2)
+                Gui.drawRect(0, 0, width , height + 1, ColorUtil.hoverColor)
         }
 
         /** Rendering the name in the middle */
@@ -87,45 +105,100 @@ class ModuleButton(val module: Module, val parent: Panel) {
         } else {
             module.name
         }
-        FontUtil.drawTotalCenteredStringWithShadow(displayName, x + width / 2, y + 1 + height / 2, textcolor)
+        FontUtil.drawTotalCenteredStringWithShadow(displayName, width / 2.0, 1 + height / 2.0)
+
+        /** Render the settings elements */
+        var offs = height + 1
+        if (extended && menuElements.isNotEmpty()) {
+            for (menuElement in menuElements) {
+                menuElement.y = offs
+                menuElement.update()
+
+                offs += menuElement.drawScreen(mouseX, mouseY, partialTicks)
+            }
+        }
+
+        GlStateManager.popMatrix()
+
+        return offs
     }
 
     /**
-	 * Handles mouse clicks for this element and returns true if an action was performed
+	 * Handles mouse clicks for this element and dispatches them to its [menuElements].
+     * @return true if an action was performed.
+     * @see Element.mouseClicked
 	 */
     fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
-        if (!isHovered(mouseX, mouseY)) return false
-
-        /** Toggle the mod on left click, expand its settings on right click and show an info screen on middle click */
-        if (mouseButton == 0) {
-            module.toggle()
-            if (ClickGui.sound.enabled) mc.thePlayer.playSound("random.click", 0.5f, 0.5f)
-        } else if (mouseButton == 1) {
-            /** toggle extended
-             * Disable listening for all members*/
-            if (menuElements.size > 0) {
-                extended = !extended
-                if (ClickGui.sound.enabled)
-                    if (extended) {
-                        mc.thePlayer.playSound("tile.piston.out", 1f, 1f)
-                    }else {
-                        mc.thePlayer.playSound("tile.piston.in", 1f, 1f)
+        if (isButtonHovered(mouseX, mouseY)) {
+            /** Toggle the mod on left click, expand its settings on right click and show an info screen on middle click */
+            if (mouseButton == 0) {
+                module.toggle()
+                return true
+            } else if (mouseButton == 1) {
+                /** toggle extended
+                 * Disable listening for all members*/
+                if (menuElements.size > 0) {
+                    extended = !extended
+                    if (!extended) {
                         menuElements.forEach {
-                            if (it.type == ElementType.KEY_BIND) {
-                                (it as ElementKeyBind).listening = false
-                            } else if (it. type == ElementType.TEXT_FIELD) {
-                                (it as ElementTextField).listening = false
-                            }
+                            it.listening = false
                         }
                     }
+                }
+                return true
+            } else if (mouseButton == 2) {
+                panel.clickgui.advancedMenu = AdvancedMenu(module)
+                return true
             }
-        } else if (mouseButton == 2) {
-            parent.clickgui.advancedMenu = AdvancedMenu(module)
+        }else if (isMouseUnderButton(mouseX, mouseY)) {
+            for (menuElement in menuElements.reversed()) {
+                if (menuElement.mouseClicked(mouseX, mouseY, mouseButton)) {
+                    updateElements()
+                    return true
+                }
+            }
         }
-        return true
+        return false
     }
 
-    private fun isHovered(mouseX: Int, mouseY: Int): Boolean {
-        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height
+    /**
+     * Dispatches mouse released actions to its [menuElements]
+     * @see Element.mouseReleased
+     */
+    fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
+        if (extended) {
+            for (menuElement in menuElements.reversed()) {
+                menuElement.mouseReleased(mouseX, mouseY, state)
+            }
+        }
+    }
+
+    /**
+     * Dispatches key press to its [menuElements].
+     * @return true if any of the elements used the input.
+     * @see Element.keyTyped
+     */
+    fun keyTyped(typedChar: Char, keyCode: Int): Boolean {
+        if (extended) {
+            for (menuElement in menuElements.reversed()) {
+                if (menuElement.keyTyped(typedChar, keyCode)) return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * Returns true when the mouse is hovering over the module button.
+     */
+    private fun isButtonHovered(mouseX: Int, mouseY: Int): Boolean {
+        return mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute && mouseY <= yAbsolute + height
+    }
+
+    /**
+     * Returns true when the Settings are extended and the mouse below the Module Button.
+     */
+    private fun isMouseUnderButton(mouseX: Int, mouseY: Int): Boolean {
+        if (!extended) return false
+        return mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY > yAbsolute + height
     }
 }

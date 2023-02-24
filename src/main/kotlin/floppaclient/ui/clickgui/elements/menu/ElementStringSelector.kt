@@ -1,8 +1,5 @@
 package floppaclient.ui.clickgui.elements.menu
 
-import floppaclient.FloppaClient.Companion.mc
-import floppaclient.module.impl.render.ClickGui
-import floppaclient.module.settings.Setting
 import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.elements.Element
 import floppaclient.ui.clickgui.elements.ElementType
@@ -10,92 +7,60 @@ import floppaclient.ui.clickgui.elements.ModuleButton
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
 import net.minecraft.client.gui.Gui
-import java.awt.Color
 import java.util.*
 
 /**
  * Provides a selector element.
- * Based on HeroCode's gui.
  *
- * @author HeroCode, Aton
+ * @author Aton
  */
 @Deprecated("Use enum version instead")
-class ElementStringSelector(iparent: ModuleButton, iset: Setting<*>) : Element() {
+class ElementStringSelector(parent: ModuleButton, setting: StringSelectorSetting) :
+    Element<StringSelectorSetting>(parent, setting, ElementType.SELECTOR) {
 
-    init {
-        parent = iparent
-        setting = iset
-        type = ElementType.SELECTOR
-        super.setup()
-    }
+    override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float): Int {
+        val displayValue = setting.selected
 
-    /**
-	 * Renders the element
-	 */
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val temp = ColorUtil.clickGUIColor
-        val color = Color(temp.red, temp.green, temp.blue, 150).rgb
-        val displayValue = (setting as StringSelectorSetting).selected
-
-        /** Render the box and text */
-        if(parent?.parent?.shouldRender(y + 15) == true) {
-            Gui.drawRect(x.toInt(), y.toInt(), (x + width).toInt(), (y + height).toInt(), ColorUtil.elementColor)
-            if (FontUtil.getStringWidth(displayValue + "00" + displayName) <= width) {
-                FontUtil.drawString(displayName, x + 1, y + 2, -0x1)
-                FontUtil.drawString(displayValue, x + width - FontUtil.getStringWidth(displayValue), y + 2, -0x1)
+        // Render the text.
+        if (FontUtil.getStringWidth(displayValue + "00" + displayName) <= width) {
+            FontUtil.drawString(displayName, 1, 2)
+            FontUtil.drawString(displayValue, width - FontUtil.getStringWidth(displayValue), 2)
+        } else {
+            if (isButtonHovered(mouseX, mouseY)) {
+                FontUtil.drawCenteredStringWithShadow(displayValue, width / 2.0, 2.0)
             } else {
-                if (isButtonHovered(mouseX, mouseY)) {
-                    FontUtil.drawCenteredStringWithShadow(displayValue, x + width / 2, y + 2, -0x1)
-                } else {
-                    FontUtil.drawCenteredString(displayName, x + width / 2, y + 2, -0x1)
-                }
+                FontUtil.drawCenteredString(displayName, width / 2.0, 2.0)
             }
-
-            Gui.drawRect(x.toInt(), (y + 13).toInt(), (x + width).toInt(), (y + 15).toInt(), 0x77000000)
-            Gui.drawRect(
-                (x + width * 0.4).toInt(),
-                (y + 12).toInt(),
-                (x + width * 0.6).toInt(),
-                (y + 15).toInt(),
-                color
-            )
         }
 
-        if (comboextended) {
-            val clr2 = temp.rgb
-            var ay = y + 15
+        // Render the tab indicating the drop-down
+        Gui.drawRect(0, 13, width, 15, ColorUtil.tabColorBg)
+        Gui.drawRect((width * 0.4).toInt(), 12, (width * 0.6).toInt(), 15, ColorUtil.tabColor)
+
+
+        // Render the dropdown
+        if (extended) {
+            var ay = DEFAULT_HEIGHT
             val increment = FontUtil.fontHeight + 2
-            for (option in (setting as StringSelectorSetting).options) {
-                if(parent?.parent?.shouldRender(ay + increment) == true) {
-                    Gui.drawRect(x.toInt(), (ay).toInt(), (x + width).toInt(), (ay + increment).toInt(), -0x55ededee)
-                    val elementtitle =
-                        option.substring(0, 1).uppercase(Locale.getDefault()) + option.substring(1, option.length)
-                    FontUtil.drawCenteredString(elementtitle, x + width / 2, ay + 2, -0x1)
+            for (option in setting.options) {
+                Gui.drawRect(0, ay, width, ay + increment, ColorUtil.dropDownColor)
+                val elementtitle =
+                    option.substring(0, 1).uppercase(Locale.getDefault()) + option.substring(1, option.length)
+                FontUtil.drawCenteredString(elementtitle, width / 2.0, ay + 2.0)
 
-                    /** Highlights the element if it is selected */
-                    if (option.equals((setting as StringSelectorSetting).selected, ignoreCase = true)) {
-                        Gui.drawRect(
-                            x.toInt(),
-                            ay.toInt(),
-                            (x + 1.5).toInt(),
-                            (ay + increment).toInt(),
-                            color
-                        )
-                    }
-                    /** Highlights the element when it is hovered */
-                    if (mouseX >= x && mouseX <= x + width && mouseY >= ay && mouseY < ay + increment) {
-                        Gui.drawRect(
-                            (x + width - 1.2).toInt(),
-                            ay.toInt(),
-                            (x + width).toInt(),
-                            (ay + increment).toInt(),
-                            clr2
-                        )
-                    }
+                /** Highlight the element if it is selected */
+                if (setting.isSelected(option)) {
+                    Gui.drawRect(0, ay, 2, ay + increment, ColorUtil.clickGUIColor.rgb)
                 }
-                ay += increment.toDouble()
+                /** Highlight the element when it is hovered */
+                if (mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute + ay && mouseY < yAbsolute + ay + increment) {
+                    Gui.drawRect(width - 1, ay, width, ay + increment, ColorUtil.clickGUIColor.rgb)
+                }
+                ay += increment
             }
         }
+
+        return super.renderElement(mouseX, mouseY, partialTicks)
     }
 
     /**
@@ -105,29 +70,23 @@ class ElementStringSelector(iparent: ModuleButton, iset: Setting<*>) : Element()
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
         if (mouseButton == 0) {
             if (isButtonHovered(mouseX, mouseY)) {
-                (setting as StringSelectorSetting).index += 1
+                setting.index += 1
                 return true
             }
 
-            if (!comboextended) return false
-            var ay = y + 15
+            if (!extended) return false
+            var ay = DEFAULT_HEIGHT
             val increment = FontUtil.fontHeight + 2
-            for (option in (setting as StringSelectorSetting).options) {
-                if(parent?.parent?.shouldRender(ay + increment) == true) {
-                    if (mouseX >= x && mouseX <= x + width && mouseY >= ay && mouseY <= ay + increment) {
-                        if (ClickGui.sound.enabled) mc.thePlayer.playSound("tile.piston.in", 20.0f, 20.0f)
-                        if (clickgui != null) (setting as StringSelectorSetting).selected =
-                            option.lowercase(
-                                Locale.getDefault()
-                            )
-                        return true
-                    }
+            for (option in setting.options) {
+                if (mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute + ay && mouseY <= yAbsolute + ay + increment) {
+                    setting.selected = option
+                    return true
                 }
-                ay += increment.toDouble()
+                ay += increment
             }
         } else if( mouseButton == 1) {
             if (isButtonHovered(mouseX, mouseY)) {
-                comboextended = !comboextended
+                extended = !extended
                 return true
             }
         }
@@ -138,6 +97,6 @@ class ElementStringSelector(iparent: ModuleButton, iset: Setting<*>) : Element()
      * Checks whether the mouse is hovering the selector
      */
     private fun isButtonHovered(mouseX: Int, mouseY: Int): Boolean {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + 15) && parent?.parent?.shouldRender(y+15) ?: false
+        return (mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute && mouseY <= yAbsolute + DEFAULT_HEIGHT)
     }
 }

@@ -8,6 +8,7 @@ import floppaclient.module.impl.render.DungeonMap
 import floppaclient.utils.inventory.InventoryUtils.isHolding
 import floppaclient.utils.inventory.SkyblockItem
 import net.minecraft.client.gui.Gui
+import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
@@ -17,9 +18,16 @@ import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 /**
- * A Collection of methods for rendering 2D Objects in orthographic projection for the HUD or for a gui.
+ * ## A Collection of methods for rendering 2D Objects in orthographic projection for the HUD or for a gui.
+ *
+ * ### Coordinate space
+ * The coordinate space used by the methods here sees the top left corner of your window as the origin 0,0.
+ * The x-axis is pointing towards the right of the screen. and the y-axis is pointing **downwards**.
+ *
  *
  * Heavily based on the rendering for [Funny Map by Harry282](https://github.com/Harry282/FunnyMap/blob/master/src/main/kotlin/funnymap/utils/RenderUtils.kt).
+ *
+ * @author Aton
  */
 object HUDRenderUtils {
 
@@ -153,5 +161,55 @@ object HUDRenderUtils {
         } catch (_: Exception) {
         }
         GlStateManager.popMatrix()
+    }
+
+    /**
+     * Sets up a GL scissor test for the specified region of the screen.
+     *
+     * Uses the same coordinate system as all the rendering methods.
+     * The native OpenGL method [GL11.glScissor] uses a different coordinate system.
+     * This method takes care of the coordinate transform for you.
+     * @see setUpScissor
+     * @see endScissor
+     */
+    fun setUpScissorAbsolute(left: Int, top: Int, right: Int, bottom: Int) {
+        setUpScissor(left, top, (right - left).coerceAtLeast(0), (bottom - top).coerceAtLeast(0))
+    }
+
+    /**
+     * Sets up a GL scissor test for the specified region of the screen.
+     *
+     * Uses the same coordinate system as all the rendering methods.
+     * The native OpenGL method [GL11.glScissor] uses a different coordinate system.
+     * This method takes care of the coordinate transform for you.
+     * @see setUpScissorAbsolute
+     * @see endScissor
+     */
+    fun setUpScissor(x: Int, y: Int, width: Int, height: Int) {
+        /*
+        glScissor uses different coordinates than all the rendering methods.
+        It uses absolute window coordinates starting with 0,0 in the bottom left corner of the window.
+        The coordinates directly relate to pixels.
+        It is not affected by things such as glTanslate and glScale.
+
+        In contrast, all other hud rendering methods use the top left corner as 0,0
+         */
+        val scale = mc.displayHeight / ScaledResolution(mc).scaledHeight.toDouble()
+        GL11.glScissor(
+            (x * scale).toInt(),
+            (mc.displayHeight - (height + y) *scale).toInt() ,
+            (width*scale).toInt(),
+            (height * scale).toInt()
+        )
+        GL11.glEnable(GL11.GL_SCISSOR_TEST)
+    }
+
+    /**
+     * Disables the GL scissor test.
+     * @see setUpScissor
+     * @see setUpScissorAbsolute
+     */
+    fun endScissor() {
+        GL11.glDisable(GL11.GL_SCISSOR_TEST)
     }
 }
