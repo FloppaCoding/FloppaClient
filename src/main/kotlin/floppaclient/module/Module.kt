@@ -20,6 +20,9 @@ import kotlin.reflect.full.hasAnnotation
  * [modules][ModuleManager.modules] in [ModuleManager].
  * The sample provided below shows how you can do this.
  *
+ * Alternatively to adding your module to the module manager you can also simply annotate it with [SelfRegisterModule].
+ * As long as your module is within *floppaclient.module.impl* or any of the sub packages it will be loaded.
+ *
  * ## Adding settings to your Module.
  * If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and
  * also register them by adding them to the [settings] list.
@@ -148,6 +151,16 @@ abstract class Module(
     }
 
     /**
+     * Loads self registering elements of the module such as hud elements.
+     */
+    fun loadModule() {
+        this::class.nestedClasses.filter { it.hasAnnotation<RegisterHudElement>() }
+            .mapNotNull { it.objectInstance }.filterIsInstance<HudElement>().forEach {
+                hudElements.add(it)
+            }
+    }
+
+    /**
      * Triggers the module initialization.
      *
      * Is run on startup.
@@ -158,10 +171,6 @@ abstract class Module(
     fun initializeModule() {
         if (this::class.hasAnnotation<AlwaysActive>()) {
             MinecraftForge.EVENT_BUS.register(this)
-        }
-        this::class.nestedClasses.filter { it.hasAnnotation<RegisterHudElement>() }
-            .mapNotNull { it.objectInstance }.filterIsInstance<HudElement>().forEach {
-             hudElements.add(it)
         }
         onInitialize()
     }

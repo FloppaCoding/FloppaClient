@@ -44,6 +44,8 @@ dependencies {
 
     packageLib("gg.essential:loader-launchwrapper:1.1.3")
     implementation("gg.essential:essential-1.8.9-forge:3662")
+
+    implementation("org.reflections:reflections:0.10.2")
 }
 
 sourceSets {

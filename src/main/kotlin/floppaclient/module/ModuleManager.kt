@@ -12,6 +12,9 @@ import floppaclient.module.settings.Setting
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.ui.hud.EditHudGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import org.reflections.Reflections
+import kotlin.jvm.internal.Reflection
+import kotlin.reflect.full.hasAnnotation
 
 /**
  * # This object handles all the modules of the mod.
@@ -117,6 +120,27 @@ object ModuleManager {
         //KEYBIND
         AddKeybind,
     )
+
+    /**
+     * Loads in all modules and their elements.
+     *
+     * Self registering modules are loaded by this.
+     * Self registering Hud elements will also be loaded.
+     *
+     * This method also accesses instances of all modules and their hud elements.
+     * That way all module instances are created and loaded into memory.
+     *
+     * This step is required before the config is loaded.
+     */
+    fun loadModules() {
+        val reflections = Reflections("floppaclient.module.impl")
+        val possibleModule = reflections.getSubTypesOf(Module::class.java).map { Reflection.createKotlinClass(it) }
+        val selfRegisterModules = possibleModule.filter { it.hasAnnotation<SelfRegisterModule>() }
+            .mapNotNull { it.objectInstance }.filterIsInstance<Module>().filter { !modules.contains(it) }
+        modules.addAll(selfRegisterModules)
+
+        modules.forEach { it.loadModule() }
+    }
 
     /**
      * Initialize the Modules.

@@ -77,6 +77,9 @@ class ModuleConfig(path: File) {
                         // So just suppress the warning here.
                         @Suppress("SENSELESS_COMPARISON")
                         if (configSetting == null) continue
+                        if (configSetting.name.startsWith("xHud_0")) {
+                            println("xhud")
+                        }
                         val setting = module.getSettingByName(configSetting.name) ?: continue
                         when (setting) {
                             is BooleanSetting -> setting.enabled = (configSetting as BooleanSetting).enabled

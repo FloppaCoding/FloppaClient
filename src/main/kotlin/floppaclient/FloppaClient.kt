@@ -66,6 +66,7 @@ class FloppaClient {
 
     @Mod.EventHandler
     fun onInit(event: FMLInitializationEvent) {
+        ModuleManager.loadModules()
 
         listOf(
             FloppaClientCommands(),
