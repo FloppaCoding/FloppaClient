@@ -9,9 +9,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
 
 /**
- * Provides functionality for game overlay elements
+ * Provides functionality for game overlay elements.
+ * @author Aton
  */
-open class HudElement(
+abstract class HudElement(
     private val xSett: NumberSetting,
     private val ySett: NumberSetting,
     var width: Int = 10,
@@ -71,9 +72,12 @@ open class HudElement(
     }
 
     /**
-     * to be overwritten in implementations.
+     * Override this method in your implementations.
+     *
+     * This method is responsible for rendering the HUD element.
+     * Within this method coordinates are already transformed regarding to the HUD position [x],[x] and [scale].
      */
-    open fun renderHud() { }
+    abstract fun renderHud()
 
     /**
      * Used for moving the hud element.

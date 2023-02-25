@@ -3,6 +3,7 @@ package floppaclient.module.impl.render
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.RegisterHudElement
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -66,11 +67,6 @@ object DungeonWarpTimer : Module(
         super.onInitialize()
     }
 
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(DungeonWarpTimerHUD)
-        super.onEnable()
-    }
-
     override fun onDisable() {
         MinecraftForge.EVENT_BUS.unregister(DungeonWarpTimerHUD)
         if (trackInBackground.enabled) return
@@ -122,6 +118,7 @@ object DungeonWarpTimer : Module(
         }
     }
 
+    @RegisterHudElement
     object DungeonWarpTimerHUD : HudElement(
         xHud,
         yHud,
@@ -143,8 +140,6 @@ object DungeonWarpTimer : Module(
             }
 
             this.height = yOffs
-
-            super.renderHud()
         }
     }
 

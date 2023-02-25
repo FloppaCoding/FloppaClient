@@ -13,6 +13,7 @@ import floppaclient.utils.ChatUtils.stripControlCodes
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import org.lwjgl.input.Keyboard
 import java.awt.Color
 
 /**
@@ -22,6 +23,7 @@ import java.awt.Color
 @AlwaysActive
 object ClickGui: Module(
     "ClickGUI",
+    Keyboard.KEY_RSHIFT,
     category = Category.RENDER,
     description = "Appearance settings for the click gui. \n" +
             "You can set a custom chat prefix with formatting here. For formatting use & or the paragrph symbol followed by a modifier. " +

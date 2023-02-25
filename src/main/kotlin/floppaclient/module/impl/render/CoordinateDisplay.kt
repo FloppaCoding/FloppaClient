@@ -3,13 +3,13 @@ package floppaclient.module.impl.render
 import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.RegisterHudElement
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.MovingObjectPosition
-import net.minecraftforge.common.MinecraftForge
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -37,16 +37,7 @@ object CoordinateDisplay : Module(
         )
     }
 
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(CoordinateHUD)
-        super.onEnable()
-    }
-
-    override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(CoordinateHUD)
-        super.onDisable()
-    }
-
+    @RegisterHudElement
     object CoordinateHUD : HudElement(
         xHud,
         yHud,
@@ -79,8 +70,6 @@ object CoordinateDisplay : Module(
             }
 
             this.width = mc.fontRendererObj.getStringWidth(coordText)
-
-            super.renderHud()
         }
     }
 

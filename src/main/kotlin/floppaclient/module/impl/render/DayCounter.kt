@@ -7,7 +7,7 @@ import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
-import net.minecraftforge.common.MinecraftForge
+import floppaclient.module.RegisterHudElement
 
 /**
  * Displays a hud showing the age of servers in both (Minecraft) days and minutes.
@@ -34,16 +34,7 @@ object DayCounter : Module(
         )
     }
 
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(DayCounter)
-        super.onEnable()
-    }
-
-    override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(DayCounter)
-        super.onDisable()
-    }
-
+    @RegisterHudElement
     object DayCounter : HudElement(
         xHud,
         yHud,
@@ -65,7 +56,6 @@ object DayCounter : Module(
                 mc.fontRendererObj.drawString(adText, 0, (mc.fontRendererObj.FONT_HEIGHT + 1), 0xffffff)
                 this.width = mc.fontRendererObj.getStringWidth(adText)
             }
-            super.renderHud()
         }
     }
 }

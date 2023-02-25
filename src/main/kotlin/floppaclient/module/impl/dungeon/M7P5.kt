@@ -6,20 +6,20 @@ import floppaclient.events.BlockStateChangeEvent
 import floppaclient.events.ReceivePacketEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.RegisterHudElement
 import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
-import floppaclient.utils.render.WorldRenderUtils.drawCustomSizedBoxAt
 import floppaclient.utils.Utils
+import floppaclient.utils.render.WorldRenderUtils.drawCustomSizedBoxAt
 import net.minecraft.init.Blocks
 import net.minecraft.network.play.server.S2APacketParticles
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.Vec3
 import net.minecraftforge.client.event.RenderWorldLastEvent
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
@@ -50,16 +50,6 @@ object M7P5 : Module(
             boxThickness,
             dragonSpawnTimer
         )
-    }
-
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(SpawnTimer)
-        super.onEnable()
-    }
-
-    override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(SpawnTimer)
-        super.onDisable()
     }
 
     @SubscribeEvent
@@ -97,6 +87,7 @@ object M7P5 : Module(
         M7Drags.values().forEach { it.isAlive = false; dragAliveTime.clear() }
     }
 
+    @RegisterHudElement
     object SpawnTimer : HudElement(
         xHud,
         yHud,
@@ -116,7 +107,6 @@ object M7P5 : Module(
                     yOffs += mc.fontRendererObj.FONT_HEIGHT
                 }
             }
-            super.renderHud()
         }
     }
 

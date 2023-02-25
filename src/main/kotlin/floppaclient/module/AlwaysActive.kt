@@ -6,5 +6,6 @@ package floppaclient.module
  *
  * @author Aton
  */
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 annotation class AlwaysActive

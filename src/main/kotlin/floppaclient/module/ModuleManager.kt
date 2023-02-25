@@ -10,6 +10,7 @@ import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
 import floppaclient.module.settings.Setting
 import floppaclient.ui.clickgui.ClickGUI
+import floppaclient.ui.hud.EditHudGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
@@ -124,6 +125,7 @@ object ModuleManager {
     fun initializeModules() {
         modules.forEach {
             it.initializeModule()
+            EditHudGUI.addHUDElements(it.hudElements)
         }
     }
 

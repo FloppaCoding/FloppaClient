@@ -4,22 +4,23 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import floppaclient.FloppaClient
 import floppaclient.module.settings.Setting
+import floppaclient.ui.hud.HudElement
 import floppaclient.utils.ChatUtils
 import net.minecraftforge.common.MinecraftForge
 import org.lwjgl.input.Keyboard
 import kotlin.reflect.full.hasAnnotation
 
 /**
- * ## Super class for all Modules in the mod.
+ * # Super class for all Modules in the mod.
  *
  * Annotate with [AlwaysActive] to have a Module always registered to the Event Bus regardless of the Module being [enabled].
  *
- * ### Making your own Module
+ * ## Making your own Module
  * To make your own Module simply create an object which inherits from this class and add it to the list of
  * [modules][ModuleManager.modules] in [ModuleManager].
  * The sample provided below shows how you can do this.
  *
- * ### Adding settings to your module.
+ * ## Adding settings to your module.
  * If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and
  * also register them by adding them to the [settings] list.
  *
@@ -56,6 +57,35 @@ import kotlin.reflect.full.hasAnnotation
  * The sample from [AutoClicker][floppaclient.module.impl.misc.AutoClicker] below shows both of these being used.
  * The input transform is used to further limit the range in which the slider can be moved.
  * And the dependency is set so that the setting only shows in the click gui when the corresponding click mode is enabled.
+ *
+ * ## Adding a HUD to your module
+ * To add a HUD to your module simply declare an object which inherits from the [HudElement] class within your Module.
+ * For this HUD element to be active you need to register it. All you need to do for that is to annotate it with the
+ * [RegisterHudElement] annotation.
+ * Inside your HUD element object you need to implement the [renderHud][HudElement.renderHud] method.
+ * This ís responsible for rendering the element.
+ *
+ * The following example shows you how to use it.
+ *
+ *     object MyModule : Module(
+ *     "My Module",
+ *     category = Category.RENDER
+ * ) {
+ *
+ *     private val xHud = +NumberSetting("x", default = 0.0, visibility = Visibility.HIDDEN)
+ *     private val yHud = +NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)
+ *     private val scaleHud = +NumberSetting("scale", 1.0, 0.1, 4.0, 0.01, Visibility.HIDDEN)
+ *
+ *     @RegisterHudElement
+ *     object DayCounter : HudElement(xHud, yHud,
+ *         mc.fontRendererObj.getStringWidth("Day (32)"),
+ *         mc.fontRendererObj.FONT_HEIGHT * 2 + 1, scaleHud
+ *     ) {
+ *         override fun renderHud() {
+ *             // Rendering implementation
+ *         }
+ *     }
+ * }
  *
  *
  * @author Aton
@@ -105,6 +135,8 @@ abstract class Module(
      */
     val description: String
 
+    val hudElements: MutableList<HudElement> = mutableListOf()
+
     init {
         this.name = name
         this.keyCode = keyCode
@@ -129,12 +161,18 @@ abstract class Module(
     /**
      * Triggers the module initialization.
      *
+     * Is run on startup.
+     *
      * Also takes care of registering the module to the Forge [EventBus][MinecraftForge.EVENT_BUS] if it has
      * the [AlwaysActive] annotation.
      */
     fun initializeModule() {
         if (this::class.hasAnnotation<AlwaysActive>()) {
             MinecraftForge.EVENT_BUS.register(this)
+        }
+        this::class.nestedClasses.filter { it.hasAnnotation<RegisterHudElement>() }
+            .mapNotNull { it.objectInstance }.filterIsInstance<HudElement>().forEach {
+             hudElements.add(it)
         }
         onInitialize()
     }
@@ -166,6 +204,7 @@ abstract class Module(
      */
     open fun onEnable() {
         MinecraftForge.EVENT_BUS.register(this)
+        hudElements.forEach { MinecraftForge.EVENT_BUS.register(it) }
     }
 
     /**
@@ -181,6 +220,7 @@ abstract class Module(
         if (!this::class.hasAnnotation<AlwaysActive>()) {
             MinecraftForge.EVENT_BUS.unregister(this)
         }
+        hudElements.forEach { MinecraftForge.EVENT_BUS.unregister(it) }
     }
 
     /**

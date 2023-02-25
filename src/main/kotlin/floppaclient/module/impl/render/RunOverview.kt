@@ -5,6 +5,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.RegisterHudElement
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -13,7 +14,6 @@ import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.timeFormat
 import net.minecraft.util.StringUtils
 import net.minecraftforge.client.event.ClientChatReceivedEvent
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -56,16 +56,6 @@ object RunOverview : Module(
             yHud,
             scaleHud
         )
-    }
-
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(RunOverviewHUD)
-        super.onEnable()
-    }
-
-    override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(RunOverviewHUD)
-        super.onDisable()
     }
 
     @SubscribeEvent
@@ -131,6 +121,7 @@ object RunOverview : Module(
         }
     }
 
+    @RegisterHudElement
     object RunOverviewHUD : HudElement(
         xHud,
         yHud,
@@ -172,7 +163,6 @@ object RunOverview : Module(
                     this.height = mc.fontRendererObj.FONT_HEIGHT * 3 + 3
                 }
             }
-            super.renderHud()
         }
 
         private fun renderLine2(string: String, pair: Pair<Long, Long>, int: Int) {

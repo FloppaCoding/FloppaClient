@@ -1,12 +1,9 @@
 package floppaclient.ui.hud
 
 import floppaclient.floppamap.dungeon.MapRender
-import floppaclient.utils.render.HUDRenderUtils
-import floppaclient.module.impl.render.CoordinateDisplay
-import floppaclient.module.impl.render.DayCounter
-import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
+import floppaclient.utils.render.HUDRenderUtils
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Mouse
@@ -14,17 +11,24 @@ import org.lwjgl.opengl.GL11
 import java.awt.Color
 import java.io.IOException
 
+/**
+ * The GUI for editing the positions and scale of HUD elements.
+ *
+ * @author Aton
+ */
 object EditHudGUI : GuiScreen() {
 
     private val hudElements: ArrayList<HudElement> = arrayListOf(
-        DungeonWarpTimer.DungeonWarpTimerHUD,
         MapRender,
-        CoordinateDisplay.CoordinateHUD,
-        DayCounter.DayCounter,
     )
     private var draggingElement: HudElement? = null
     private var startOffsetX = 0
     private var startOffsetY = 0
+
+    fun addHUDElements(newElements: List<HudElement>) {
+        val nonDuplicate = newElements.filter { !hudElements.contains(it) }
+        hudElements.addAll(0, nonDuplicate)
+    }
 
     /**
      * Draw a previes of all hud elements, regardless of whether they are visible.

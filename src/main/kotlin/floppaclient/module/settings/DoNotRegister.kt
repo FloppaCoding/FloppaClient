@@ -5,5 +5,6 @@ package floppaclient.module.settings
  * It prevents the delegation from registering the Setting to the Module.
  * @author Aton
  */
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.PROPERTY)
 annotation class DoNotRegister
