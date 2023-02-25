@@ -1,5 +1,6 @@
 package floppaclient.ui.hud
 
+import floppaclient.FloppaClient
 import floppaclient.floppamap.dungeon.MapRender
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
@@ -136,6 +137,10 @@ object EditHudGUI : GuiScreen() {
     override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
         draggingElement = null
         super.mouseReleased(mouseX, mouseY, state)
+    }
+
+    override fun onGuiClosed() {
+        FloppaClient.moduleConfig.saveConfig()
     }
 
     private fun isCursorOnElement(mouseX: Int, mouseY: Int, element: HudElement): Boolean {

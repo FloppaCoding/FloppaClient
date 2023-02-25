@@ -4,9 +4,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.RegisterHudElement
-import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.ui.hud.HudElement
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.MovingObjectPosition
@@ -22,28 +20,12 @@ object CoordinateDisplay : Module(
     category = Category.RENDER,
     description = "Renders your coordinates on your screen."
 ) {
-    private val showLookingAt = BooleanSetting("Looking At", false, description = "Displays the coordinates of the block you are looking at in a second line.")
-
-    private val xHud = NumberSetting("x", default = 0.0, visibility = Visibility.HIDDEN)
-    private val yHud = NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)
-    private val scaleHud = NumberSetting("scale",1.0,0.1,4.0, 0.01, visibility = Visibility.HIDDEN)
-
-    init {
-        this.addSettings(
-            showLookingAt,
-            xHud,
-            yHud,
-            scaleHud
-        )
-    }
+    private val showLookingAt by BooleanSetting("Looking At", false, description = "Displays the coordinates of the block you are looking at in a second line.")
 
     @RegisterHudElement
-    object CoordinateHUD : HudElement(
-        xHud,
-        yHud,
+    object CoordinateHUD : HudElement(this, 0, 150,
         mc.fontRendererObj.getStringWidth("123 / 12 / 123 (12.3 / 12.3)"),
         mc.fontRendererObj.FONT_HEIGHT * 2 + 1,
-        scaleHud
     ) {
         override fun renderHud() {
 
@@ -60,7 +42,7 @@ object CoordinateDisplay : Module(
             mc.fontRendererObj.drawString(coordText, 0, 0, 0xffffff)
 
             // handle looking at
-            if (showLookingAt.enabled) {
+            if (showLookingAt) {
                 val la = mc.objectMouseOver
 
                 if (la != null && la.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
@@ -72,5 +54,4 @@ object CoordinateDisplay : Module(
             this.width = mc.fontRendererObj.getStringWidth(coordText)
         }
     }
-
 }

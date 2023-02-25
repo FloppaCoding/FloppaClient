@@ -20,7 +20,7 @@ import kotlin.reflect.full.hasAnnotation
  * [modules][ModuleManager.modules] in [ModuleManager].
  * The sample provided below shows how you can do this.
  *
- * ## Adding settings to your module.
+ * ## Adding settings to your Module.
  * If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and
  * also register them by adding them to the [settings] list.
  *
@@ -58,34 +58,23 @@ import kotlin.reflect.full.hasAnnotation
  * The input transform is used to further limit the range in which the slider can be moved.
  * And the dependency is set so that the setting only shows in the click gui when the corresponding click mode is enabled.
  *
- * ## Adding a HUD to your module
+ * ## Adding a HUD to your Module
  * To add a HUD to your module simply declare an object which inherits from the [HudElement] class within your Module.
  * For this HUD element to be active you need to register it. All you need to do for that is to annotate it with the
  * [RegisterHudElement] annotation.
  * Inside your HUD element object you need to implement the [renderHud][HudElement.renderHud] method.
  * This ís responsible for rendering the element.
  *
- * The following example shows you how to use it.
+ * The following example shows how to use it.
  *
- *     object MyModule : Module(
- *     "My Module",
- *     category = Category.RENDER
- * ) {
- *
- *     private val xHud = +NumberSetting("x", default = 0.0, visibility = Visibility.HIDDEN)
- *     private val yHud = +NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)
- *     private val scaleHud = +NumberSetting("scale", 1.0, 0.1, 4.0, 0.01, Visibility.HIDDEN)
- *
- *     @RegisterHudElement
- *     object DayCounter : HudElement(xHud, yHud,
- *         mc.fontRendererObj.getStringWidth("Day (32)"),
- *         mc.fontRendererObj.FONT_HEIGHT * 2 + 1, scaleHud
- *     ) {
- *         override fun renderHud() {
- *             // Rendering implementation
+ *     object MyModule : Module("My Module", category = Category.RENDER) {
+ *         @RegisterHudElement
+ *         object MyHudElement : HudElement(this, 0, 150, 100, 20) {
+ *             override fun renderHud() {
+ *                 // Rendering implementation
+ *             }
  *         }
  *     }
- * }
  *
  *
  * @author Aton
