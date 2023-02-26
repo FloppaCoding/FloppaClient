@@ -30,7 +30,7 @@ build
 run
 .DS_Store
 Thumbs.db
-Docs
-Docs/proguard-rules.pro
+Resources
+Resources/proguard-rules.pro
 ZKM
 releases
