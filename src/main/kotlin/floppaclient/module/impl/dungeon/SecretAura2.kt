@@ -55,12 +55,12 @@ object SecretAura2 : Module(
         .withDependency { this.mode.index == 0 }
     private val itemName = StringSetting("Item", description = "Item to use to click the secrets. This will take priority over the slot, but if the item is not found the item in the specified slot will be used.")
         .withDependency { this.mode.index == 0 }
-    private val renderBox = BooleanSetting("Render box", true, description = "Will render a box for secrets in reach")
+    private val renderBox = BooleanSetting("Render box", true, description = "Will render a box for secrets in reach.")
         .withDependency { this.mode.index == 0 }
-    private val renderBoxColor = ColorSetting("Box Color", Color(200, 200, 200, 40), true, description = "Color of the box tihng")
+    private val renderBoxColor = ColorSetting("Box Color", Color(200, 200, 200, 40), true, description = "Color of the box.")
         .withDependency { renderBox.enabled }
 
-    private val swingItem = BooleanSetting("Swing Item", true, description = "Will swing your item when clicking a secret")
+    private val swingItem = BooleanSetting("Swing Item", true, description = "Will swing your item when clicking a secret.")
         .withDependency { this.mode.index == 1 }
 
     /**
@@ -95,20 +95,25 @@ object SecretAura2 : Module(
         if (!inDungeons) return
         val blockPos = BlockPos(event.sound.xPosF.toDouble(), event.sound.yPosF.toDouble(), event.sound.zPosF.toDouble())
         when(event.name) {
-            "random.click" -> if (secrets.containsKey(blockPos)) secrets[blockPos] = secrets[blockPos]?.let { mutableListOf(1000,0) } ?: mutableListOf(1000,0)
-            "random.chestopen"-> if (secrets.containsKey(blockPos)) secrets[blockPos] = secrets[blockPos]?.let { mutableListOf(1000,0) } ?: mutableListOf(1000,0)
+            "random.click" -> if (secrets.containsKey(blockPos)) {
+                secrets[blockPos] = secrets[blockPos]?.let { mutableListOf(1000,0) } ?: mutableListOf(1000,0)
+            }
+            "random.chestopen"-> if (secrets.containsKey(blockPos)) {
+                secrets[blockPos] = secrets[blockPos]?.let { mutableListOf(1000,0) } ?: mutableListOf(1000,0)
+            }
         }
     }
 
     /**
      * Initiates the scan for secrets in range
      */
+    @Suppress("UNUSED_PARAMETER")
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun onTick(event: PositionUpdateEvent.Post)  {
         if (mc.thePlayer == null || !inDungeons) return
-        val room = Dungeon.currentRoom?.data
-        if (room?.name == "Water Board" || (room?.name == "Three Weirdos" && !AutoWeirdos.enabled)) return
-        if (room?.name == "Blaze" || room?.name == "Blaze 2" && !(mc.thePlayer.posY.toInt() == 67 || mc.thePlayer.posY < 25 || mc.thePlayer.posY > 110) ) return
+        val roomData = Dungeon.currentRoom?.data
+        if (roomData?.name == "Water Board" || (roomData?.name == "Three Weirdos" && !AutoWeirdos.enabled)) return
+        if ((roomData?.name == "Blaze" || roomData?.name == "Blaze 2") && !(mc.thePlayer.posY.toInt() == 67 || mc.thePlayer.posY < 25 || mc.thePlayer.posY > 110) ) return
         // These checks might be better performed in the method responsible for clicking the secret
 
         try {
