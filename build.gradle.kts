@@ -28,6 +28,7 @@ group = "floppaclient"
 repositories {
     maven("https://repo.spongepowered.org/repository/maven-public/")
     maven("https://repo.sk1er.club/repository/maven-public")
+    maven("https://repo.polyfrost.cc/releases")
 }
 
 val packageLib by configurations.creating {
@@ -46,6 +47,11 @@ dependencies {
     implementation("gg.essential:essential-1.8.9-forge:3662")
 
     implementation("org.reflections:reflections:0.10.2")
+
+    // Basic OneConfig dependencies for legacy versions. See OneConfig example mod for more info
+    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.2.0-alpha+") // Should not be included in jar
+    // include should be replaced with a configuration that includes this in the jar
+    implementation("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+") // Should be included in jar
 }
 
 sourceSets {
@@ -59,8 +65,10 @@ loom {
         getByName("client") {
             property("mixin.debug", "true")
             property("asmhelper.verbose", "true")
-            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+//            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
             arg("--mixin", "mixins.floppaclient.json")
+            // Loads OneConfig in dev env. Replace other tweak classes with this, but keep any other attributes!
+            arg("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
         }
     }
     forge {
@@ -89,7 +97,8 @@ tasks {
             "ForceLoadAsMod" to true,
             "MixinConfigs" to "mixins.floppaclient.json",
             "ModSide" to "CLIENT",
-            "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
+//            "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
+            "TweakClass" to "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker",
             "TweakOrder" to "0"
         )
         dependsOn(shadowJar)

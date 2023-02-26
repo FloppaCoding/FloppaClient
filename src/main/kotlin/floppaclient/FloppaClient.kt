@@ -1,9 +1,11 @@
 package floppaclient
 
+import cc.polyfrost.oneconfig.config.Config
 import floppaclient.commands.*
 import floppaclient.config.AutoActionConfig
 import floppaclient.config.ExtrasConfig
 import floppaclient.config.ModuleConfig
+import floppaclient.config.OneConfigTest
 import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.extras.EditMode
@@ -176,6 +178,7 @@ class FloppaClient {
         var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/floppaclient/autoaction"))
         var extras = ExtrasConfig(File(mc.mcDataDir, "config/floppaclient/extras"))
         val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/floppaclient"))
+        val oneconfig: Config = OneConfigTest()
 
         lateinit var clickGUI: ClickGUI
 

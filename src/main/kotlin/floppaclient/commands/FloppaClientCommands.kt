@@ -6,6 +6,7 @@ import floppaclient.FloppaClient.Companion.clickGUI
 import floppaclient.FloppaClient.Companion.display
 import floppaclient.FloppaClient.Companion.extras
 import floppaclient.FloppaClient.Companion.mc
+import floppaclient.FloppaClient.Companion.oneconfig
 import floppaclient.FloppaClient.Companion.scope
 import floppaclient.floppamap.core.RoomConfigData
 import floppaclient.floppamap.dungeon.DungeonScan
@@ -60,6 +61,7 @@ class FloppaClientCommands : CommandBase() {
         }
         when (args[0].lowercase()) {
             "gui" -> display = clickGUI
+            "newgui" -> oneconfig.openGui()
             "scan" -> DungeonScan.scanDungeon()
             "roomdata" -> DungeonScan.getRoomCentre(mc.thePlayer.posX.toInt(), mc.thePlayer.posZ.toInt()).let {
                 RoomUtils.getRoomConfigData(DungeonScan.getCore(it.first, it.second)) ?: DungeonScan.getCore(it.first, it.second)

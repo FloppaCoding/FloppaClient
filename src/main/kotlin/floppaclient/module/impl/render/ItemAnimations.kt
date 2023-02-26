@@ -27,7 +27,7 @@ object ItemAnimations : Module(
 ) {
 
 
-    private val size = NumberSetting("Size", 0.0, -1.5, 1.5, 0.05, description = "Scales the size of your currently held item. Default: 0")
+    val size = NumberSetting("Size", 0.0, -1.5, 1.5, 0.05, description = "Scales the size of your currently held item. Default: 0")
     private val scaleSwing = BooleanSetting("Scale Swing", true, description = "Also scale the size of the swing animation.")
     private val x = NumberSetting("X", 0.0, -2.5, 1.5, 0.05, description = "Moves the held item. Default: 0")
     private val y = NumberSetting("Y", 0.0, -1.5, 1.5, 0.05, description = "Moves the held item. Default: 0")
