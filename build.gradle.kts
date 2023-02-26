@@ -45,7 +45,7 @@ dependencies {
     packageLib("gg.essential:loader-launchwrapper:1.1.3")
     implementation("gg.essential:essential-1.8.9-forge:3662")
 
-    implementation("org.reflections:reflections:0.10.2")
+    packageLib("org.reflections:reflections:0.10.2")
 }
 
 sourceSets {
@@ -94,6 +94,9 @@ tasks {
         )
         dependsOn(shadowJar)
         enabled = false
+//        from {
+//            configurations.ref.collect { it.isDirectory() ? it : zipTree(it) }
+//        }
     }
     named<RemapJarTask>("remapJar") {
         archiveBaseName.set("FloppaClient")
