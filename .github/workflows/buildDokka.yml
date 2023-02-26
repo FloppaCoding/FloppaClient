@@ -20,7 +20,7 @@ permissions:
 jobs:
   build-Documentation:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -29,7 +29,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Grant Gradle Permission
+      run: chmod +x gradlew
     - name: Build Documentation
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: dokkaCustomFormat
+    - name: Upload Documentation
+      uses: actions/upload-artifact@v2
+      with:
+        name: Documentation
+        path: build/dokka/customFormat/
