@@ -123,8 +123,8 @@ tasks {
             // In this particular case, logo-styles.css will be overriden and Icon.png will
             // be added as an additional image asset
             // see the original assets at: https://github.com/Kotlin/dokka/tree/1.7.20/plugins/base/src/main/resources/dokka/styles
-            customStyleSheets = listOf(file("documentation/dokka/logo-styles.css"))
-            customAssets = listOf(file("documentation/dokka/Icon.png"))
+            customStyleSheets = listOf(file("docs/dokka/logo-styles.css"))
+            customAssets = listOf(file("docs/dokka/Icon.png"), file("docs/dokka/logo-icon.svg"))
             footerMessage = "(c) 2023 Floppa Coding"
             separateInheritedMembers = false
             // templatesDir = file("documentation/dokka/templates")
