@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MapUpdate</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.floppamap.dungeon/MapUpdate///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.floppamap.dungeon</a><span class="delimiter">/</span><span class="current">MapUpdate</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Map</span><wbr></wbr><span><span>Update</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">MapUpdate</a></div><p class="paragraph">This object provides a collection of methods to update the dungeon information from the map item in the hotbar and tab list.</p><p class="paragraph">Based on <a href="https://github.com/Harry282/FunnyMap/blob/master/src/main/kotlin/funnymap/features/dungeon/MapUpdate.kt">FunnyMap by Harry282</a></p><p>
+    Colors in the map item:
+85:  grey        - Unknown / unexplored room with questionmark in center. (color of the room not the questionmark)
+63:  brown;      - Normal room.
+30:  green       - Entracne room. and green checks.
+18:  red         - Blood room. and failed puzzle X and blood door.
+74:  yellow      -  Mini room.
+66:  purple      - Puzzle room.
+82:  pink        - Fairy room.
+0:   blank       - blank fully undiscovered.
+119: black       - question marks and wither doors.
+34:  white       - used for checkmarks
+62:  orange      - trap
+<p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="1971177482%2FFunctions%2F-231046164" anchor-label="calibrate" id="1971177482%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="calibrate.html"><span><span>calibrate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1971177482%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="calibrate.html"><span class="token function">calibrate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2056757441%2FFunctions%2F-231046164" anchor-label="preloadHeads" id="-2056757441%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="preload-heads.html"><span>preload</span><wbr></wbr><span><span>Heads</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2056757441%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="preload-heads.html"><span class="token function">preloadHeads</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="7378805%2FFunctions%2F-231046164" anchor-label="synchConnectedRooms" id="7378805%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="synch-connected-rooms.html"><span>synch</span><wbr></wbr><span>Connected</span><wbr></wbr><span><span>Rooms</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="7378805%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="synch-connected-rooms.html"><span class="token function">synchConnectedRooms</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Makes sure that all rooms within <span data-unresolved-link="floppaclient.floppamap.dungeon/Dungeon/dungeonList/#/PointingToDeclaration/">Dungeon.dungeonList</span> which are connected have the same data. Also updates the <a href="../../floppaclient.floppamap.core/-room/is-unique.html">isUnique</a> state.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1506761151%2FFunctions%2F-231046164" anchor-label="updatePlayers" id="1506761151%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="update-players.html"><span>update</span><wbr></wbr><span><span>Players</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1506761151%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="update-players.html"><span class="token function">updatePlayers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tabEntries<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="net.minecraft.client.network/NetworkPlayerInfo///PointingToDeclaration/">NetworkPlayerInfo</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds missing Players to the <a href="../-dungeon/dungeon-teammates.html">Dungeon.dungeonTeammates</a> list and updates the information. Updates the dead status for the players. Dispatches <a href="../../floppaclient.floppamap.core/-dungeon-player/update-player-and-room.html">DungeonPlayer.updatePlayerAndRoom</a> for the teammates to update themselves.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-819811550%2FFunctions%2F-231046164" anchor-label="updateRooms" id="-819811550%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="update-rooms.html"><span>update</span><wbr></wbr><span><span>Rooms</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-819811550%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="update-rooms.html"><span class="token function">updateRooms</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Updates the dungeon info from the hotbar map item. Dispatches the map item based dungeon scan if that is enabled. Updates the room states and door states based on check marks and door color.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

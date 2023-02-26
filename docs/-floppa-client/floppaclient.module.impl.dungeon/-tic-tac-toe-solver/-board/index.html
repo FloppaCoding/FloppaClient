@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Board</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../../images/Icon.png">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.module.impl.dungeon/TicTacToeSolver.Board///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../../index.html">floppaclient.module.impl.dungeon</a><span class="delimiter">/</span><a href="../index.html">TicTacToeSolver</a><span class="delimiter">/</span><span class="current">Board</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Board</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Board</a></div><p class="paragraph">Represents the Tic Tac Toe board. Modified version of <a href="https://github.com/LazoCoder/Tic-Tac-Toe">LazoCoder's Tic-Tac-Toe Java Implementation</a>, GPLv3 License.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="-1767285627%2FConstructors%2F-231046164" anchor-label="Board" id="-1767285627%2FConstructors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-board.html"><span><span>Board</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1767285627%2FConstructors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-board.html"><span class="token function">Board</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="-93517102%2FClasslikes%2F-231046164" anchor-label="Companion" id="-93517102%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-93517102%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1605003411%2FClasslikes%2F-231046164" anchor-label="State" id="-1605003411%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-state/index.html"><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605003411%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-state/index.html">State</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-state/index.html">TicTacToeSolver.Board.State</a><span class="token operator">&gt; </span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-2092451247%2FFunctions%2F-231046164" anchor-label="move" id="-2092451247%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="move.html"><span><span>move</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2092451247%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="move.html"><span class="token function">move</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">index<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Places an X or an O on the specified index depending on whose turn it is.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="move.html"><span class="token function">move</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">x<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">y<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Places an X or an O on the specified location depending on who turn it is.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-796330049%2FFunctions%2F-231046164" anchor-label="place" id="-796330049%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="place.html"><span><span>place</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-796330049%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="place.html"><span class="token function">place</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">x<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">y<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">player<span class="token operator">: </span><a href="-state/index.html">TicTacToeSolver.Board.State</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Places an X or an O on the specified location based on a parameter</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1024752156%2FFunctions%2F-231046164" anchor-label="reset" id="1024752156%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="reset.html"><span><span>reset</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1024752156%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="reset.html"><span class="token function">reset</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Restart the game with a new blank board.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-271361491%2FFunctions%2F-231046164" anchor-label="toArray" id="-271361491%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-array.html"><span>to</span><wbr></wbr><span><span>Array</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-271361491%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="to-array.html"><span class="token function">toArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-state/index.html">TicTacToeSolver.Board.State</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get a copy of the array that represents the board.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-611902653%2FFunctions%2F-231046164" anchor-label="toString" id="-611902653%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-string.html"><span>to</span><wbr></wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-611902653%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="to-string.html"><span class="token function">toString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="303380135%2FProperties%2F-231046164" anchor-label="algorithmBestMove" id="303380135%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="algorithm-best-move.html"><span>algorithm</span><wbr></wbr><span>Best</span><wbr></wbr><span><span>Move</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="303380135%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="303380135%2FProperties%2F-231046164" anchor-label="algorithmBestMove" id="303380135%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="algorithm-best-move.html">algorithmBestMove</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1696386902%2FProperties%2F-231046164" anchor-label="availableMoves" id="1696386902%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="available-moves.html"><span>available</span><wbr></wbr><span><span>Moves</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1696386902%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1696386902%2FProperties%2F-231046164" anchor-label="availableMoves" id="1696386902%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="available-moves.html">availableMoves</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-set/index.html">HashSet</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div><div class="brief "><a data-name="1696386902%2FProperties%2F-231046164" anchor-label="availableMoves" id="1696386902%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Get the indexes of all the positions on the board that are empty.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-990284594%2FProperties%2F-231046164" anchor-label="deepCopy" id="-990284594%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="deep-copy.html"><span>deep</span><wbr></wbr><span><span>Copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-990284594%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-990284594%2FProperties%2F-231046164" anchor-label="deepCopy" id="-990284594%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="deep-copy.html">deepCopy</a><span class="token operator">: </span><a href="index.html">TicTacToeSolver.Board</a></div><div class="brief "><a data-name="-990284594%2FProperties%2F-231046164" anchor-label="deepCopy" id="-990284594%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Get a deep copy of the Tic Tac Toe board.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-719625601%2FProperties%2F-231046164" anchor-label="isGameOver" id="-719625601%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="is-game-over.html"><span>is</span><wbr></wbr><span>Game</span><wbr></wbr><span><span>Over</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-719625601%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-719625601%2FProperties%2F-231046164" anchor-label="isGameOver" id="-719625601%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="is-game-over.html">isGameOver</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div><div class="brief "><a data-name="-719625601%2FProperties%2F-231046164" anchor-label="isGameOver" id="-719625601%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Check to see if the game is over (if there is a winner or a draw).</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="765934418%2FProperties%2F-231046164" anchor-label="turn" id="765934418%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="turn.html"><span><span>turn</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="765934418%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="765934418%2FProperties%2F-231046164" anchor-label="turn" id="765934418%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="turn.html">turn</a><span class="token operator">: </span><a href="-state/index.html">TicTacToeSolver.Board.State</a></div><div class="brief "><a data-name="765934418%2FProperties%2F-231046164" anchor-label="turn" id="765934418%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Check to see who's turn it is.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2034566480%2FProperties%2F-231046164" anchor-label="winner" id="2034566480%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="winner.html"><span><span>winner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2034566480%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="2034566480%2FProperties%2F-231046164" anchor-label="winner" id="2034566480%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="winner.html">winner</a><span class="token operator">: </span><a href="-state/index.html">TicTacToeSolver.Board.State</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><a data-name="2034566480%2FProperties%2F-231046164" anchor-label="winner" id="2034566480%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Check to see who won.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

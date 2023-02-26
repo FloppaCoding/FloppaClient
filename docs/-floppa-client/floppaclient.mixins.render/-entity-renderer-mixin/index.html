@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>EntityRendererMixin</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.mixins.render/EntityRendererMixin///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.mixins.render</a><span class="delimiter">/</span><span class="current">EntityRendererMixin</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Entity</span><wbr></wbr><span>Renderer</span><wbr></wbr><span><span>Mixin</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">EntityRendererMixin</a> : <span data-unresolved-link="net.minecraft.client.resources/IResourceManagerReloadListener///PointingToDeclaration/">IResourceManagerReloadListener</span></div><h2 class=""><span data-unresolved-link="net.minecraft.client.renderer/EntityRenderer///PointingToDeclaration/">EntityRenderer</span> is the class which dispatches all rendering actions.</h2><p class="paragraph">It also handles things like setting up the camera and effects. Entities are rendered in <span data-unresolved-link="net.minecraft.client.renderer/RenderGlobal///PointingToDeclaration/">RenderGlobal</span>.</p> The mixins in here are used for <a href="../../floppaclient.module.impl.player/-free-cam/index.html">FreeCam</a>, <a href="../../floppaclient.module.impl.render/-camera/index.html">Camera</a>, <a href="../../floppaclient.module.impl.render/-chest-esp/index.html">ChestEsp</a>, <a href="../../floppaclient.module.impl.misc/-q-o-l/index.html">QOL</a>, <a href="../../floppaclient.module.impl.misc/-inv-actions/index.html">InvActions</a>.<span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-1840766708%2FFunctions%2F-231046164" anchor-label="cameraDistance" id="-1840766708%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="camera-distance.html"><span>camera</span><wbr></wbr><span><span>Distance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1840766708%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="camera-distance.html"><span class="token function">cameraDistance</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/Vec3///PointingToDeclaration/">Vec3</span><span class="token punctuation">, </span></span><span class="parameter ">vec<span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/Vec3///PointingToDeclaration/">Vec3</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a></div><div class="brief ">Used to enable the camera to clip though walls in third person view.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="310009310%2FFunctions%2F-231046164" anchor-label="onEndWorldRender" id="310009310%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-end-world-render.html"><span>on</span><wbr></wbr><span>End</span><wbr></wbr><span>World</span><wbr></wbr><span><span>Render</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="310009310%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-end-world-render.html"><span class="token function">onEndWorldRender</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">partialTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">nanoTime<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">ci<span class="token operator">: </span><span data-unresolved-link="org.spongepowered.asm.mixin.injection.callback/CallbackInfo///PointingToDeclaration/">CallbackInfo</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Used to signal that the world rendering process is done.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1743938243%2FFunctions%2F-231046164" anchor-label="onResourceManagerReload" id="-1743938243%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-render-global-mixin/index.html#-1743938243%2FFunctions%2F-231046164"><span>on</span><wbr></wbr><span>Resource</span><wbr></wbr><span>Manager</span><wbr></wbr><span><span>Reload</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1743938243%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-render-global-mixin/index.html#-1743938243%2FFunctions%2F-231046164"><span class="token function">onResourceManagerReload</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">resourceManager<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.resources/IResourceManager///PointingToDeclaration/">IResourceManager</span></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="941365993%2FFunctions%2F-231046164" anchor-label="onSetCameraAngle" id="941365993%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-set-camera-angle.html"><span>on</span><wbr></wbr><span>Set</span><wbr></wbr><span>Camera</span><wbr></wbr><span><span>Angle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="941365993%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-set-camera-angle.html"><span class="token function">onSetCameraAngle</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.entity/EntityPlayerSP///PointingToDeclaration/">EntityPlayerSP</span><span class="token punctuation">, </span></span><span class="parameter ">yaw<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">pitch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></span></span><span class="token punctuation">)</span></div><div class="brief ">Redirects the camera orientation to be used to only orient the camera without rotating the player characters head.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1864195227%2FFunctions%2F-231046164" anchor-label="onStartWorldRender" id="-1864195227%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-start-world-render.html"><span>on</span><wbr></wbr><span>Start</span><wbr></wbr><span>World</span><wbr></wbr><span><span>Render</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1864195227%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-start-world-render.html"><span class="token function">onStartWorldRender</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">partialTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">nanoTime<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">ci<span class="token operator">: </span><span data-unresolved-link="org.spongepowered.asm.mixin.injection.callback/CallbackInfo///PointingToDeclaration/">CallbackInfo</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Used to signal that the world rendering process is starting.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-183054599%2FFunctions%2F-231046164" anchor-label="shouldBeBlind" id="-183054599%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="should-be-blind.html"><span>should</span><wbr></wbr><span>Be</span><wbr></wbr><span><span>Blind</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-183054599%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="should-be-blind.html"><span class="token function">shouldBeBlind</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity/EntityLivingBase///PointingToDeclaration/">EntityLivingBase</span><span class="token punctuation">, </span></span><span class="parameter ">potionIn<span class="token operator">: </span><span data-unresolved-link="net.minecraft.potion/Potion///PointingToDeclaration/">Potion</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief ">Used to prevent the blindness effect from rendering.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="384312572%2FFunctions%2F-231046164" anchor-label="shouldMoveMouse" id="384312572%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="should-move-mouse.html"><span>should</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Mouse</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="384312572%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="should-move-mouse.html"><span class="token function">shouldMoveMouse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client/Minecraft///PointingToDeclaration/">Minecraft</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief ">Overrides the flag which prevents the camera from moving when in a gui.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1628667571%2FFunctions%2F-231046164" anchor-label="tweakMouseOver" id="-1628667571%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-mouse-over.html"><span>tweak</span><wbr></wbr><span>Mouse</span><wbr></wbr><span><span>Over</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1628667571%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-mouse-over.html"><span class="token function">tweakMouseOver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.multiplayer/WorldClient///PointingToDeclaration/">WorldClient</span><span class="token punctuation">, </span></span><span class="parameter ">entity<span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span><span class="token punctuation">, </span></span><span class="parameter ">axisAlignedBB<span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/AxisAlignedBB///PointingToDeclaration/">AxisAlignedBB</span><span class="token punctuation">, </span></span><span class="parameter ">predicate<span class="token operator">: </span><span data-unresolved-link="com.google.common.base/Predicate///PointingToDeclaration/">Predicate</span><span class="token operator">&lt;</span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span><span class="token operator">&gt;</span></div><div class="brief ">Ensures that the player cannot interact with their own character when in Freecam.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="116285843%2FFunctions%2F-231046164" anchor-label="tweakRenderViewEntity" id="116285843%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-render-view-entity.html"><span>tweak</span><wbr></wbr><span>Render</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="116285843%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-render-view-entity.html"><span class="token function">tweakRenderViewEntity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client/Minecraft///PointingToDeclaration/">Minecraft</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span></div><div class="brief ">Tweak the renderViewEntity for <a href="../../floppaclient.module.impl.player/-free-cam/index.html">FreeCam</a>.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2041084355%2FFunctions%2F-231046164" anchor-label="tweakRenderViewEntity2" id="-2041084355%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-render-view-entity2.html"><span>tweak</span><wbr></wbr><span>Render</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Entity2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2041084355%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-render-view-entity2.html"><span class="token function">tweakRenderViewEntity2</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client/Minecraft///PointingToDeclaration/">Minecraft</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span></div><div class="brief ">Tweak the renderViewEntity for <a href="../../floppaclient.module.impl.player/-free-cam/index.html">FreeCam</a>.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-965807722%2FFunctions%2F-231046164" anchor-label="tweakRenderViewEntityMouseOver" id="-965807722%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-render-view-entity-mouse-over.html"><span>tweak</span><wbr></wbr><span>Render</span><wbr></wbr><span>View</span><wbr></wbr><span>Entity</span><wbr></wbr><span>Mouse</span><wbr></wbr><span><span>Over</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-965807722%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-render-view-entity-mouse-over.html"><span class="token function">tweakRenderViewEntityMouseOver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client/Minecraft///PointingToDeclaration/">Minecraft</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity/Entity///PointingToDeclaration/">Entity</span></div><div class="brief ">Adjust what the player is looking at when in Freecam.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1903874652%2FFunctions%2F-231046164" anchor-label="tweakThirdPersonDistance" id="1903874652%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-third-person-distance.html"><span>tweak</span><wbr></wbr><span>Third</span><wbr></wbr><span>Person</span><wbr></wbr><span><span>Distance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1903874652%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-third-person-distance.html"><span class="token function">tweakThirdPersonDistance</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.renderer/EntityRenderer///PointingToDeclaration/">EntityRenderer</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div><div class="brief ">Tweaks the third person view distance of the camera.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1343994728%2FFunctions%2F-231046164" anchor-label="tweakThirdPersonDistanceTemp" id="1343994728%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="tweak-third-person-distance-temp.html"><span>tweak</span><wbr></wbr><span>Third</span><wbr></wbr><span>Person</span><wbr></wbr><span>Distance</span><wbr></wbr><span><span>Temp</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1343994728%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="tweak-third-person-distance-temp.html"><span class="token function">tweakThirdPersonDistanceTemp</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">instance<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.renderer/EntityRenderer///PointingToDeclaration/">EntityRenderer</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div><div class="brief ">Tweaks the third person view distance of the camera.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

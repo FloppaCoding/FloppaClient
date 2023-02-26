@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>onEnable</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.module.impl.render/FullBright/onEnable/#/PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.module.impl.render</a><span class="delimiter">/</span><a href="index.html">FullBright</a><span class="delimiter">/</span><span class="current">onEnable</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>on</span><wbr></wbr><span><span>Enable</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="on-enable.html"><span class="token function">onEnable</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><p class="paragraph">This method is run whenever the module is enabled.</p><p class="paragraph">Its default implementation registers the module to the Forge MinecraftForge.EVENT_BUS.</p><p class="paragraph">Override it in your implementation to perform extra actions when the module is activated. Keep in mind that you still have to invoke this implementation to register the module to the event bus.</p><p class="paragraph">The following example shows how you can use this to prevent a module from being enabled in certain conditions and to run some extra code.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import floppaclient.FloppaClient.Companion.mc
+import floppaclient.events.PacketSentEvent
+import floppaclient.module.Category
+import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
+import floppaclient.module.settings.Setting.Companion.withInputTransform
+import floppaclient.module.settings.impl.BooleanSetting
+import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
+import floppaclient.utils.ChatUtils
+import net.minecraft.client.entity.EntityOtherPlayerMP
+import net.minecraft.entity.Entity
+import net.minecraft.network.play.client.C03PacketPlayer
+import net.minecraft.util.MathHelper
+import net.minecraft.world.World
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
+import net.minecraftforge.event.world.WorldEvent
+import net.minecraftforge.fml.common.eventhandler.EventPriority
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
+fun main() { 
+   //sampleStart 
+   if(mc.thePlayer == null || mc.theWorld == null) {
+    toggle()
+    return
+}
+super.onEnable()
+when(mode.selected) {
+    &quot;True Free Cam&quot; -&gt; setupViewEntity()
+    &quot;Ping Spoof&quot; -&gt; clonePlayer()
+} 
+   //sampleEnd
+}</code></pre></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

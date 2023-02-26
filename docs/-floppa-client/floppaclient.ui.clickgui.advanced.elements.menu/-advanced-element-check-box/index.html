@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AdvancedElementCheckBox</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.ui.clickgui.advanced.elements.menu/AdvancedElementCheckBox///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.ui.clickgui.advanced.elements.menu</a><span class="delimiter">/</span><span class="current">AdvancedElementCheckBox</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Advanced</span><wbr></wbr><span>Element</span><wbr></wbr><span>Check</span><wbr></wbr><span><span>Box</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">AdvancedElementCheckBox</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><a href="../../floppaclient.ui.clickgui.advanced/-advanced-menu/index.html">AdvancedMenu</a><span class="token punctuation">, </span></span><span class="parameter ">module<span class="token operator">: </span><a href="../../floppaclient.module/-module/index.html">Module</a><span class="token punctuation">, </span></span><span class="parameter ">setting<span class="token operator">: </span><a href="../../floppaclient.module.settings.impl/-boolean-setting/index.html">BooleanSetting</a></span></span><span class="token punctuation">)</span> : <a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/index.html">AdvancedElement</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../floppaclient.module.settings.impl/-boolean-setting/index.html">BooleanSetting</a><span class="token operator">&gt; </span></div><p class="paragraph">Provides a checkbox element for the advanced gui.</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="492789003%2FConstructors%2F-231046164" anchor-label="AdvancedElementCheckBox" id="492789003%2FConstructors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-advanced-element-check-box.html"><span>Advanced</span><wbr></wbr><span>Element</span><wbr></wbr><span>Check</span><wbr></wbr><span><span>Box</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="492789003%2FConstructors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-advanced-element-check-box.html"><span class="token function">AdvancedElementCheckBox</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><a href="../../floppaclient.ui.clickgui.advanced/-advanced-menu/index.html">AdvancedMenu</a><span class="token punctuation">, </span></span><span class="parameter ">module<span class="token operator">: </span><a href="../../floppaclient.module/-module/index.html">Module</a><span class="token punctuation">, </span></span><span class="parameter ">setting<span class="token operator">: </span><a href="../../floppaclient.module.settings.impl/-boolean-setting/index.html">BooleanSetting</a></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="944901489%2FFunctions%2F-231046164" anchor-label="drawScreen" id="944901489%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/draw-screen.html"><span>draw</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="944901489%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/draw-screen.html"><span class="token function">drawScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mouseX<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">mouseY<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">partialTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1209208253%2FFunctions%2F-231046164" anchor-label="keyTyped" id="-1209208253%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/key-typed.html"><span>key</span><wbr></wbr><span><span>Typed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1209208253%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/key-typed.html"><span class="token function">keyTyped</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">typedChar<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html">Char</a><span class="token punctuation">, </span></span><span class="parameter ">keyCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Overridden in the elements to enable key detection. Returns true when an action was taken.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-806689138%2FFunctions%2F-231046164" anchor-label="mouseClicked" id="-806689138%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="mouse-clicked.html"><span>mouse</span><wbr></wbr><span><span>Clicked</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-806689138%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="mouse-clicked.html"><span class="token function">mouseClicked</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mouseX<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">mouseY<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">mouseButton<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Handles mouse clicks for this element and returns true if an action was performed</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1043057786%2FFunctions%2F-231046164" anchor-label="mouseReleased" id="-1043057786%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/mouse-released.html"><span>mouse</span><wbr></wbr><span><span>Released</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1043057786%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/mouse-released.html"><span class="token function">mouseReleased</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mouseX<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">mouseY<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-730459388%2FFunctions%2F-231046164" anchor-label="renderDescription" id="-730459388%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/render-description.html"><span>render</span><wbr></wbr><span><span>Description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-730459388%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/render-description.html"><span class="token function">renderDescription</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-669190733%2FFunctions%2F-231046164" anchor-label="renderElement" id="-669190733%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="render-element.html"><span>render</span><wbr></wbr><span><span>Element</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-669190733%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="render-element.html"><span class="token function">renderElement</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mouseX<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">mouseY<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">partialTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Render the element</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="371999844%2FFunctions%2F-231046164" anchor-label="setDimensions" id="371999844%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/set-dimensions.html"><span>set</span><wbr></wbr><span><span>Dimensions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="371999844%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/set-dimensions.html"><span class="token function">setDimensions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">x<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">y<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">width<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">height<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="326903072%2FFunctions%2F-231046164" anchor-label="setPosition" id="326903072%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/set-position.html"><span>set</span><wbr></wbr><span><span>Position</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="326903072%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/set-position.html"><span class="token function">setPosition</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">x<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">y<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-985416605%2FProperties%2F-231046164" anchor-label="comboextended" id="-985416605%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/comboextended.html"><span><span>comboextended</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-985416605%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-985416605%2FProperties%2F-231046164" anchor-label="comboextended" id="-985416605%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/comboextended.html">comboextended</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="447767945%2FProperties%2F-231046164" anchor-label="height" id="447767945%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/height.html"><span><span>height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="447767945%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="447767945%2FProperties%2F-231046164" anchor-label="height" id="447767945%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/height.html">height</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="447767945%2FProperties%2F-231046164" anchor-label="height" id="447767945%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Height of the entire element consisting of the setting and description. Essentially the height of the higher one of the two</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1429801617%2FProperties%2F-231046164" anchor-label="listening" id="-1429801617%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/listening.html"><span><span>listening</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1429801617%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1429801617%2FProperties%2F-231046164" anchor-label="listening" id="-1429801617%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/listening.html">listening</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1335732252%2FProperties%2F-231046164" anchor-label="module" id="-1335732252%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/module.html"><span><span>module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1335732252%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1335732252%2FProperties%2F-231046164" anchor-label="module" id="-1335732252%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/module.html">module</a><span class="token operator">: </span><a href="../../floppaclient.module/-module/index.html">Module</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1453893786%2FProperties%2F-231046164" anchor-label="parent" id="-1453893786%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/parent.html"><span><span>parent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1453893786%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1453893786%2FProperties%2F-231046164" anchor-label="parent" id="-1453893786%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/parent.html">parent</a><span class="token operator">: </span><a href="../../floppaclient.ui.clickgui.advanced/-advanced-menu/index.html">AdvancedMenu</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="369027258%2FProperties%2F-231046164" anchor-label="setting" id="369027258%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting.html"><span><span>setting</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="369027258%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="369027258%2FProperties%2F-231046164" anchor-label="setting" id="369027258%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting.html">setting</a><span class="token operator">: </span><a href="../../floppaclient.module.settings.impl/-boolean-setting/index.html">BooleanSetting</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1495029869%2FProperties%2F-231046164" anchor-label="settingHeight" id="-1495029869%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting-height.html"><span>setting</span><wbr></wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1495029869%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1495029869%2FProperties%2F-231046164" anchor-label="settingHeight" id="-1495029869%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting-height.html">settingHeight</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="-1495029869%2FProperties%2F-231046164" anchor-label="settingHeight" id="-1495029869%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Height of the Setting without the description text.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-562807302%2FProperties%2F-231046164" anchor-label="settingWidth" id="-562807302%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting-width.html"><span>setting</span><wbr></wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-562807302%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-562807302%2FProperties%2F-231046164" anchor-label="settingWidth" id="-562807302%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/setting-width.html">settingWidth</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="-562807302%2FProperties%2F-231046164" anchor-label="settingWidth" id="-562807302%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Width of the Setting without the description text.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2037220458%2FProperties%2F-231046164" anchor-label="type" id="-2037220458%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/type.html"><span><span>type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2037220458%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-2037220458%2FProperties%2F-231046164" anchor-label="type" id="-2037220458%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/type.html">type</a><span class="token operator">: </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element-type/index.html">AdvancedElementType</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="331147588%2FProperties%2F-231046164" anchor-label="width" id="331147588%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/width.html"><span><span>width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="331147588%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="331147588%2FProperties%2F-231046164" anchor-label="width" id="331147588%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/width.html">width</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="331147588%2FProperties%2F-231046164" anchor-label="width" id="331147588%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Width of the entire element consisting of the setting and description.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-864849582%2FProperties%2F-231046164" anchor-label="x" id="-864849582%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/x.html"><span><span>x</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-864849582%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-864849582%2FProperties%2F-231046164" anchor-label="x" id="-864849582%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/x.html">x</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-833829775%2FProperties%2F-231046164" anchor-label="y" id="-833829775%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/y.html"><span><span>y</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-833829775%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-833829775%2FProperties%2F-231046164" anchor-label="y" id="-833829775%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../floppaclient.ui.clickgui.advanced.elements/-advanced-element/y.html">y</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

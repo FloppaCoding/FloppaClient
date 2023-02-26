@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MixinPlayer</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.mixins.entity/MixinPlayer///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.mixins.entity</a><span class="delimiter">/</span><span class="current">MixinPlayer</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Mixin</span><wbr></wbr><span><span>Player</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">MixinPlayer</a> : <a href="../-mixin-entity-living-base/index.html">MixinEntityLivingBase</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-995003227%2FFunctions%2F-231046164" anchor-label="adjustSwingLength" id="-995003227%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity-living-base/adjust-swing-length.html"><span>adjust</span><wbr></wbr><span>Swing</span><wbr></wbr><span><span>Length</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-995003227%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity-living-base/adjust-swing-length.html"><span class="token function">adjustSwingLength</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cir<span class="token operator">: </span><span data-unresolved-link="org.spongepowered.asm.mixin.injection.callback/CallbackInfoReturnable///PointingToDeclaration/">CallbackInfoReturnable</span><span class="token operator">&lt;</span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2081107547%2FFunctions%2F-231046164" anchor-label="equals" id="-2081107547%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/equals.html"><span><span>equals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2081107547%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity/equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">paramObject<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-739893603%2FFunctions%2F-231046164" anchor-label="getActivePotionEffect" id="-739893603%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity-living-base/get-active-potion-effect.html"><span>get</span><wbr></wbr><span>Active</span><wbr></wbr><span>Potion</span><wbr></wbr><span><span>Effect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-739893603%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity-living-base/get-active-potion-effect.html"><span class="token function">getActivePotionEffect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">potionIn<span class="token operator">: </span><span data-unresolved-link="net.minecraft.potion/Potion///PointingToDeclaration/">Potion</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="net.minecraft.potion/PotionEffect///PointingToDeclaration/">PotionEffect</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-100104342%2FFunctions%2F-231046164" anchor-label="inOpaque" id="-100104342%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="in-opaque.html"><span>in</span><wbr></wbr><span><span>Opaque</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-100104342%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="in-opaque.html"><span class="token function">inOpaque</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cir<span class="token operator">: </span><span data-unresolved-link="org.spongepowered.asm.mixin.injection.callback/CallbackInfoReturnable///PointingToDeclaration/">CallbackInfoReturnable</span><span class="token operator">&lt;</span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-148344271%2FFunctions%2F-231046164" anchor-label="interactFirst" id="-148344271%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/interact-first.html"><span>interact</span><wbr></wbr><span><span>First</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-148344271%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity/interact-first.html"><span class="token function">interactFirst</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">playerIn<span class="token operator">: </span><span data-unresolved-link="net.minecraft.entity.player/EntityPlayer///PointingToDeclaration/">EntityPlayer</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="100924376%2FFunctions%2F-231046164" anchor-label="isPotionActive" id="100924376%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity-living-base/is-potion-active.html"><span>is</span><wbr></wbr><span>Potion</span><wbr></wbr><span><span>Active</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="100924376%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity-living-base/is-potion-active.html"><span class="token function">isPotionActive</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">potionIn<span class="token operator">: </span><span data-unresolved-link="net.minecraft.potion/Potion///PointingToDeclaration/">Potion</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="293634693%2FFunctions%2F-231046164" anchor-label="isSprinting" id="293634693%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/is-sprinting.html"><span>is</span><wbr></wbr><span><span>Sprinting</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="293634693%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-mixin-entity/is-sprinting.html"><span class="token function">isSprinting</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="1520469478%2FProperties%2F-231046164" anchor-label="noClip" id="1520469478%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/no-clip.html"><span>no</span><wbr></wbr><span><span>Clip</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1520469478%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1520469478%2FProperties%2F-231046164" anchor-label="noClip" id="1520469478%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/no-clip.html">noClip</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1628082831%2FProperties%2F-231046164" anchor-label="onGround" id="-1628082831%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/on-ground.html"><span>on</span><wbr></wbr><span><span>Ground</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1628082831%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1628082831%2FProperties%2F-231046164" anchor-label="onGround" id="-1628082831%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/on-ground.html">onGround</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1997581325%2FProperties%2F-231046164" anchor-label="posX" id="-1997581325%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/pos-x.html"><span>pos</span><wbr></wbr><span><span>X</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1997581325%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1997581325%2FProperties%2F-231046164" anchor-label="posX" id="-1997581325%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/pos-x.html">posX</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1966561518%2FProperties%2F-231046164" anchor-label="posY" id="-1966561518%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/pos-y.html"><span>pos</span><wbr></wbr><span><span>Y</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1966561518%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1966561518%2FProperties%2F-231046164" anchor-label="posY" id="-1966561518%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/pos-y.html">posY</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1935541711%2FProperties%2F-231046164" anchor-label="posZ" id="-1935541711%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/pos-z.html"><span>pos</span><wbr></wbr><span><span>Z</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1935541711%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1935541711%2FProperties%2F-231046164" anchor-label="posZ" id="-1935541711%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/pos-z.html">posZ</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1471240031%2FProperties%2F-231046164" anchor-label="rotationPitch" id="-1471240031%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/rotation-pitch.html"><span>rotation</span><wbr></wbr><span><span>Pitch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1471240031%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1471240031%2FProperties%2F-231046164" anchor-label="rotationPitch" id="-1471240031%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/rotation-pitch.html">rotationPitch</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1314878802%2FProperties%2F-231046164" anchor-label="rotationYaw" id="1314878802%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-entity/rotation-yaw.html"><span>rotation</span><wbr></wbr><span><span>Yaw</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1314878802%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1314878802%2FProperties%2F-231046164" anchor-label="rotationYaw" id="1314878802%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">var </span><a href="../-mixin-entity/rotation-yaw.html">rotationYaw</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Inheritors</h2>
+      <div class="table" data-togglable="Inheritors"><a data-name="-180764803%2FInheritors%2F-231046164" anchor-label="MixinAbstractClientPlayer" id="-180764803%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-mixin-abstract-client-player/index.html">MixinAbstractClientPlayer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-180764803%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

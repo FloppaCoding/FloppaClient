@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ChatUtils</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.utils/ChatUtils///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.utils</a><span class="delimiter">/</span><span class="current">ChatUtils</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Chat</span><wbr></wbr><span><span>Utils</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">ChatUtils</a></div><h2 class=""> A collection of utility functions for creating and sending or displaying chat messages.</h2><p class="paragraph">Use <a href="chat-message.html">chatMessage</a> to put messages in chat which are only visible locally and are not sent to the server.</p><p class="paragraph">Use <a href="mod-message.html">modMessage</a> for client side messages in chat that start with mods chat prefix.</p><p class="paragraph">Use <a href="send-chat.html">sendChat</a> for sending a player message to the server.</p><p class="paragraph">Use <a href="command.html">command</a> to execute commands either client side or send them to the server.</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-1068886656%2FFunctions%2F-231046164" anchor-label="chatMessage" id="-1068886656%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="chat-message.html"><span>chat</span><wbr></wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1068886656%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="chat-message.html"><span class="token function">chatMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">iChatComponent<span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/IChatComponent///PointingToDeclaration/">IChatComponent</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="chat-message.html"><span class="token function">chatMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">reformat<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Print a message in chat <strong>client side</strong>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2059609071%2FFunctions%2F-231046164" anchor-label="command" id="-2059609071%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="command.html"><span><span>command</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2059609071%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="command.html"><span class="token function">command</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">clientSide<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Runs the specified command. Per default sends it to the server  but has client side option. The input is assumed to <strong>not</strong> include the slash &quot;/&quot; that signals a command.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="761776948%2FFunctions%2F-231046164" anchor-label="createHoverableText" id="761776948%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="create-hoverable-text.html"><span>create</span><wbr></wbr><span>Hoverable</span><wbr></wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="761776948%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="create-hoverable-text.html"><span class="token function">createHoverableText</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">hoverText<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/IChatComponent///PointingToDeclaration/">IChatComponent</span></div><div class="brief "><p class="paragraph">Creates a new IChatComponent displaying <a href="create-hoverable-text.html">text</a> and showing <a href="create-hoverable-text.html">hoverText</a> when it is hovered. <a href="create-hoverable-text.html">hoverText</a> can include &quot;\n&quot; for new lines.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1804746426%2FFunctions%2F-231046164" anchor-label="modMessage" id="-1804746426%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="mod-message.html"><span>mod</span><wbr></wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1804746426%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="mod-message.html"><span class="token function">modMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">iChatComponent<span class="token operator">: </span><span data-unresolved-link="net.minecraft.util/IChatComponent///PointingToDeclaration/">IChatComponent</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="mod-message.html"><span class="token function">modMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">reformat<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Puts a message in chat client side with the mod prefix.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-288778266%2FFunctions%2F-231046164" anchor-label="sendChat" id="-288778266%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="send-chat.html"><span>send</span><wbr></wbr><span><span>Chat</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-288778266%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="send-chat.html"><span class="token function">sendChat</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><strong>Send player message to the server</strong>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="154666783%2FFunctions%2F-231046164" anchor-label="stripControlCodes" id="154666783%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="strip-control-codes.html"><span>strip</span><wbr></wbr><span>Control</span><wbr></wbr><span><span>Codes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="154666783%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="strip-control-codes.html"><span class="token function">stripControlCodes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Remove control codes from the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">receiver</a> with the <span data-unresolved-link="net.minecraft.util/StringUtils/stripControlCodes/#kotlin.String/PointingToDeclaration/">vanilla function</span> for it.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-1403837918%2FProperties%2F-231046164" anchor-label="AQUA" id="-1403837918%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-q-u-a.html"><span><span>AQUA</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1403837918%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1403837918%2FProperties%2F-231046164" anchor-label="AQUA" id="-1403837918%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-a-q-u-a.html">AQUA</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-975040707%2FProperties%2F-231046164" anchor-label="BLACK" id="-975040707%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-l-a-c-k.html"><span><span>BLACK</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-975040707%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-975040707%2FProperties%2F-231046164" anchor-label="BLACK" id="-975040707%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-b-l-a-c-k.html">BLACK</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="687025732%2FProperties%2F-231046164" anchor-label="BLUE" id="687025732%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-l-u-e.html"><span><span>BLUE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="687025732%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="687025732%2FProperties%2F-231046164" anchor-label="BLUE" id="687025732%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-b-l-u-e.html">BLUE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-172795271%2FProperties%2F-231046164" anchor-label="BOLD" id="-172795271%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-o-l-d.html"><span><span>BOLD</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-172795271%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-172795271%2FProperties%2F-231046164" anchor-label="BOLD" id="-172795271%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-b-o-l-d.html">BOLD</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1657294729%2FProperties%2F-231046164" anchor-label="DARK_AQUA" id="-1657294729%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-a-q-u-a.html"><span><span>DARK_AQUA</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1657294729%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1657294729%2FProperties%2F-231046164" anchor-label="DARK_AQUA" id="-1657294729%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-a-q-u-a.html">DARK_AQUA</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="433568921%2FProperties%2F-231046164" anchor-label="DARK_BLUE" id="433568921%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-b-l-u-e.html"><span><span>DARK_BLUE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="433568921%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="433568921%2FProperties%2F-231046164" anchor-label="DARK_BLUE" id="433568921%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-b-l-u-e.html">DARK_BLUE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="938643120%2FProperties%2F-231046164" anchor-label="DARK_GRAY" id="938643120%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-g-r-a-y.html"><span><span>DARK_GRAY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="938643120%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="938643120%2FProperties%2F-231046164" anchor-label="DARK_GRAY" id="938643120%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-g-r-a-y.html">DARK_GRAY</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="675297540%2FProperties%2F-231046164" anchor-label="DARK_GREEN" id="675297540%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-g-r-e-e-n.html"><span><span>DARK_GREEN</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="675297540%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="675297540%2FProperties%2F-231046164" anchor-label="DARK_GREEN" id="675297540%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-g-r-e-e-n.html">DARK_GREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1515063817%2FProperties%2F-231046164" anchor-label="DARK_PURPLE" id="-1515063817%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-p-u-r-p-l-e.html"><span><span>DARK_PURPLE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1515063817%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1515063817%2FProperties%2F-231046164" anchor-label="DARK_PURPLE" id="-1515063817%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-p-u-r-p-l-e.html">DARK_PURPLE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="313047478%2FProperties%2F-231046164" anchor-label="DARK_RED" id="313047478%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-d-a-r-k_-r-e-d.html"><span><span>DARK_RED</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="313047478%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="313047478%2FProperties%2F-231046164" anchor-label="DARK_RED" id="313047478%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-d-a-r-k_-r-e-d.html">DARK_RED</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1002254082%2FProperties%2F-231046164" anchor-label="GOLD" id="-1002254082%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-g-o-l-d.html"><span><span>GOLD</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1002254082%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1002254082%2FProperties%2F-231046164" anchor-label="GOLD" id="-1002254082%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-g-o-l-d.html">GOLD</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1192099931%2FProperties%2F-231046164" anchor-label="GRAY" id="1192099931%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-g-r-a-y.html"><span><span>GRAY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1192099931%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1192099931%2FProperties%2F-231046164" anchor-label="GRAY" id="1192099931%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-g-r-a-y.html">GRAY</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-57475911%2FProperties%2F-231046164" anchor-label="GREEN" id="-57475911%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-g-r-e-e-n.html"><span><span>GREEN</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-57475911%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-57475911%2FProperties%2F-231046164" anchor-label="GREEN" id="-57475911%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-g-r-e-e-n.html">GREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1753915154%2FProperties%2F-231046164" anchor-label="ITALIC" id="-1753915154%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-t-a-l-i-c.html"><span><span>ITALIC</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1753915154%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1753915154%2FProperties%2F-231046164" anchor-label="ITALIC" id="-1753915154%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-i-t-a-l-i-c.html">ITALIC</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="143127769%2FProperties%2F-231046164" anchor-label="LIGHT_PURPLE" id="143127769%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-l-i-g-h-t_-p-u-r-p-l-e.html"><span><span>LIGHT_PURPLE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="143127769%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="143127769%2FProperties%2F-231046164" anchor-label="LIGHT_PURPLE" id="143127769%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-l-i-g-h-t_-p-u-r-p-l-e.html">LIGHT_PURPLE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1974609318%2FProperties%2F-231046164" anchor-label="OBFUSCATED" id="-1974609318%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-o-b-f-u-s-c-a-t-e-d.html"><span><span>OBFUSCATED</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1974609318%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1974609318%2FProperties%2F-231046164" anchor-label="OBFUSCATED" id="-1974609318%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-o-b-f-u-s-c-a-t-e-d.html">OBFUSCATED</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-925702485%2FProperties%2F-231046164" anchor-label="RED" id="-925702485%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-r-e-d.html"><span><span>RED</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-925702485%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-925702485%2FProperties%2F-231046164" anchor-label="RED" id="-925702485%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-r-e-d.html">RED</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="561388525%2FProperties%2F-231046164" anchor-label="RESET" id="561388525%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-r-e-s-e-t.html"><span><span>RESET</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="561388525%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="561388525%2FProperties%2F-231046164" anchor-label="RESET" id="561388525%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-r-e-s-e-t.html">RESET</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-521357335%2FProperties%2F-231046164" anchor-label="STRIKETHROUGH" id="-521357335%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-t-r-i-k-e-t-h-r-o-u-g-h.html"><span><span>STRIKETHROUGH</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-521357335%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-521357335%2FProperties%2F-231046164" anchor-label="STRIKETHROUGH" id="-521357335%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-s-t-r-i-k-e-t-h-r-o-u-g-h.html">STRIKETHROUGH</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-847263344%2FProperties%2F-231046164" anchor-label="UNDERLINE" id="-847263344%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-u-n-d-e-r-l-i-n-e.html"><span><span>UNDERLINE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-847263344%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-847263344%2FProperties%2F-231046164" anchor-label="UNDERLINE" id="-847263344%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-u-n-d-e-r-l-i-n-e.html">UNDERLINE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2023683667%2FProperties%2F-231046164" anchor-label="WHITE" id="2023683667%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-w-h-i-t-e.html"><span><span>WHITE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2023683667%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="2023683667%2FProperties%2F-231046164" anchor-label="WHITE" id="2023683667%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-w-h-i-t-e.html">WHITE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="523471658%2FProperties%2F-231046164" anchor-label="YELLOW" id="523471658%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-y-e-l-l-o-w.html"><span><span>YELLOW</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="523471658%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="523471658%2FProperties%2F-231046164" anchor-label="YELLOW" id="523471658%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-y-e-l-l-o-w.html">YELLOW</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

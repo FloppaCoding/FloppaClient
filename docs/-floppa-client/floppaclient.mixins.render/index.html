@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>floppaclient.mixins.render</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../images/Icon.png">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.mixins.render////PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../index.html">FloppaClient</a><span class="delimiter">/</span><span class="current">floppaclient.mixins.render</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="1819095000%2FClasslikes%2F-231046164" anchor-label="BlockFluidRendererMixin" id="1819095000%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-block-fluid-renderer-mixin/index.html"><span>Block</span><wbr></wbr><span>Fluid</span><wbr></wbr><span>Renderer</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1819095000%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-block-fluid-renderer-mixin/index.html">BlockFluidRendererMixin</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1328894239%2FClasslikes%2F-231046164" anchor-label="BlockRendererDispatcherMixin" id="1328894239%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-block-renderer-dispatcher-mixin/index.html"><span>Block</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Dispatcher</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1328894239%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-block-renderer-dispatcher-mixin/index.html">BlockRendererDispatcherMixin</a> : <span data-unresolved-link="net.minecraft.client.resources/IResourceManagerReloadListener///PointingToDeclaration/">IResourceManagerReloadListener</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1080027542%2FClasslikes%2F-231046164" anchor-label="ChunkRendererWorkerMixin" id="1080027542%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-chunk-renderer-worker-mixin/index.html"><span>Chunk</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Worker</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1080027542%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-chunk-renderer-worker-mixin/index.html">ChunkRendererWorkerMixin</a> : <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html">Runnable</a></div><div class="brief ">The mixins in here are used for <a href="../floppaclient.module.impl.player/-free-cam/index.html">FreeCam</a>.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-570575362%2FClasslikes%2F-231046164" anchor-label="EntityRendererMixin" id="-570575362%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-entity-renderer-mixin/index.html"><span>Entity</span><wbr></wbr><span>Renderer</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-570575362%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-entity-renderer-mixin/index.html">EntityRendererMixin</a> : <span data-unresolved-link="net.minecraft.client.resources/IResourceManagerReloadListener///PointingToDeclaration/">IResourceManagerReloadListener</span></div><div class="brief "><h2 class=""><span data-unresolved-link="net.minecraft.client.renderer/EntityRenderer///PointingToDeclaration/">EntityRenderer</span> is the class which dispatches all rendering actions.</h2>It also handles things like setting up the camera and effects.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="996490030%2FClasslikes%2F-231046164" anchor-label="ItemRendererMixin" id="996490030%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-item-renderer-mixin/index.html"><span>Item</span><wbr></wbr><span>Renderer</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="996490030%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-item-renderer-mixin/index.html">ItemRendererMixin</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="988281951%2FClasslikes%2F-231046164" anchor-label="RenderChunkMixin" id="988281951%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-render-chunk-mixin/index.html"><span>Render</span><wbr></wbr><span>Chunk</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="988281951%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-render-chunk-mixin/index.html">RenderChunkMixin</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-521250863%2FClasslikes%2F-231046164" anchor-label="RenderGlobalMixin" id="-521250863%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-render-global-mixin/index.html"><span>Render</span><wbr></wbr><span>Global</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-521250863%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-render-global-mixin/index.html">RenderGlobalMixin</a> : <span data-unresolved-link="net.minecraft.world/IWorldAccess///PointingToDeclaration/">IWorldAccess</span>, <span data-unresolved-link="net.minecraft.client.resources/IResourceManagerReloadListener///PointingToDeclaration/">IResourceManagerReloadListener</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1946014065%2FClasslikes%2F-231046164" anchor-label="RenderPlayerMixin" id="-1946014065%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-render-player-mixin/index.html"><span>Render</span><wbr></wbr><span>Player</span><wbr></wbr><span><span>Mixin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1946014065%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-render-player-mixin/index.html">RenderPlayerMixin</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1397790100%2FClasslikes%2F-231046164" anchor-label="VisGraphAccessor" id="1397790100%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-vis-graph-accessor/index.html"><span>Vis</span><wbr></wbr><span>Graph</span><wbr></wbr><span><span>Accessor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1397790100%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-vis-graph-accessor/index.html">VisGraphAccessor</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

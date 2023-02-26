@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Module</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.module/Module///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.module</a><span class="delimiter">/</span><span class="current">Module</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Module</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">Module</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">keyCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>Keyboard.KEY_NONE<span class="token punctuation">, </span></span><span class="parameter ">category<span class="token operator">: </span><a href="../-category/index.html">Category</a><span class="token operator"> = </span>Category.MISC<span class="token punctuation">, </span></span><span class="parameter ">toggled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">settings<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html">ArrayList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>ArrayList()<span class="token punctuation">, </span></span><span class="parameter ">description<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span></span></span><span class="token punctuation">)</span></div><h1 class="">Super class for all Modules in the mod.</h1><p class="paragraph">Annotate with <a href="../-always-active/index.html">AlwaysActive</a> to have a Module always registered to the Event Bus regardless of the Module being <a href="enabled.html">enabled</a>.</p><h2 class=""> Making your own Module</h2><p class="paragraph">To make your own Module simply create an object which inherits from this class and add it to the list of <a href="../-module-manager/modules.html">modules</a> in <a href="../-module-manager/index.html">ModuleManager</a>. The sample provided below shows how you can do this.</p><p class="paragraph">Alternatively to adding your module to the module manager you can also simply annotate it with <a href="../-self-register-module/index.html">SelfRegisterModule</a>. As long as your module is within <i>floppaclient.module.impl</i> or any of the sub packages it will be loaded.</p><h2 class=""> Adding settings to your Module.</h2><p class="paragraph">If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and also register them by adding them to the <a href="settings.html">settings</a> list.</p><p class="paragraph">There are four different ways to achieve this. These are shown in the following on the example of a <a href="../../floppaclient.module.settings.impl/-number-setting/index.html">NumberSetting</a>. Probably the easiest to understand is to first define a property in your Module which is an Instance of the setting you want. And then registering that setting in the initializer.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">private val distance : NumberSetting = NumberSetting(&quot;Distance&quot;, 4.0)
+
+init{
+    this.addSettings(distance)
+}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This syntax can be shortened by using the <a href="register.html">register</a> method directly when defining your setting. Inside of Module classes the unary Add operator is overridden for members of <a href="../../floppaclient.module.settings/-setting/index.html">Setting</a> to register them. So the following two lines will do exactly the same.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">private val distance : NumberSetting = register(NumberSetting(&quot;Distance&quot;, 4.0))
+private val distance : NumberSetting = +NumberSetting(&quot;Distance&quot;, 4.0)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Lastly the probably most convenient way of adding settings is through the use of delegation. The key difference here is that the property you are defining is not referring to the Setting but rather directly to its <a href="../../floppaclient.module.settings/-setting/value.html">value</a>. Since often the value is the only relevant aspect of the setting within the Modules code this approach is a lot more convenient to use in most cases. Notice how the type of <i>distance</i> is Double in the following example and not NumberSetting.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">private val distance : Double by NumberSetting(&quot;Distance&quot;, 4.0)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class=""> Adding more functionality to your Settings.</h3><p class="paragraph">The setting classes offer support for more functionality, namely adding a dependency for the setting to show in the GUI and the option to perform custom processing of changes to the setting. The sample from <a href="../../floppaclient.module.impl.misc/-auto-clicker/index.html">AutoClicker</a> below shows both of these being used. The input transform is used to further limit the range in which the slider can be moved. And the dependency is set so that the setting only shows in the click gui when the corresponding click mode is enabled.</p><h2 class=""> Adding a HUD to your Module</h2><p class="paragraph">To add a HUD to your module simply declare an object which inherits from the <a href="../../floppaclient.ui.hud/-hud-element/index.html">HudElement</a> class within your Module. For this HUD element to be active you need to register it. All you need to do for that is to annotate it with the <a href="../-register-hud-element/index.html">RegisterHudElement</a> annotation. Inside your HUD element object you need to implement the <a href="../../floppaclient.ui.hud/-hud-element/render-hud.html">renderHud</a> method. This ís responsible for rendering the element.</p><p class="paragraph">The following example shows how to use it.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">object MyModule : Module(&quot;My Module&quot;, category = Category.RENDER) {
+    @RegisterHudElement
+    object MyHudElement : HudElement(this, 0, 150, 100, 20) {
+        override fun renderHud() {
+            // Rendering implementation
+        }
+    }
+}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Samples">Samples</button><button class="section-tab" data-togglable="See also">See also</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
+    <div class="tabs-section-body">
+      <h4 class="">Samples</h4>
+      <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import floppaclient.FloppaClient.Companion.mc
+import floppaclient.events.ClickEvent
+import floppaclient.module.Category
+import floppaclient.module.Module
+import floppaclient.module.settings.Setting.Companion.withDependency
+import floppaclient.module.settings.Setting.Companion.withInputTransform
+import floppaclient.module.settings.impl.BooleanSetting
+import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.Utils
+import floppaclient.utils.inventory.InventoryUtils.isHolding
+import floppaclient.utils.inventory.SkyblockItem
+import net.minecraft.util.MathHelper
+import net.minecraftforge.client.event.RenderWorldLastEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import kotlin.random.Random
+fun main() { 
+   //sampleStart 
+   private val maxCps: NumberSetting = NumberSetting(&quot;Max CPS&quot;, 12.0, 1.0, 20.0, 1.0, description = &quot;Maximum cps for left click.&quot;)
+        .withInputTransform { input, setting -&gt;
+            MathHelper.clamp_double(input, minCps.value, setting.max)
+        }.withDependency { leftClick.enabled } 
+   //sampleEnd
+}</code></pre></div><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import floppaclient.FloppaClient.Companion.mc
+import floppaclient.events.PositionUpdateEvent
+import floppaclient.module.Category
+import floppaclient.module.Module
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+fun main() { 
+   //sampleStart 
+   /**
+ * Module that makes you always sprint.
+ * @author Aton
+ */
+object AutoSprint : Module(
+    &quot;Auto Sprint&quot;,
+    category = Category.MISC,
+    description = &quot;A simple auto sprint module that toggles sprinting when moving forwards and not collided &quot; +
+            &quot;with anything.&quot;
+) {
+    @SubscribeEvent
+    fun onPositionUpdate(event: PositionUpdateEvent.Pre) {
+        if (!mc.thePlayer.isCollidedHorizontally &amp;&amp; mc.thePlayer.moveForward &gt; 0) {
+            mc.thePlayer.isSprinting = true
+        }
+    }
+} 
+   //sampleEnd
+}</code></pre></div></div></div>
+      <h4 class="">See also</h4>
+      <div data-togglable="See also">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="See also"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="../-module-manager/index.html"><span>Module</span><wbr></wbr><span><span>Manager</span></span></a></div></span></div><div></div></div></div></div></div></div></div>
+      </div>
+      <h4 class="">Parameters</h4>
+      <div data-togglable="Parameters">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>name</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The name of the Module. <strong>This has to be unique!</strong> This name is shown in the GUI and used to identify the module in the config.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span>key</span><wbr></wbr><span><span>Code</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Key code for the Modules key-bind.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>category</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Determines in which category Panel the module will appear in the GUI.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span><span>description</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">A description of the module and its usage that is shown in the <a href="../../floppaclient.ui.clickgui.advanced/-advanced-menu/index.html">Advanced GUI</a>.</p></div></div></div></div></div></div></div></div></div>
+      </div>
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="-1904125028%2FConstructors%2F-231046164" anchor-label="Module" id="-1904125028%2FConstructors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-module.html"><span><span>Module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1904125028%2FConstructors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-module.html"><span class="token function">Module</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">keyCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>Keyboard.KEY_NONE<span class="token punctuation">, </span></span><span class="parameter ">category<span class="token operator">: </span><a href="../-category/index.html">Category</a><span class="token operator"> = </span>Category.MISC<span class="token punctuation">, </span></span><span class="parameter ">toggled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">settings<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html">ArrayList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>ArrayList()<span class="token punctuation">, </span></span><span class="parameter ">description<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span></span></span><span class="token punctuation">)</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-1063690364%2FFunctions%2F-231046164" anchor-label="addSettings" id="-1063690364%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="add-settings.html"><span>add</span><wbr></wbr><span><span>Settings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1063690364%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="add-settings.html"><span class="token function">addSettings</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>setArray<span class="token operator">: </span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds all settings in the input to the <a href="settings.html">settings</a> field of the module. This is required for saving and loading these settings to / from a file. Keep in mind, that these settings are passed by reference, which will get lost if the original setting is reassigned.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2121936882%2FFunctions%2F-231046164" anchor-label="getSettingByName" id="-2121936882%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-setting-by-name.html"><span>get</span><wbr></wbr><span>Setting</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2121936882%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-setting-by-name.html"><span class="token function">getSettingByName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-919898922%2FFunctions%2F-231046164" anchor-label="initializeModule" id="-919898922%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="initialize-module.html"><span>initialize</span><wbr></wbr><span><span>Module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-919898922%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="initialize-module.html"><span class="token function">initializeModule</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Triggers the module initialization.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1877933184%2FFunctions%2F-231046164" anchor-label="loadModule" id="1877933184%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="load-module.html"><span>load</span><wbr></wbr><span><span>Module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1877933184%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="load-module.html"><span class="token function">loadModule</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Loads self registering elements of the module such as hud elements.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1488678465%2FFunctions%2F-231046164" anchor-label="onDisable" id="-1488678465%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-disable.html"><span>on</span><wbr></wbr><span><span>Disable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1488678465%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-disable.html"><span class="token function">onDisable</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is run whenever the module is disabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="177866352%2FFunctions%2F-231046164" anchor-label="onEnable" id="177866352%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-enable.html"><span>on</span><wbr></wbr><span><span>Enable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="177866352%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-enable.html"><span class="token function">onEnable</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is run whenever the module is enabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1666973187%2FFunctions%2F-231046164" anchor-label="onInitialize" id="1666973187%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-initialize.html"><span>on</span><wbr></wbr><span><span>Initialize</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1666973187%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-initialize.html"><span class="token function">onInitialize</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method will be run on the FMLLoadCompleteEvent on game startup after the config is loaded.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="382897131%2FFunctions%2F-231046164" anchor-label="onKeyBind" id="382897131%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="on-key-bind.html"><span>on</span><wbr></wbr><span>Key</span><wbr></wbr><span><span>Bind</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="382897131%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="on-key-bind.html"><span class="token function">onKeyBind</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is run whenever the <a href="key-code.html">key-bind</a> for the Module is pressed.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="883335741%2FFunctions%2F-231046164" anchor-label="register" id="883335741%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="register.html"><span><span>register</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="883335741%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="register.html">K</a><span class="token operator"> : </span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="register.html"><span class="token function">register</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">setting<span class="token operator">: </span><a href="register.html">K</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="register.html">K</a></div><div class="brief "><p class="paragraph">Registers the setting to this Module. This will make the setting appear in the GUI and save to the config. The following is an example of how it can be used to define a setting for a module.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="877701342%2FFunctions%2F-231046164" anchor-label="toggle" id="877701342%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="toggle.html"><span><span>toggle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="877701342%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="toggle.html"><span class="token function">toggle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Will toggle the module.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1139088045%2FFunctions%2F-231046164" anchor-label="unaryPlus" id="-1139088045%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="unary-plus.html"><span>unary</span><wbr></wbr><span><span>Plus</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1139088045%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">operator </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="unary-plus.html">K</a><span class="token operator"> : </span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="unary-plus.html">K</a><span class="token punctuation">.</span><a href="unary-plus.html"><span class="token function">unaryPlus</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="unary-plus.html">K</a></div><div class="brief "><p class="paragraph">Overloads the unaryPlus operator for <a href="../../floppaclient.module.settings/-setting/index.html">Setting</a> classes to register them to the module. The following is an example of how it can be used to define a setting for a module.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-1173204684%2FProperties%2F-231046164" anchor-label="category" id="-1173204684%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="category.html"><span><span>category</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1173204684%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1173204684%2FProperties%2F-231046164" anchor-label="category" id="-1173204684%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="category.html">category</a><span class="token operator">: </span><a href="../-category/index.html">Category</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2063324564%2FProperties%2F-231046164" anchor-label="description" id="-2063324564%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="description.html"><span><span>description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2063324564%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-2063324564%2FProperties%2F-231046164" anchor-label="description" id="-2063324564%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="description.html">description</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><a data-name="-2063324564%2FProperties%2F-231046164" anchor-label="description" id="-2063324564%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">A description of the module and its usage that is shown in the <a href="../../floppaclient.ui.clickgui.advanced/-advanced-menu/index.html">Advanced GUI</a>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1257523129%2FProperties%2F-231046164" anchor-label="enabled" id="-1257523129%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="enabled.html"><span><span>enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1257523129%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1257523129%2FProperties%2F-231046164" anchor-label="enabled" id="-1257523129%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="enabled.html">enabled</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><a data-name="-1257523129%2FProperties%2F-231046164" anchor-label="enabled" id="-1257523129%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Do NOT set this value directly, use <a href="toggle.html">toggle()</a> instead!</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1490588570%2FProperties%2F-231046164" anchor-label="hudElements" id="1490588570%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="hud-elements.html"><span>hud</span><wbr></wbr><span><span>Elements</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1490588570%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1490588570%2FProperties%2F-231046164" anchor-label="hudElements" id="1490588570%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="hud-elements.html">hudElements</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../floppaclient.ui.hud/-hud-element/index.html">HudElement</a><span class="token operator">&gt;</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-730009348%2FProperties%2F-231046164" anchor-label="keyCode" id="-730009348%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="key-code.html"><span>key</span><wbr></wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-730009348%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-730009348%2FProperties%2F-231046164" anchor-label="keyCode" id="-730009348%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="key-code.html">keyCode</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="-730009348%2FProperties%2F-231046164" anchor-label="keyCode" id="-730009348%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><p class="paragraph">Key code of the corresponding key bind. Mouse binds will be negative: -100 + mouse button. This is the same way as minecraft treats mouse binds.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1867095751%2FProperties%2F-231046164" anchor-label="name" id="1867095751%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1867095751%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="1867095751%2FProperties%2F-231046164" anchor-label="name" id="1867095751%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1566034513%2FProperties%2F-231046164" anchor-label="settings" id="-1566034513%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="settings.html"><span><span>settings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1566034513%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-1566034513%2FProperties%2F-231046164" anchor-label="settings" id="-1566034513%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="settings.html">settings</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html">ArrayList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../floppaclient.module.settings/-setting/index.html">Setting</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Inheritors</h2>
+      <div class="table" data-togglable="Inheritors"><a data-name="-687927029%2FInheritors%2F-231046164" anchor-label="ConfigModule" id="-687927029%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-config-module/index.html">ConfigModule</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-687927029%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1077815937%2FInheritors%2F-231046164" anchor-label="DevModule" id="1077815937%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dev/-dev-module/index.html">DevModule</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1077815937%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-275918070%2FInheritors%2F-231046164" anchor-label="AutoBlaze" id="-275918070%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-blaze/index.html">AutoBlaze</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-275918070%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1920651919%2FInheritors%2F-231046164" anchor-label="AutoDevices" id="1920651919%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-devices/index.html">AutoDevices</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1920651919%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-2117897458%2FInheritors%2F-231046164" anchor-label="AutoLeap" id="-2117897458%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-leap/index.html">AutoLeap</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2117897458%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="153670629%2FInheritors%2F-231046164" anchor-label="AutoTerms" id="153670629%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-terms/index.html">AutoTerms</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="153670629%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="2066709077%2FInheritors%2F-231046164" anchor-label="AutoWater" id="2066709077%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-water/index.html">AutoWater</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2066709077%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="655724667%2FInheritors%2F-231046164" anchor-label="AutoWeirdos" id="655724667%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-auto-weirdos/index.html">AutoWeirdos</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="655724667%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="596398732%2FInheritors%2F-231046164" anchor-label="CancelChestOpen" id="596398732%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-cancel-chest-open/index.html">CancelChestOpen</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="596398732%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-2137639262%2FInheritors%2F-231046164" anchor-label="DungeonKillAura" id="-2137639262%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-dungeon-kill-aura/index.html">DungeonKillAura</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2137639262%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1212255318%2FInheritors%2F-231046164" anchor-label="ExtraStats" id="1212255318%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-extra-stats/index.html">ExtraStats</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1212255318%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1480670944%2FInheritors%2F-231046164" anchor-label="IceSprayAura" id="-1480670944%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-ice-spray-aura/index.html">IceSprayAura</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1480670944%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1860399254%2FInheritors%2F-231046164" anchor-label="InstaCrystal" id="-1860399254%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-insta-crystal/index.html">InstaCrystal</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1860399254%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-819907338%2FInheritors%2F-231046164" anchor-label="M7P5" id="-819907338%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-m7-p5/index.html">M7P5</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-819907338%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1040341786%2FInheritors%2F-231046164" anchor-label="MelodyMessage" id="-1040341786%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-melody-message/index.html">MelodyMessage</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1040341786%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="2011639219%2FInheritors%2F-231046164" anchor-label="PartyTracker" id="2011639219%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-party-tracker/index.html">PartyTracker</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2011639219%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1859277586%2FInheritors%2F-231046164" anchor-label="SecretAura" id="1859277586%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-secret-aura/index.html">SecretAura</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1859277586%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1836975121%2FInheritors%2F-231046164" anchor-label="SecretChime" id="1836975121%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-secret-chime/index.html">SecretChime</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1836975121%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1011029446%2FInheritors%2F-231046164" anchor-label="TerminalAura" id="1011029446%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-terminal-aura/index.html">TerminalAura</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1011029446%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1435144216%2FInheritors%2F-231046164" anchor-label="TicTacToeSolver" id="-1435144216%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-tic-tac-toe-solver/index.html">TicTacToeSolver</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1435144216%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1598016586%2FInheritors%2F-231046164" anchor-label="TrapGearSwap" id="-1598016586%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.dungeon/-trap-gear-swap/index.html">TrapGearSwap</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1598016586%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-531219339%2FInheritors%2F-231046164" anchor-label="AddKeybind" id="-531219339%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.keybinds/-add-keybind/index.html">AddKeybind</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-531219339%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1277443510%2FInheritors%2F-231046164" anchor-label="KeyBind" id="1277443510%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.keybinds/-key-bind/index.html">KeyBind</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1277443510%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1568535113%2FInheritors%2F-231046164" anchor-label="AutoClicker" id="-1568535113%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-auto-clicker/index.html">AutoClicker</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1568535113%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1970379553%2FInheritors%2F-231046164" anchor-label="AutoHarp" id="-1970379553%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-auto-harp/index.html">AutoHarp</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1970379553%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="230019548%2FInheritors%2F-231046164" anchor-label="AutoRagnarock" id="230019548%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-auto-ragnarock/index.html">AutoRagnarock</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="230019548%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1015299108%2FInheritors%2F-231046164" anchor-label="AutoSprint" id="-1015299108%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-auto-sprint/index.html">AutoSprint</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1015299108%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-484128953%2FInheritors%2F-231046164" anchor-label="AutoWeaponSwap" id="-484128953%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-auto-weapon-swap/index.html">AutoWeaponSwap</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-484128953%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1943866987%2FInheritors%2F-231046164" anchor-label="CancelInteract" id="-1943866987%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-cancel-interact/index.html">CancelInteract</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1943866987%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1157988865%2FInheritors%2F-231046164" anchor-label="ChatCleaner" id="-1157988865%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-chat-cleaner/index.html">ChatCleaner</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1157988865%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1336924978%2FInheritors%2F-231046164" anchor-label="ClipSettings" id="1336924978%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-clip-settings/index.html">ClipSettings</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1336924978%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-61646948%2FInheritors%2F-231046164" anchor-label="Enchanting" id="-61646948%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-enchanting/index.html">Enchanting</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-61646948%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1510768266%2FInheritors%2F-231046164" anchor-label="FastMine" id="-1510768266%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-fast-mine/index.html">FastMine</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1510768266%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1354978088%2FInheritors%2F-231046164" anchor-label="GhostBlocks" id="1354978088%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-ghost-blocks/index.html">GhostBlocks</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1354978088%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1373922841%2FInheritors%2F-231046164" anchor-label="InvActions" id="1373922841%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-inv-actions/index.html">InvActions</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1373922841%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1118676545%2FInheritors%2F-231046164" anchor-label="JerryBoxOpener" id="1118676545%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-jerry-box-opener/index.html">JerryBoxOpener</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1118676545%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="93661231%2FInheritors%2F-231046164" anchor-label="QOL" id="93661231%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-q-o-l/index.html">QOL</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="93661231%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1651943606%2FInheritors%2F-231046164" anchor-label="Salvage" id="1651943606%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-salvage/index.html">Salvage</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1651943606%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="199427686%2FInheritors%2F-231046164" anchor-label="SecretTriggerbot" id="199427686%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-secret-triggerbot/index.html">SecretTriggerbot</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="199427686%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-2039790614%2FInheritors%2F-231046164" anchor-label="SellGarbo" id="-2039790614%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-sell-garbo/index.html">SellGarbo</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2039790614%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1977423757%2FInheritors%2F-231046164" anchor-label="StonkDelay" id="1977423757%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-stonk-delay/index.html">StonkDelay</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1977423757%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1442515345%2FInheritors%2F-231046164" anchor-label="TerminatorClicker" id="-1442515345%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.misc/-terminator-clicker/index.html">TerminatorClicker</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1442515345%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-485187121%2FInheritors%2F-231046164" anchor-label="ArmorSwapper" id="-485187121%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-armor-swapper/index.html">ArmorSwapper</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-485187121%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1642221467%2FInheritors%2F-231046164" anchor-label="AutoClip" id="1642221467%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-auto-clip/index.html">AutoClip</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1642221467%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1203484303%2FInheritors%2F-231046164" anchor-label="AutoEther" id="-1203484303%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-auto-ether/index.html">AutoEther</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1203484303%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-979402702%2FInheritors%2F-231046164" anchor-label="BarPhase" id="-979402702%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-bar-phase/index.html">BarPhase</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-979402702%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="123324298%2FInheritors%2F-231046164" anchor-label="Clip" id="123324298%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-clip/index.html">Clip</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="123324298%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1166387579%2FInheritors%2F-231046164" anchor-label="FreeCam" id="-1166387579%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-free-cam/index.html">FreeCam</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1166387579%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-2142449712%2FInheritors%2F-231046164" anchor-label="HClip" id="-2142449712%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-h-clip/index.html">HClip</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2142449712%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="349142788%2FInheritors%2F-231046164" anchor-label="HotbarSwapper" id="349142788%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-hotbar-swapper/index.html">HotbarSwapper</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="349142788%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1539145706%2FInheritors%2F-231046164" anchor-label="JerryRocket" id="-1539145706%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-jerry-rocket/index.html">JerryRocket</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1539145706%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1086368418%2FInheritors%2F-231046164" anchor-label="NoRotate" id="-1086368418%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.player/-no-rotate/index.html">NoRotate</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1086368418%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1744159286%2FInheritors%2F-231046164" anchor-label="Camera" id="-1744159286%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-camera/index.html">Camera</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1744159286%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="896367150%2FInheritors%2F-231046164" anchor-label="ChestEsp" id="896367150%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-chest-esp/index.html">ChestEsp</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="896367150%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1921696412%2FInheritors%2F-231046164" anchor-label="ClickGui" id="1921696412%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-click-gui/index.html">ClickGui</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1921696412%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1792053097%2FInheritors%2F-231046164" anchor-label="CoordinateDisplay" id="1792053097%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-coordinate-display/index.html">CoordinateDisplay</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1792053097%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-2075585649%2FInheritors%2F-231046164" anchor-label="DayCounter" id="-2075585649%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-day-counter/index.html">DayCounter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2075585649%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1943489119%2FInheritors%2F-231046164" anchor-label="DoorESP" id="1943489119%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-door-e-s-p/index.html">DoorESP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1943489119%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="831934561%2FInheritors%2F-231046164" anchor-label="DrawRoutes" id="831934561%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-draw-routes/index.html">DrawRoutes</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="831934561%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1221336345%2FInheritors%2F-231046164" anchor-label="DungeonESP" id="-1221336345%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-dungeon-e-s-p/index.html">DungeonESP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1221336345%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1688900531%2FInheritors%2F-231046164" anchor-label="DungeonMap" id="-1688900531%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-dungeon-map/index.html">DungeonMap</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1688900531%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-301926100%2FInheritors%2F-231046164" anchor-label="DungeonWarpTimer" id="-301926100%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-dungeon-warp-timer/index.html">DungeonWarpTimer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-301926100%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-120815386%2FInheritors%2F-231046164" anchor-label="EditHud" id="-120815386%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-edit-hud/index.html">EditHud</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-120815386%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1158477603%2FInheritors%2F-231046164" anchor-label="ExtraBlocks" id="-1158477603%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-extra-blocks/index.html">ExtraBlocks</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1158477603%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="2076401670%2FInheritors%2F-231046164" anchor-label="FullBright" id="2076401670%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-full-bright/index.html">FullBright</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2076401670%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1802621101%2FInheritors%2F-231046164" anchor-label="ItemAnimations" id="1802621101%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-item-animations/index.html">ItemAnimations</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1802621101%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="-1750539693%2FInheritors%2F-231046164" anchor-label="MapRooms" id="-1750539693%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-map-rooms/index.html">MapRooms</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1750539693%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="1271550255%2FInheritors%2F-231046164" anchor-label="RunOverview" id="1271550255%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-run-overview/index.html">RunOverview</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1271550255%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+<a data-name="474212477%2FInheritors%2F-231046164" anchor-label="XRay" id="474212477%2FInheritors%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../../floppaclient.module.impl.render/-x-ray/index.html">XRay</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="474212477%2FInheritors%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

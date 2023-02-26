@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>SkyblockItem</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/Icon.png">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>FloppaClient</span>
+            </a>
+    </div>
+    <div>
+1.0.3-0.1    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="FloppaClient::floppaclient.utils.inventory/SkyblockItem///PointingToDeclaration//-231046164">
+  <div class="breadcrumbs"><a href="../../../index.html">FloppaClient</a><span class="delimiter">/</span><a href="../index.html">floppaclient.utils.inventory</a><span class="delimiter">/</span><span class="current">SkyblockItem</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Skyblock</span><wbr></wbr><span><span>Item</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">SkyblockItem</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">SkyblockItem</a><span class="token operator">&gt; </span></div><h2 class=""> A collection of Skyblock items with data for those items.</h2><p class="paragraph">This class was made to make the use of skyblock <a href="../-item-utils/item-i-d.html">itemIDs</a> easier for identifying items. The <span data-unresolved-link="floppaclient.utils.inventory/SkyblockItem/attributes/#/PointingToDeclaration/">attributes</span> are also meant to make it easy to group similar items such as shortbows or witherblades, so that those do not always have to be listed individually when it does not matter which one is used.</p><p class="paragraph">Feel free to expand this list if you need any other items or attributes, or as new items are added to the game.</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Aton</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Entries">Entries</button><button class="section-tab" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="See also">See also</button></div>
+    <div class="tabs-section-body">
+      <h4 class="">See also</h4>
+      <div data-togglable="See also">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="See also"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="../-inventory-utils/index.html"><span>Inventory</span><wbr></wbr><span><span>Utils</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="../-item-utils/index.html"><span>Item</span><wbr></wbr><span><span>Utils</span></span></a></div></span></div><div></div></div></div></div></div></div></div>
+      </div>
+      <h4 class="">Parameters</h4>
+      <div data-togglable="Parameters">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span>item</span><wbr></wbr><span><span>ID</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the Skyblock <a href="../-item-utils/item-i-d.html">itemID</a> of an item</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><u><span>display</span><wbr></wbr><span><span>Name</span></span></u></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the default <span data-unresolved-link="net.minecraft.item/ItemStack/getDisplayName/#/PointingToDeclaration/">displayName</span> of the item without formatting codes and possible extra elements such as reforge.</p></div></div></div></div></div></div></div></div></div>
+      </div>
+      <h2 class="tabbedcontent">Entries</h2>
+      <div class="table" data-togglable="Entries"><a data-name="-94967496%2FClasslikes%2F-231046164" anchor-label="AOTV" id="-94967496%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-o-t-v/index.html">AOTV</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-94967496%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-o-t-v/index.html">AOTV</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-407064529%2FClasslikes%2F-231046164" anchor-label="TERMINATOR" id="-407064529%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-t-e-r-m-i-n-a-t-o-r/index.html">TERMINATOR</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-407064529%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-t-e-r-m-i-n-a-t-o-r/index.html">TERMINATOR</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1054759074%2FClasslikes%2F-231046164" anchor-label="JUJU" id="-1054759074%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-j-u-j-u/index.html">JUJU</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1054759074%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-j-u-j-u/index.html">JUJU</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1273758064%2FClasslikes%2F-231046164" anchor-label="ARTISANAL_SHORTBOW" id="-1273758064%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-r-t-i-s-a-n-a-l_-s-h-o-r-t-b-o-w/index.html">ARTISANAL_SHORTBOW</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1273758064%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-r-t-i-s-a-n-a-l_-s-h-o-r-t-b-o-w/index.html">ARTISANAL_SHORTBOW</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1139600996%2FClasslikes%2F-231046164" anchor-label="SPIRIT_BOW" id="1139600996%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-p-i-r-i-t_-b-o-w/index.html">SPIRIT_BOW</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1139600996%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-p-i-r-i-t_-b-o-w/index.html">SPIRIT_BOW</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="555797913%2FClasslikes%2F-231046164" anchor-label="ICE_SPRAY" id="555797913%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-c-e_-s-p-r-a-y/index.html">ICE_SPRAY</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="555797913%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-i-c-e_-s-p-r-a-y/index.html">ICE_SPRAY</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1450846439%2FClasslikes%2F-231046164" anchor-label="AOTE" id="1450846439%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-o-t-e/index.html">AOTE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1450846439%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-o-t-e/index.html">AOTE</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-487022073%2FClasslikes%2F-231046164" anchor-label="NECRONS_BLADE" id="-487022073%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-n-e-c-r-o-n-s_-b-l-a-d-e/index.html">NECRONS_BLADE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-487022073%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-n-e-c-r-o-n-s_-b-l-a-d-e/index.html">NECRONS_BLADE</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1264059469%2FClasslikes%2F-231046164" anchor-label="ASTRAEA" id="1264059469%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-s-t-r-a-e-a/index.html">ASTRAEA</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1264059469%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-s-t-r-a-e-a/index.html">ASTRAEA</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1762817312%2FClasslikes%2F-231046164" anchor-label="SCYLLA" id="1762817312%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-c-y-l-l-a/index.html">SCYLLA</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1762817312%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-c-y-l-l-a/index.html">SCYLLA</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-638066137%2FClasslikes%2F-231046164" anchor-label="VALKYRIE" id="-638066137%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-v-a-l-k-y-r-i-e/index.html">VALKYRIE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-638066137%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-v-a-l-k-y-r-i-e/index.html">VALKYRIE</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1728414428%2FClasslikes%2F-231046164" anchor-label="HYPERION" id="-1728414428%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-h-y-p-e-r-i-o-n/index.html">HYPERION</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1728414428%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-h-y-p-e-r-i-o-n/index.html">HYPERION</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-479384410%2FClasslikes%2F-231046164" anchor-label="AOTD" id="-479384410%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-o-t-d/index.html">AOTD</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-479384410%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-o-t-d/index.html">AOTD</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1460144420%2FClasslikes%2F-231046164" anchor-label="SOUL_WHIP" id="1460144420%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-o-u-l_-w-h-i-p/index.html">SOUL_WHIP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1460144420%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-o-u-l_-w-h-i-p/index.html">SOUL_WHIP</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1576939668%2FClasslikes%2F-231046164" anchor-label="WITHER_CLOAK" id="-1576939668%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-w-i-t-h-e-r_-c-l-o-a-k/index.html">WITHER_CLOAK</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1576939668%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-w-i-t-h-e-r_-c-l-o-a-k/index.html">WITHER_CLOAK</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-378736962%2FClasslikes%2F-231046164" anchor-label="CLAYMORE" id="-378736962%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-c-l-a-y-m-o-r-e/index.html">CLAYMORE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-378736962%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-c-l-a-y-m-o-r-e/index.html">CLAYMORE</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-307415372%2FClasslikes%2F-231046164" anchor-label="GIANTS_SWORD" id="-307415372%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-g-i-a-n-t-s_-s-w-o-r-d/index.html">GIANTS_SWORD</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-307415372%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-g-i-a-n-t-s_-s-w-o-r-d/index.html">GIANTS_SWORD</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-52153148%2FClasslikes%2F-231046164" anchor-label="TRIBAL_SPEAR" id="-52153148%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-t-r-i-b-a-l_-s-p-e-a-r/index.html">TRIBAL_SPEAR</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-52153148%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-t-r-i-b-a-l_-s-p-e-a-r/index.html">TRIBAL_SPEAR</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-704996980%2FClasslikes%2F-231046164" anchor-label="BONEMERANG" id="-704996980%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-o-n-e-m-e-r-a-n-g/index.html">BONEMERANG</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-704996980%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-b-o-n-e-m-e-r-a-n-g/index.html">BONEMERANG</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1133977153%2FClasslikes%2F-231046164" anchor-label="JERRY_GUN" id="-1133977153%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-j-e-r-r-y_-g-u-n/index.html">JERRY_GUN</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1133977153%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-j-e-r-r-y_-g-u-n/index.html">JERRY_GUN</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="686956087%2FClasslikes%2F-231046164" anchor-label="BONZO_STAFF" id="686956087%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-o-n-z-o_-s-t-a-f-f/index.html">BONZO_STAFF</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="686956087%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-b-o-n-z-o_-s-t-a-f-f/index.html">BONZO_STAFF</a></div></div><div class="brief "></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1149711148%2FClasslikes%2F-231046164" anchor-label="BONZO_STAFF_FRAGGED" id="1149711148%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-b-o-n-z-o_-s-t-a-f-f_-f-r-a-g-g-e-d/index.html">BONZO_STAFF_FRAGGED</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1149711148%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-b-o-n-z-o_-s-t-a-f-f_-f-r-a-g-g-e-d/index.html">BONZO_STAFF_FRAGGED</a></div></div><div class="brief "><p class="paragraph">The actual Item name will be &quot;⚚ Reforge Bonzo's Staff&quot;. The ⚚ is omitted here so that the name can still match an item name even when a reforge is present.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="184971864%2FClasslikes%2F-231046164" anchor-label="LEAPING_SWORD" id="184971864%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-l-e-a-p-i-n-g_-s-w-o-r-d/index.html">LEAPING_SWORD</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="184971864%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-l-e-a-p-i-n-g_-s-w-o-r-d/index.html">LEAPING_SWORD</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="61770469%2FClasslikes%2F-231046164" anchor-label="SILK_EDGE_SWORD" id="61770469%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-i-l-k_-e-d-g-e_-s-w-o-r-d/index.html">SILK_EDGE_SWORD</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="61770469%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-i-l-k_-e-d-g-e_-s-w-o-r-d/index.html">SILK_EDGE_SWORD</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1590692747%2FClasslikes%2F-231046164" anchor-label="AOTS" id="-1590692747%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-a-o-t-s/index.html">AOTS</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1590692747%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-a-o-t-s/index.html">AOTS</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1328123721%2FClasslikes%2F-231046164" anchor-label="SPRING_BOOTS" id="-1328123721%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-p-r-i-n-g_-b-o-o-t-s/index.html">SPRING_BOOTS</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1328123721%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-p-r-i-n-g_-b-o-o-t-s/index.html">SPRING_BOOTS</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1794734870%2FClasslikes%2F-231046164" anchor-label="SPIRIT_LEAP" id="1794734870%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-s-p-i-r-i-t_-l-e-a-p/index.html">SPIRIT_LEAP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1794734870%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-s-p-i-r-i-t_-l-e-a-p/index.html">SPIRIT_LEAP</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2086168595%2FClasslikes%2F-231046164" anchor-label="INFINILEAP" id="2086168595%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-n-f-i-n-i-l-e-a-p/index.html">INFINILEAP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2086168595%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-i-n-f-i-n-i-l-e-a-p/index.html">INFINILEAP</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2014964161%2FClasslikes%2F-231046164" anchor-label="INFLATABLE_JERRY" id="-2014964161%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html">INFLATABLE_JERRY</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2014964161%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><div class="block"><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html">INFLATABLE_JERRY</a></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="639196585%2FClasslikes%2F-231046164" anchor-label="Attribute" id="639196585%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-attribute/index.html"><span><span>Attribute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="639196585%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-attribute/index.html">Attribute</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-attribute/index.html">SkyblockItem.Attribute</a><span class="token operator">&gt; </span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-627408071%2FClasslikes%2F-231046164" anchor-label="Companion" id="-627408071%2FClasslikes%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-627408071%2FClasslikes%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-634641579%2FFunctions%2F-231046164" anchor-label="hasAttribute" id="-634641579%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="has-attribute.html"><span>has</span><wbr></wbr><span><span>Attribute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-634641579%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="has-attribute.html"><span class="token function">hasAttribute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">attribute<span class="token operator">: </span><a href="-attribute/index.html">SkyblockItem.Attribute</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1743387706%2FFunctions%2F-231046164" anchor-label="valueOf" id="1743387706%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="value-of.html"><span>value</span><wbr></wbr><span><span>Of</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1743387706%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="value-of.html"><span class="token function">valueOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">SkyblockItem</a></div><div class="brief "><p class="paragraph">Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1322276550%2FFunctions%2F-231046164" anchor-label="values" id="1322276550%2FFunctions%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="values.html"><span><span>values</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1322276550%2FFunctions%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="values.html"><span class="token function">values</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">SkyblockItem</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns an array containing the constants of this enum type, in the order they're declared.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="504121061%2FProperties%2F-231046164" anchor-label="displayName" id="504121061%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="display-name.html"><span>display</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="504121061%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="504121061%2FProperties%2F-231046164" anchor-label="displayName" id="504121061%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="display-name.html">displayName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="139679226%2FProperties%2F-231046164" anchor-label="itemID" id="139679226%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="item-i-d.html"><span>item</span><wbr></wbr><span><span>ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="139679226%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="139679226%2FProperties%2F-231046164" anchor-label="itemID" id="139679226%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="item-i-d.html">itemID</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-372974862%2FProperties%2F-231046164" anchor-label="name" id="-372974862%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html#-372974862%2FProperties%2F-231046164"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-372974862%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-372974862%2FProperties%2F-231046164" anchor-label="name" id="-372974862%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html#-372974862%2FProperties%2F-231046164">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-739389684%2FProperties%2F-231046164" anchor-label="ordinal" id="-739389684%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a>
+        <div class="table-row" data-filterable-current=":dokkaCustomFormat/main" data-filterable-set=":dokkaCustomFormat/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html#-739389684%2FProperties%2F-231046164"><span><span>ordinal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-739389684%2FProperties%2F-231046164"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaCustomFormat/main"><a data-name="-739389684%2FProperties%2F-231046164" anchor-label="ordinal" id="-739389684%2FProperties%2F-231046164" data-filterable-set=":dokkaCustomFormat/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-i-n-f-l-a-t-a-b-l-e_-j-e-r-r-y/index.html#-739389684%2FProperties%2F-231046164">ordinal</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>(c) 2023 Floppa Coding</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
