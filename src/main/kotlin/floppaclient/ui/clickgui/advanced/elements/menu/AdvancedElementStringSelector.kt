@@ -1,8 +1,7 @@
 package floppaclient.ui.clickgui.advanced.elements.menu
 
 import floppaclient.module.Module
-import floppaclient.module.settings.impl.Options
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElementType
@@ -17,10 +16,10 @@ import java.util.*
  *
  * @author Aton
  */
-class AdvancedElementSelector<T>(
-    parent: AdvancedMenu, module: Module, setting: SelectorSetting<T>,
-) : AdvancedElement<SelectorSetting<T>>(parent, module, setting, AdvancedElementType.SELECTOR)
-        where T : Options, T: Enum<T> {
+@Deprecated("Use Enum version instead.")
+class AdvancedElementStringSelector(
+    parent: AdvancedMenu, module: Module, setting: StringSelectorSetting,
+) : AdvancedElement<StringSelectorSetting>(parent, module, setting, AdvancedElementType.SELECTOR) {
 
 
     /**
@@ -42,7 +41,7 @@ class AdvancedElementSelector<T>(
             } else {
                 FontUtil.drawCenteredString(setting.name, settingWidth / 2.0, 2.0, -0x1)
             }
-        }
+            }
 
         Gui.drawRect(0, 13, settingWidth, 15, 0x77000000)
         Gui.drawRect(
@@ -60,14 +59,13 @@ class AdvancedElementSelector<T>(
             val increment = FontUtil.fontHeight + 2
             for (option in setting.options) {
 
-                val optionName = option.displayName
                 Gui.drawRect(0, ay, settingWidth, ay + increment, -0x55ededee)
                 val elementtitle =
-                    optionName.substring(0, 1).uppercase(Locale.getDefault()) + optionName.substring(1, optionName.length)
+                    option.substring(0, 1).uppercase(Locale.getDefault()) + option.substring(1, option.length)
                 FontUtil.drawCenteredString(elementtitle, settingWidth / 2.0, ay + 2.0, -0x1)
 
                 /** Highlights the element if it is selected */
-                if (setting.isSelected(option)) {
+                if (option.equals(setting.selected, ignoreCase = true)) {
                     Gui.drawRect(x, ay, 2, ay + increment, color)
                 }
                 /** Highlights the element when it is hovered */
@@ -98,7 +96,7 @@ class AdvancedElementSelector<T>(
             val increment = FontUtil.fontHeight + 2
             for (option in setting.options) {
                 if (mouseX >= parent.x + x && mouseX <= parent.x + x + settingWidth && mouseY >= parent.y + ay && mouseY <= parent.y + ay + increment) {
-                    setting.value = option
+                    setting.selected = option.lowercase(Locale.getDefault())
                     return true
                 }
                 ay += increment

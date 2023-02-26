@@ -7,7 +7,7 @@ import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils
@@ -27,10 +27,10 @@ object AutoLeap : Module(
     category = Category.DUNGEON,
     description = "Instantly leaps to the Selected teammate on leap left click."
 ){
-    private val brTarget: SelectorSetting
+    private val brTarget: StringSelectorSetting
     private val brTargetName = StringSetting("Br Target Name", description = "Name of the player you want to target during blood rush. This is only active when Custom is selected for Br target.")
     private val disableAfterBr = BooleanSetting("Disable after Br", true, description = "Disables auto leap after blood was opened.")
-    private val bossTarget: SelectorSetting
+    private val bossTarget: StringSelectorSetting
     private val bossTargetName = StringSetting("Boss Target Name", description = "Name of the player you want to target in Boss. This is only active when Custom Boss is selected for Boss target.")
 
 
@@ -59,8 +59,8 @@ object AutoLeap : Module(
             "Custom",
             "None"
         )
-        bossTarget = SelectorSetting("Boss Target", targets[5], targets, description = "This Player will be targeted while in f7 boss.")
-        brTarget = SelectorSetting("Br Target", clearTargets[5], clearTargets, description = "This Player will be targeted during blood rush.")
+        bossTarget = StringSelectorSetting("Boss Target", targets[5], targets, description = "This Player will be targeted while in f7 boss.")
+        brTarget = StringSelectorSetting("Br Target", clearTargets[5], clearTargets, description = "This Player will be targeted during blood rush.")
         this.addSettings(
             brTarget,
             brTargetName,

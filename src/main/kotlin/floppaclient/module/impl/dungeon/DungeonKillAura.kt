@@ -10,7 +10,7 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.GeometryUtils.getDirection
 import floppaclient.utils.Utils.containsOneOf
@@ -45,7 +45,7 @@ object DungeonKillAura : Module(
     private val range = NumberSetting("Range",10.0,4.0,30.0,1.0, description = "Maximum distance for targets to be attacked.")
     private val priorityRange = NumberSetting("Priority Range",8.0,4.0,30.0,1.0, description = "Within this range entities will be sorted by relevance instead of distance.")
     private val sleep = NumberSetting("Sleep ms", 1000.0, 100.0,2000.0,50.0, description = "Delay between clicks.")
-    private val item = SelectorSetting("Item","Claymore", arrayListOf("Claymore", "Terminator", "Custom"), description = "Item to be used.")
+    private val item = StringSelectorSetting("Item","Claymore", arrayListOf("Claymore", "Terminator", "Custom"), description = "Item to be used.")
     private val customItem = StringSetting("Custom Item","Claymore", description = "This item will be used when Custom is selected for Item.")
     private val leftClick = BooleanSetting("Left Click", true, description = "Left click if enabled, right click otherwise.")
     private val swingItem = BooleanSetting("Swing Item", false, description = "Swing the held item upon left clicking if enabled.")

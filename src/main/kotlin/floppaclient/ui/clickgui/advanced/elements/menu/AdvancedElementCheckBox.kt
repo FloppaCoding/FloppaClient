@@ -29,10 +29,7 @@ class AdvancedElementCheckBox(
         val color = Color(temp.red, temp.green, temp.blue, 200).rgb
 
         /** Rendering the name and the checkbox */
-        FontUtil.drawString(
-            setting.name, 1,
-            2, textcolor
-        )
+        FontUtil.drawString(setting.name, 1, 2, textcolor)
         Gui.drawRect(
             (settingWidth - 13), 2, settingWidth - 1, 13,
             if (setting.enabled) color else -0x1000000

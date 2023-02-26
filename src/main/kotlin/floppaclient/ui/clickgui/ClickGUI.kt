@@ -20,26 +20,31 @@ import net.minecraft.util.ResourceLocation
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
 import org.lwjgl.opengl.GL11
-import java.awt.Color
 import java.io.IOException
 
 /**
- * Provides and constructs the click gui menu
- * Based on HeroCode's gui.
+ * ## Main class of the Click GUI.
  *
- * @author HeroCode, Aton
+ * Provides the gui which can be viewed in game.
+ *
+ * This class dispatches all rendering and input actions to the components of the GUI.
+ *
+ * Structure of the GUI is:
+ * [ClickGUI] -> [Panel]s -> [ModuleButton][floppaclient.ui.clickgui.elements.ModuleButton]s
+ * -> [Element][floppaclient.ui.clickgui.elements.Element]s.
+ * Each component of the gui handles it own actions and dispatches them to its subcomponents.
+ *
+ * Partially based on HeroCode's gui.
+ * The only reference to it, and my source for it is [this YouTube video](https://www.youtube.com/watch?v=JPb5rBzUVKE).
+ *
+ * @author Aton
  */
 class ClickGUI : GuiScreen() {
-
     var scale = 2.0
-
-    private val logo = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/Icon.png")
-
     /**
      * Used to add a delay for closing the gui, so that it does not instantly get closed
      */
     private var openedTime = System.currentTimeMillis()
-
     /**
      * Used to create the advanced menu for modules
      */
@@ -58,53 +63,23 @@ class ClickGUI : GuiScreen() {
         }
     }
 
+    /**
+     * Dispatches all rendering for the GUI.
+     */
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
 
         // Scale the gui and the mouse coordinates
         // the handling of the mouse coordinates is not nice, since it has to be done in multiple places
         val scaledresolution = ScaledResolution(mc)
         val prevScale = mc.gameSettings.guiScale
-        scale = clickGuiScale / scaledresolution.scaleFactor
+        scale = CLICK_GUI_SCALE / scaledresolution.scaleFactor
         mc.gameSettings.guiScale = 2
         GL11.glScaled(scale, scale, scale)
 
         val scaledMouseX = getScaledMouseX()
         val scaledMouseY = getScaledMouseY()
 
-        /** Draw the Logo and the title */
-        logo.let {
-            val scaledResolution = ScaledResolution(mc)
-
-            val temp = ColorUtil.clickGUIColor.darker()
-            val titleColor = Color(temp.red, temp.green, temp.blue, 255).rgb
-            val logoSize = 25
-
-            GL11.glPushMatrix()
-            GL11.glTranslated(
-                scaledResolution.scaledWidth.toDouble(),
-                scaledResolution.scaledHeight.toDouble(),
-                0.0
-            )
-
-            GL11.glScaled(2.0, 2.0, 2.0)
-            val titleWidth = FontUtil.getStringWidth(ClickGui.clientName.text)
-
-            GlStateManager.color(255f, 255f, 255f, 255f)
-            FloppaClient.mc.textureManager.bindTexture(it)
-            Gui.drawModalRectWithCustomSizedTexture(
-                - 5 - logoSize,
-                -5 - logoSize,
-                0f, 0f, logoSize, logoSize, logoSize.toFloat(), logoSize.toFloat()
-            )
-
-            FontUtil.drawString(
-                ClickGui.clientName.text,
-                -titleWidth.toDouble() - 10.0 - logoSize,
-                -FontUtil.fontHeight.toDouble() / 2.0 - 5.0 - logoSize / 2.0,
-                titleColor
-            )
-            GL11.glPopMatrix()
-        }
+        renderLogo()
 
         /* Calls all panels to render themselves and their module buttons and elements.
 		  * Important to keep in mind: the panel rendered last will be on top.
@@ -115,35 +90,7 @@ class ClickGUI : GuiScreen() {
         }
 
         if(ClickGui.showUsageInfo.enabled) {
-            val scaledResolution = ScaledResolution(mc)
-
-            val lines = listOf("GUI Usage:",
-            "Left click Module Buttons to toggle the Module.",
-            "Right click Module Buttons to extend the Settings dropdown.",
-            "Middle click Module Buttons to open the Advanced Gui.",
-            "Disable this Overlay in the Advanced Settings of the Click Gui Module in the Render Category."
-            )
-
-            val temp = ColorUtil.clickGUIColor.darker()
-            val titleColor = Color(temp.red, temp.green, temp.blue, 255).rgb
-
-            GL11.glPushMatrix()
-            GL11.glTranslated(
-                scaledResolution.scaledWidth.toDouble()*0.1,
-                scaledResolution.scaledHeight.toDouble()*0.7,
-                0.0
-            )
-
-            GL11.glScaled(1.5, 1.5, 1.5)
-            for ((ii, line) in lines.withIndex()) {
-                FontUtil.drawString(
-                    line,
-                    0.0,
-                    FontUtil.fontHeight.toDouble() * ii,
-                    titleColor
-                )
-            }
-            GL11.glPopMatrix()
+            renderUsageInfo()
         }
 
         if (advancedMenu != null) {
@@ -156,6 +103,72 @@ class ClickGUI : GuiScreen() {
         mc.gameSettings.guiScale = prevScale
     }
 
+    /**
+     * Draws the Logo and the title.
+     */
+    private fun renderLogo() {
+        val scaledResolution = ScaledResolution(mc)
+        val logoSize = 25
+
+        GL11.glPushMatrix()
+        GL11.glTranslated(
+            scaledResolution.scaledWidth.toDouble(),
+            scaledResolution.scaledHeight.toDouble(),
+            0.0
+        )
+
+        GL11.glScaled(2.0, 2.0, 2.0)
+        val titleWidth = FontUtil.getStringWidth(ClickGui.clientName.text)
+
+        GlStateManager.color(255f, 255f, 255f, 255f)
+        FloppaClient.mc.textureManager.bindTexture(LOGO)
+        Gui.drawModalRectWithCustomSizedTexture(
+            - 5 - logoSize,
+            -5 - logoSize,
+            0f, 0f, logoSize, logoSize, logoSize.toFloat(), logoSize.toFloat()
+        )
+
+        FontUtil.drawString(
+            ClickGui.clientName.text,
+            -titleWidth.toDouble() - 10.0 - logoSize,
+            -FontUtil.fontHeight.toDouble() / 2.0 - 5.0 - logoSize / 2.0,
+            ColorUtil.clickGUIColor.rgb
+        )
+        GL11.glPopMatrix()
+    }
+
+    private fun renderUsageInfo() {
+        val scaledResolution = ScaledResolution(mc)
+
+        val lines = listOf("GUI Usage:",
+            "Left click Module Buttons to toggle the Module.",
+            "Right click Module Buttons to extend the Settings dropdown.",
+            "Middle click Module Buttons to open the Advanced Gui.",
+            "Disable this Overlay in the Advanced Settings of the Click Gui Module in the Render Category."
+        )
+
+        GL11.glPushMatrix()
+        GL11.glTranslated(
+            scaledResolution.scaledWidth.toDouble()*0.1,
+            scaledResolution.scaledHeight.toDouble()*0.7,
+            0.0
+        )
+
+        GL11.glScaled(1.5, 1.5, 1.5)
+        for ((ii, line) in lines.withIndex()) {
+            FontUtil.drawString(
+                line,
+                0.0,
+                FontUtil.fontHeight.toDouble() * ii,
+                ColorUtil.clickGUIColor.rgb
+            )
+        }
+        GL11.glPopMatrix()
+    }
+
+    /**
+     * Handles scrolling.
+     */
     @Throws(IOException::class)
     override fun handleMouseInput() {
         super.handleMouseInput()
@@ -174,7 +187,7 @@ class ClickGUI : GuiScreen() {
                 i *= 7
             }
             // Scroll the advanced gui
-            advancedMenu?.scroll(i, scaledMouseX, scaledMouseY)
+            if (advancedMenu?.scroll(i, scaledMouseX, scaledMouseY) == true) return
 
             /** Checking all panels for scroll action.
              * Reversed order is used to guarantee that the panel rendered on top will be handled first. */
@@ -184,6 +197,9 @@ class ClickGUI : GuiScreen() {
         }
     }
 
+    /**
+     * Dispatches mouse clicks to the [panels] and [advancedMenu].
+     */
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         val scaledMouseX = getScaledMouseX()
         val scaledMouseY = getScaledMouseY()
@@ -199,24 +215,7 @@ class ClickGUI : GuiScreen() {
         /** Checking all panels for click action.
           * Reversed order is used to guarantee that the panel rendered on top will be handled first. */
         for (panel in panels.reversed()) {
-            // Handle panel button first.
             if (panel.mouseClicked(scaledMouseX, scaledMouseY, mouseButton)) return
-
-            // If no panel button was clicked check the module buttons and elements
-            if (panel.extended && panel.visible) {
-                for (moduleButton in panel.moduleButtons) {
-                    if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuElements) {
-                            if (panel.shouldRender(menuElement.y + menuElement.height)) {
-                                if (menuElement.mouseClicked(scaledMouseX, scaledMouseY, mouseButton)) {
-                                    moduleButton.updateElements()
-                                    return
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         try {
@@ -236,29 +235,13 @@ class ClickGUI : GuiScreen() {
         /** Checking all panels for mouse release action.
          * Reversed order is used to guarantee that the panel rendered on top will be handled first. */
         for (panel in panels.reversed()) {
-            // Handle panel button first.
             panel.mouseReleased(scaledMouseX, scaledMouseY, state)
-
-            // If no panel button was clicked check the module buttons and elements
-            if (panel.extended && panel.visible) {
-                for (moduleButton in panel.moduleButtons) {
-                    if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuElements) {
-                            if (panel.shouldRender(menuElement.y + menuElement.height)) {
-                                menuElement.mouseReleased(scaledMouseX, scaledMouseY, state)
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         super.mouseReleased(scaledMouseX, scaledMouseY, state)
     }
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
-
-        // First handle the advanced gui
         /** If in an advanced menu only hande that */
         if (advancedMenu != null) {
             if (keyCode == Keyboard.KEY_ESCAPE && !advancedMenu!!.isListening()) {
@@ -271,15 +254,7 @@ class ClickGUI : GuiScreen() {
         /** For key registration in the menu elements. Required for text fields.
          * Reversed order to check the panel on top first! */
         for (panel in panels.reversed()) {
-            if (panel.extended && panel.visible && panel.moduleButtons.size > 0) {
-                for (moduleButton in panel.moduleButtons) {
-                    if (moduleButton.extended) {
-                        for (menuElement in moduleButton.menuElements) {
-                            if (menuElement.keyTyped(typedChar, keyCode)) return
-                        }
-                    }
-                }
-            }
+            if (panel.keyTyped(typedChar, keyCode)) return
         }
 
         /** Exits the menu when the toggle key is pressed */
@@ -310,8 +285,8 @@ class ClickGUI : GuiScreen() {
         /** update panel positions to make it possible to update the positions
          * this is required for loading the panel positions from the config and for resetting the gui */
         for (panel in panels) {
-            panel.x = ClickGui.panelX[panel.category]!!.value
-            panel.y = ClickGui.panelY[panel.category]!!.value
+            panel.x = ClickGui.panelX[panel.category]!!.value.toInt()
+            panel.y = ClickGui.panelY[panel.category]!!.value.toInt()
             panel.extended = ClickGui.panelExtended[panel.category]!!.enabled
         }
     }
@@ -356,16 +331,18 @@ class ClickGUI : GuiScreen() {
         }
     }
 
-    private fun getScaledMouseX(): Int {
-        return MathHelper.ceiling_double_int(Mouse.getX() / clickGuiScale)
+    fun getScaledMouseX(): Int {
+        return MathHelper.ceiling_double_int(Mouse.getX() / CLICK_GUI_SCALE)
     }
-    private fun getScaledMouseY(): Int {
+    fun getScaledMouseY(): Int {
         // maybe -1 or floor required here because of the inversion.
-        return MathHelper.ceiling_double_int( (mc.displayHeight - Mouse.getY()) / clickGuiScale)
+        return MathHelper.ceiling_double_int( (mc.displayHeight - Mouse.getY()) / CLICK_GUI_SCALE)
     }
 
     companion object {
-        const val clickGuiScale = 2.0
+        const val CLICK_GUI_SCALE = 2.0
         var panels: ArrayList<Panel> = arrayListOf()
+
+        private val LOGO = ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "gui/Icon.png")
     }
 }

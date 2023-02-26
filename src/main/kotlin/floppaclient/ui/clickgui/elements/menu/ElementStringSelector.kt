@@ -1,7 +1,6 @@
 package floppaclient.ui.clickgui.elements.menu
 
-import floppaclient.module.settings.impl.Options
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.elements.Element
 import floppaclient.ui.clickgui.elements.ElementType
 import floppaclient.ui.clickgui.elements.ModuleButton
@@ -15,13 +14,12 @@ import java.util.*
  *
  * @author Aton
  */
-class ElementSelector<T>(parent: ModuleButton, setting: SelectorSetting<T>) :
-    Element<SelectorSetting<T>>(parent, setting, ElementType.SELECTOR)
-        where T : Options, T : Enum<T> {
-
+@Deprecated("Use enum version instead")
+class ElementStringSelector(parent: ModuleButton, setting: StringSelectorSetting) :
+    Element<StringSelectorSetting>(parent, setting, ElementType.SELECTOR) {
 
     override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float): Int {
-        val displayValue = (setting as SelectorSetting<*>).selected
+        val displayValue = setting.selected
 
         // Render the text.
         if (FontUtil.getStringWidth(displayValue + "00" + displayName) <= width) {
@@ -39,15 +37,15 @@ class ElementSelector<T>(parent: ModuleButton, setting: SelectorSetting<T>) :
         Gui.drawRect(0, 13, width, 15, ColorUtil.tabColorBg)
         Gui.drawRect((width * 0.4).toInt(), 12, (width * 0.6).toInt(), 15, ColorUtil.tabColor)
 
+
         // Render the dropdown
         if (extended) {
             var ay = DEFAULT_HEIGHT
             val increment = FontUtil.fontHeight + 2
             for (option in setting.options) {
                 Gui.drawRect(0, ay, width, ay + increment, ColorUtil.dropDownColor)
-                val optionName = option.displayName
                 val elementtitle =
-                    optionName.substring(0, 1).uppercase(Locale.getDefault()) + optionName.substring(1, optionName.length)
+                    option.substring(0, 1).uppercase(Locale.getDefault()) + option.substring(1, option.length)
                 FontUtil.drawCenteredString(elementtitle, width / 2.0, ay + 2.0)
 
                 /** Highlight the element if it is selected */
@@ -81,12 +79,12 @@ class ElementSelector<T>(parent: ModuleButton, setting: SelectorSetting<T>) :
             val increment = FontUtil.fontHeight + 2
             for (option in setting.options) {
                 if (mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute + ay && mouseY <= yAbsolute + ay + increment) {
-                    setting.value = option
+                    setting.selected = option
                     return true
                 }
                 ay += increment
             }
-        } else if (mouseButton == 1) {
+        } else if( mouseButton == 1) {
             if (isButtonHovered(mouseX, mouseY)) {
                 extended = !extended
                 return true

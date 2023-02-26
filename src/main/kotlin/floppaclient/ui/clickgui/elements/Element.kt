@@ -1,114 +1,137 @@
 package floppaclient.ui.clickgui.elements
 
+import floppaclient.module.impl.render.ClickGui
 import floppaclient.module.settings.Setting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.ui.clickgui.ClickGUI
+import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
+import net.minecraft.client.gui.Gui
+import net.minecraft.client.renderer.GlStateManager
 
 /**
  * Parent class to the settings elements in the click gui.
- * Based on HeroCode's gui.
  *
- * @author HeroCode, Aton
+ * @author Aton
  */
-open class Element {
-    var clickgui: ClickGUI? = null
-    var parent: ModuleButton? = null
-    var setting: Setting? = null
-    var offset = 0.0
-    var x = 0.0
-    var y = 0.0
-    var width = 0.0
-    var height = 0.0
-    var displayName: String? = null
-    var comboextended = false
-    var type: ElementType? = null
-    fun setup() {
-        clickgui = parent!!.parent.clickgui
+abstract class Element<S: Setting<*>>(
+    val parent: ModuleButton,
+//    val module: Module,
+    val setting: S,
+    val type: ElementType
+) {
+    val clickgui: ClickGUI = parent.panel.clickgui
+    /** Relative position of this element in respect to [parent]. */
+    var x = 2
+    /** Relative position of this element in respect to [parent]. */
+    var y = 0
+    val width = parent.width - 2 - x
+    /** Height of the complete element included optional dropdown. */
+    var height: Int
+    var displayName: String = setting.name
+    var extended = false
+    var listening = false
+
+    /** Absolute position of the panel on the screen. */
+    val xAbsolute: Int
+        get() = x + parent.x + parent.panel.x
+    /** Absolute position of the panel on the screen. */
+    val yAbsolute: Int
+        get() = y + parent.y + parent.panel.y
+
+    init {
+        height = when (type) {
+            ElementType.TEXT_FIELD -> 12
+            ElementType.KEY_BIND -> 11
+            ElementType.ACTION -> 11
+            else -> DEFAULT_HEIGHT
+        }
     }
 
+    /**
+     * Updates the height of the Element based on [extended].
+     */
     fun update() {
-        /** Positioning the Element. Offset is handled in ClickGUI to prevent overlap */
-        x = parent!!.x
-        y = parent!!.y + offset
-        width = parent!!.width
-        height = 15.0
-
-        /** Determine the title and expand box if needed */
-        val name = setting?.name ?: if (type == ElementType.KEY_BIND) "Key Bind" else return
-        displayName = name
-//        displayName = name.forceCapitalize()
+        displayName = setting.name
         when (type) {
-            ElementType.CHECK_BOX -> {
-//            val textx = x + width - FontUtil.getStringWidth(displayName)
-//            if (textx < x + 13) {
-//                width += x + 13 - textx + 1
-//            }
-            }
             ElementType.SELECTOR -> {
-                height = if (comboextended)
-                    ((setting as SelectorSetting).options.size * (FontUtil.fontHeight + 2) + 15).toDouble()
+                height = if (extended)
+                    (((setting as? StringSelectorSetting)?.options?.size ?: (setting as SelectorSetting<*>).options.size) * (FontUtil.fontHeight + 2) + DEFAULT_HEIGHT)
                 else
-                    15.0
-//            var longest = FontUtil.getStringWidth(displayName)
-//            for (option in (setting as SelectorSetting).options) {
-//                val temp = FontUtil.getStringWidth(option)
-//                if (temp > longest) {
-//                    longest = temp
-//                }
-//            }
-//            val textx = x + width - longest
-//            if (textx < x) {
-//                width += x - textx + 1
-//            }
+                    DEFAULT_HEIGHT
             }
             ElementType.COLOR -> {
-                height = if (comboextended)
+                height = if (extended)
                     if((setting as ColorSetting).allowAlpha)
-                        15.0 * 5
+                        DEFAULT_HEIGHT * 5
                     else
-                        15.0 * 4
+                        DEFAULT_HEIGHT * 4
                 else
-                    15.0
-            }
-            ElementType.SLIDER -> {
-//            val displayval = "" + ((set as SliderSetting).value * 100.0).roundToInt() / 100.0
-//            val displaymax = "" + ((setting as NumberSetting).max * 100.0).roundToInt() / 100.0
-//            val textx = x + width - FontUtil.getStringWidth(displayName) - FontUtil.getStringWidth(displaymax) - 4
-//            if (textx < x) {
-//                width += x - textx + 1
-//            }
-            }
-            ElementType.TEXT_FIELD -> {
-                height = 12.0
-//            val textx = x + width - FontUtil.getStringWidth(displayName)
-//            if (textx < x) {
-//                width += x - textx + 1
-//            }
-            }
-            ElementType.KEY_BIND -> {
-                height = 11.0
-            }
-            ElementType.ACTION -> {
-                height = 11.0
+                    DEFAULT_HEIGHT
             }
             else -> {}
         }
     }
 
-    open fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {}
+    /**
+     * Sets up the rendering of the element and dispatches rendering of the individual implementations.
+     * @return the height of the element.
+     * @see renderElement
+     */
+    fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) : Int {
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(x.toFloat(), y.toFloat(), 0f)
+
+        val color = if (listening) {
+            ColorUtil.clickGUIColor.rgb
+        }else {
+            ColorUtil.elementColor
+        }
+
+        /** Rendering the box */
+        Gui.drawRect(0, 0, width, height, color)
+        /** The decor */
+        if (ClickGui.design.isSelected("New")) {
+            Gui.drawRect(width, 0, width + 2, height, ColorUtil.outlineColor)
+        }
+
+        // Render the element.
+        val elementLength = renderElement(mouseX, mouseY, partialTicks)
+
+        GlStateManager.popMatrix()
+        return elementLength
+    }
+
+    /**
+     * To be overridden in the implementations.
+     * @return the height of the element.
+     */
+    protected open fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float) : Int{ return height }
+
+    /**
+     * Handles mouse clicks on the Element.
+     * To be overridden in the implementations.
+     * @return whether an action was performed.
+     */
     open fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
         return isHovered(mouseX, mouseY)
     }
 
+    open fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {}
+
     /**
-     * Overridden in the elements to enable key detection. Returns true when an action was taken.
+     * Overridden in the elements to enable key detection.
+     * @return true when an action was taken.
      */
     open fun keyTyped(typedChar: Char, keyCode: Int): Boolean { return false }
 
-    open fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {}
     private fun isHovered(mouseX: Int, mouseY: Int): Boolean {
-        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height
+        return mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute && mouseY <= yAbsolute + height
+    }
+
+    companion object {
+        const val DEFAULT_HEIGHT = 15
     }
 }

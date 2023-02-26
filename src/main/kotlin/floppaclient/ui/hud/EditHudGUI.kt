@@ -1,12 +1,10 @@
 package floppaclient.ui.hud
 
+import floppaclient.FloppaClient
 import floppaclient.floppamap.dungeon.MapRender
-import floppaclient.utils.render.HUDRenderUtils
-import floppaclient.module.impl.render.CoordinateDisplay
-import floppaclient.module.impl.render.DayCounter
-import floppaclient.module.impl.render.DungeonWarpTimer
 import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
+import floppaclient.utils.render.HUDRenderUtils
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Mouse
@@ -14,17 +12,24 @@ import org.lwjgl.opengl.GL11
 import java.awt.Color
 import java.io.IOException
 
+/**
+ * The GUI for editing the positions and scale of HUD elements.
+ *
+ * @author Aton
+ */
 object EditHudGUI : GuiScreen() {
 
     private val hudElements: ArrayList<HudElement> = arrayListOf(
-        DungeonWarpTimer.DungeonWarpTimerHUD,
         MapRender,
-        CoordinateDisplay.CoordinateHUD,
-        DayCounter.DayCounter,
     )
     private var draggingElement: HudElement? = null
     private var startOffsetX = 0
     private var startOffsetY = 0
+
+    fun addHUDElements(newElements: List<HudElement>) {
+        val nonDuplicate = newElements.filter { !hudElements.contains(it) }
+        hudElements.addAll(0, nonDuplicate)
+    }
 
     /**
      * Draw a previes of all hud elements, regardless of whether they are visible.
@@ -41,12 +46,10 @@ object EditHudGUI : GuiScreen() {
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
-    private fun renderRestButton(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    private fun renderRestButton(mouseX: Int, mouseY: Int, @Suppress("UNUSED_PARAMETER") partialTicks: Float) {
         val resetText = "Rest HUD"
         val scaledResolution = ScaledResolution(mc)
 
-        val temp = ColorUtil.clickGUIColor.darker()
-        val titleColor = Color(temp.red, temp.green, temp.blue, 255).rgb
         GL11.glPushMatrix()
         GL11.glTranslated(
             scaledResolution.scaledWidth.toDouble() / 2.0,
@@ -68,20 +71,9 @@ object EditHudGUI : GuiScreen() {
         }else {
             Color(-0x44eaeaeb, true).darker()
         }
-        HUDRenderUtils.renderRect(
-            boxX,
-            boxY,
-            boxWidth,
-            boxHeight,
-            buttonColor
-        )
+        HUDRenderUtils.renderRect(boxX, boxY, boxWidth, boxHeight, buttonColor)
 
-        FontUtil.drawString(
-            resetText,
-            textX,
-            textY,
-            titleColor
-        )
+        FontUtil.drawString(resetText, textX, textY, ColorUtil.clickGUIColor.rgb)
         GL11.glPopMatrix()
     }
 
@@ -145,6 +137,10 @@ object EditHudGUI : GuiScreen() {
     override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
         draggingElement = null
         super.mouseReleased(mouseX, mouseY, state)
+    }
+
+    override fun onGuiClosed() {
+        FloppaClient.moduleConfig.saveConfig()
     }
 
     private fun isCursorOnElement(mouseX: Int, mouseY: Int, element: HudElement): Boolean {

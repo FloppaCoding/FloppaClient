@@ -7,7 +7,7 @@ import floppaclient.events.EntityRemovedEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.Utils
 import net.minecraft.entity.item.EntityItem
@@ -30,9 +30,9 @@ object SecretChime : Module(
             "§4Do not use the bat death sound or your game will freeze!"
 ){
 
-    private val sound: SelectorSetting
+    private val sound: StringSelectorSetting
     private val customSound = StringSetting("Custom Sound", "mob.blaze.hit", description = "Name of a custom sound to play. This is used when Custom is selected in the Sound setting.")
-    private val dropSound: SelectorSetting
+    private val dropSound: StringSelectorSetting
     private val customDropSound = StringSetting("Custom Drop Sound", "mob.blaze.hit", description = "Name of a custom sound to play for item pickups. This is used when Custom is selected in the DropSound setting.")
     private val volume = NumberSetting("Volume", 1.0, 0.0, 1.0, 0.01, description = "Volume of the sound.")
     private val pitch = NumberSetting("Pitch", 2.0, 0.0, 2.0, 0.01, description = "Pitch of the sound.")
@@ -77,8 +77,8 @@ mob.guardian.land.hit - 2
             "mob.guardian.land.hit",
             "Custom"
         )
-        sound = SelectorSetting("Sound", "mob.blaze.hit", soundOptions, description = "Sound selection.")
-        dropSound = SelectorSetting("Drop Sound", "mob.blaze.hit", soundOptions, description = "Sound selection for item pickups.")
+        sound = StringSelectorSetting("Sound", "mob.blaze.hit", soundOptions, description = "Sound selection.")
+        dropSound = StringSelectorSetting("Drop Sound", "mob.blaze.hit", soundOptions, description = "Sound selection for item pickups.")
 
         this.addSettings(
             sound,

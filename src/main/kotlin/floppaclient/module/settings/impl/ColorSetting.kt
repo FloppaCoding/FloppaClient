@@ -6,16 +6,25 @@ import floppaclient.module.settings.Visibility
 import net.minecraft.util.MathHelper
 import java.awt.Color
 
+/**
+ * A color setting for Modules.
+ *
+ * Represented by 3 or 4 sliders in the GUI.
+ * @author Aton
+ */
 class ColorSetting(
     name: String,
-    val default: Color,
+    override val default: Color,
     var allowAlpha: Boolean = true,
     visibility: Visibility = Visibility.VISIBLE,
     description: String? = null,
-) : Setting(name, visibility, description){
+) : Setting<Color>(name, visibility, description){
 
-    var value: Color = default
-    var hsbvals: FloatArray = Color.RGBtoHSB(default.red, default.green, default.blue, null)
+    override var value: Color = default
+        set(value) {
+            field = processInput(value)
+        }
+    private var hsbvals: FloatArray = Color.RGBtoHSB(default.red, default.green, default.blue, null)
 
     var red: Int
         get() = value.red
@@ -93,6 +102,7 @@ class ColorSetting(
 
     /**
      * Gets the value for the given color.
+     * @see ColorComponent.maxValue
      */
     fun getNumber(colorNumber: ColorComponent): Double {
         return when(colorNumber) {
@@ -108,6 +118,7 @@ class ColorSetting(
 
     /**
      * Sets the value for the specified color.
+     * @see ColorComponent.maxValue
      */
     fun setNumber(colorNumber: ColorComponent, number: Double) {
         when(colorNumber) {
@@ -136,8 +147,8 @@ class ColorSetting(
     }
 
     /**
-     * Enum to allow for loop through the values.
-     * This is the best solution i could come up with on the spot to circumvent that i cannot pass a reference to the
+     * Enum to allow for a for loop through the values.
+     * This is the best solution I could come up with on the spot to circumvent that I cannot pass a reference to the
      * int values.
      */
     enum class ColorComponent() {
@@ -154,16 +165,20 @@ class ColorSetting(
                 ALPHA -> "Alpha"
             }
         }
+
+        /**
+         * The maximum value for the components.
+         * the values range from
+         *
+         * 0 to 255 for [RED], [GREEN], [BLUE], [ALPHA] and from
+         *
+         * 0 to 1 for [HUE], [SATURATION], [BRIGHTNESS].
+         */
         fun maxValue(): Double {
             return when(this) {
                 RED, GREEN, BLUE, ALPHA -> 255.0
                 HUE, SATURATION, BRIGHTNESS -> 1.0
             }
         }
-    }
-
-    override fun reset() {
-        value = default
-        super.reset()
     }
 }

@@ -21,7 +21,7 @@ object HClip : Module(
         )
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (this.enabled) {
             ClipTools.hClip(hDist.value, GeometryUtils.yaw(), yOffs.value)
         }

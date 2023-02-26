@@ -5,7 +5,7 @@ import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.ColorSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import java.awt.Color
 
 /**
@@ -17,10 +17,10 @@ object MapRooms : Module(
     description = "Appearance settings for the dungeon map."
 ){
     val darkenUndiscovered  = BooleanSetting("Darken Undiscovered",true, description = "Darkens unentered rooms.")
-    val mapRoomNames        = SelectorSetting("Room Names", "Puzzles / Trap", arrayListOf("None", "Puzzles / Trap", "All"), description = "Shows names of rooms on map.")
-    val mapRoomSecrets      = SelectorSetting("Room Secrets", "Off", arrayListOf("Off", "On", "Replace Checkmark"), description = "Shows total secrets of rooms on map. REPLACE CHECKMARKS NOT ADDED!")
+    val mapRoomNames        = StringSelectorSetting("Room Names", "Puzzles / Trap", arrayListOf("None", "Puzzles / Trap", "All"), description = "Shows names of rooms on map.")
+    val mapRoomSecrets      = StringSelectorSetting("Room Secrets", "Off", arrayListOf("Off", "On", "Replace Checkmark"), description = "Shows total secrets of rooms on map. REPLACE CHECKMARKS NOT ADDED!")
     val mapColorText        = BooleanSetting("Color Text",false, description = "Colors name and secret count based on room state.")
-    val mapCheckmark        = SelectorSetting("Room Checkmarks", "Default", arrayListOf("None", "Default", "NEU"), description = "Adds room checkmarks based on room state.")
+    val mapCheckmark        = StringSelectorSetting("Room Checkmarks", "Default", arrayListOf("None", "Default", "NEU"), description = "Adds room checkmarks based on room state.")
     val mapRoomTransparency = NumberSetting("Room Opacity",1.0,0.0, 1.0, 0.01)
     val mapDarkenPercent    = NumberSetting("DarkenMultiplier",0.4,0.0, 1.0, 0.01, description = "How much to darken undiscovered rooms")
     val colorBloodDoor      = ColorSetting("Blood Door", Color(231, 0, 0), true)
@@ -77,7 +77,7 @@ object MapRooms : Module(
     /**
      * Prevent keybind Action.
      */
-    override fun keyBind() {
+    override fun onKeyBind() {
 
     }
 }

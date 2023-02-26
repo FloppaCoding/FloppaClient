@@ -14,7 +14,7 @@ import java.awt.Color
  *
  * @author Aton
  */
-open class AdvancedElement<S: Setting>(
+abstract class AdvancedElement<S: Setting<*>>(
     val parent: AdvancedMenu,
     val module: Module,
     val setting: S,

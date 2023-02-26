@@ -1,7 +1,7 @@
 package floppaclient.ui.clickgui.advanced.elements.menu
 
 import floppaclient.module.Module
-import floppaclient.module.settings.Setting
+import floppaclient.module.settings.impl.DummySetting
 import floppaclient.ui.clickgui.advanced.AdvancedMenu
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElement
 import floppaclient.ui.clickgui.advanced.elements.AdvancedElementType
@@ -15,7 +15,7 @@ import org.lwjgl.input.Mouse
  * @author Aton
  */
 class AdvancedElementKeyBind(parent: AdvancedMenu, module: Module) :
-    AdvancedElement<Setting>(parent, module, Setting("KeyBind"), AdvancedElementType.KEY_BIND) {
+    AdvancedElement<DummySetting>(parent, module, DummySetting("KeyBind"), AdvancedElementType.KEY_BIND) {
 
     private val keyBlackList = intArrayOf()
 

@@ -5,6 +5,7 @@ import floppaclient.FloppaClient.Companion.mc
 import floppaclient.floppamap.dungeon.RunInformation
 import floppaclient.module.Category
 import floppaclient.module.Module
+import floppaclient.module.RegisterHudElement
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
@@ -13,7 +14,6 @@ import floppaclient.utils.ChatUtils.modMessage
 import floppaclient.utils.Utils.timeFormat
 import net.minecraft.util.StringUtils
 import net.minecraftforge.client.event.ClientChatReceivedEvent
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -28,9 +28,9 @@ object RunOverview : Module(
     description = "Shows how much time your party needed to complete individual stages / splits of a dungeon run. "
 ) {
 
-    private val showHud = BooleanSetting("Show HUD", enabled = true, description = "Render the splits in a hud.")
-    private val chatMessage = BooleanSetting("Chat Message", enabled = false, description = "Shows a message of whenever a phase is completed.")
-    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", enabled = true, description = "Show Custom splits for Floor 7 and Master Floor 7.")
+    private val showHud = BooleanSetting("Show HUD", default = true, description = "Render the splits in a hud.")
+    private val chatMessage = BooleanSetting("Chat Message", default = false, description = "Shows a message of whenever a phase is completed.")
+    private val floorSevenSplits = BooleanSetting("Custom F7 Splits", default = true, description = "Show Custom splits for Floor 7 and Master Floor 7.")
 
     private val xHud = NumberSetting("x", default = 3.0, visibility = Visibility.HIDDEN)
     private val yHud = NumberSetting("y", default = 150.0, visibility = Visibility.HIDDEN)
@@ -56,16 +56,6 @@ object RunOverview : Module(
             yHud,
             scaleHud
         )
-    }
-
-    override fun onEnable() {
-        MinecraftForge.EVENT_BUS.register(RunOverviewHUD)
-        super.onEnable()
-    }
-
-    override fun onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(RunOverviewHUD)
-        super.onDisable()
     }
 
     @SubscribeEvent
@@ -131,6 +121,7 @@ object RunOverview : Module(
         }
     }
 
+    @RegisterHudElement
     object RunOverviewHUD : HudElement(
         xHud,
         yHud,
@@ -172,7 +163,6 @@ object RunOverview : Module(
                     this.height = mc.fontRendererObj.FONT_HEIGHT * 3 + 3
                 }
             }
-            super.renderHud()
         }
 
         private fun renderLine2(string: String, pair: Pair<Long, Long>, int: Int) {

@@ -1,57 +1,38 @@
 package floppaclient.ui.clickgui.elements.menu
 
 import floppaclient.module.Module
+import floppaclient.module.settings.impl.DummySetting
 import floppaclient.ui.clickgui.elements.Element
 import floppaclient.ui.clickgui.elements.ElementType
 import floppaclient.ui.clickgui.elements.ModuleButton
-import floppaclient.ui.clickgui.util.ColorUtil
 import floppaclient.ui.clickgui.util.FontUtil
-import net.minecraft.client.gui.Gui
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
-import java.awt.Color
 
 /**
  * Provides a key bind element.
  *
  * @author Aton
  */
-class ElementKeyBind(iparent: ModuleButton, val mod: Module) : Element() {
-
-    var listening = false
+class ElementKeyBind(parent: ModuleButton, val mod: Module) :
+    Element<DummySetting>(parent, DummySetting("Key Bind"), ElementType.KEY_BIND) {
 
     private val keyBlackList = intArrayOf()
 
-    init {
-        parent = iparent
-        type = ElementType.KEY_BIND
-        super.setup()
-    }
 
-    /**
-     * Render the element
-     */
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val keyName = if(mod.keyCode > 0)
+    override fun renderElement(mouseX: Int, mouseY: Int, partialTicks: Float): Int {
+        val keyName = if (mod.keyCode > 0)
             Keyboard.getKeyName(mod.keyCode) ?: "Err"
         else if (mod.keyCode < 0)
             Mouse.getButtonName(mod.keyCode + 100)
         else
             ".."
         val displayValue = "[$keyName]"
-        val temp = ColorUtil.clickGUIColor
-        val color = if (listening) {
-            Color(temp.red, temp.green, temp.blue, 200).rgb
-        }else {
-            ColorUtil.elementColor
-        }
 
-        /** Rendering the box */
-        Gui.drawRect(x.toInt(), y.toInt(), (x + width).toInt(), (y + height).toInt(), color)
+        FontUtil.drawString(displayName, 1, 2)
+        FontUtil.drawString(displayValue, width - FontUtil.getStringWidth(displayValue), 2)
 
-        /** Titel und Checkbox rendern. */
-        FontUtil.drawString(displayName, x + 1, y + 2, -0x1)
-        FontUtil.drawString(displayValue, x + width - FontUtil.getStringWidth(displayValue), y + 2, -0x1)
+        return super.renderElement(mouseX, mouseY, partialTicks)
     }
 
     /**
@@ -59,7 +40,7 @@ class ElementKeyBind(iparent: ModuleButton, val mod: Module) : Element() {
      * Used to interact with the element and to register mouse binds.
      */
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int): Boolean {
-        if (mouseButton == 0 && isCheckHovered(mouseX, mouseY) ) {
+        if (mouseButton == 0 && isCheckHovered(mouseX, mouseY)) {
             listening = !listening
             return true
         } else if (listening) {
@@ -79,7 +60,7 @@ class ElementKeyBind(iparent: ModuleButton, val mod: Module) : Element() {
                 listening = false
             } else if (keyCode == Keyboard.KEY_NUMPADENTER || keyCode == Keyboard.KEY_RETURN) {
                 listening = false
-            }else if (!keyBlackList.contains(keyCode)) {
+            } else if (!keyBlackList.contains(keyCode)) {
                 mod.keyCode = keyCode
                 listening = false
             }
@@ -92,6 +73,6 @@ class ElementKeyBind(iparent: ModuleButton, val mod: Module) : Element() {
      * Checks whether this element is hovered
      */
     private fun isCheckHovered(mouseX: Int, mouseY: Int): Boolean {
-        return mouseX >= x && mouseX <= x + width && mouseY >= y  && mouseY <= y + height
+        return mouseX >= xAbsolute && mouseX <= xAbsolute + width && mouseY >= yAbsolute && mouseY <= yAbsolute + height
     }
 }

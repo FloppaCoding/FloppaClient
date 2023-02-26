@@ -43,7 +43,7 @@ object GhostBlocks : Module(
     /**
      * Prevent the key bind from toggling the module, so that it can be used here.
      */
-    override fun keyBind() { }
+    override fun onKeyBind() { }
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {

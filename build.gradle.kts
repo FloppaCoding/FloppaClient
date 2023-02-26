@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.8.10"
     // This is for creating a documentation from the documentation comments. Use it with the dokkaHtml gradle task
     id("org.jetbrains.dokka") version "1.7.20"
     id("com.github.johnrengelman.shadow") version "7.1.2"
@@ -21,7 +21,8 @@ buildscript {
     }
 }
 
-version = "1.0.3"
+// This variable determine the filename of the produced jar file.
+version = "1.0.3-0.1"
 group = "floppaclient"
 
 repositories {
@@ -43,6 +44,8 @@ dependencies {
 
     packageLib("gg.essential:loader-launchwrapper:1.1.3")
     implementation("gg.essential:essential-1.8.9-forge:3662")
+
+    implementation("org.reflections:reflections:0.10.2")
 }
 
 sourceSets {

@@ -5,7 +5,7 @@ import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 
 /**
  * This module makes blocks break faster.
@@ -18,7 +18,7 @@ object FastMine : Module(
     category = Category.MISC,
     description = "Breaks blocks sooner when mining them, allowing for effectively faster mining. Also has some options to reduce the delay in between block breaking."
 ){
-    private val mode = SelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Skyblock", "None"), description = "Choose this according to where you are mining. In regions with custom mining like the Crystal Hollows select §oSkyblock§r everywhere else select §oVanilla§r. Select §oNone§r if you only want to use the other features in the module.")
+    private val mode = StringSelectorSetting("Mode", "Vanilla", arrayListOf("Vanilla", "Skyblock", "None"), description = "Choose this according to where you are mining. In regions with custom mining like the Crystal Hollows select §oSkyblock§r everywhere else select §oVanilla§r. Select §oNone§r if you only want to use the other features in the module.")
     private val threshold = NumberSetting("Threshold", 0.7, 0.7, 1.0, 0.01, description = "Effectively reduces the time it takes to break the block by this factor.")
         .withDependency { this.mode.index == 0 }
     private val ticks = NumberSetting("Ticks", 20.0, 1.0, 100.0, 1.0, description = "The amount of ticks after which the block you are mining should break.")

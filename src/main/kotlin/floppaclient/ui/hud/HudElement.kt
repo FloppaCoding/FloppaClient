@@ -1,23 +1,26 @@
 package floppaclient.ui.hud
 
-import floppaclient.utils.render.HUDRenderUtils
+import floppaclient.module.Module
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.render.HUDRenderUtils
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
 
 /**
- * Provides functionality for game overlay elements
+ * Provides functionality for game overlay elements.
+ * @author Aton
  */
-open class HudElement(
-    private val xSett: NumberSetting,
-    private val ySett: NumberSetting,
-    var width: Int = 10,
-    var height: Int = 10,
-    val scale: NumberSetting = NumberSetting("scale",1.0,0.1,4.0, 0.02, visibility = Visibility.HIDDEN),
-) {
+abstract class HudElement{
+
+    private val xSett: NumberSetting
+    private val ySett: NumberSetting
+    val scale: NumberSetting
+
+    var width: Int
+    var height: Int
 
     private val zoomIncrement = 0.05
 
@@ -35,6 +38,39 @@ open class HudElement(
         set(value) {
             ySett.value = value.toDouble()
         }
+
+    /**
+     * Sets up a hud Element.
+     * This constructor takes care of creating the [NumberSetting]s required to save the position and scale of the hud
+     * element to the config.
+     */
+    constructor(module: Module, xDefault: Int = 0, yDefault: Int = 0, width: Int = 10, height: Int = 10, defaultScale: Double = 1.0) {
+        val id = module.settings.count { it.name.startsWith("xHud") }
+        val xHud = NumberSetting("xHud_$id", default = xDefault.toDouble(), visibility = Visibility.HIDDEN)
+        val yHud = NumberSetting("yHud_$id", default = yDefault.toDouble(), visibility = Visibility.HIDDEN)
+        val scaleHud = NumberSetting("scaleHud_$id",defaultScale,0.1,4.0, 0.01, visibility = Visibility.HIDDEN)
+
+        module.addSettings(xHud, yHud, scaleHud)
+
+        this.xSett = xHud
+        this.ySett = yHud
+        this.scale = scaleHud
+
+        this.width = width
+        this.height = height
+    }
+
+    /**
+     * It is advised to use the other constructor unless this one is required.
+     */
+    constructor(xHud: NumberSetting, yHud: NumberSetting, width: Int = 10, height: Int = 10, scale: NumberSetting) {
+        this.xSett = xHud
+        this.ySett = yHud
+        this.scale = scale
+
+        this.width = width
+        this.height = height
+    }
 
     /**
      * Resets the position of this hud element by setting the value of xSett and ySett to their default.
@@ -71,9 +107,12 @@ open class HudElement(
     }
 
     /**
-     * to be overwritten in implementations.
+     * Override this method in your implementations.
+     *
+     * This method is responsible for rendering the HUD element.
+     * Within this method coordinates are already transformed regarding to the HUD position [x],[x] and [scale].
      */
-    open fun renderHud() { }
+    abstract fun renderHud()
 
     /**
      * Used for moving the hud element.
@@ -94,5 +133,4 @@ open class HudElement(
 
         GlStateManager.popMatrix()
     }
-
 }

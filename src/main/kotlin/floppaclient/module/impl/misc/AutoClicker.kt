@@ -5,6 +5,7 @@ import floppaclient.events.ClickEvent
 import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.Setting.Companion.withDependency
+import floppaclient.module.settings.Setting.Companion.withInputTransform
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
 import floppaclient.utils.Utils
@@ -26,16 +27,14 @@ object AutoClicker : Module(
             "When ${TerminatorClicker.name} is active the right click auto clicker will not activate for shortbows. "
 ) {
     private val leftClick = BooleanSetting("Left Click", true, description = "Toggles the auto clicker for left click.")
-    private val maxCps: NumberSetting = NumberSetting("Max CPS", 12.0, 1.0, 20.0, 1.0, description = "Maximum cps for left click.").apply {
-            processInput = { input: Double ->
-                MathHelper.clamp_double(input, minCps.value, max)
-            }
+    private val maxCps: NumberSetting = NumberSetting("Max CPS", 12.0, 1.0, 20.0, 1.0, description = "Maximum cps for left click.")
+        .withInputTransform { input, setting ->
+            MathHelper.clamp_double(input, minCps.value, setting.max)
         }.withDependency { leftClick.enabled }
 
-    private val minCps: NumberSetting = NumberSetting("Min CPS", 10.0, 1.0, 20.0, 1.0, description = "Minimum CPS for left click.").apply {
-            processInput = { input: Double ->
-                MathHelper.clamp_double(input, min, maxCps.value)
-            }
+    private val minCps: NumberSetting = NumberSetting("Min CPS", 10.0, 1.0, 20.0, 1.0, description = "Minimum CPS for left click.")
+        .withInputTransform { input, setting ->
+                MathHelper.clamp_double(input, setting.min, maxCps.value)
         }.withDependency { leftClick.enabled }
 
     private val rightClick = BooleanSetting("Right Click", false, description = "Toggles the auto clicker for right click.")

@@ -29,7 +29,6 @@ object MapRender: HudElement(
     DungeonMap.mapScale
 ){
     override fun renderHud() {
-        super.renderHud()
 
         if (!inDungeons) return
         if (DungeonMap.hideInBoss.enabled && Dungeon.inBoss) return

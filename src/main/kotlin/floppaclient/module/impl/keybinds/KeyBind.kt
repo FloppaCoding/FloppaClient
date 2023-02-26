@@ -8,7 +8,7 @@ import floppaclient.module.settings.Setting.Companion.withDependency
 import floppaclient.module.settings.Visibility
 import floppaclient.module.settings.impl.ActionSetting
 import floppaclient.module.settings.impl.BooleanSetting
-import floppaclient.module.settings.impl.SelectorSetting
+import floppaclient.module.settings.impl.StringSelectorSetting
 import floppaclient.module.settings.impl.StringSetting
 import floppaclient.utils.ChatUtils
 import floppaclient.utils.inventory.InventoryUtils.isHolding
@@ -18,7 +18,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
     private val modes = arrayListOf("Use Item","Command","Chat message")
 
     val bindName = StringSetting("Name", this.name, description = "The name of this Key Bind that will be shown on the toggle button in the GUI.")
-    private val mode = SelectorSetting("Mode", modes[0], modes, description = "Action performed by the Bey Bind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
+    private val mode = StringSelectorSetting("Mode", modes[0], modes, description = "Action performed by the Bey Bind. Use Command for client side commands and Chat Message for server side commands.\nE.g. to open the Storage select Chat Message and type /storage in the action field.")
     private val command = StringSetting("Command","",50, description = "Command to be executed when command mode is selected. §eNo / needed!")
         .withDependency { this.mode.index == 1 }
     private val message = StringSetting("Message","",50, description = "Chat message to be sent when message mode is selected. §eFor server commands a / is needed.")
@@ -49,7 +49,7 @@ class KeyBind(name: String) : Module(name, category = Category.KEY_BIND){
         )
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (!this.enabled) return
         performAction()
     }

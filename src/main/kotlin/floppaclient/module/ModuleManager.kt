@@ -10,21 +10,27 @@ import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
 import floppaclient.module.settings.Setting
 import floppaclient.ui.clickgui.ClickGUI
+import floppaclient.ui.hud.EditHudGUI
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import org.reflections.Reflections
+import kotlin.jvm.internal.Reflection
+import kotlin.reflect.full.hasAnnotation
 
 /**
- * This object handles all the modules. After making a module it just has to be added to the "modules" list and
+ * # This object handles all the modules of the mod.
+ *
+ * After making a [Module] it just has to be added to the [modules] list and
  * everything else will be taken care of automatically. This entails:
  *
- * It will be added to the click gui in the order it is put in here. But keep in mind that the category is set within
+ * + It will be added to the click gui in the order it is put in here. But keep in mind that the category is set within
  * the module. The comments here are only for readability.
  *
- * All settings that are registered within the module will be saved to and loaded the module config.
+ * + All settings that are registered within the module will be saved to and loaded from the module config.
  * For this to properly work remember to register the settings to the module.
  *
- * The module will be registered and unregistered to the forge eventbus when it is enabled / disabled.
+ * + The module will be registered and unregistered to the forge eventbus when it is enabled / disabled.
  *
- * The module will be informed of its keybind press.
+ * + The module will be informed of its keybind presses.
  *
  *
  * @author Aton
@@ -116,12 +122,34 @@ object ModuleManager {
     )
 
     /**
+     * Loads in all modules and their elements.
+     *
+     * Self registering modules are loaded by this.
+     * Self registering Hud elements will also be loaded.
+     *
+     * This method also accesses instances of all modules and their hud elements.
+     * That way all module instances are created and loaded into memory.
+     *
+     * This step is required before the config is loaded.
+     */
+    fun loadModules() {
+        val reflections = Reflections("floppaclient.module.impl")
+        val possibleModule = reflections.getSubTypesOf(Module::class.java).map { Reflection.createKotlinClass(it) }
+        val selfRegisterModules = possibleModule.filter { it.hasAnnotation<SelfRegisterModule>() }
+            .mapNotNull { it.objectInstance }.filterIsInstance<Module>().filter { !modules.contains(it) }
+        modules.addAll(selfRegisterModules)
+
+        modules.forEach { it.loadModule() }
+    }
+
+    /**
      * Initialize the Modules.
      * This is run on game startup during the FMLInitializationEvent.
      */
     fun initializeModules() {
         modules.forEach {
             it.initializeModule()
+            EditHudGUI.addHUDElements(it.hudElements)
         }
     }
 
@@ -150,7 +178,7 @@ object ModuleManager {
      */
     @SubscribeEvent
     fun activateModuleKeyBinds(event: PreKeyInputEvent) {
-        modules.stream().filter { module -> module.keyCode == event.key }.forEach { module -> module.keyBind() }
+        modules.stream().filter { module -> module.keyCode == event.key }.forEach { module -> module.onKeyBind() }
     }
 
     /**
@@ -160,10 +188,10 @@ object ModuleManager {
      */
     @SubscribeEvent
     fun activateModuleMouseBinds(event: PreMouseInputEvent) {
-        modules.stream().filter { module -> module.keyCode + 100 == event.button }.forEach { module -> module.keyBind() }
+        modules.stream().filter { module -> module.keyCode + 100 == event.button }.forEach { module -> module.onKeyBind() }
     }
 
     fun getModuleByName(name: String): Module? {
-        return modules.stream().filter{module -> module.name.equals(name, ignoreCase = true)}.findFirst().orElse(null)
+        return modules.find{ it.name.equals(name, ignoreCase = true) }
     }
 }

@@ -24,7 +24,7 @@ object HotbarSwapper : Module(
     private val slot6 = BooleanSetting("Slot 6",false, description = "Toggle whether this slot should be swapped.")
     private val slot7 = BooleanSetting("Slot 7",false, description = "Toggle whether this slot should be swapped.")
 
-    private val slots = arrayListOf<Setting>(
+    private val slots = arrayOf<Setting<*>>(
         slot0,
         slot1,
         slot2,
@@ -36,16 +36,16 @@ object HotbarSwapper : Module(
     )
 
     init{
-        this.addSettings(slots)
+        this.addSettings(*slots)
     }
 
-    override fun keyBind() {
+    override fun onKeyBind() {
         if (this.enabled) {
 
             // Swap slots
             val swapHotbar: (GuiInventory) -> Unit = { inventory ->
                 if (mc.thePlayer.inventory.itemStack == null) {
-                    for (i in 0 until slots.size) {
+                    for (i in slots.indices) {
                         if ((slots[i] as BooleanSetting).enabled) {
                             val slot = (inventory as GuiContainer).inventorySlots.inventorySlots[27 + i] as Slot
                             val slotId = slot.slotNumber

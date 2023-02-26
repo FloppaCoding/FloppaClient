@@ -18,8 +18,6 @@ object ExtraStats : Module(
     category = Category.DUNGEON,
     description = "Automatically clicks > EXTRA STATS < at the end of a run."
 ){
-    // For some reason this seems to mot work in m7
-
     /**
      * Checks incoming chat messages for the extra stats message and if found runs the command.
      */
