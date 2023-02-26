@@ -124,7 +124,7 @@ tasks {
             customAssets = listOf(file("documentation/dokka/Icon.png"))
             footerMessage = "(c) 2023 Floppa Coding"
             separateInheritedMembers = false
-            templatesDir = file("documentation/dokka/templates")
+            // templatesDir = file("documentation/dokka/templates")
             mergeImplicitExpectActualDeclarations = false
         }
     }
