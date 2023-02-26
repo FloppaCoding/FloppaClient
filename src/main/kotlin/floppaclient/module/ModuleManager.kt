@@ -87,6 +87,7 @@ object ModuleManager {
         BarPhase,
         NoRotate,
         JerryRocket,
+        Tp,
 
         //MISC
         QOL,
@@ -108,6 +109,7 @@ object ModuleManager {
         CancelInteract,
         FastMine,
         ChatCleaner,
+        PowderMining,
 
 //        DevModule,
 

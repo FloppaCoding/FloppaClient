@@ -57,7 +57,7 @@ object SecretAura2 : Module(
         .withDependency { this.mode.index == 0 }
     private val renderBox = BooleanSetting("Render box", true, description = "Will render a box for secrets in reach")
         .withDependency { this.mode.index == 0 }
-    private val renderBoxColor = ColorSetting("Box Color", Color(200, 200, 200), true, description = "Color of the box tihng")
+    private val renderBoxColor = ColorSetting("Box Color", Color(200, 200, 200, 40), true, description = "Color of the box tihng")
         .withDependency { renderBox.enabled }
 
     private val swingItem = BooleanSetting("Swing Item", true, description = "Will swing your item when clicking a secret")
@@ -108,7 +108,7 @@ object SecretAura2 : Module(
         if (mc.thePlayer == null || !inDungeons) return
         val room = Dungeon.currentRoom?.data
         if (room?.name == "Water Board" || (room?.name == "Three Weirdos" && !AutoWeirdos.enabled)) return
-        if ((room?.name == "Blaze" || room?.name == "Blaze 2") && !(mc.thePlayer.posY.toInt() == 67 || mc.thePlayer.posY < 25 || mc.thePlayer.posY > 110) ) return
+        if (room?.name == "Blaze" || room?.name == "Blaze 2" && !(mc.thePlayer.posY.toInt() == 67 || mc.thePlayer.posY < 25 || mc.thePlayer.posY > 110) ) return
         // These checks might be better performed in the method responsible for clicking the secret
 
         try {

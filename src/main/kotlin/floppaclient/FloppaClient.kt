@@ -78,6 +78,7 @@ class FloppaClient {
             EditModeCommand(),
             WhereCommand(),
             WardrobeCommand,
+            SetYawCommand(),
         ).forEach {
             ClientCommandHandler.instance.registerCommand((it))
         }
