@@ -1,44 +1,26 @@
 # Floppa-Client
 
+Floppa Client is a 1.8.9 Minecraft Forge mod that provides a collection of qol features for Hypixel Skyblock 
+with a focus on Dungeons. 
+
+## General Information
+
+Some features in this mod violate the 
+[Hypixel Server Rules](https://support.hypixel.net/hc/en-us/articles/6472550754962-Allowed-Modifications).
+Usage of the mod is at your own risk.
+If you are looking for an allowed modification check out [Aton Addons](https://github.com/FloppaCoding/AtonAddons).
+
 Open the Gui with /floppaclient (or /fcl or /fc).
 
-## Module List
-### DUNGEON
-* Secret Chimes
-* Secret Aura
-* Auto Weirdos
-* Extra Stats
-* Melody Message
-* Terminal Aura
-* Dungeon Kill Aura
-* Cancel Chest Open
+See [Feature List](./documentation/Feature_List.md) for information about the features of this mod.
 
-### RENDER
-* Click Gui
-* Edit Hud
-* Dungeon ESP
-* Dungeon Warp Timer
-* Dungeon Map
-* Coordinate HUD
-* Item Animations
-* Camera
+## Making your own Modules
+To get started with coding on your own, check out the [wiki](https://github.com/FloppaCoding/AtonAddons/wiki) I 
+wrote for Aton Addons. Most of the stuff there also applies to this mod.
 
-### PLAYER
-* Jerry Rocket
-* Free Cam
-* Clip
-  * /vertclip /hclip /dClip commands 
-* No Rotate
-* Velocity
-
-### MISC
-* QOL
-* Auto Sprint
-* Auto Ragnarock
-* Ghost Blocks
-* Remove Front View
-* Terminator Clicker
-* Auto Clicker
-* Auto WeaponSwap
-* Cancel Interact
+## Credit to other Projects
+A special thank goes to [Harry282](https://github.com/Harry282), his projects allowed me to get started with making my own
+forge mods.
+<br>
+[For the list of sources click here.](./documentation/USEFUL_SOURCES.md "Credits")
 

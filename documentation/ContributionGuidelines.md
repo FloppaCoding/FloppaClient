@@ -3,8 +3,6 @@
 * [Code Standards](#Code-Standards)
     *   [Philosophy](#philosophy)
     *   [Requirements](#requirements)
-* [Outside Collaborators](#outsidecollaborators)
-* [Members of the Team](#team)
 
 ## Code Standards
 
