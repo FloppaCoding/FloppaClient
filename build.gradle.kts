@@ -23,7 +23,7 @@ buildscript {
 }
 
 // This variable determine the filename of the produced jar file.
-version = "1.0.3-0.1"
+version = "1.0.3-0.2"
 group = "floppaclient"
 
 repositories {
@@ -148,11 +148,11 @@ tasks {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
