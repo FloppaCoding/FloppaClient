@@ -13,6 +13,7 @@ plugins {
     id("dev.architectury.architectury-pack200") version "0.1.3"
     idea
     java
+    `maven-publish`
 }
 
 buildscript {
@@ -117,6 +118,7 @@ tasks {
             jvmTarget = "1.8"
         }
     }
+    // Task for custom formatted ducumentation
     register<DokkaTask>("dokkaCustomFormat") {
         pluginConfiguration<org.jetbrains.dokka.base.DokkaBase, org.jetbrains.dokka.base.DokkaBaseConfiguration> {
             // Dokka's stylesheets and assets with conflicting names will be overriden.
@@ -131,6 +133,18 @@ tasks {
             mergeImplicitExpectActualDeclarations = false
         }
     }
+    // Required for using this as a dependency?
+//    publishing {
+//        publications {
+//            create<MavenPublication>("maven") {
+//                groupId = "floppacoding"
+//                artifactId = "floppaclient"
+//                version = "1.0.3-0.1"
+//
+//                from(components())
+//            }
+//        }
+//    }
 }
 
 java {
