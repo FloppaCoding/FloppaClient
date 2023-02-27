@@ -133,18 +133,20 @@ tasks {
             mergeImplicitExpectActualDeclarations = false
         }
     }
-    // Required for using this as a dependency?
-//    publishing {
-//        publications {
-//            create<MavenPublication>("maven") {
-//                groupId = "floppacoding"
-//                artifactId = "floppaclient"
-//                version = "1.0.3-0.1"
-//
-//                from(components())
-//            }
-//        }
-//    }
+    // Required by jitpack
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "floppacoding"
+                artifactId = "floppaclient"
+                version = "1.0.3-0.1"
+
+                // A wrong components variable is overloading the correct one, so the getter is used instead.
+//                from(components["java"])
+                from(getComponents().getByName("java"))
+            }
+        }
+    }
 }
 
 java {
