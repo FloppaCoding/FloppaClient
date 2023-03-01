@@ -1,7 +1,9 @@
 package floppaclient.module
 
+import floppaclient.FloppaClient.Companion.MODULES_PATH
 import floppaclient.events.PreKeyInputEvent
 import floppaclient.events.PreMouseInputEvent
+import floppaclient.module.ModuleManager.modules
 import floppaclient.module.impl.dungeon.*
 import floppaclient.module.impl.keybinds.AddKeybind
 import floppaclient.module.impl.keybinds.KeyBind
@@ -9,12 +11,19 @@ import floppaclient.module.impl.misc.*
 import floppaclient.module.impl.player.*
 import floppaclient.module.impl.render.*
 import floppaclient.module.settings.Setting
+import floppaclient.tweaker.FloppaClientTweaker
 import floppaclient.ui.clickgui.ClickGUI
 import floppaclient.ui.hud.EditHudGUI
+import net.minecraft.launchwrapper.LaunchClassLoader
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import org.reflections.Reflections
-import kotlin.jvm.internal.Reflection
+import java.net.URL
+import java.util.*
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
+import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.full.staticProperties
+
 
 /**
  * # This object handles all the modules of the mod.
@@ -133,11 +142,9 @@ object ModuleManager {
      * This step is required before the config is loaded.
      */
     fun loadModules() {
-        val reflections = Reflections("floppaclient.module.impl")
-        val possibleModule = reflections.getSubTypesOf(Module::class.java).map { Reflection.createKotlinClass(it) }
-        val selfRegisterModules = possibleModule.filter { it.hasAnnotation<SelfRegisterModule>() }
-            .mapNotNull { it.objectInstance }.filterIsInstance<Module>().filter { !modules.contains(it) }
-        modules.addAll(selfRegisterModules)
+        val externalModules = loadExternalModules()
+
+        modules.addAll(externalModules)
 
         modules.forEach { it.loadModule() }
     }
@@ -193,5 +200,64 @@ object ModuleManager {
 
     fun getModuleByName(name: String): Module? {
         return modules.find{ it.name.equals(name, ignoreCase = true) }
+    }
+
+    /**
+     * Loads all classes from all jars in [MODULES_PATH].
+     *
+     * From those classes all valid Module Instances get extracted and returned as a list for registering.
+     *
+     * Valid Modules Instances must either be kotlin objects annotated with [SelfRegisterModule].
+     *
+     *     @SelfRegisterModule
+     *     object ExternalModule : Module("External Module", category = Category.MISC) {
+     *          // Module code
+     *     }
+     * Or java classes with that annotation which have a public static field called **INSTANCE** which is initialized as
+     * an instance of the module class.
+     *
+     *     @SelfRegisterModule
+     *     public class ExternalJavaModule extends Module {
+     *         @NotNull
+     *         public static final ExternalJavaModule INSTANCE = new ExternalJavaModule();
+     *
+     *         private ExternalJavaModule() {
+     *             super("External Java Module", Category.MISC, "An external Java Module");
+     *         }
+     *         // Module code
+     *     }
+     */
+    private fun loadExternalModules(): List<Module> {
+        val loadedClasses = mutableSetOf<KClass<*>>()
+        MODULES_PATH.walk().filter {
+            it.isFile && it.extension == "jar"
+        }.forEach {
+            val pathToJar = it
+
+            val jarFile = JarFile(pathToJar)
+            val entries: Enumeration<JarEntry> = jarFile.entries()
+
+            val url = URL("jar:file:$pathToJar!/")
+            val urlClassLoader: LaunchClassLoader = FloppaClientTweaker.launchClassLoader
+            urlClassLoader.addURL(url)
+
+            while (entries.hasMoreElements()) {
+                val jarEntry: JarEntry = entries.nextElement()
+                if (jarEntry.isDirectory || !jarEntry.name.endsWith(".class")) {
+                    continue
+                }
+                // -6 because of .class
+                var className: String = jarEntry.name.substring(0, jarEntry.name.length - 6)
+                className = className.replace('/', '.')
+                val loadedClass: KClass<*> = urlClassLoader.loadClass(className).kotlin
+                loadedClasses.add(loadedClass)
+            }
+        }
+
+        return loadedClasses.filterIsInstance<KClass<Module>>()
+            .filter { it.hasAnnotation<SelfRegisterModule>() }
+            .mapNotNull { module ->  module.objectInstance ?:
+            (module.staticProperties.find { it.name == "INSTANCE" }?.get() as? Module  )}
+            .filter { !modules.contains(it) }
     }
 }

@@ -43,10 +43,12 @@ dependencies {
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     compileOnly("org.spongepowered:mixin:0.8.5")
 
+    // Essentials is still a dependency because it is used for the tweaker and to provide external libraries.
     packageLib("gg.essential:loader-launchwrapper:1.1.3")
     implementation("gg.essential:essential-1.8.9-forge:3662")
 
-    packageLib("org.reflections:reflections:0.10.2")
+    // For scanning self registering modules packaged within the mod. -- Removed!
+//    packageLib("org.reflections:reflections:0.10.2")
 }
 
 sourceSets {
@@ -60,7 +62,7 @@ loom {
         getByName("client") {
             property("mixin.debug", "true")
             property("asmhelper.verbose", "true")
-            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+            arg("--tweakClass", "floppaclient.tweaker.FloppaClientTweaker")
             arg("--mixin", "mixins.floppaclient.json")
         }
     }
@@ -90,14 +92,11 @@ tasks {
             "ForceLoadAsMod" to true,
             "MixinConfigs" to "mixins.floppaclient.json",
             "ModSide" to "CLIENT",
-            "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
+            "TweakClass" to "floppaclient.tweaker.FloppaClientTweaker",
             "TweakOrder" to "0"
         )
         dependsOn(shadowJar)
         enabled = false
-//        from {
-//            configurations.ref.collect { it.isDirectory() ? it : zipTree(it) }
-//        }
     }
     named<RemapJarTask>("remapJar") {
         archiveBaseName.set("FloppaClient")

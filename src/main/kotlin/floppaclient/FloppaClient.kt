@@ -51,6 +51,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 class FloppaClient {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
+        if (!MODULES_PATH.exists()) {
+            MODULES_PATH.mkdirs()
+        }
         scope.launch {
             launch(Dispatchers.IO) {
                 autoactions.loadConfig()
@@ -132,10 +135,12 @@ class FloppaClient {
     companion object {
         const val MOD_ID = "fc"
         const val MOD_NAME = "Floppa Client"
-        const val MOD_VERSION = "1.0.4"
+        const val MOD_VERSION = "1.0.3"
         const val CHAT_PREFIX = "§6§lFloppa§r§eClient §6§l»§r"
         const val SHORT_PREFIX = "§6§lF§r§eC §6§l»§r"
         const val RESOURCE_DOMAIN = "floppaclient"
+        const val CONFIG_DOMAIN = RESOURCE_DOMAIN
+
 
         @JvmField
         val mc: Minecraft = Minecraft.getMinecraft()
@@ -144,9 +149,11 @@ class FloppaClient {
 
         val scope = CoroutineScope(EmptyCoroutineContext)
 
-        var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/floppaclient/autoaction"))
-        var extras = ExtrasConfig(File(mc.mcDataDir, "config/floppaclient/extras"))
-        val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/floppaclient"))
+        var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN/autoaction"))
+        val extras = ExtrasConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN/extras"))
+        val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN"))
+
+        val MODULES_PATH = File(mc.mcDataDir,"config/$CONFIG_DOMAIN/modules")
 
         lateinit var clickGUI: ClickGUI
 

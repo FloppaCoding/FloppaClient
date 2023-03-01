@@ -20,9 +20,6 @@ import kotlin.reflect.full.hasAnnotation
  * [modules][ModuleManager.modules] in [ModuleManager].
  * The sample provided below shows how you can do this.
  *
- * Alternatively to adding your module to the module manager you can also simply annotate it with [SelfRegisterModule].
- * As long as your module is within *floppaclient.module.impl* or any of the sub packages it will be loaded.
- *
  * ## Adding settings to your Module.
  * If you want your Module to have Settings which appear in the GUI you need to define the settings in your Module and
  * also register them by adding them to the [settings] list.
@@ -136,6 +133,15 @@ abstract class Module(
         this.settings = settings
         this.description = description
     }
+
+    /**
+     * A simplified constructor to inherit from.
+     */
+    constructor(
+        name: String,
+        category: Category = Category.MISC,
+        description: String = ""
+    ) : this(name, 0,  category =  category, description =  description)
 
     /**
      * Will toggle the module.
