@@ -1188,6 +1188,7 @@ $dokka.location:floppaclient.module/Category/values/#/PointingToDeclaration/-fl
 $dokka.location:floppaclient.module/ConfigModule///PointingToDeclaration/-floppa-client/floppaclient.module/-config-module/index.html
 $dokka.location:floppaclient.module/ConfigModule/ConfigModule/#kotlin.String#kotlin.Int#floppaclient.module.Category#kotlin.Boolean#java.util.ArrayList[floppaclient.module.settings.Setting[*]]#kotlin.String/PointingToDeclaration/-floppa-client/floppaclient.module/-config-module/-config-module.html
 $dokka.location:floppaclient.module/Module///PointingToDeclaration/-floppa-client/floppaclient.module/-module/index.html
+$dokka.location:floppaclient.module/Module/Module/#kotlin.String#floppaclient.module.Category#kotlin.String/PointingToDeclaration/-floppa-client/floppaclient.module/-module/-module.html
 $dokka.location:floppaclient.module/Module/Module/#kotlin.String#kotlin.Int#floppaclient.module.Category#kotlin.Boolean#java.util.ArrayList[floppaclient.module.settings.Setting[*]]#kotlin.String/PointingToDeclaration/-floppa-client/floppaclient.module/-module/-module.html
 $dokka.location:floppaclient.module/Module/addSettings/#kotlin.Array[floppaclient.module.settings.Setting[*]]/PointingToDeclaration/-floppa-client/floppaclient.module/-module/add-settings.html
 $dokka.location:floppaclient.module/Module/category/#/PointingToDeclaration/-floppa-client/floppaclient.module/-module/category.html
@@ -1243,6 +1244,10 @@ $dokka.location:floppaclient.shaders/Shader/programID/#/PointingToDeclaration/-
 $dokka.location:floppaclient.shaders/Shader/stopShader/#/PointingToDeclaration/-floppa-client/floppaclient.shaders/-shader/stop-shader.html
 $dokka.location:floppaclient.shaders/Shader/unloadShader/#/PointingToDeclaration/-floppa-client/floppaclient.shaders/-shader/unload-shader.html
 $dokka.location:floppaclient.shaders/Shader/useShader/#/PointingToDeclaration/-floppa-client/floppaclient.shaders/-shader/use-shader.html
+$dokka.location:floppaclient.tweaker////PointingToDeclaration/-floppa-client/floppaclient.tweaker/index.html
+$dokka.location:floppaclient.tweaker/FloppaClientTweaker///PointingToDeclaration/-floppa-client/floppaclient.tweaker/-floppa-client-tweaker/index.html
+$dokka.location:floppaclient.tweaker/FloppaClientTweaker/injectIntoClassLoader/#net.minecraft.launchwrapper.LaunchClassLoader/PointingToDeclaration/-floppa-client/floppaclient.tweaker/-floppa-client-tweaker/inject-into-class-loader.html
+$dokka.location:floppaclient.tweaker/FloppaClientTweaker/launchClassLoader/#/PointingToDeclaration/-floppa-client/floppaclient.tweaker/-floppa-client-tweaker/launch-class-loader.html
 $dokka.location:floppaclient.ui.clickgui.advanced.elements.menu////PointingToDeclaration/-floppa-client/floppaclient.ui.clickgui.advanced.elements.menu/index.html
 $dokka.location:floppaclient.ui.clickgui.advanced.elements.menu/AdvancedElementAction///PointingToDeclaration/-floppa-client/floppaclient.ui.clickgui.advanced.elements.menu/-advanced-element-action/index.html
 $dokka.location:floppaclient.ui.clickgui.advanced.elements.menu/AdvancedElementAction/AdvancedElementAction/#floppaclient.ui.clickgui.advanced.AdvancedMenu#floppaclient.module.Module#floppaclient.module.settings.impl.ActionSetting/PointingToDeclaration/-floppa-client/floppaclient.ui.clickgui.advanced.elements.menu/-advanced-element-action/-advanced-element-action.html
@@ -1711,6 +1716,15 @@ $dokka.location:floppaclient.utils/GeometryUtils/sinDeg/#kotlin.Float/PointingTo
 $dokka.location:floppaclient.utils/GeometryUtils/yaw/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-geometry-utils/yaw.html
 $dokka.location:floppaclient.utils/HypixelApiUtils///PointingToDeclaration/-floppa-client/floppaclient.utils/-hypixel-api-utils/index.html
 $dokka.location:floppaclient.utils/HypixelApiUtils/getSecrets/#kotlin.String/PointingToDeclaration/-floppa-client/floppaclient.utils/-hypixel-api-utils/get-secrets.html
+$dokka.location:floppaclient.utils/LocationManager///PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/index.html
+$dokka.location:floppaclient.utils/LocationManager/currentRegionPair/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/current-region-pair.html
+$dokka.location:floppaclient.utils/LocationManager/inDungeons/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/in-dungeons.html
+$dokka.location:floppaclient.utils/LocationManager/inSkyblock/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/in-skyblock.html
+$dokka.location:floppaclient.utils/LocationManager/onConnect/#net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/on-connect.html
+$dokka.location:floppaclient.utils/LocationManager/onDisconnect/#net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/on-disconnect.html
+$dokka.location:floppaclient.utils/LocationManager/onHypixel/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/on-hypixel.html
+$dokka.location:floppaclient.utils/LocationManager/onTick/#net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/on-tick.html
+$dokka.location:floppaclient.utils/LocationManager/onWorldChange/#net.minecraftforge.event.world.WorldEvent.Unload/PointingToDeclaration/-floppa-client/floppaclient.utils/-location-manager/on-world-change.html
 $dokka.location:floppaclient.utils/ScoreboardUtils///PointingToDeclaration/-floppa-client/floppaclient.utils/-scoreboard-utils/index.html
 $dokka.location:floppaclient.utils/ScoreboardUtils/cleanSB/#kotlin.String?/PointingToDeclaration/-floppa-client/floppaclient.utils/-scoreboard-utils/clean-s-b.html
 $dokka.location:floppaclient.utils/ScoreboardUtils/sidebarLines/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-scoreboard-utils/sidebar-lines.html
@@ -1722,7 +1736,6 @@ $dokka.location:floppaclient.utils/Utils/containsOneOf/kotlin.String#kotlin.coll
 $dokka.location:floppaclient.utils/Utils/dungeonTeammateWithClass/#kotlin.String#kotlin.Boolean/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/dungeon-teammate-with-class.html
 $dokka.location:floppaclient.utils/Utils/equalsOneOf/kotlin.Any?#kotlin.Array[kotlin.Any]/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/equals-one-of.html
 $dokka.location:floppaclient.utils/Utils/flooredPosition/net.minecraft.client.entity.EntityPlayerSP#/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/floored-position.html
-$dokka.location:floppaclient.utils/Utils/getArea/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/get-area.html
 $dokka.location:floppaclient.utils/Utils/getAttackspeed/#/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/get-attackspeed.html
 $dokka.location:floppaclient.utils/Utils/getDungeonClass/#kotlin.collections.List[kotlin.Pair[net.minecraft.client.network.NetworkPlayerInfo,kotlin.String]]#kotlin.String/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/get-dungeon-class.html
 $dokka.location:floppaclient.utils/Utils/identicalToOneOf/kotlin.Any?#kotlin.Array[kotlin.Any]/PointingToDeclaration/-floppa-client/floppaclient.utils/-utils/identical-to-one-of.html
@@ -1743,6 +1756,8 @@ $dokka.location:floppaclient.utils/Utils/windowClick/#kotlin.Int#kotlin.Int#kotl
 $dokka.location:floppaclient////PointingToDeclaration/-floppa-client/floppaclient/index.html
 $dokka.location:floppaclient/FloppaClient.Companion///PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/index.html
 $dokka.location:floppaclient/FloppaClient.Companion/CHAT_PREFIX/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-c-h-a-t_-p-r-e-f-i-x.html
+$dokka.location:floppaclient/FloppaClient.Companion/CONFIG_DOMAIN/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-c-o-n-f-i-g_-d-o-m-a-i-n.html
+$dokka.location:floppaclient/FloppaClient.Companion/MODULES_PATH/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-m-o-d-u-l-e-s_-p-a-t-h.html
 $dokka.location:floppaclient/FloppaClient.Companion/MOD_ID/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-m-o-d_-i-d.html
 $dokka.location:floppaclient/FloppaClient.Companion/MOD_NAME/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-m-o-d_-n-a-m-e.html
 $dokka.location:floppaclient/FloppaClient.Companion/MOD_VERSION/#/PointingToDeclaration/-floppa-client/floppaclient/-floppa-client/-companion/-m-o-d_-v-e-r-s-i-o-n.html
@@ -1799,6 +1814,7 @@ floppaclient.shaders
 floppaclient.shaders.impl
 floppaclient.shaders.uniforms
 floppaclient.shaders.uniforms.impl
+floppaclient.tweaker
 floppaclient.ui.clickgui
 floppaclient.ui.clickgui.advanced
 floppaclient.ui.clickgui.advanced.elements
