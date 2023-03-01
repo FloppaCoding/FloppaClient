@@ -11,8 +11,8 @@ run-name: ${{ github.actor }} is creating the Documentation
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+#  pull_request:
+#    branches: [ "master" ]
 
 permissions:
   contents: read
