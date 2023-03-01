@@ -8,13 +8,10 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.extras.EditMode
 import floppaclient.floppamap.extras.Extras
-import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.module.ModuleManager
 import floppaclient.ui.clickgui.ClickGUI
-import floppaclient.utils.ScoreboardUtils
-import floppaclient.utils.Utils
+import floppaclient.utils.LocationManager
 import floppaclient.utils.fakeactions.FakeInventoryActionManager
-import gg.essential.api.EssentialAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +51,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 class FloppaClient {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
+        if (!MODULES_PATH.exists()) {
+            MODULES_PATH.mkdirs()
+        }
         scope.launch {
             launch(Dispatchers.IO) {
                 autoactions.loadConfig()
@@ -91,6 +91,7 @@ class FloppaClient {
             EditMode,
             ModuleManager,
             FakeInventoryActionManager,
+            LocationManager,
         ).forEach(MinecraftForge.EVENT_BUS::register)
     }
 
@@ -117,54 +118,29 @@ class FloppaClient {
             display = null
         }
         if (tickRamp % 20 == 0) {
-            if (mc.thePlayer != null) {
-                onHypixel = EssentialAPI.getMinecraftUtil().isHypixel()
-
-                if (!inSkyblock) {
-                    inSkyblock = onHypixel && mc.theWorld.scoreboard.getObjectiveInDisplaySlot(1)
-                        ?.let { ScoreboardUtils.cleanSB(it.displayName).contains("SKYBLOCK") } ?: false
-                }
-
-                // If alr known that in dungeons dont update the value. It does get reset to false on world change.
-                if (!inDungeons) {
-                    inDungeons = inSkyblock && ScoreboardUtils.sidebarLines.any {
-                        ScoreboardUtils.cleanSB(it).run {
-                            (contains("The Catacombs") && !contains("Queue")) || contains("Dungeon Cleared:")
-                        }
-                    }
-                }
-            }
             tickRamp = 0
-        }
-        val newRegion = Utils.getArea()
-        if (currentRegionPair?.first?.data?.name != newRegion){
-            currentRegionPair = newRegion?.let { Pair( RoomUtils.instanceRegionRoom(it) , 0) }
         }
     }
 
     @SubscribeEvent
     fun onDisconnect(event: ClientDisconnectionFromServerEvent) {
-        onHypixel = false
-        inSkyblock = false
-        inDungeons = false
         moduleConfig.saveConfig()
     }
 
     @SubscribeEvent
     fun onWorldChange(@Suppress("UNUSED_PARAMETER") event: WorldEvent.Load) {
-        inDungeons = false
-        inSkyblock = false
-        currentRegionPair = null
         tickRamp = 18
     }
 
     companion object {
         const val MOD_ID = "fc"
         const val MOD_NAME = "Floppa Client"
-        const val MOD_VERSION = "1.0.4"
+        const val MOD_VERSION = "1.0.3"
         const val CHAT_PREFIX = "§6§lFloppa§r§eClient §6§l»§r"
         const val SHORT_PREFIX = "§6§lF§r§eC §6§l»§r"
         const val RESOURCE_DOMAIN = "floppaclient"
+        const val CONFIG_DOMAIN = RESOURCE_DOMAIN
+
 
         @JvmField
         val mc: Minecraft = Minecraft.getMinecraft()
@@ -173,17 +149,19 @@ class FloppaClient {
 
         val scope = CoroutineScope(EmptyCoroutineContext)
 
-        var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/floppaclient/autoaction"))
-        var extras = ExtrasConfig(File(mc.mcDataDir, "config/floppaclient/extras"))
-        val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/floppaclient"))
+        var autoactions = AutoActionConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN/autoaction"))
+        val extras = ExtrasConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN/extras"))
+        val moduleConfig = ModuleConfig(File(mc.mcDataDir, "config/$CONFIG_DOMAIN"))
+
+        val MODULES_PATH = File(mc.mcDataDir,"config/$CONFIG_DOMAIN/modules")
 
         lateinit var clickGUI: ClickGUI
 
-        var currentRegionPair: Pair<Room, Int>? = null
-        var onHypixel = false
-        var inSkyblock = false
-        var inDungeons = false
-            get() = inSkyblock && field
+        //TODO remove these
+        var currentRegionPair: Pair<Room, Int>? by LocationManager::currentRegionPair
+        var onHypixel: Boolean  by LocationManager::onHypixel
+        var inSkyblock: Boolean  by LocationManager::inSkyblock
+        var inDungeons: Boolean  by LocationManager::inDungeons
         /**
          * Keeps track of elapsed ticks, gets reset at 20
          */
