@@ -15,8 +15,8 @@ Open the Gui with /floppaclient (or /fcl or /fc).
 See [Feature List](docs/Feature_List.md) for information about the features of this mod.
 
 ## Making your own Modules
-To get started with coding on your own, check out the [wiki](https://github.com/FloppaCoding/AtonAddons/wiki) I 
-wrote for Aton Addons. Most of the stuff there also applies to this mod.
+To get started with coding on your own, check out the [wiki](https://github.com/FloppaCoding/FloppaClient/wiki).
+You can either make external Modules or contribute to the main mod.
 
 ## Credit to other Projects
 A special thank goes to [Harry282](https://github.com/Harry282), his projects allowed me to get started with making my own
