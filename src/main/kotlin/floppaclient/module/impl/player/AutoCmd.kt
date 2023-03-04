@@ -2,7 +2,6 @@ package floppaclient.module.impl.player
 
 import floppaclient.FloppaClient
 import floppaclient.events.DungeonSecretEvent
-import floppaclient.events.PlaySoundEventPre
 import floppaclient.events.PositionUpdateEvent
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.extras.EditMode
@@ -11,14 +10,13 @@ import floppaclient.module.Category
 import floppaclient.module.Module
 import floppaclient.module.settings.impl.BooleanSetting
 import floppaclient.module.settings.impl.NumberSetting
+import floppaclient.utils.ChatUtils
 import floppaclient.utils.DataHandler
-import floppaclient.utils.Utils.flooredPosition
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -33,7 +31,7 @@ object AutoCmd : Module(
     private val registerSecret = BooleanSetting(
         "Register Secret",
         false,
-        description = "Attempts to auto runcmd when you pick up a secret. §eRequires Secret Chimes to be enabled."
+        description = "Attempts to auto run cmd when you pick up a secret. §eRequires Secret Chimes to be enabled."
     )
     private val onlyOnKeybind =
         BooleanSetting("Only On Keybind", false, description = "Only run the command when the keybind is pressed.")
@@ -43,7 +41,15 @@ object AutoCmd : Module(
         0.0,
         500.0,
         10.0,
-        description = "Delay in ms when auto etherwarp is attempted after getting a secret."
+        description = "Delay in ms when auto command is attempted after getting a secret."
+    )
+    private val overallDelay = NumberSetting(
+        "Overall Delay",
+        50.0,
+        0.0,
+        500.0,
+        10.0,
+        description = "Delay in ms when auto command is attempted after getting a secret."
     )
     private val detectionRange = NumberSetting(
         "Det. Range",
@@ -52,17 +58,12 @@ object AutoCmd : Module(
         10.0,
         description = "Max distance from a start point to register the Auto Command."
     )
-    private val checkCooldown = BooleanSetting("Cooldown", true, description = "Puts a cooldown on activations.")
+
+    //private val checkCooldown = BooleanSetting("Cooldown", true, description = "Puts a cooldown on activations.")
     private val debugMessages =
         BooleanSetting("Debug Messages", false, description = "Shows debug messages for fake responses.")
 
     private var tryCmd = false
-
-    private var cooldownTicks = 0
-    private const val maxCD = 10
-
-
-    private var nextStartPos: Pair<BlockPos, Long>? = null
 
 
     init {
@@ -71,20 +72,34 @@ object AutoCmd : Module(
             registerSecret,
             delayAfterSecret,
             detectionRange,
-            checkCooldown,
+            // checkCooldown,
             debugMessages,
             onlyOnKeybind
         )
     }
 
+/*
     @SubscribeEvent
-    fun onTick(event: TickEvent) {
-        if (event.phase.equals(TickEvent.Phase.START) || !FloppaClient.inSkyblock || EditMode.enabled || cooldownTicks > 0) return
-        if (FloppaClient.mc.thePlayer.flooredPosition == nextStartPos?.first && (nextStartPos?.second
-                ?: 0) > System.currentTimeMillis()
-        ) {
+    fun onTick(event: TickEvent.ClientTickEvent) {
+        if (!FloppaClient.inSkyblock || EditMode.enabled || !enabled) return
+        //if the player is standing in a cmd point, run the command except if onlyOnKeybind is enabled
+        if (!onlyOnKeybind.enabled) {
+            for (cmd in DataHandler.Ins.autoCmds) {
+                if (cmd.key == FloppaClient.mc.thePlayer.flooredPosition) {
+                    tryCmd = true
+                    break
+                }
+            }
+        }
+    }
+
+ */
+
+    override fun onKeyBind() {
+        if (!FloppaClient.inSkyblock || EditMode.enabled || !enabled) return
+        println("")
+        if (onlyOnKeybind.enabled) {
             tryCmd = true
-            nextStartPos = null
         }
     }
 
@@ -94,26 +109,8 @@ object AutoCmd : Module(
     @SubscribeEvent
     fun onSecret(event: DungeonSecretEvent) {
         if (!registerSecret.enabled) return
-        if (!FloppaClient.inSkyblock || EditMode.enabled || cooldownTicks > 0) return
+        if (!FloppaClient.inSkyblock || EditMode.enabled || !enabled) return
         Timer().schedule(delayAfterSecret.value.toLong()) { tryCmd = true }
-    }
-
-
-    @SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
-    fun onSoundPlay(event: PlaySoundEventPre) {
-        if (tryCmd) return
-        when (event.p_sound.soundLocation.resourcePath) {
-            "mob.enderdragon.hit" -> {
-
-                if (FloppaClient.mc.thePlayer.flooredPosition == nextStartPos?.first && (nextStartPos?.second
-                        ?: 0) > System.currentTimeMillis()
-                ) {
-                    tryCmd = true
-                    nextStartPos = null
-                }
-                cooldownTicks = 0
-            }
-        }
     }
 
     /**
@@ -121,7 +118,7 @@ object AutoCmd : Module(
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun preWalk(event: PositionUpdateEvent.Pre) {
-        if (cooldownTicks > 0) cooldownTicks--
+//        if (cooldownTicks > 0) cooldownTicks--
         if (!tryCmd) return
         tryCmd()
         tryCmd = false
@@ -159,14 +156,21 @@ object AutoCmd : Module(
 
                     if (this.autocmds.containsKey(key)) {
                         val value = this.autocmds[key]!!
-                        println("AutoCmd: $key -> ${this.autocmds[key]}  (range: $range) (pos: $pos) (room: ${room.first}) (region: ${room.second}) (value: $value)")
+                        if (debugMessages.enabled) {
+                            println("AutoCmd: $key -> ${this.autocmds[key]}  (range: $range) (pos: $pos) (room: ${room.first}) (region: ${room.second}) (value: $value)")
+                        }
+                        if (value != "" && !debugMessages.enabled) {
+
+                            if (chatInfo.enabled) {
+                                ChatUtils.modMessage("Ran Command: $value")
+                            }
+                            FloppaClient.mc.thePlayer.sendChatMessage(value)
+                        }
                         break
                     }
                 }
             }
 
-            // If target found etherwarp there
-            cooldownTicks = maxCD
         } catch (e: Throwable) {
             return
         }
@@ -179,6 +183,5 @@ object AutoCmd : Module(
     @SubscribeEvent
     fun onWorldChange(event: WorldEvent.Load) {
         tryCmd = false
-        nextStartPos = null
     }
 }

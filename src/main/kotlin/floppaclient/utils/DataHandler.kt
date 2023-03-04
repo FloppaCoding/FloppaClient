@@ -292,7 +292,7 @@ object DataHandler {
         var command: String
 
         //if there are more then 4 arguments use those but if the first 3 args are not numbers use the current position and if there are no arguments send a message that there are not enough arguments
-        if (args.size >= 4) {
+        if (args.isNotEmpty()) {
             if (isInt(args[0]) && isInt(args[1]) && isInt(args[2]) && args[3].startsWith("/")) {
                 key = getKey(
                     Vec3(
@@ -453,7 +453,7 @@ object DataHandler {
                 )
                     .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
                 val targetOld = autocmds[key]!!
-                chatMessage("/add ${start.toIntCoords()} $targetOld")
+                chatMessage("/addcmd ${start.toIntCoords()} $targetOld")
             }
             this.autocmds.remove(key)
         } ?: return modMessage("§cRoom not properly scanned.")
