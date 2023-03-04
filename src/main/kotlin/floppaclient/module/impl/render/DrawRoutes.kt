@@ -41,6 +41,7 @@ object DrawRoutes : Module(
 
     private val renderClip  = BooleanSetting("Clip Routes",true)
     private val renderEther = BooleanSetting("Etherwarp Routes",true)
+    private val renderCmd   = BooleanSetting("Command Points",true, description = "Renders the command points for the current room.")
     private val onlyInBoss  = BooleanSetting("Only in Boss",false)
     private val acLineWidth         = NumberSetting("Clip Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Auto Clip routes.")
     private val acStartColor        = ColorSetting("Clip Start", Color(255, 0, 0), true, description = "Color for the start block of Auto Clip routes.")
@@ -51,6 +52,8 @@ object DrawRoutes : Module(
     private val etherStartColor     = ColorSetting("Ether Start", Color(255, 115, 0), true, description = "Color for the start block of Etherwarp routes.")
     private val etherTargetColor    = ColorSetting("Ether Target", Color(0, 82, 75), true, description = "Color for the target Block of Etberwarp routes.")
     private val etherPathColor      = ColorSetting("Ether Path", Color(255, 0, 255), true, description = "Color for the path that the Etherwarp route follows.")
+    private val cmdLineWidth        = NumberSetting("Cmd Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for command points.")
+    private val cmdPointColor       = ColorSetting("Cmd Point", Color(255, 255, 0), true, description = "Color for the command points.")
 
 
     init {
@@ -67,6 +70,8 @@ object DrawRoutes : Module(
             etherStartColor,
             etherTargetColor,
             etherPathColor,
+            cmdLineWidth,
+            cmdPointColor
         )
     }
 
@@ -100,6 +105,9 @@ object DrawRoutes : Module(
             }
             if (renderEther.enabled) autoClipData!!.etherwarps.forEach{ (key, value) ->
                 drawEther(key, value)
+            }
+            if (renderCmd.enabled) autoClipData!!.autocmds.forEach { (key, value) ->
+                drawCmdPoint(key, value)
             }
         }
 
@@ -179,6 +187,21 @@ object DrawRoutes : Module(
             targetPos.yCoord, targetPos.zCoord, etherPathColor.value, etherLineWidth.value.toFloat())
 
     }
+
+    private fun drawCmdPoint(key: MutableList<Int>, value: String) {
+
+        // Start coordinates for the clip route
+        val start = DataHandler.getRotatedCoords(
+            Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
+        ).addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
+
+        //Draw start box
+        WorldRenderUtils.drawBoxAtBlock(start.xCoord, start.yCoord , start.zCoord, cmdPointColor.value, cmdLineWidth.value.toFloat())
+        //TODO: Draw Cmd as a name tag
+
+    }
+
+
 
 
     /**

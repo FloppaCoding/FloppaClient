@@ -278,4 +278,8 @@ object Utils {
     fun leftClick() {
         (mc as MinecraftAccessor).clickMouse()
     }
+
+    fun isInt(string: String): Boolean {
+        return string.toIntOrNull() != null
+    }
 }

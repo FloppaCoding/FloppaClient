@@ -7,9 +7,10 @@ import floppaclient.floppamap.core.Room
 import floppaclient.floppamap.dungeon.Dungeon
 import floppaclient.floppamap.utils.RoomUtils
 import floppaclient.utils.ChatUtils.chatMessage
-import floppaclient.utils.Utils.equalsOneOf
-import floppaclient.utils.Utils.isValidEtherwarpPos
 import floppaclient.utils.ChatUtils.modMessage
+import floppaclient.utils.Utils.equalsOneOf
+import floppaclient.utils.Utils.isInt
+import floppaclient.utils.Utils.isValidEtherwarpPos
 import floppaclient.utils.Utils.timer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
@@ -35,8 +36,10 @@ import kotlin.math.floor
  */
 object DataHandler {
     // Cache for undoing room clear.
-    private val cachedClips: MutableList<Pair<Room, MutableMap<MutableList<Int>, MutableList<Double>>>> = mutableListOf()
+    private val cachedClips: MutableList<Pair<Room, MutableMap<MutableList<Int>, MutableList<Double>>>> =
+        mutableListOf()
     private val cachedEtherwarps: MutableList<Pair<Room, MutableMap<MutableList<Int>, BlockPos>>> = mutableListOf()
+    private val cachedCmds: MutableList<Pair<Room, MutableMap<MutableList<Int>, String>>> = mutableListOf()
     private val cachedPreBlocks: MutableList<Pair<Room, MutableMap<Int, MutableSet<BlockPos>>>> = mutableListOf()
 
     private var lastEtherTarget: Pair<Room, BlockPos>? = null
@@ -45,7 +48,8 @@ object DataHandler {
         if (args.size < 6) {
             return modMessage("§cNot enough arguments")
         }
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
 
         val key = getKey(
             Vec3(
@@ -161,7 +165,8 @@ object DataHandler {
         if (args.size < 3) {
             return modMessage("§cNot enough arguments.")
         }
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
 
         val key = getKey(
             Vec3(
@@ -186,7 +191,8 @@ object DataHandler {
     }
 
     fun addEther(args: List<Double>) {
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
         val key: MutableList<Int>
         val target: BlockPos
 
@@ -226,21 +232,6 @@ object DataHandler {
                     return modMessage("Target not valid!")
                 }
 
-            }
-            //With 3 arguments use the last target as start when still in same room
-            else if (args.size == 3) {
-                if (lastEtherTarget == null || room.first != lastEtherTarget?.first) return modMessage("Not in same room anymore!")
-                key = getKey(Vec3(lastEtherTarget!!.second), 0, 0, 0)
-                target = getRelativePos(
-                    Vec3(
-                        floor(args[0]),
-                        floor(args[1]),
-                        floor(args[2])
-                    ),
-                    room.first.x,
-                    room.first.z,
-                    room.second
-                )
             }
             // Otherwise return because arguments dont match
             else {
@@ -287,8 +278,54 @@ object DataHandler {
                 chatMessage("/add ${start.toIntCoords()} ${targetOld.toIntCoords()}")
             }
             this.etherwarps.put(key, target)
-        }  ?: return modMessage("§cRoom not properly scanned.")
+        } ?: return modMessage("§cRoom not properly scanned.")
         lastEtherTarget = Pair(room.first, target)
+        FloppaClient.autoactions.saveConfig()
+        FloppaClient.autoactions.loadConfig()
+        modMessage("Registered new Etherwarp!")
+    }
+
+    fun addCmd(args: List<String>) {
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
+        val key: MutableList<Int>
+        val command: String
+
+        //if there are more then 4 arguments use those but if the first 3 args are not numbers use the current position and if there are no arguments send a message that there are not enough arguments
+        if (args.size >= 4) {
+            if (isInt(args[0]) && isInt(args[1]) && isInt(args[2])) {
+                key = getKey(
+                    Vec3(
+                        floor(args[0].toInt().toDouble()),
+                        floor(args[1].toInt().toDouble()),
+                        floor(args[2].toInt().toDouble())
+                    ),
+                    room.first.x,
+                    room.first.z,
+                    room.second
+                )
+            } else {
+                modMessage("§cInvalid coordinates")
+                return
+            }
+            command = args.drop(3).joinToString(" ")
+        } else {
+            modMessage("§cNot enough arguments")
+            return
+        }
+
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
+            if (this.autocmds.containsKey(key)) {
+                val start = getRotatedCoords(
+                    Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
+                )
+                    .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
+                val targetOld = autocmds[key]!!
+                modMessage("§cOverwriting existing Etherwarp")
+                chatMessage("/add ${start.toIntCoords()} $targetOld")
+            }
+            this.autocmds.put(key, command)
+        } ?: return modMessage("§cRoom not properly scanned.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
         modMessage("Registered new Etherwarp!")
@@ -352,11 +389,67 @@ object DataHandler {
         modMessage("Etherwarp removed!")
     }
 
+    fun removeCmd(args: List<Double>) {
+        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return
+        val key: MutableList<Int>
+        var showMessage = false
+        if (args.size < 3) {
+            modMessage("Removing closest cmd.")
+            key = RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
+                val cmds = this.autocmds
+                if (cmds.isNotEmpty()) {
+                    showMessage = true
+                    return@run cmds.minByOrNull { (key, _) ->
+                        val start = getRotatedCoords(
+                            Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
+                        )
+                            .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
+                        mc.thePlayer.getDistance(start.xCoord, start.yCoord, start.zCoord)
+                    }!!.key
+                } else {
+                    modMessage("&r&eNo Cmds found in this room")
+                    return
+                }
+            } ?: return modMessage("§cRoom not properly scanned.")
+        } else {
+            key = getKey(
+                Vec3(
+                    floor(args[0]),
+                    floor(args[1]),
+                    floor(args[2])
+                ),
+                room.first.x,
+                room.first.z,
+                room.second
+            )
+        }
+
+        RoomUtils.getOrPutRoomAutoActionData(room.first)?.run {
+            if (!this.autocmds.containsKey(key)) { // if this etherwarp does not exist return
+                modMessage("§cNo Cmd found for these coordinates.")
+                return
+            }
+            if (showMessage) {
+                val start = getRotatedCoords(
+                    Vec3(key[0].toDouble(), key[1].toDouble(), key[2].toDouble()), room.second
+                )
+                    .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
+                val targetOld = autocmds[key]!!
+                chatMessage("/add ${start.toIntCoords()} $targetOld")
+            }
+            this.autocmds.remove(key)
+        } ?: return modMessage("§cRoom not properly scanned.")
+        FloppaClient.autoactions.saveConfig()
+        FloppaClient.autoactions.loadConfig()
+        modMessage("Cmd removed!")
+    }
+
     /**
      * Clears all auto clips in the current room.
      */
     fun clearClipsInRoom() {
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
 
         RoomUtils.getRoomAutoActionData(room.first)?.run {
             // Important to create new instance, so that not just a reference is created which also will be cleared by this.clips.clear()
@@ -374,7 +467,8 @@ object DataHandler {
      * Clears all auto etherwarps in the current room.
      */
     fun clearEtherInRoom() {
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
 
         RoomUtils.getRoomAutoActionData(room.first)?.run {
             // Important to create new instance, so that not just a reference is created which also will be cleared by this.etherwarps.clear()
@@ -389,10 +483,30 @@ object DataHandler {
     }
 
     /**
+     * Clears all auto cmds in the current room.
+     */
+    fun clearCmdsInRoom() {
+        val room =
+            Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
+
+        RoomUtils.getRoomAutoActionData(room.first)?.run {
+            // Important to create new instance, so that not just a reference is created which also will be cleared by this.etherwarps.clear()
+            val tempMap = mutableMapOf<MutableList<Int>, String>()
+            tempMap.putAll(this.autocmds)
+            cachedCmds.add(Pair(room.first, tempMap))
+            this.autocmds.clear()
+        }
+        FloppaClient.autoactions.saveConfig()
+        FloppaClient.autoactions.loadConfig()
+        modMessage("All cmds removed in ${room.first.data.name}! Run \"/${FloppaClientCommands().commandName} undo cmds\" to undo.")
+    }
+
+    /**
      * Clears all extras blocks in the current room.
      */
     fun clearBlocksInRoom() {
-        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: FloppaClient.currentRegionPair ?: return modMessage("Room not recognized.")
+        val room = Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: FloppaClient.currentRegionPair
+        ?: return modMessage("Room not recognized.")
 
         RoomUtils.getRoomExtrasData(room.first)?.run {
             // Important to create new instance, so that not just a reference is created which also will be cleared by this.preBlocks.clear()
@@ -435,6 +549,20 @@ object DataHandler {
     }
 
     /**
+     * Undos the last clearCmds action.
+     */
+    fun undoClearCmds() {
+        if (cachedCmds.isEmpty()) return modMessage("No data cached for undo!")
+        RoomUtils.getOrPutRoomAutoActionData(cachedCmds.last().first)?.run {
+            this.autocmds.putAll(cachedCmds.last().second)
+        } ?: return modMessage("§cThis should not have happened. Report this issue.")
+        FloppaClient.autoactions.saveConfig()
+        FloppaClient.autoactions.loadConfig()
+        modMessage("Etherwarps recovered in ${cachedCmds.last().first.data.name}.")
+        cachedCmds.removeLastOrNull()
+    }
+
+    /**
      * Undos the last clearBlocks action.
      */
     fun undoClearBlocks() {
@@ -456,7 +584,7 @@ object DataHandler {
 
         RoomUtils.getRoomAutoActionData(room.first)?.run {
             val newClips: MutableMap<MutableList<Int>, MutableList<Double>> = mutableMapOf()
-            this.clips.forEach{ (key, route) ->
+            this.clips.forEach { (key, route) ->
                 val newKey = getRotatedKey(key, rotation)
                 val newRoute = getRotatedRoute(route, rotation)
                 newClips[newKey] = newRoute
@@ -466,7 +594,7 @@ object DataHandler {
         }
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
-        val rot2 =  when {
+        val rot2 = when {
             rotation.equalsOneOf(90, -270) -> 90
             rotation.equalsOneOf(180, -180) -> 180
             rotation.equalsOneOf(270, -90) -> 270
@@ -483,7 +611,7 @@ object DataHandler {
 
         RoomUtils.getRoomAutoActionData(room.first)?.run {
             val newEthers: MutableMap<MutableList<Int>, BlockPos> = mutableMapOf()
-            this.etherwarps.forEach{ (key, target) ->
+            this.etherwarps.forEach { (key, target) ->
                 val newKey = getRotatedKey(key, rotation)
                 val newTarget = RoomUtils.getRotatedPos(target, rotation)
                 newEthers[newKey] = newTarget
@@ -493,13 +621,39 @@ object DataHandler {
         }
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
-        val rot2 =  when {
+        val rot2 = when {
             rotation.equalsOneOf(90, -270) -> 90
             rotation.equalsOneOf(180, -180) -> 180
             rotation.equalsOneOf(270, -90) -> 270
             else -> 0
         }
         modMessage("Rotated all etherwarps in ${room.first.data.name} by $rot2°!")
+    }
+
+    /**
+     * Rotates the auto ether data in the current room.
+     */
+    fun rotateCmds(rotation: Int = 90) {
+        val room = Dungeon.currentRoomPair ?: return modMessage("Room not recognized.")
+
+        RoomUtils.getRoomAutoActionData(room.first)?.run {
+            val newCmds: MutableMap<MutableList<Int>, String> = mutableMapOf()
+            this.autocmds.forEach { (key, target) ->
+                val newKey = getRotatedKey(key, rotation)
+                newCmds[newKey] = target
+            }
+            this.autocmds.clear()
+            this.autocmds.putAll(newCmds)
+        }
+        FloppaClient.autoactions.saveConfig()
+        FloppaClient.autoactions.loadConfig()
+        val rot2 = when {
+            rotation.equalsOneOf(90, -270) -> 90
+            rotation.equalsOneOf(180, -180) -> 180
+            rotation.equalsOneOf(270, -90) -> 270
+            else -> 0
+        }
+        modMessage("Rotated all cmds in ${room.first.data.name} by $rot2°!")
     }
 
     /**
@@ -510,7 +664,7 @@ object DataHandler {
 
         RoomUtils.getRoomExtrasData(room.first)?.run {
             val newBlocks: MutableMap<Int, MutableSet<BlockPos>> = mutableMapOf()
-            this.preBlocks.forEach{ (key, posSet) ->
+            this.preBlocks.forEach { (key, posSet) ->
                 val newPos = RoomUtils.getRotatedPosSet(posSet, rotation)
                 newBlocks[key] = newPos
             }
@@ -519,7 +673,7 @@ object DataHandler {
         }
         FloppaClient.extras.saveConfig()
         FloppaClient.extras.loadConfig()
-        val rot2 =  when {
+        val rot2 = when {
             rotation.equalsOneOf(90, -270) -> 90
             rotation.equalsOneOf(180, -180) -> 180
             rotation.equalsOneOf(270, -90) -> 270
@@ -527,6 +681,7 @@ object DataHandler {
         }
         modMessage("Rotated all pre blocks in ${room.first.data.name} by $rot2°!")
     }
+
 
     /**
      * Returns a mutbale list of 3 Integers representing the players position in the current room.
@@ -608,7 +763,7 @@ object DataHandler {
     private fun getRotatedRoute(route: MutableList<Double>, rotation: Int): MutableList<Double> {
         val returnRoute = mutableListOf<Double>()
         for (j in 0 until (route.size) / 3) {
-            returnRoute.addAll(getRotatedCoordList(route.subList(3*j, 3*j + 3), rotation))
+            returnRoute.addAll(getRotatedCoordList(route.subList(3 * j, 3 * j + 3), rotation))
         }
         return returnRoute
     }
@@ -623,11 +778,11 @@ object DataHandler {
             .toString()
     }
 
-    fun Vec3.toMutableList(): MutableList<Double>{
+    fun Vec3.toMutableList(): MutableList<Double> {
         return mutableListOf(this.xCoord, this.yCoord, this.zCoord)
     }
 
-    fun Vec3.toMutableIntList(): MutableList<Int>{
+    fun Vec3.toMutableIntList(): MutableList<Int> {
         return mutableListOf(this.xCoord.toInt(), this.yCoord.toInt(), this.zCoord.toInt())
     }
 

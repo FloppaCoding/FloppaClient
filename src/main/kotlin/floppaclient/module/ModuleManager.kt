@@ -95,6 +95,7 @@ object ModuleManager {
         ArmorSwapper,
         AutoClip,
         AutoEther,
+        AutoCmd,
         FreeCam,
         Clip,
         HClip,

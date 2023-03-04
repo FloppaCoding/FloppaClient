@@ -9,4 +9,6 @@ data class AutoActionData(
     val clips: MutableMap<MutableList<Int>, MutableList<Double>> = mutableMapOf(),
     // Map of Auto Ether start position to target
     val etherwarps: MutableMap<MutableList<Int>, BlockPos> = mutableMapOf(),
+    // Map of Auto Stuff position with cmd
+    val autocmds: MutableMap<MutableList<Int>, String> = mutableMapOf(),
 )
