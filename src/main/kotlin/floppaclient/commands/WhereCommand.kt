@@ -103,6 +103,22 @@ class WhereCommand : CommandBase() {
                 } else {
                     chatMessage("&r&eNo Etherwarps found in this room")
                 }
+                val cmds = this.autocmds
+                if (cmds.isNotEmpty()) {
+                    chatMessage("&r&eAuto commands in this room: ")
+                    cmds.map { (key, value) ->
+                        val start = DataHandler.getRotatedCoords(
+                            Vec3(key[0].toDouble(),key[1].toDouble(),key[2].toDouble()), room.second)
+                            .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
+                        Pair(start, value)
+                    }.sortedBy {
+                        mc.thePlayer.getDistance(it.first.xCoord, it.first.yCoord, it.first.zCoord)
+                    }.forEach { (start, target) ->
+                        chatMessage("${start.toIntCoords()} $target")
+                    }
+                } else {
+                    chatMessage("&r&eNo Auto commands found in this room")
+                }
             }
         }catch (e: Throwable) {
             modMessage("§cCould not get data!")

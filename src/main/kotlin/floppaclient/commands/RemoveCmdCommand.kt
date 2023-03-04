@@ -5,13 +5,19 @@ import floppaclient.utils.DataHandler
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 
-class AddCmdCommand : CommandBase() {
+class RemoveCmdCommand : CommandBase() {
     override fun getCommandName(): String {
-        return "addcmd"
+        return "removecmd"
+    }
+
+    override fun getCommandAliases(): List<String> {
+        return listOf(
+            "remcmd"
+        )
     }
 
     override fun getCommandUsage(sender: ICommandSender): String {
-        return "/$commandName <cmd>"
+        return "/$commandName"
     }
 
     override fun getRequiredPermissionLevel(): Int {
@@ -20,9 +26,9 @@ class AddCmdCommand : CommandBase() {
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
         try {
-            DataHandler.addCmd(args.asList())
-        } catch (e: Throwable) {
-            ChatUtils.modMessage("§cArguments error.")
+            DataHandler.removeCmd(args.map { it.toDouble() })
+        } catch (e: Throwable){
+            ChatUtils.modMessage("&cArguments error.")
         }
     }
 }

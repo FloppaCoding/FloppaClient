@@ -26,7 +26,7 @@ object AutoCmd : Module(
     "Auto Command",
     category = Category.PLAYER,
     description = "Automatically run a command when stepping on a cmd point or pressing the set keybind." +
-            "Use commands /ad and /rm to edit your routes."
+            "Use commands /addcmd and /remcmd to edit your routes."
 ) {
 
     private val chatInfo = BooleanSetting("Chat Info", true, description = "Show a message in chat when etherwarping.")
@@ -80,6 +80,12 @@ object AutoCmd : Module(
     @SubscribeEvent
     fun onTick(event: TickEvent) {
         if (event.phase.equals(TickEvent.Phase.START) || !FloppaClient.inSkyblock || EditMode.enabled || cooldownTicks > 0) return
+        if (FloppaClient.mc.thePlayer.flooredPosition == nextStartPos?.first && (nextStartPos?.second
+                ?: 0) > System.currentTimeMillis()
+        ) {
+            tryCmd = true
+            nextStartPos = null
+        }
     }
 
     /**

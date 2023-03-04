@@ -289,11 +289,11 @@ object DataHandler {
         val room =
             Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
         val key: MutableList<Int>
-        val command: String
+        var command: String
 
         //if there are more then 4 arguments use those but if the first 3 args are not numbers use the current position and if there are no arguments send a message that there are not enough arguments
         if (args.size >= 4) {
-            if (isInt(args[0]) && isInt(args[1]) && isInt(args[2])) {
+            if (isInt(args[0]) && isInt(args[1]) && isInt(args[2]) && args[3].startsWith("/")) {
                 key = getKey(
                     Vec3(
                         floor(args[0].toInt().toDouble()),
@@ -304,11 +304,29 @@ object DataHandler {
                     room.first.z,
                     room.second
                 )
+                command = args.drop(3).joinToString(" ")
+            } else if (args.isNotEmpty()) {
+                //check if the first argument starts with a / if it does use the current position and the rest of the arguments as the command
+                if (args[0].startsWith("/")) {
+                    key = getKey(
+                        Vec3(
+                            floor(mc.thePlayer.posX),
+                            floor(mc.thePlayer.posY),
+                            floor(mc.thePlayer.posZ)
+                        ),
+                        room.first.x,
+                        room.first.z,
+                        room.second
+                    )
+                    command = args.joinToString(" ")
+                } else {
+                    modMessage("§cInvalid coordinates")
+                    return
+                }
             } else {
                 modMessage("§cInvalid coordinates")
                 return
             }
-            command = args.drop(3).joinToString(" ")
         } else {
             modMessage("§cNot enough arguments")
             return
@@ -321,14 +339,14 @@ object DataHandler {
                 )
                     .addVector(room.first.x.toDouble(), 0.0, room.first.z.toDouble())
                 val targetOld = autocmds[key]!!
-                modMessage("§cOverwriting existing Etherwarp")
+                modMessage("§cOverwriting existing Command")
                 chatMessage("/add ${start.toIntCoords()} $targetOld")
             }
             this.autocmds.put(key, command)
         } ?: return modMessage("§cRoom not properly scanned.")
         FloppaClient.autoactions.saveConfig()
         FloppaClient.autoactions.loadConfig()
-        modMessage("Registered new Etherwarp!")
+        modMessage("Registered new Command!")
     }
 
     fun removeEther(args: List<Double>) {

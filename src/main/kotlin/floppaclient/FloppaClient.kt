@@ -80,6 +80,8 @@ class FloppaClient {
             EditModeCommand(),
             WhereCommand(),
             WardrobeCommand,
+            RemoveCmdCommand(),
+            AddCmdCommand(),
         ).forEach {
             ClientCommandHandler.instance.registerCommand((it))
         }
