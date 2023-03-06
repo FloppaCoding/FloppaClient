@@ -233,6 +233,21 @@ object DataHandler {
                 }
 
             }
+            //With 3 arguments use the last target as start when still in same room
+            else if (args.size == 3) {
+                if (lastEtherTarget == null || room.first != lastEtherTarget?.first) return modMessage("Not in same room anymore!")
+                key = getKey(Vec3(lastEtherTarget!!.second), 0, 0, 0)
+                target = getRelativePos(
+                    Vec3(
+                        floor(args[0]),
+                        floor(args[1]),
+                        floor(args[2])
+                    ),
+                    room.first.x,
+                    room.first.z,
+                    room.second
+                )
+            }
             // Otherwise return because arguments dont match
             else {
                 modMessage("§cNot enough arguments")

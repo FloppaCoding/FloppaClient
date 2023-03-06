@@ -83,30 +83,33 @@ class FloppaClientCommands : CommandBase() {
                 clickGUI.setUpPanels()
             }
             "clear" -> {
-                if (args.size < 2) return modMessage("Specify what to clear. Options: \"clips\", \"etherwarps\", \"blocks\", \"all\".")
+                if (args.size < 2) return modMessage("Specify what to clear. Options: \"clips\", \"etherwarps\", \"blocks\", \"cmds\", \"all\".")
                 when(args[1].lowercase()) {
                     "clips" -> DataHandler.clearClipsInRoom()
                     "etherwarps", "ether" -> DataHandler.clearEtherInRoom()
                     "blocks", "extras" -> DataHandler.clearBlocksInRoom()
+                    "cmds" -> DataHandler.clearCmdsInRoom()
                     "all" -> {
                         DataHandler.clearClipsInRoom()
                         DataHandler.clearEtherInRoom()
                         DataHandler.clearBlocksInRoom()
+                        DataHandler.clearCmdsInRoom()
                     }
-                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\", \"all\".")
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\", \"cmds\", \"all\".")
                 }
             }
             "undo" -> {
-                if (args.size < 2) return modMessage("Specify what to undo. Options: \"clips\", \"etherwarps\", \"blocks\".")
+                if (args.size < 2) return modMessage("Specify what to undo. Options: \"clips\", \"etherwarps\", \"cmds\", \"blocks\".")
                 when(args[1].lowercase()) {
                     "clips" -> DataHandler.undoClearClips()
                     "etherwarps", "ether" -> DataHandler.undoClearEther()
                     "blocks", "extras" -> DataHandler.undoClearBlocks()
-                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\".")
+                    "cmds" -> DataHandler.undoClearCmds()
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\", \"cmds\".")
                 }
             }
             "rotate" -> {
-                if (args.size < 2) return modMessage("Specify what to rotate. Options: \"clips\", \"etherwarps\", \"blocks\", \"actions\".")
+                if (args.size < 2) return modMessage("Specify what to rotate. Options: \"clips\", \"etherwarps\", \"blocks\", \"cmds\", \"actions\".")
                 val rotation: Int = if (args.size >= 3) {
                     args[2].toInt()
                 }else 90
@@ -114,11 +117,13 @@ class FloppaClientCommands : CommandBase() {
                     "clips" -> DataHandler.rotateClips(rotation)
                     "etherwarps", "ether" -> DataHandler.rotateEther(rotation)
                     "blocks", "extras" -> DataHandler.rotateBlocks(rotation)
+                    "cmds" -> DataHandler.rotateCmds(rotation)
                     "actions" -> {
                         DataHandler.rotateClips(rotation)
                         DataHandler.rotateEther(rotation)
+                        DataHandler.rotateCmds(rotation)
                     }
-                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"blocks\".")
+                    else -> modMessage("Wrong usage, options: \"clips\", \"etherwarps\", \"cmds\", \"blocks\".")
                 }
             }
             "freewalk", "freecamwalk" -> {
