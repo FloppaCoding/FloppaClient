@@ -304,7 +304,7 @@ object DataHandler {
         val room =
             Dungeon.currentRoomPair ?: FloppaClient.currentRegionPair ?: return modMessage("§cRoom not recognized.")
         val key: MutableList<Int>
-        var command: String
+        val command: String
 
         //if there are more then 4 arguments use those but if the first 3 args are not numbers use the current position and if there are no arguments send a message that there are not enough arguments
         if (args.isNotEmpty()) {

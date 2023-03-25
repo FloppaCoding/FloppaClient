@@ -41,7 +41,7 @@ object DrawRoutes : Module(
 
     private val renderClip  = BooleanSetting("Clip Routes",true)
     private val renderEther = BooleanSetting("Etherwarp Routes",true)
-    private val renderCmd   = BooleanSetting("Command Points",true, description = "Renders the command points for the current room.")
+    private val renderCmd   = BooleanSetting("Command Points",true)
     private val onlyInBoss  = BooleanSetting("Only in Boss",false)
     private val acLineWidth         = NumberSetting("Clip Line Width", 3.0, 0.1, 10.0, 0.1, description = "Line width for Auto Clip routes.")
     private val acStartColor        = ColorSetting("Clip Start", Color(255, 0, 0), true, description = "Color for the start block of Auto Clip routes.")
