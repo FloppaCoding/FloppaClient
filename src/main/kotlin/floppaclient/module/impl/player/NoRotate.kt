@@ -67,7 +67,7 @@ object NoRotate : Module(
      */
     @SubscribeEvent
     fun onTeleportPacket(event: TeleportEventPre) {
-        if (mc.thePlayer != null && ((event.packet).pitch != 0.0f || this.pitch.enabled)) {
+        if (mc.thePlayer != null && ((event.packet).pitch != 0.0f || this.pitch.enabled) && mc.inGameHasFocus) {
 
 
             // At this point no rotate is active

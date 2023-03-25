@@ -21,14 +21,9 @@ object TerminatorClicker : Module(
     description = "Automatically shoots the held shortbow when holding right click with it. " +
             "The clicks from this happen additionally to the 5 cps auto clicker from vanilla minecraft."
 ){
-    private val sleep = NumberSetting("Sleep ms",50.0,10.0,100.0,5.0, description = "Delay in between clicks.")
+    private val sleep: Double by NumberSetting("Sleep ms",65.0,10.0,100.0,5.0, description = "Delay in between clicks.")
 
     private var nextTermClick: Long = 0L
-    init {
-        this.addSettings(
-            sleep
-        )
-    }
 
     @SubscribeEvent
     fun onRenderWorldLast(event: RenderWorldLastEvent) {
@@ -45,7 +40,7 @@ object TerminatorClicker : Module(
                             )
                         ) mc.entityRenderer.itemRenderer.resetEquippedProgress2()
                         val overshoot =  (nowMillis - nextTermClick).takeIf { it < 200 } ?: 0L
-                        nextTermClick = nowMillis + (sleep.value.toLong() - overshoot).coerceAtLeast(0L)
+                        nextTermClick = nowMillis + (sleep.toLong() - overshoot).coerceAtLeast(0L)
                     }
                 }
             }
