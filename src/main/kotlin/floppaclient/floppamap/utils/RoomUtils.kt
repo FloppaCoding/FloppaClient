@@ -20,7 +20,12 @@ import net.minecraft.util.ResourceLocation
 object RoomUtils {
     val roomList: Set<RoomConfigData> = try {
         Gson().fromJson(
-            FloppaClient.mc.resourceManager.getResource(ResourceLocation(FloppaClient.RESOURCE_DOMAIN, "floppamap/rooms.json"))
+            FloppaClient.mc.resourceManager.getResource(
+                ResourceLocation(
+                    FloppaClient.RESOURCE_DOMAIN,
+                    "floppamap/rooms.json"
+                )
+            )
                 .inputStream.bufferedReader(),
             object : TypeToken<Set<RoomConfigData>>() {}.type
         )
@@ -85,7 +90,7 @@ object RoomUtils {
      * @see getRelativePos
      */
     fun getRealPos(blockPos: BlockPos, roomPair: Pair<Room, Int>): BlockPos {
-        return getRotatedPos(blockPos, roomPair.second).add(roomPair.first.x,0,roomPair.first.z)
+        return getRotatedPos(blockPos, roomPair.second).add(roomPair.first.x, 0, roomPair.first.z)
     }
 
     /**
@@ -102,9 +107,9 @@ object RoomUtils {
         else {
             if (room.core == null) return null
             FloppaClient.extras.extraRooms.getOrPut(room.data.name) {
-                ExtrasData(room.core!!)
+                ExtrasData(room.core ?: 0)//this is the fix
+            }
         }
-    }
     }
 
     /**
@@ -160,10 +165,10 @@ object RoomUtils {
     }
 
     fun instanceBossRoom(floor: Int): Room {
-        return Room(0,0, RoomData("Boss $floor", RoomType.BOSS))
+        return Room(0, 0, RoomData("Boss $floor", RoomType.BOSS))
     }
 
     fun instanceRegionRoom(region: String): Room {
-        return Room(0,0, RoomData(region, RoomType.REGION))
+        return Room(0, 0, RoomData(region, RoomType.REGION))
     }
 }
