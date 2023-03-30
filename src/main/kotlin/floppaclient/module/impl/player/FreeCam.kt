@@ -40,16 +40,16 @@ object FreeCam : Module(
             "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}True Free Cam${ChatUtils.RESET} Mode lets you move the camera independently from the player character. " +
             "Communication with the server is not affected and the character you see is not a clone but the actual placer character. " +
             "You can still move your character using the arrow keys while in True Free Fam Mode. " +
-            "The command ${ChatUtils.ITALIC}${ChatUtils.YELLOW}/fc freewalk${ChatUtils.RESET} freezes the camera but lets you move your character normally.\n" +
-            "${ChatUtils.BOLD}${ChatUtils.BLUE}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
+            "The command ${ChatUtils.ITALIC}${ChatUtils.YELLOW}/fc freecamwalk${ChatUtils.RESET} freezes the camera but lets you move your character normally.\n" +
+            "${ChatUtils.BOLD}${ChatUtils.BLUE}Freeze${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
             "A clone of the player character will be placed in its position. \n" +
-            "${ChatUtils.RED}Ping Spoof Mode is not recommended!${ChatUtils.RESET} It does change the way the client communicates with the server."
+            "${ChatUtils.RED}Freeze Mode is not recommended!${ChatUtils.RESET} It does change the way the client communicates with the server."
 ){
-    private val mode = StringSelectorSetting("Mode", "True Free Cam", arrayListOf("True Free Cam", "Ping Spoof"),
+    private val mode = StringSelectorSetting("Mode", "True Free Cam", arrayListOf("True Free Cam", "Freeze"),
         description =
                 "${ChatUtils.BOLD}${ChatUtils.DARK_AQUA}True Free Cam${ChatUtils.RESET} Mode lets you move the camera without moving the player character. " +
                 "Communication with the server is not affected and the character you see is not a clone but the actual placer character.\n" +
-                "${ChatUtils.BOLD}${ChatUtils.BLUE}Ping Spoof${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
+                "${ChatUtils.BOLD}${ChatUtils.BLUE}Freeze${ChatUtils.RESET} Mode allows you to fly with no clip and stops sending position packets to the server. " +
                 "A clone of the player character will be placed in its position."
     ).withInputTransform {input, setting ->
         // Prevent the mode from being changed while free cam is active.
@@ -58,12 +58,12 @@ object FreeCam : Module(
     }
     private val speed = NumberSetting("Speed", 3.0, 0.1, 5.0, 0.1, description = "Fly speed.")
     private val glide = BooleanSetting("Glide", false, description = "Lets you glide upon release movement keys.")
-        .withDependency { mode.isSelected("Ping Spoof") }
+        .withDependency { mode.isSelected("Freeze") }
     private val tweakTarget = BooleanSetting("Use Camera Target", true, description = "Use the camera position to determine what the player is looking at. If disabled the targeted block will be determined by what your character is looking at and will not change when you move the camera.")
         .withDependency { mode.isSelected("True Free Cam") }
     private val reloadChunks = BooleanSetting("Reload Chunks", false, description = "Reloads all chunks on disable.")
 
-    /** Used to clone the player for Ping Spoof Mode. This entity will be visible as the player. */
+    /** Used to clone the player for Freeze Mode. This entity will be visible as the player. */
     private var fakePlayer: EntityOtherPlayerMP? = null
     /**
      * This entitly is used as a convenient way of storing camera position data for True Free Cam Mode.
@@ -92,7 +92,7 @@ object FreeCam : Module(
         super.onEnable()
         when(mode.selected) {
             "True Free Cam" -> setupViewEntity()
-            "Ping Spoof" -> clonePlayer()
+            "Freeze" -> clonePlayer()
         }
     }
 
@@ -101,7 +101,7 @@ object FreeCam : Module(
         if (mc.thePlayer == null || mc.theWorld == null) return
         when(mode.selected) {
             "True Free Cam" -> resetViewEntity()
-            "Ping Spoof" -> resetPlayer()
+            "Freeze" -> resetPlayer()
         }
         if (reloadChunks.enabled) {
             mc.renderGlobal.loadRenderers()
@@ -186,11 +186,11 @@ object FreeCam : Module(
     }
 
     /**
-     * Tweaks the player movement for Ping Spoof [mode].
+     * Tweaks the player movement for Freeze [mode].
      */
     @SubscribeEvent
     fun onLivingUpdate(event: LivingUpdateEvent) {
-        if (!mode.isSelected("Ping Spoof") || event.entity != mc.thePlayer) return
+        if (!mode.isSelected("Freeze") || event.entity != mc.thePlayer) return
         mc.thePlayer.noClip = true
         mc.thePlayer.onGround = false
         mc.thePlayer.capabilities.isFlying = false
@@ -221,7 +221,7 @@ object FreeCam : Module(
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onPacket(event: PacketSentEvent) {
-        if (!mode.isSelected("Ping Spoof")) return
+        if (!mode.isSelected("Freeze")) return
         if (event.packet is C03PacketPlayer) {
             event.isCanceled = true
         }

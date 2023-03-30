@@ -40,9 +40,8 @@ object SecretChime : Module(
     private var lastPlayed = System.currentTimeMillis()
 
     private var drops = listOf(
-        "Health Potion VIII Splash Potion", //"§5Health Potion VIII Splash Potion"
-        "Healing Potion 8 Splash Potion",
-        "Healing Potion VIII Splash Potion",
+        "Healing VIII Splash Potion",   //"§5Healing VIII Splash Potion"
+        "Healing 8 Splash Potion",
         "Decoy", //"§aDecoy"
         "Inflatable Jerry", //  "§fInflatable Jerry"
         "Spirit Leap", // "§9Spirit Leap"
